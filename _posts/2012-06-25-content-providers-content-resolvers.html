@@ -1,0 +1,103 @@
+---
+layout: post
+title: Content Providers & Content Resolvers
+date: 2012-06-25
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<div><p>Content Providers and Content Resolvers are a common source of confusion for beginning Android developers. Further, online tutorials and sample code are not sufficient in describing how the two classes work together to provide access to the Android data model. This post hopes to fill in this gap by explaining their place in the <code>android.content package</code>. It concludes with a walk through the life of a simple query to the Content Resolver.</p> <!--<br><br>This post is the first of two I will be writing concerning Content Resolvers, Content Providers, and the <code>android.content</code> package.--> <h4>The <code>android.content</code> Package</h4> <p>The <a href="http://developer.android.com/reference/android/content/package-summary.html"><code>android.content</code></a> package contains classes for accessing and publishing data. The Android framework enforces a <b>robust</b> and <b>secure</b> data sharing model. Applications are <i>not</i> allowed direct access to other application's internal data. Two classes in the package help enforce this requirement: the <code>ContentResolver</code> and the <code>ContentProvider</code>.</p> <h4>What is the Content Resolver?</h4> <p>The Content Resolver is the single, global instance in your application that provides access to your (and other applications') content providers. The Content Resolver behaves exactly as its name implies: it accepts requests from clients, and <i>resolves</i> these requests by directing them to the content provider with a distinct authority. To do this, the Content Resolver stores a mapping from authorities to Content Providers. This design is important, as it allows a simple and secure means of accessing other applications' Content Providers.</p> <p>The Content Resolver includes the CRUD (create, read, update, delete) methods corresponding to the abstract methods (insert, delete, query, update) in the Content Provider class. The Content Resolver does not know the implementation of the Content Providers it is interacting with (nor does it need to know); each method is passed an URI that specifies the Content Provider to interact with.</p><a name='more'></a> <h4>What is the Content Provider?</h4> <p>Whereas the Content Resolver provides an abstraction from the application's Content Providers, Content Providers provides an abstraction from the underlying data source (i.e. a SQLite database). They provide mechanisms for defining data security (i.e. by enforcing read/write permissions) and offer a standard interface that connects data in one process with code running in another process.</p> <p>Content Providers provide an interface for publishing and consuming data, based around a simple URI addressing model using the <code>content://</code> schema. They enable you to decouble your application layers from the underlying data layers, making your application data-source agnostic by abstracting the underlying data source.</p> <h4>The Life of a Query</h4> <p>So what exactly is the step-by-step process behind a simple query? As described above, when you query data from your database via the content provider, you don't communicate with the provider directly. Instead, you use the Content Resolver object to communicate with the provider. The specific sequence of events that occurs when a query is made is given below:</p> <ol>  <li value="1">A call to <code>getContentResolver().query(Uri, String, String, String, String)</code> is made. The call invokes the Content Resolver's <code>query</code> method, <i>not</i> the <code>ContentProvider</code>'s.</li>  <li value="2">When the <code>query</code> method is invoked, the Content Resolver parses the <code>uri</code> argument and extracts its authority.</li>  <li value="3">The Content Resolver directs the request to the content provider registered with the (unique) authority. As seen in the  <a href="http://goo.gl/yrQUV">source code</a>, this is done by calling the Content Provider's <code>query</code> method.</li>  <li value="4">When the Content Provider's <code>query</code> method is invoked, the query is performed and a Cursor is returned (or an exception is thrown). The resulting behavior depends entirely on the Content Provider's implementation.</li></ol> <h4>Conclusion</h4> <p>An integral part of the <a href="http://developer.android.com/reference/android/content/package-summary.html"><code>android.content</code></a> package, the <code>ContentResolver</code> and <code>ContentProvider</code> classes work together to ensure secure access to other applications' data. Understanding how the underlying system works becomes second nature once you've written enough Android code, but I hope that someone finds this explanation helpful some day.</p> <p>Let me know if you have any questions about the process!</p></div></div>
+<h2>Comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Nope, they&#39;ve always been around. In fact, they are very important because they are the only secure means by which applications can publicly share information (i.e. the Contacts application wouldn&#39;t be able to provide system-wide access to the current user&#39;s contacts if it weren&#39;t for ContentProviders).</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+There is only one instance of the ContentResolver, and it is fine to query the ContentProvider from multiple activities from multiple background threads as long as the underlying data source is thread safe (see <a href="http://www.androiddesignpatterns.com/2012/10/sqlite-contentprovider-thread-safety.html" rel="nofollow">this post</a>).</div>
+</div>
+<div class='comment'>
+<div class='author'>Evaldas I.</div>
+<div class='content'>
+Things seemed to be obscure and very complicated become simple and easy to implement. Thanks a lot</div>
+</div>
+<div class='comment'>
+<div class='author'>Salaheddine</div>
+<div class='content'>
+thanx for this helpful post, but please i need to know if it&#39;s possible to have more than one instance of a ContentResolver, and what to do if we have multiple Activities that queries one Content Provider???</div>
+</div>
+<div class='comment'>
+<div class='author'>Ataul</div>
+<div class='content'>
+Thanks for this post, Alex, it&#39;s helpful in tying down some basics and giving hints in where to go next for more information.<br /><br />I only started to hear about ContentProviders a lot in early 2012 (i.e. a push for developers to learn about and use them) - but it&#39;s been part of Android from the beginning. Was I just oblivious to it, or did something occur around that time to prompt more buzz to use them?</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Good one. <br />Still, i would like to know....how to differentiate SQLiteDatabase class and ContentResolver/Provider.<br />Can i use any of these methods for adding the data into DB? What limitations will i have if we use SQLIteDatabase?</div>
+</div>
+<div class='comment'>
+<div class='author'>Lei Yu</div>
+<div class='content'>
+nice explanation, short concise and enough</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+well explained , thanks allot , please explain us another concepts if u have!!!! </div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+up vote. would really be great!! </div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+up vote for this post.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Hello,<br /><br />I like the way you explain difficult Android concepts.  I would like you to post a complete example (i.e., java source code and the corresponding XML) to illustrate these concepts clearly in a step-by-step way.  Perhaps, you may consider annotating the code to help beginners follow the process.<br />Thank you.</div>
+</div>
+<div class='comment'>
+<div class='author'>Mikin Patel</div>
+<div class='content'>
+well Explained concept......very helpful..</div>
+</div>
+<div class='comment'>
+<div class='author'>Praveen</div>
+<div class='content'>
+Hi Alex your explanation helped me a lot, as i am new in android development can you just send me a sample working code explaining ContentResolver and ContentProvider <br />thanks.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Amazing buddy!! Hats off to you for helping out... so well</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+What kind of detail were you looking for?</div>
+</div>
+<div class='comment'>
+<div class='author'>Ankur Nigam</div>
+<div class='content'>
+Very well put, although a more detailed explanation would have helped a long way ..</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Sure, it&#39;s &quot;fine&quot; to implement a Content Provider for this reason, but it&#39;s definitely not necessary and is a lot of extra work if you are simply trying to achieve a singleton database instance. You can consult <b><a href="http://www.androiddesignpatterns.com/2012/05/correctly-managing-your-sqlite-database.html" rel="nofollow">this blog post</a></b> for more information on how to achieve synchronization without a Content Provider.<br /><br />If you do decide to implement a private ContentProvider, make sure you set the <i>android:exported=&quot;false&quot;</i> attribute in the <i>&lt;provider&gt;</i> tag in your <i>AndroidManifest.xml</i> to ensure that other applications can&#39;t access your data! </div>
+</div>
+<div class='comment'>
+<div class='author'>Unknown</div>
+<div class='content'>
+Is it ok to implement a Content Provider for an app that won&#39;t share data across other apps? My issue that led me to implement my own app Content Provider is to avoid synchronization across different app components when sharing a unique database. The &quot;extend Application&quot; approach, singleton and &quot;One Service holds the DB reference&quot; seem all hacky.</div>
+</div>
+</div>

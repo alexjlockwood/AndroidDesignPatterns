@@ -1,0 +1,353 @@
+---
+layout: post
+title: Handling Configuration Changes with Fragments
+date: 2013-04-29
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<p>This post addresses a common question: <i>what is the best way to retain active objects—such as running </i><code>Thread</code><i>s, </i><code>Socket</code><i>s, and </i><code>AsyncTask</code><i>s—across device configuration changes?</i></p> <p>To answer this question, we will first discuss some of the common difficulties developers face when using long-running background tasks in conjunction with the Activity lifecycle. Then, we will describe the flaws of two common approaches to solving the problem. Finally, we will conclude with sample code illustrating the recommended solution, which uses retained Fragments to achieve our goal.</p> <h4>Configuration Changes & Background Tasks</h4> <p>One problem with configuration changes and the destroy-and-create cycle that Activitys go through as a result stems from the fact that these events are unpredictable and may occur at any time. Concurrent background tasks only add to this problem. Assume, for example, that an Activity starts an <code>AsyncTask</code> and soon after the user rotates the screen, causing the Activity to be destroyed and recreated. When the <code>AsyncTask</code> eventually finishes its work, it will incorrectly report its results back to the old Activity instance, completely unaware that a new Activity has been created. As if this wasn't already an issue, the new Activity instance might waste valuable resources by firing up the background work <i>again</i>, unaware that the old <code>AsyncTask</code> is still running. For these reasons, it is vital that we correctly and efficiently retain active objects across Activity instances when configuration changes occur.</p> <a name='more'></a> <h4>Bad Practice: Retain the Activity</h4> <p>Perhaps the hackiest and most widely abused workaround is to disable the default destroy-and-recreate behavior by setting the <code>android:configChanges</code> attribute in your Android manifest. The apparent simplicity of this approach makes it extremely attractive to developers; <a href="http://stackoverflow.com/a/5336057/844882">Google engineers</a>, however, discourage its use. The primary concern is that it requires you to handle device configuration changes manually in code. Handling configuration changes requires you to take many additional steps to ensure that each and every string, layout, drawable, dimension, etc. remains in sync with the device's current configuration, and if you aren't careful, your application can easily have a whole series of resource-specific bugs as a result.</p> <p>Another reason why Google discourages its use is because many developers incorrectly assume that setting <code>android:configChanges="orientation"</code> (for example) will magically protect their application from unpredictable scenarios in which the underlying Activity will be destroyed and recreated. <i>This is not the case.</i> Configuration changes can occur for a number of reasons&mdash;not just screen orientation changes. Inserting your device into a display dock, changing the default language, and modifying the device's default font scaling factor are just three examples of events that can trigger a device configuration change, all of which signal the system to destroy and recreate all currently running Activitys the next time they are resumed. As a result, setting the <code>android:configChanges</code> attribute is generally not good practice.</p> <h4>Deprecated: Override <code>onRetainNonConfigurationInstance()</code></h4> <p>Prior to Honeycomb's release, the recommended means of transferring active objects across Activity instances was to override the <code>onRetainNonConfigurationInstance()</code> and <code>getLastNonConfigurationInstance()</code> methods. Using this approach, transferring an active object across Activity instances was merely a matter of returning the active object in <code>onRetainNonConfigurationInstance()</code> and retrieving it in <code>getLastNonConfigurationInstance()</code>. As of API 13, these methods have been deprecated in favor of the more Fragment's <code>setRetainInstance(boolean)</code> capability, which provides a much cleaner and modular means of retaining objects during configuration changes. We discuss this Fragment-based approach in the next section.</p> <h4>Recommended: Manage the Object Inside a Retained <code>Fragment</code></h4> <p>Ever since the introduction of Fragments in Android 3.0, the recommended means of retaining active objects across Activity instances is to wrap and manage them inside of a retained "worker" Fragment. By default, Fragments are destroyed and recreated along with their parent Activitys when a configuration change occurs. Calling <code>Fragment#setRetainInstance(true)</code> allows us to bypass this destroy-and-recreate cycle, signaling the system to retain the current instance of the fragment when the activity is recreated. As we will see, this will prove to be extremely useful with Fragments that hold objects like running <code>Thread</code>s, <code>AsyncTask</code>s, <code>Socket</code>s, etc.</p> <p>The sample code below serves as a basic example of how to retain an <code>AsyncTask</code> across a configuration change using retained Fragments. The code guarantees that progress updates and results are delivered back to the currently displayed Activity instance and ensures that we never accidentally leak an <code>AsyncTask</code> during a configuration change. The design consists of two classes, a <code>MainActivity</code>...</p> <p><pre class="brush:java">/**<br /> * This Activity displays the screen's UI, creates a TaskFragment<br /> * to manage the task, and receives progress updates and results <br /> * from the TaskFragment when they occur.<br /> */<br />public class MainActivity extends Activity implements TaskFragment.TaskCallbacks {<br /><br />  private TaskFragment mTaskFragment;<br /><br />  @Override<br />  protected void onCreate(Bundle savedInstanceState) {<br />    super.onCreate(savedInstanceState);<br />    setContentView(R.layout.main);<br /><br />    FragmentManager fm = getFragmentManager();<br />    mTaskFragment = (TaskFragment) fm.findFragmentByTag("task");<br /><br />    // If the Fragment is non-null, then it is currently being<br />    // retained across a configuration change.<br />    if (mTaskFragment == null) {<br />      mTaskFragment = new TaskFragment();<br />      fm.beginTransaction().add(mTaskFragment, "task").commit();<br />    }<br /><br />    // TODO: initialize views, restore saved state, etc.<br />  }<br /><br />  // The four methods below are called by the TaskFragment when new<br />  // progress updates or results are available. The MainActivity <br />  // should respond by updating its UI to indicate the change.<br /><br />  @Override<br />  public void onPreExecute() { ... }<br /><br />  @Override<br />  public void onProgressUpdate(int percent) { ... }<br /><br />  @Override<br />  public void onCancelled() { ... }<br /><br />  @Override<br />  public void onPostExecute() { ... }<br />}</pre> <p>...and a <code>TaskFragment</code>...</p> <p><pre class="brush:java">/**<br /> * This Fragment manages a single background task and retains <br /> * itself across configuration changes.<br /> */<br />public class TaskFragment extends Fragment {<br /><br />  /**<br />   * Callback interface through which the fragment will report the<br />   * task's progress and results back to the Activity.<br />   */<br />  public static interface TaskCallbacks {<br />    void onPreExecute();<br />    void onProgressUpdate(int percent);<br />    void onCancelled();<br />    void onPostExecute();<br />  }<br /><br />  private TaskCallbacks mCallbacks;<br />  private DummyTask mTask;<br /><br />  /**<br />   * Hold a reference to the parent Activity so we can report the<br />   * task's current progress and results. The Android framework <br />   * will pass us a reference to the newly created Activity after <br />   * each configuration change.<br />   */<br />  @Override<br />  public void onAttach(Activity activity) {<br />    super.onAttach(activity);<br />    mCallbacks = (TaskCallbacks) activity;<br />  }<br /><br />  /**<br />   * This method will only be called once when the retained<br />   * Fragment is first created.<br />   */<br />  @Override<br />  public void onCreate(Bundle savedInstanceState) {<br />    super.onCreate(savedInstanceState);<br /><br />    // Retain this fragment across configuration changes.<br />    setRetainInstance(true);<br /><br />    // Create and execute the background task.<br />    mTask = new DummyTask();<br />    mTask.execute();<br />  }<br /><br />  /**<br />   * Set the callback to null so we don't accidentally leak the <br />   * Activity instance.<br />   */<br />  @Override<br />  public void onDetach() {<br />    super.onDetach();<br />    mCallbacks = null;<br />  }<br /><br />  /**<br />   * A dummy task that performs some (dumb) background work and<br />   * proxies progress updates and results back to the Activity.<br />   *<br />   * Note that we need to check if the callbacks are null in each<br />   * method in case they are invoked after the Activity's and<br />   * Fragment's onDestroy() method have been called.<br />   */<br />  private class DummyTask extends AsyncTask&lt;Void, Integer, Void&gt; {<br /><br />    @Override<br />    protected void onPreExecute() {<br />      if (mCallbacks != null) {<br />        mCallbacks.onPreExecute();<br />      }<br />    }<br /><br />    /**<br />     * Note that we do NOT call the callback object's methods<br />     * directly from the background thread, as this could result <br />     * in a race condition.<br />     */<br />    @Override<br />    protected Void doInBackground(Void... ignore) {<br />      for (int i = 0; !isCancelled() && i < 100; i++) {<br />        SystemClock.sleep(100);<br />        publishProgress(i);<br />      }<br />      return null;<br />    }<br /><br />    @Override<br />    protected void onProgressUpdate(Integer... percent) {<br />      if (mCallbacks != null) {<br />        mCallbacks.onProgressUpdate(percent[0]);<br />      }<br />    }<br /><br />    @Override<br />    protected void onCancelled() {<br />      if (mCallbacks != null) {<br />        mCallbacks.onCancelled();<br />      }<br />    }<br /><br />    @Override<br />    protected void onPostExecute(Void ignore) {<br />      if (mCallbacks != null) {<br />        mCallbacks.onPostExecute();<br />      }<br />    }<br />  }<br />}</pre></p> <h4>Flow of Events</h4> <p>When the <code>MainActivity</code> starts up for the first time, it instantiates and adds the <code>TaskFragment</code> to the Activity's state. The <code>TaskFragment</code> creates and executes an <code>AsyncTask</code> and proxies progress updates and results back to the <code>MainActivity</code> via the <code>TaskCallbacks</code> interface. When a configuration change occurs, the <code>MainActivity</code> goes through its normal lifecycle events, and once created the new Activity instance is passed to the <code>onAttach(Activity)</code> method, thus ensuring that the <code>TaskFragment</code> will always hold a reference to the currently displayed Activity instance even after the configuration change. The resulting design is both simple and reliable; the application framework will handle re-assigning Activity instances as they are torn down and recreated, and the <code>TaskFragment</code> and its <code>AsyncTask</code> never need to worry about the unpredictable occurrence of a configuration change.</p> <!--<h4>Race Conditions and Memory Leaks</h4> For the most part, implementing background tasks using retained Fragments should be fairly straight forward. However, it is possible to inadvertently introduce race conditions and/or memory leaks into your application if you aren't careful:  <ul> <li><p><b>Race conditions.</b> Make sure you don't call the Activity callback's methods from a background thread, as this can result in race conditions. For example, if the background task finishes and calls one of the callback's methods from a background thread between <code>Fragment#onDetach()</code> and <code>Fragment#onAttach(Activity)</code>, the Activity instance that will actually receive the result will be undefined. For this reason, you must <i>only</i> make calls to the Activity callback instance on the main UI thread. <code>AsyncTask</code>s do most of this work for you already. If you were to use a <code>Thread</code>, however, you'd need to do some extra work to synchronize with the main thread. </p></li> <li><p><b>Memory leaks.</b> If your Fragment holds a reference to the Activity as a callback object (as shown in the example code above), you should be extra careful that you don't accidentally leak the Activity instance. How this can be done depends on your implementation, but usually it is a matter of simply setting the callback object to <code>null</code> in <code>Fragment#onDestroy()</code>.  </p></li> </ul>--> <h4>Conclusion</h4> <p>Synchronizing background tasks with the Activity lifecycle can be tricky and configuration changes will only add to the confusion. Fortunately, retained Fragments make handling these events very easy by consistently maintaining a reference to its parent Activity, even after being destroyed and recreated.</p> <p>A sample application illustrating how to correctly use retained Fragments to achieve this effect is available for download on the <a href="https://play.google.com/store/apps/details?id=com.adp.retaintask">Play Store</a>. The source code is available on <a href="https://github.com/alexjlockwood/worker-fragments">GitHub</a>. Download it, import it into Eclipse, and modify it all you want!</p> <p><a href="https://play.google.com/store/apps/details?id=com.adp.retaintask" imageanchor="1" ><img border="0" src="http://1.bp.blogspot.com/-1sQZ32vpOy4/UXtjWSjLhfI/AAAAAAAAHJw/KoXS-a5y3mo/s320/Screenshot_2013-04-27-04-22-18.png" /></a></p> <p>As always, leave a comment if you have any questions and don't forget to +1 this blog in the top right corner!</p></div>
+<h2>Comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+The short answer is no, onPostExecute() will never be dispatched in between onDetach() and onAttach() during a configuration change. This was discussed a bit in a <a href="http://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html?showComment=1367316509633#c7957865298095257512" rel="nofollow">previous comment</a>.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+What if during a configuration change, DummyTask.onPostExecute() runs between TaskFragment.onDetach() and TaskFragment.onAtach() ?<br />In that case, mCallbacks will be null and MainActivity.onPostExecute() never run in the new Acivity.<br />Or I am  overlooking something and this is not possible ?<br /><br /><br /><br /></div>
+</div>
+<div class='comment'>
+<div class='author'>Colonel Nikolai</div>
+<div class='content'>
+OK that&#39;s interesting. That will work fine if the async task is only going to do one thing and signal the main thread once. But if I want a long running async task to essentially poll some long running process and report back progress to the UI periodically, then the task may at times get a null activity from getActivity() and I&#39;ll have to code for that somehow.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+&quot;Anonymous&quot; is correct. If the AsnyTask only calls getActivity() on the main UI thread, it will be impossible for the call to getActivity() to return null (since as &quot;Anonymous&quot; says, configuration changes are handled by a single message in the main thread&#39;s event queue).</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+If UI updates are done properly, that means on UI thread (using asynctask update mechanism) then getActivity() calls to update it should be safe. Whole config change life cycle is done in one UI thread message.</div>
+</div>
+<div class='comment'>
+<div class='author'>Colonel Nikolai</div>
+<div class='content'>
+getActivty() definitely seem like the way to go in the retained fragment.<br /><br />But if I call getActivity() from within my async task being managed by the retained Fragment, I&#39;m breaking the rules here? Because my async task has to update a bunch of things in the views of it&#39;s calling Activity! I&#39;ve been assuming that I can do that because getActivity blocks on config changes, perhaps I&#39;m wrong?</div>
+</div>
+<div class='comment'>
+<div class='author'>Pirol Aydin</div>
+<div class='content'>
+Thanks for the helpful article!<br />How can i remove the retained fragment. Currently i removed the fragment in the onPostExecute() of an AsyncTask, but after reading your article http://www.androiddesignpatterns.com/2013/08/fragment-transaction-commit-state-loss.html I understood that it wasn&#39;t the best solution!<br /><br /></div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+I guess I can&#39;t say for sure without seeing some of your code. The IllegalArgumentException is probably being thrown because you are attempting to dismiss the dialog after the dialog&#39;s window has already been removed (i.e. the window has been removed as a result of the activity being destroyed, etc. and then at a later time after the asynchronous task has finished executing, you attempt to dismiss the dialog and the WindowManager throws an exception because the window has already been closed.<br /><br />In other words, the problem is likely that you are assuming the dialog will still be open after the task completes (but this may not be true since the background thread has no idea about the current state of the activity lifecycle).<br /><br />Anyway, if you want you can post a StackOverflow question containing some more details and I can try to help you out a little more if you need it (just post a link to the question as a reply to this comment).</div>
+</div>
+<div class='comment'>
+<div class='author'>Thomas Vervik</div>
+<div class='content'>
+Great article, we implemented this pattern, and worked like charm. But it got broken when adding a progress dialog. Consider this code I added in our base class, the reference to the activity will be correct with the pattern would described, but dismissing the progress dialog will fail with:<br /><br />E/AndroidRuntime( 292): Uncaught handler: thread main exiting due to uncaught exception<br />E/AndroidRuntime( 292): java.lang.IllegalArgumentException: View not attached to window manager<br /><br />Closer described here:<br />http://bend-ing.blogspot.com/2008/11/properly-handle-progress-dialog-in.html<br /><br />protected ProgressDialog progress;<br /><br />protected void dismiss(){<br />  if(progress != null &amp;&amp; progress.isShowing()){<br />   progress.dismiss();<br />  }<br /><br />What is your recommendation in such cases?<br /> }</div>
+</div>
+<div class='comment'>
+<div class='author'>Paul Hasler</div>
+<div class='content'>
+Another brilliant, clear guide. Thanks Alex. I&#39;ve already taken on board your tips on avoiding leaks with handlers &amp; inner classes, as well as threads. I have a question regarding using this Retained Fragment approach, for a thread and activity that communicate via handlers. I&#39;ve <a href="http://stackoverflow.com/questions/19331141/communicating-between-mainactivity-and-a-retained-fragment-after-configuration-c" rel="nofollow">asked the question on stackoverflow</a>, but am not getting any responses. </div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Give each AsyncTask an ID and modify each TaskFragment callback method so that it receives an ID as an argument (i.e. onPreExecute(int id), etc.). Each AsyncTask can then call on the same TaskFragment callback object (i.e. the retained fragment) and will pass their own unique ID as an argument. The TaskFragment can then distinguish between which AsyncTask is currently delivering results by looking at its id. This design would be very similar to the onLoadFinished() method, which also takes an ID as an argument, thus allowing the LoaderCallbacks interface to be associated with multiple Loaders.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Can you provide an example of 2 AsyncTasks using the callbacks in one activity?</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Fantastic post. I wanted to know how this can be implemented when you have multiple AsyncTasks. Does each AsyncTask have to implement the Fragment that corresponds to it? Where would you call the fragment.start() ?<br /><br />In my application I have 4 AsyncTasks which are inner classes and I would like to implement this configuration changes because on configuration change my application crashes. Your sample code works fantastic for a single AsyncTask as the example shows. <br /><br />Each of my AsyncTasks has a unique behavior and each AsyncTask gives results to the MainActivity fields. I&#39;m trying to implement this by creating a Fragment for each of the AsyncTasks which essentially has the same functionality as my original inner class AsyncTasks but I&#39;m having an issue figuring out exactly how to implement this for multiple AsyncTasks for a MainActivity.</div>
+</div>
+<div class='comment'>
+<div class='author'>Luca Looz</div>
+<div class='content'>
+Ok i have understand, but on a configuration change getTargetFragment() will automatically return the new UiFragment instance?<br />I have noticed that setTargetFragment is called only on the first creation of the work fragment</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Yes. I have been getting this question a lot and I think I will soon write a quick code sample illustrating how to do this with two Fragments (a UI fragment and a worker fragment). For now, here&#39;s some <a href="https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/FragmentRetainInstance.java" rel="nofollow">sample code</a> to get you started. In the sample code, the <i>FragmentRetainInstance</i> activity simply adds a single UiFragment to the screen as its main content. The <i>UiFragment</i> creates a <i>RetainedFragment</i> in <i>onActivityCreated()</i> and sets itself as the worker fragment&#39;s <a href="http://developer.android.com/reference/android/app/Fragment.html#setTargetFragment(android.app.Fragment,%20int)" rel="nofollow">target fragment</a>. The worker fragment retrieves a reference to its &quot;target fragment&quot; and uses it as the callback to report interesting results back to the <i>UiFragment</i>.<br /><br />Anyway, if you study the code I linked to above, you should be able to implement it no problem. It&#39;s basically the same thing except the worker fragment calls <i>getTargetFragment()</i> instead of <i>getActivity()</i> to retrieve a reference to the callbacks object that it will use to report back its results. In my opinion, this implementation is actually a lot cleaner than the sample code posted on this blog because there is no Activity-Fragment interaction at all. :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Luca Looz</div>
+<div class='content'>
+Hi, is possible to use this approach starting with a fragment instead of an activity?</div>
+</div>
+<div class='comment'>
+<div class='author'>LeU</div>
+<div class='content'>
+the problem is that the new activity is not being updated by the publishprogress. The method is not even called anymore.<br /><br />as suggested I asked the question on StackOverflow and posted some code there.<br /><br />http://stackoverflow.com/questions/18455861/progressdialog-stops-to-update-when-i-rotate-screen</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Again, I believe what you are saying is the expected behavior (i.e. you want the progress updates to get sent to the new activity, not the old one, right?).<br /><br />If you&#39;re still having trouble, ask a question on StackOverflow and post a link to the post as a reply to this comment and I can check it out. :)</div>
+</div>
+<div class='comment'>
+<div class='author'>LeU</div>
+<div class='content'>
+because i need to update a progress dialog in the activity. it stops to call onProgressUpdate even with the mCallback re-set to the new activity. it also stops to call onProgressUpdate in my Fragment Class.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Yes, that is the expected behavior. Why is that a problem?</div>
+</div>
+<div class='comment'>
+<div class='author'>LeU</div>
+<div class='content'>
+Hello Alex, thanks for the awesome guide. I&#39;m have a little problem I don&#39;t understand. When I rotate my screen, the AsyncTask of the fragment stops to call onProgressUpdate in the &quot;new&quot; activity.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Sure, you would just need to change the design a little bit. For example, the Activity would have to create a new TaskCallbacks object for each new AsyncTask it executes. The Activity would hold a list of all of the callbacks and would need to manage them appropriately (i.e. null out the reference to each callback after it finishes to ensure it isn&#39;t leaked). If the async requests you are performing are not specific to the Activity (i.e. you would like them to continue to run even if the user backs out of the Activity, etc.), then I would use a Service instead.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Yes. Check out <a href="http://www.androiddesignpatterns.com/2013/04/activitys-threads-memory-leaks.html" rel="nofollow">this blog post</a> for more information about why threads continue to live and run after configuration changes occur.</div>
+</div>
+<div class='comment'>
+<div class='author'>James Briaris</div>
+<div class='content'>
+I really like this method, and very well explained. However, what if you wanted to start multiple AsyncTasks using the &#39;TaskFragment&#39; and its &#39;TaskCallbacks` interface? E.g. you commit the fragment and thereby starting an AsyncTask each time and EditText view loses focus. Can this still be done using the above method? Or would you be better of using services? Thanks/</div>
+</div>
+<div class='comment'>
+<div class='author'>Slothy</div>
+<div class='content'>
+&quot;what is the best way to retain active objects—such as running Threads, Sockets, and AsyncTasks—across device configuration changes?&quot;<br /><br />My AsyncTask keeps running even when the device orientation changes. Is that normal?<br /></div>
+</div>
+<div class='comment'>
+<div class='author'>Ratamovic</div>
+<div class='content'>
+I used the same technique to implement the MVP pattern (Model-View-Presenter) in an application: since in my opinion Activities and Fragments are not &quot;abstract&quot; enough to represent properly a Presenter/Controller, I used retained fragments to make Presenters. They contain all the application logic and more importantly all the state of the UI. Activities and Fragments became only dumb UI code that respond to Presenter requirement. This is really practical when a configuration change occurs because UI State can be quickly restored without reloading data (or storing it in a global cache, singleton or anything else). A bit like you did.<br /><br />However something to take care of (unless I make a mistake) is that retained fragments are still tied to the Activity lifecycle. Not to configurations changes anymore (activity can be destroyed and recreated like indicated) but to &quot;definitive&quot; destruction of the Activity.<br />This makes the handling of background task that shouldn&#39;t or cannot be cancelled (or that we are too lazy to make cancellable :-)) quite tricky (I mean AsyncTask that should live even if a user navigate to another Activity). In that case, a destroyed fragment may still be retained by the background Task until it is totally finished. Since the retained fragment is probably very &quot;light&quot;, this is not a problematic leak but it is still one. Or else we must handle properly cancellation... But still in that case a leak may remain for a few ms (which is not a problem in almost all cases).<br />But apart from such a negligible leak, the real problem is that the task cannot really continue further its life. In that case Services and Receivers (or a custom notification/event system) or a global manager should be used.<br /><br />Don&#39;t know if that could be of interest to you but I&#39;m currently creating a small lib (still in Alpha stage :-)) to handle AsyncTask that you can find here https://github.com/ratamovic/robolabor. It basically works like an AsyncTask except that there is a kind of global manager that &quot;dereference&quot; and &quot;re-reference&quot; enclosing object reference when starting a task that is a non-static inner class. A task can be reattached later even well after it has been destroyed or its result kept if received while Activity/Fragment has been destroyed.<br />This should works well with your retainedFragment example (or Presenter in my case :-)) but even with normal Activity or Fragments. My goal is to remove the requirement of a Service/global manager to handle async tasks that shouldn&#39;t be tied to their owner.<br /><br />Anyway, many thanks for this nice article (and all the others too)!</div>
+</div>
+<div class='comment'>
+<div class='author'>Ratamovic</div>
+<div class='content'>
+Both onAttach() and onPostExecute() are executed on the UI-Thread so there is no race condition here. Method onPostExecute() has been specifically created to allow an AsyncTask to modify the UI safely from the only place where it can, i.e. from the UI Thread.</div>
+</div>
+<div class='comment'>
+<div class='author'>Dmitry Mitskevich</div>
+<div class='content'>
+This article also explains similar technique to retain memory cache:<br />http://developer.android.com/training/displaying-bitmaps/cache-bitmap.html</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Any chance you include import statements in your code.</div>
+</div>
+<div class='comment'>
+<div class='author'>Bosefus</div>
+<div class='content'>
+I should clarify that in my imagined race condition mCallBacks is set to null just after the null check.</div>
+</div>
+<div class='comment'>
+<div class='author'>Bosefus</div>
+<div class='content'>
+Consider:   <br /><br /> protected void onPostExecute(Void ignore) {<br />      if (mCallbacks != null) {<br />        modifyMap();<br />        mCallbacks.onPostExecute();<br />      }<br /><br />  @Override<br />  public void onAttach(Activity activity) {<br />    super.onAttach(activity);<br />    mCallbacks = (TaskCallbacks) activity;<br />    modifyMap();<br />  }<br /><br />Is this approach thread safe?  Don&#39;t the two methods above get executed in different threads?  I expect problems could occur in (my added imaginary)<br />modifyMap() method. In addition,  onPostExecute could could operate on the old mCallBacks.  Ignoring the additon of my modifyMap, perhaps<br />making mCallbacks volatile is sufficient.  If we wish the pattern to allow things like a modifyMap() method perhaps we should synchronize? <br />Is onAttach allowed to set the activity to null (or some other lifecycle method in the gui thread)? <br />If so, your null check seems like an NPE waiting to happen as well.  <br />I read your comment that starts with &quot;During configuration changes, no events will be dispatched between onDetach() and onAttach()&quot;, <br />but consider what happens if the AssyncTask is racing to complete with the configuration change.<br /><br />I am just starting with Android but I am leaning heaily toward using services and broadcast recievers for this sort of thing. Thread safety and avoiding<br />memory leaks seems worth the cost to me.<br /><br />Thoughts (and thanks)?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+I wouldn&#39;t display retained fragments inside a ViewPager... that sounds like it will cause problems (the ViewPager should have total control over its fragments&#39; lifecycles). Instead, I would create a non-UI fragment (as described in this post), call setRetainedInstance(true) on the non-UI fragment, and then have it report events back to the Activity (or the currently selected ViewPager fragment.</div>
+</div>
+<div class='comment'>
+<div class='author'>Big Ape</div>
+<div class='content'>
+I have kind of the same doubt but i&#39;m using FragmentStatePagerAdapter for a collection of 1000 fragments (I&#39;m loading an image on each, it&#39;sa gallery). The method i use is FragmentStatePagerAdapter.getItem(int position) to put the image in the fragment and my problem is when the orientation changes it reloads the image. <br /><br /></div>
+</div>
+<div class='comment'>
+<div class='author'>Anna</div>
+<div class='content'>
+Very good post! Thanks Alex. I&#39;m trying to use this pattern with two fragments in a viewpager, but I&#39;m getting:<br />java.lang.IllegalStateException: Can&#39;t change tag of fragment<br /><br />at android.support.v4.app.FragmentPagerAdapter.instantiateItem(FragmentPagerAdapter.java:97)<br /><br />FragmentPagerAdapter.instantiateItem() tags the fragment again when adding it to the container. Have you ever used this pattern in the same context? And if you did, any ideas on how to solve the problem without having to override that method in a custom PagerAdapter?<br /><br />Regards<br /></div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+With a single retained fragment you&#39;d need a lot of book-keeping too, don&#39;t you? You cannot relate (on every restart) the UI fragments with their tasks so straightforward.<br /><br />With this approach every UI fragment has to keep a (unique) &#39;ticket&#39; so that the retained fragment is able to figure out which is its task.<br /><br />Cristian</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Do you really need to have multiple retained fragments? You could just put all of the long-running work in a single retained fragment and that would reduce a lot of the book-keeping you&#39;d have to do with the FragmentManager otherwise.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+But then by using &quot;getTargetFragment&quot; you can only have 1 retained fragment for each UI fragment. So if you have several UI fragments of the same class (within a ViewPager), you must attach to the activity the same number of retained fragments (distinct tagged by the FragmentManager)<br /><br />But if you make use instead of a listener for each UI fragment in the same retained fragment, how do you know which listener to update when an onAttach event occurs? You must tag them in some way too...<br /><br />Cristian<br /><br /></div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+If there is a bug, I doubt it would be an issue here since we are retaining the fragment across config changes. Thanks for the heads up though. :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Karlheinz</div>
+<div class='content'>
+Just FYI, there appear to be multiple issues when using the Support Library version of Fragments, especially DialogFragments. I don&#39;t know if they affect your code, but they might. See this thread in Stack Overflow:<br />http://stackoverflow.com/questions/8235080/fragments-dialogfragment-and-screen-rotation</div>
+</div>
+<div class='comment'>
+<div class='author'>Tom Sullivan</div>
+<div class='content'>
+Thank you for the great article! </div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Many many many thanks for your clear way of representing this issue and its best practice to solve it :-)</div>
+</div>
+<div class='comment'>
+<div class='author'>Maple Aikon</div>
+<div class='content'>
+If the task was completed and i update the UI after the onSaveInstanceState of the old Activity, will i get the &quot;java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState&quot; exception ?<br /><br />in this demo: https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/FragmentRetainInstance.java<br />The thread in the retained fragment must wait until the new activity created, then update the UI</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Yeah it would work. But simply saving the data in onSaveInstanceState(Bundle) would probably suffice as well.</div>
+</div>
+<div class='comment'>
+<div class='author'>Mihai Campean</div>
+<div class='content'>
+Would this approach work if you want to persist for example a list of some data over the configuration change, so you won&#39;t have to load it again?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+I don&#39;t think that will be a problem... during a configuration change, onPostExecute() will not be called before onCreateView() (it will be queued to be executed on the main UI thread after all lifecycle methods have been invoked). Maybe you could make a sample project that illustrates the problem you are referring to and I can take a look?</div>
+</div>
+<div class='comment'>
+<div class='author'>Sver</div>
+<div class='content'>
+It&#39;s correct. It just wont work from the box if you need a result of AsyncTask to set up an interface after a screen rotation. If you setting up interface in postExecute callback it will work only once, because AsyncTask is not executed on every screen rotation (obviously). You can&#39;t set interface (using saved result from AsyncTask) from onAttach, because even thou activity is attached, it&#39;s layout is not inflated. So you need to make a method inside a fragment that will check if AsyncTask is finished and necessary data is available, and will call a onPostExecute callback with necessary data. This method will have to be called from activity, after layout is inflated. So, basically, more deep symbiosis between fragment and activity is necessary. Something like this.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+I&#39;m pretty certain that the solution in the code is correct. The Fragment will get a reference to the new Activity in onAttach(Activity) in both cases and will know where to deliver the results after the configuration change.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Yes to your first question. And to your second question... the Fragment&#39;s Activity is set in onAttach(Activity), which is called before all of the other Fragment lifecycle methods, so that won&#39;t happen. Glad you like it!</div>
+</div>
+<div class='comment'>
+<div class='author'>Sver</div>
+<div class='content'>
+You need to update this solution a little bit if you are setting up interface based on a result of async task. Let&#39;s say, if you are downloading some data and population a listview with it. For example, in activity&#39;s oncreate you will have to ask a fragment if the task is already finished (if not, it&#39;s in process and you&#39;ll just need to wait for a callback), and if yes you need to ask it to set the interface.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+&quot;During configuration changes, no events will be dispatched between onDetach() and onAttach()&quot;... You say this because the callbacks are always invoked on the UI thread, don&#39;t you?<br /><br />Anyway, what does it happen when the listener is not an activity but another fragment? If the fragment&#39;s view is not created yet (onCreateView), then you cannot retrieve its widgets because getActivity() returns null and there is not such a findViewById method on Fragment.<br /><br />I like this blog so much,<br />Cristian</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Nice Article! What will be the scenario if one of my activity, say HomeActivity contains many different AsyncTask classes? How can I embed the above code for all of my AsyncTask classes?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+onCreateView() will still be called even if your Fragment is retained, so the orientation changes will handle your new layouts, I believe.</div>
+</div>
+<div class='comment'>
+<div class='author'>BlueCoder</div>
+<div class='content'>
+Thanks for pointing out such an important topic. This should be pointed out clearly in android docs.<br />My qs is, if i retain the fragment instance,how the orientation changes will be handled assuming i have a different xml for layout_landscape?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Sure, you could use those. But this is a really common question people have so I felt like people might benefit from the post either way. AsyncTask has its advantages over Services as well... for example, it makes use of a global thread pool and provides many helpful callback methods to the main UI thread.</div>
+</div>
+<div class='comment'>
+<div class='author'>Matthew</div>
+<div class='content'>
+Wow, this seems like a ton of overhead and boilerplate for what seems to be a common task -- asynchronously fetching data and updating UI. Are there less verbose alternatives? For example, perhaps using a Service/IntentService?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+If the task is short-lived (i.e. 3-4 seconds) and only runs once, then don&#39;t use a Loader... use an AsyncTask. If your task monitors a data source and auto-updates when content changes occur, then use a Loader instead.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+As you demonstrated above with Retained Fragment, the AsynTask no longer gets killed on configuration change. So, is your above method recommended over using Loader?</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Hi Alex<br />I called Task (Retained fragment) from non-retained fragment and want to know what should be done in onDetach and onAttach?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Also if we accidentally forgot to null out the callbacks object here, that wouldn&#39;t necessarily result in a memory leak each time. mCallbacks will be reassigned to the new activity instance either way, leaving the old activity instance to be reclaimed by the GC.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+You could also just use getActivity() within the retained Fragment... this will always return the currently attached parent Activity even when configuration changes occur (assuming you are calling &quot;getActivity()&quot; on the Main UI thread, of course...). In fact, I suppose there really isn&#39;t much need for me to override onAttach() and onDetach() at all... I could simply use getActivity() instead. Hmm...</div>
+</div>
+<div class='comment'>
+<div class='author'>Jan1337z</div>
+<div class='content'>
+I would like to read more about his. Any recommendations? </div>
+</div>
+<div class='comment'>
+<div class='author'>Matthias</div>
+<div class='content'>
+Hi Alex, <br /><br />I would just like to add one point: setRetainInstance should be used with extreme caution, and is not a silver bullet, as it opens a flood gate to memory leaks. <br /><br />Whenever your fragment has strong references to an Activity or Service, even indirectly through a view or any other object for that matter, you will leak the entire object tree when retaining the fragment and going through a configuration change. <br /><br />That said I would highlight in your article that one has to release all strong references in either onDetach or onDestroyView, or resort to WeakReferences to Contexts, whenever setRetainInstance is used. </div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+The solution would be very similar... your design would consist of your Activity, your non-retained Fragment, and a new retained Fragment to host and manage the task. Your non-retained Fragment can hold a reference to the retained Fragment and call &quot;mRetainedFragment.setTargetFragment(this, 0);&quot;. The retained Fragment can then report results back to the non-retained Fragment by calling &quot;getTargetFragment().onPostExecute()&quot;, for example.<br /><br />An example illustrating this dual-Fragment approach is given in the <a href="https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/FragmentRetainInstance.java" rel="nofollow">API Demos</a> too, if there is any confusion. :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+I&#39;m glad you enjoyed! And 95%... wow, that&#39;s surprising (and a little frightening too). At least now you&#39;ve found an article to point them to when they answer incorrectly! ;-)</div>
+</div>
+<div class='comment'>
+<div class='author'>Jason Hudgins</div>
+<div class='content'>
+Fantastic post.  When I interview Android developers for my team, I always bring up the topic about how to handle background threads during configuration changes.  95% of the time I get same old android:configChanges answer and this post does a great job of explaining why that&#39;s such a bad practice.</div>
+</div>
+<div class='comment'>
+<div class='author'>Timo Steuerwald</div>
+<div class='content'>
+Thank you Alex for this interesting article!<br />What would be the correct solution if my task is already called from a fragment, however I don&#39;t want to change the lifecycle of the existing fragment with setRetainInstance(true)?<br /><br /></div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+During configuration changes, no events will be dispatched between &quot;onDetach()&quot; and &quot;onAttach()&quot;. In other words, if the AsyncTask were to finish in between the two calls, the call to &quot;onPostExecute()&quot; would wait until the configuration change has been handled and the Fragment has been attached to its new Activity instance.<br /><br />If the Activity is destroyed by the system then the Fragment will be destroyed too. If by chance a call to &quot;onCancelled()&quot;, &quot;onProgressUpdate()&quot;, &quot;onPostExecute()&quot;, etc. still exist in the main thread&#39;s message queue after the Activity has been destroyed and the Fragment&#39;s &quot;onDetach()&quot; method has been called, we avoid the potential NullPointerException by double checking to see if mCallbacks has since been set to null.</div>
+</div>
+<div class='comment'>
+<div class='author'>Yaroslav Maloy</div>
+<div class='content'>
+But if the task was completed after old Activity was &quot;destroyed&quot;, and before Fragment was attached to the new Activity it will send messages to the &quot;dead&quot; Activity, and the new one will never receive this messages?<br /><br />And how about the case were Activity was destroyed by the system?</div>
+</div>
+</div>

@@ -1,0 +1,313 @@
+---
+layout: post
+title: Implementing Loaders (part 3)
+date: 2012-08-21
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<p>This post introduces the <code>Loader&lt;D&gt;</code> class as well as custom Loader implementations. This is the third of a series of posts I will be writing on Loaders and the LoaderManager:</p> <ul><li><b>Part 1:</b> <a href="http://www.androiddesignpatterns.com/2012/07/loaders-and-loadermanager-background.html">Life Before Loaders</a></li><li><b>Part 2:</b> <a href="http://www.androiddesignpatterns.com/2012/07/understanding-loadermanager.html">Understanding the LoaderManager</a></li><li><b>Part 3:</b> <a href="http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html">Implementing Loaders</a></li><li><b>Part 4:</b> <a href="http://www.androiddesignpatterns.com/2012/09/tutorial-loader-loadermanager.html">Tutorial: AppListLoader</a></li></ul> <p>First things first, if you haven’t read my previous two posts, I suggest you do so before continuing further. Here is a very brief summary of what this blog has covered so far. <a href="http://www.androiddesignpatterns.com/2012/07/loaders-and-loadermanager-background.html">“Life Before Loaders” (part 1)</a> described the flaws of the pre-Honeycomb 3.0 API and its tendency to perform lengthy queries on the main UI thread. These UI-unfriendly APIs resulted in unresponsive applications and were the primary motivation for introducing the Loader and the LoaderManager in Android 3.0. <a href="http://www.androiddesignpatterns.com/2012/07/understanding-loadermanager.html">“Understanding the LoaderManager” (part 2)</a> introduced the LoaderManager class and its role in delivering asynchronously loaded data to the client. The LoaderManager manages its Loaders across the Activity/Fragment lifecycle and can retain loaded data across trivial configuration changes.</p> <h4>Loader Basics</h4> <p>Loaders are responsible for performing queries on a separate thread, monitoring the data source for changes, and delivering new results to a registered listener (usually the LoaderManager) when changes are detected. These characteristics make Loaders a powerful addition to the Android SDK for several reasons:</p> <ol> <li value="1"><p><b>They encapsulate the actual loading of data.</b> The Activity/Fragment no longer needs to know how to load data. Instead, the Activity/Fragment delegates the task to the Loader, which carries out the request behind the scenes and has its results delivered back to the Activity/Fragment.</p></li> <li value="2"><p><b>They abstract out the idea of threads from the client.</b> The Activity/Fragment does not need to worry about offloading queries to a separate thread, as the Loader will do this automatically. This reduces code complexity and eliminates potential thread-related bugs.</p></li> <li value="3"><p><b>They are entirely <i>event-driven</i>.</b> Loaders monitor the underlying data source and automatically perform new loads for up-to-date results when changes are detected. This makes working with Loaders an absolute pleasure, as the client can simply trust that the Loader will auto-update its data on its own. All the Activity/Fragment has to do is initialize the Loader and respond to any results that might be delivered. Everything in between is done by the Loader.</p></li> </ol> <p>Loaders are a somewhat advanced topic and may take some time getting used to. We begin by analyzing its four defining characteristics in the next section.</p> <a name='more'></a> <h4>What Makes Up a Loader?</h4> <p>There are four characteristics which ultimately determine a Loader’s behavior:</p> <ol> <li value="1"><p><b>A task to perform the asynchronous load.</b> To ensure that loads are done on a separate thread, subclasses should extend <code>AsyncTaskLoader&lt;D&gt;</code> as opposed to the <code>Loader&lt;D&gt;</code> class. <code>AsyncTaskLoader&lt;D&gt;</code> is an abstract Loader which provides an <code>AsyncTask</code> to do its work. When subclassed, implementing the asynchronous task is as simple as implementing the abstract <code>loadInBackground()</code> method, which is called on a worker thread to perform the data load.</p></li> <li value="2"><p><b>A registered listener to receive the Loader’s results when it completes a load.<a href="#footnote1"><sup>1</sup></a></b> For each of its Loaders, the LoaderManager registers an <code>OnLoadCompleteListener&lt;D&gt;</code> which will forward the Loader’s delivered results to the client with a call to <code>onLoadFinished(Loader&lt;D&gt; loader, D result)</code>. Loaders should deliver results to these registered listeners with a call to <code>Loader#deliverResult(D result)</code>.</p></li> <li value="3"><p><b>One of three<a href="#footnote2"><sup>2</sup></a> distinct states.</b> Any given Loader will either be in a <i>started</i>, <i>stopped</i>, or <i>reset</i> state:</p> <p>(a) Loaders in a <i>started state</i> execute loads and may deliver their results to the listener at any time. Started Loaders should monitor for changes and perform new loads when changes are detected. Once started, the Loader will remain in a started state until it is either stopped or reset. This is the only state in which <code>onLoadFinished</code> will ever be called.</p> <p>(b) Loaders in a <i>stopped state</i> continue to monitor for changes but should <b>not</b> deliver results to the client. From a stopped state, the Loader may either be started or reset.</p> <p>(c) Loaders in a <i>reset state</i> should <b>not</b> execute new loads, should <b>not</b> deliver new results, and should <b>not</b> monitor for changes. When a loader enters a reset state, it should invalidate and free any data associated with it for garbage collection (likewise, the client should make sure they remove any references to this data, since it will no longer be available). More often than not, reset Loaders will never be called again; however, in some cases they may be started, so they should be able to start running properly again if necessary.</p> </li> <li value="4"><p><b>An observer to receive notifications when the data source has changed.</b> Loaders should implement an observer of some sort (i.e. a <code>ContentObserver</code>, a <code>BroadcastReceiver</code>, etc.) to monitor the underlying data source for changes. When a change is detected, the observer should call <code>Loader#onContentChanged()</code>, which will either (a) force a new load if the Loader is in a started state or, (b) raise a flag indicating that a change has been made so that if the Loader is ever started again, it will know that it should reload its data.</p> </li> </ol> <p>By now you should have a basic understanding of how Loaders work. If not, I suggest you let it sink in for a bit and come back later to read through once more (reading the <a href="http://developer.android.com/reference/android/content/Loader.html">documentation</a> never hurts either!). That being said, let’s get our hands dirty with the actual code!</p> <h4>Implementing the Loader</h4> <p>As I stated earlier, there is a lot that you must keep in mind when implementing your own custom Loaders. Subclasses must implement <code>loadInBackground()</code> and should override <code>onStartLoading()</code>, <code>onStopLoading()</code>, <code>onReset()</code>, <code>onCanceled()</code>, and <code>deliverResult(D results)</code> to achieve a fully functioning Loader. Overriding these methods is very important as the LoaderManager will call them regularly depending on the state of the Activity/Fragment lifecycle. For example, when an Activity is first started, the Activity instructs the LoaderManager to start each of its Loaders in <code>Activity#onStart()</code>. If a Loader is not already started, the LoaderManager calls <code>startLoading()</code>, which puts the Loader in a started state and immediately calls the Loader’s <code>onStartLoading()</code> method. In other words, a lot of work that the LoaderManager does behind the scenes <b>relies on the Loader being correctly implemented</b>, so don’t take the task of implementing these methods lightly!</p> <p>The code below serves as a template of what a Loader implementation typically looks like. The <code>SampleLoader</code> queries a list of <code>SampleItem</code> objects and delivers a <code>List&lt;SampleItem&gt;</code> to the client:</p> <p><pre class="brush:java"><br />public class SampleLoader extends AsyncTaskLoader&lt;List&lt;SampleItem&gt;&gt; {<br /><br />  // We hold a reference to the Loader’s data here.<br />  private List&lt;SampleItem&gt; mData;<br /><br />  public SampleLoader(Context ctx) {<br />    // Loaders may be used across multiple Activitys (assuming they aren't<br />    // bound to the LoaderManager), so NEVER hold a reference to the context<br />    // directly. Doing so will cause you to leak an entire Activity's context.<br />    // The superclass constructor will store a reference to the Application<br />    // Context instead, and can be retrieved with a call to getContext().<br />    super(ctx);<br />  }<br /><br />  /****************************************************/<br />  /** (1) A task that performs the asynchronous load **/<br />  /****************************************************/<br /><br />  @Override<br />  public List&lt;SampleItem&gt; loadInBackground() {<br />    // This method is called on a background thread and should generate a<br />    // new set of data to be delivered back to the client.<br />    List&lt;SampleItem&gt; data = new ArrayList&lt;SampleItem&gt;();<br /><br />    // TODO: Perform the query here and add the results to 'data'.<br /><br />    return data;<br />  }<br /><br />  /********************************************************/<br />  /** (2) Deliver the results to the registered listener **/<br />  /********************************************************/<br /><br />  @Override<br />  public void deliverResult(List&lt;SampleItem&gt; data) {<br />    if (isReset()) {<br />      // The Loader has been reset; ignore the result and invalidate the data.<br />      releaseResources(data);<br />      return;<br />    }<br /><br />    // Hold a reference to the old data so it doesn't get garbage collected.<br />    // We must protect it until the new data has been delivered.<br />    List&lt;SampleItem&gt; oldData = mData;<br />    mData = data;<br /><br />    if (isStarted()) {<br />      // If the Loader is in a started state, deliver the results to the<br />      // client. The superclass method does this for us.<br />      super.deliverResult(data);<br />    }<br /><br />    // Invalidate the old data as we don't need it any more.<br />    if (oldData != null && oldData != data) {<br />      releaseResources(oldData);<br />    }<br />  }<br /><br />  /*********************************************************/<br />  /** (3) Implement the Loader’s state-dependent behavior **/<br />  /*********************************************************/<br /><br />  @Override<br />  protected void onStartLoading() {<br />    if (mData != null) {<br />      // Deliver any previously loaded data immediately.<br />      deliverResult(mData);<br />    }<br /><br />    // Begin monitoring the underlying data source.<br />    if (mObserver == null) {<br />      mObserver = new SampleObserver();<br />      // TODO: register the observer<br />    }<br /><br />    if (takeContentChanged() || mData == null) {<br />      // When the observer detects a change, it should call onContentChanged()<br />      // on the Loader, which will cause the next call to takeContentChanged()<br />      // to return true. If this is ever the case (or if the current data is<br />      // null), we force a new load.<br />      forceLoad();<br />    }<br />  }<br /><br />  @Override<br />  protected void onStopLoading() {<br />    // The Loader is in a stopped state, so we should attempt to cancel the <br />    // current load (if there is one).<br />    cancelLoad();<br /><br />    // Note that we leave the observer as is. Loaders in a stopped state<br />    // should still monitor the data source for changes so that the Loader<br />    // will know to force a new load if it is ever started again.<br />  }<br /><br />  @Override<br />  protected void onReset() {<br />    // Ensure the loader has been stopped.<br />    onStopLoading();<br /><br />    // At this point we can release the resources associated with 'mData'.<br />    if (mData != null) {<br />      releaseResources(mData);<br />      mData = null;<br />    }<br /><br />    // The Loader is being reset, so we should stop monitoring for changes.<br />    if (mObserver != null) {<br />      // TODO: unregister the observer<br />      mObserver = null;<br />    }<br />  }<br /><br />  @Override<br />  public void onCanceled(List&lt;SampleItem&gt; data) {<br />    // Attempt to cancel the current asynchronous load.<br />    super.onCanceled(data);<br /><br />    // The load has been canceled, so we should release the resources<br />    // associated with 'data'.<br />    releaseResources(data);<br />  }<br /><br />  private void releaseResources(List&lt;SampleItem&gt; data) {<br />    // For a simple List, there is nothing to do. For something like a Cursor, we <br />    // would close it in this method. All resources associated with the Loader<br />    // should be released here.<br />  }<br /><br />  /*********************************************************************/<br />  /** (4) Observer which receives notifications when the data changes **/<br />  /*********************************************************************/<br /> <br />  // NOTE: Implementing an observer is outside the scope of this post (this example<br />  // uses a made-up "SampleObserver" to illustrate when/where the observer should <br />  // be initialized). <br />  <br />  // The observer could be anything so long as it is able to detect content changes<br />  // and report them to the loader with a call to onContentChanged(). For example,<br />  // if you were writing a Loader which loads a list of all installed applications<br />  // on the device, the observer could be a BroadcastReceiver that listens for the<br />  // ACTION_PACKAGE_ADDED intent, and calls onContentChanged() on the particular <br />  // Loader whenever the receiver detects that a new application has been installed.<br />  // Please don’t hesitate to leave a comment if you still find this confusing! :)<br />  private SampleObserver mObserver;<br />}<br /></pre></p> <h4>Conclusion</h4> <p>I hope these posts were useful and gave you a better understanding of how Loaders and the LoaderManager work together to perform asynchronous, auto-updating queries. Remember that Loaders are your friends... if you use them, your app will benefit in both responsiveness and the amount of code you need to write to get everything working properly! Hopefully I could help lessen the learning curve a bit by detailing them out!</p> <p>As always, please don’t hesitate to <b>leave a comment</b> if you have any questions! And don't forget to +1 this blog in the top right corner if you found it helpful! :)</p> <hr color='#000000' size='1' width='40%' align='left'/><a name="footnote1"><sup>1</sup></a> You don't need to worry about registering a listener for your Loader unless you plan on using it without the LoaderManager. The LoaderManager will act as this "listener" and will forward any results that the Loader delivers to the <code>LoaderCallbacks#onLoadFinished</code> method.<br><a name="footnote2"><sup>2</sup></a> Loaders may also be in an <a href="http://developer.android.com/reference/android/content/Loader.html#onAbandon()">“abandoned”</a> state. This is an optional intermediary state between “stopped” and “reset” and is not discussed here for the sake of brevity. That said, in my experience implementing <code>onAbandon()</code> is usually not necessary. </div>
+<h2>Comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+If the client needs to manually re-query the loader, then calling Loader#forceLoad() would probably be even better (there&#39;s no reason to destroy and re-create the already existing loader by calling LoaderManager#restartLoader() in this case). You&#39;re right though that it is certainly possible for the client to implement a loader that doesn&#39;t have an observer... this isn&#39;t required, it&#39;s just strongly recommended whenever possible.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Thanks for pointing that out! I will fix it right now! :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Tom anMoney</div>
+<div class='content'>
+I think it would be worth mentioning, that it&#39;s not an absolute must to implement an observer.  This may be hard/impossible to do.  If there is no observer, the client is responsible for calling restartLoader() as needed.</div>
+</div>
+<div class='comment'>
+<div class='author'>Tom anMoney</div>
+<div class='content'>
+Great article.  Of course, the first line should be &quot;public CLASS SampleLoader&quot;</div>
+</div>
+<div class='comment'>
+<div class='author'>alanmcsherry</div>
+<div class='content'>
+I think I got it ... I stopped using a &#39;component&#39; Receiver (deleted this from my manifest) and used LocalBroadcastManager ... seems to be working... !</div>
+</div>
+<div class='comment'>
+<div class='author'>alanmcsherry</div>
+<div class='content'>
+Hi Alex,<br /><br />I found your tutorial extremely useful, thanks. <br />Looking at the comments below, I&#39;d like to have a broadcast receiver call onContentChanged but I don&#39;t know how to get a handle on the loader in the onReceive. The Receiver is created from the default empty constructor every time and I can&#39;t get a handle on LoaderManager from the Receiver. <br /><br />What am I missing? <br /><br />Thanks,<br />Alan.<br /><br />  //if you were writing a Loader which loads a list of all installed applications<br />  // on the device, the observer could be a BroadcastReceiver that listens for the<br />  // ACTION_PACKAGE_ADDED intent, and calls onContentChanged() on the particular <br />  // Loader whenever the receiver detects that a new application has been installed.<br />  // Please don’t hesitate to leave a comment if you still find this confusing! :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+I have to retrieve information my database and display it in TextViews. Now, I should use loaders for this so that if data changes in the database, it automatically gets reflected, right? What adapter do I use?</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Great post. Very helpfull. Thanks a lot</div>
+</div>
+<div class='comment'>
+<div class='author'>丁丁</div>
+<div class='content'>
+nice post! <br />i have a question:can i use loader to send a  http post request?</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Terrific tutorial! I have one conceptual problem with loaders and the loader manager, however. I hope I can articulate this... <br /><br />How do you handle things if you have a particularly large dataset where it&#39;s clear that your loader simply cannot load all of it into what would amount to a huge ArrayList in the adapter? Doing some sort of query, arriving at a smaller result set, is the obvious way and I have seen that in loader/ loader manager implementations. But... what if you want to be able to simply keep &quot;up-swiping&quot; the list forever and ever, having the adapter, working behind the scenes, magically always supplying new data from the full dataset?<br /><br />My thinking is that the adapter&#39;s ArrayList would actually be a subset of the entire dataset where the adapter would be keeping the user&#39;s position, within the subset ArrayList about mid-point, notifying the loader as the user moves too far up or down such that the loader can, effectively, reload the ArrayList so that the user&#39;s position ends up back in the middle. Does that make sense? Is there a way to achieve that functionality with this loader/loader manager mechanism? I suspect not.<br /><br />Thanks.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Thanks for letting me know! I&#39;ve been constantly revising these posts to get rid of typos ever since I first posted. :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+You refer to the AppListLoader method &quot;deliverResult&quot; as &quot;deliverResults&quot; in your documentation/comments. It&#39;s not a big deal but I thought I&#39;d mention it since, with my considerable lack of experience with this stuff, I did spend a few minutes looking for the plural version of the thing. <br /><br />Thanks very much for your work here. I&#39;m still not fully getting this stuff but I&#39;m making progress.</div>
+</div>
+<div class='comment'>
+<div class='author'>Tom anMoney</div>
+<div class='content'>
+Hmmm, ok, I need to think about this.  I hate that GOOG deprecated requery(), even though it&#39;s the best way of doing things in a lot of cases.  There is also no good way to reposition a ListView at the pixel level, so that&#39;s not even an option.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+If you wanted to replicate the exact behavior as before, you might be able to extend CursorLoader, override loadInBackground(), and in the overriden implementation call &quot;query()&quot; the first time and then call &quot;requery()&quot; each time after that. Not sure if that would work or not, but it might be worth a shot.<br /><br />I think the best solution would probably be to keep CursorLoader the way it is (i.e. so that it returns new Cursors each time) and then keep track of the list view&#39;s state and respond accordingly when you swap in the new Cursor each time a new load finishes. I&#39;ve never tried doing this before though... it probably depends on which adapter you are using too.</div>
+</div>
+<div class='comment'>
+<div class='author'>Tom anMoney</div>
+<div class='content'>
+@alex The one reason that prevents me from switching over to this new Loader API is to need to maintain the list view position on a &quot;requery.&quot;  In my, where records are often updated, this is an important UI issue.  The Loader API doesn&#39;t seem to handle this situation.  Can you suggest a way that the CursorLoader can be extended to allow for the old &quot;requery&quot; behavior, where the same Cursor object is reused instead of a new one created on every call in loadInBackground()?</div>
+</div>
+<div class='comment'>
+<div class='author'>Tom anMoney</div>
+<div class='content'>
+releaseResources() should be made &#39;static&#39;.  Just as a way to make sure that accidentally we don&#39;t modify the member &#39;data&#39; item.  </div>
+</div>
+<div class='comment'>
+<div class='author'>Alex</div>
+<div class='content'>
+Expert instructions! Thanks a lot.</div>
+</div>
+<div class='comment'>
+<div class='author'>Mutiny64</div>
+<div class='content'>
+Well done sir!</div>
+</div>
+<div class='comment'>
+<div class='author'>gianime</div>
+<div class='content'>
+Thanks for the insight!</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Dianne Hackborn isn&#39;t suggesting you extend the CursorLoader... she is suggesting that you &quot;use its code and replace the one line where it queries for the cursor.&quot; I wouldn&#39;t extend the CursorLoader directly (if you do this, your result will still be a CursorLoader and that is kind of messy)... instead I would implement your own Loader using the CursorLoader source code as a guide. Like Dianne said, you will not have to modify much... probably just that single line where you query the Cursor.<br /><br />You can also use Mark Murphy&#39;s <a href="https://github.com/commonsguy/cwac-loaderex" rel="nofollow">LoaderEx</a> library too... he has implemented an &quot;SQLiteLoader&quot; that does exactly what you need.</div>
+</div>
+<div class='comment'>
+<div class='author'>gianime</div>
+<div class='content'>
+Hi Alex thanks for this tutorial. I would like to know if you have tried using a custom CursorLoader. I know that CursorLoader should be used with content providers but after reading the post in https://groups.google.com/forum/#!topic/android-developers/J-Uql3Mn73Y, I thought it is possible to just use the CursorLoader and modify it to query the database as recommended by Dianne Hackborn. So what I did was this:<br /><br />public class MyLoader extends CursorLoader {<br /><br /> public MyLoader(Context context) {<br />  super(context)<br /> }<br /> <br /> @Override<br /> public Cursor loadInBackground() {<br />  return cursor = new MyDB().getCursorFromDb();<br /> }<br />}<br /><br />This works correctly when I call the getLoaderManager().getLoader(0).onContentChange() everytime I receive changes in the database. I am not sure though if this practice is correct or it will cause problems later on since I am calling onContentChange() explicitly. <br /><br />I hope you could shed some light into this. thanks very much.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Thank you so much Alex</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Because each application can have many Activitys, and it is possible to leak them if you aren&#39;t careful. Storing the application context doesn&#39;t result in the possibility of a memory leak because there is only one in the during the entire application lifecycle and it will always exist. Referencing the application context instead of an Activity context is usually a good way to avoid leaking an entire context in this way.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Hello Alex,<br /><br />(1)    &quot;Loaders may be used across multiple Activitys (assuming they aren&#39;t bound to the LoaderManager), so NEVER hold a reference to the context directly. Doing so will cause you to leak an entire Activity&#39;s context.&quot;<br /><br />(2)    &quot;The superclass constructor will store a reference to the Application Context instead, and can be retrieved with a call to getContext().&quot;<br /><br />If storing the context is bad for us, why does this not also apply for the superclass?<br /><br />    public Loader(Context context) {<br />        mContext = context.getApplicationContext();<br />    }<br /><br />Thank you.<br />Cristian</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Using a Loader to perform network requests isn&#39;t great practice, because (1) it means that your application will be hard on the battery (having to poll for new data from the network repeatedly each time you start the Activity, (2) there is no way to observer the network for content changes without polling it repeatedly, and (3) your application won&#39;t work offline.<br /><br />So my answer is to forget about using the Loader/AsyncTask combination entirely and to stick with a Service. The Service can poll the network for data every once and a while and insert new data into a ContentProvider. You can then use a CursorLoader to load data from the ContentProvider without it needing to know anything about where the data coming from.</div>
+</div>
+<div class='comment'>
+<div class='author'>phobeous</div>
+<div class='content'>
+Hello Alex, and congrats for your post. It&#39;s very clear and useful.<br /><br />I also like doing the right way but, what if want to get data from a server and I know that the data will not change in long term? I could concrete on states and cities sets of data. I mean, for example, I want to populate 2 spinners (States and Cities). The states spinner will be filled with states names and the cities spinner will be filled with cities from the selected state in the first spinner. Questions are:<br /><br />- May I implement CP for both entities (State &amp; City) and implement a service to populate 2 SQLite tables to cache the data?<br />- If not, let&#39;s assume that I implement an AsynTask to retrieve data from server, but a third spinner has 5 o 6 choices that come from user preferences (for example, favourite state and city to fast fill state and city spinners). I&#39;d implement a CursorLoader to fill this spinner, but, how do I combine Loader with AsyncTask (for network data retrive)?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+It&#39;s worth it. And you can learn some Google App Engine while you&#39;re at it. :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Matthew</div>
+<div class='content'>
+Damn, doing it the &quot;right way&quot; is a lot of work.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+No, I wouldn&#39;t recommend it. If you do it that way, you lose the ability to cache previously fetched data and your app will not be able to work offline. I would recommend instead creating a background Service that polls data from the server every once in a while and inserts new data into a ContentProvider. Then just use a CursorLoader to load the data from the CP instead. In other words, the Loader/Activity have no clue that web requests are actually being performed in the background... from their perspective they are just simply querying data from a local CP. It&#39;s up to the Service to poll for new data and insert it into the CP when new data is downloaded.<br /><br />If you want to avoid polling for data all together, read up on Google Cloud Messaging. It requires more work to setup but it&#39;s totally worth it because your app will no longer have to constantly poll for new data every 5-10 minutes or so.</div>
+</div>
+<div class='comment'>
+<div class='author'>Matthew</div>
+<div class='content'>
+Hey Alex, thanks for the great writeup. I really learned a lot. In the &quot;What makes up a loader&quot; section, for the many apps that use loaders that fetch data from the internet, #4 doesn&#39;t seem like it would be possible. Would you recommend any best practices for constructing those types of loaders?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Yeah, that link isn&#39;t a bug... it&#39;s an inconvenience at best. It just means that you can&#39;t forget to call forceLoad() in your onStartLoading() implementation. Glad to see you figured it out. :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Unknown</div>
+<div class='content'>
+Hey Alex, you&#39;re right on the above, i got the two loaders to work now. For your interest, the reason i originally could not make the concept working was two-fold:<br />1) My UI activity class implemented one LoaderCallbacks, so it would not let me do a different set of call back methods as you suggested. Once I removed that Implement, I could now go ahead use your suggested code construct<br /><br />2) part of the problem, may be you have discussed here and i missed, is that the AsyncTaskLoader would not start unless you force it. I found this from another post. The snippet is something like below, I added into my class and it started working.<br /><br />protected void onStartLoading() {<br />   super.onStartLoading();<br />   // AsyncTaskLoader doesn&#39;t start unless you forceLoad -http://code.google.com/p/android/issues/detail?id=14944<br />   if(myCursor != null){<br />           deliverResult(myCursor);<br />   }<br />   if(takeContentChanged() || myCursor == null){<br />      forceLoad();<br />   }<br />}<br /><br />Thanks Again! :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+If you have two Loaders that return results with different types, you would need to instantiate two separate instances of the <i>LoaderManager.LoaderCallbacks&lt;D&gt;</i> interface and then feed each to the <i>LoaderManager</i> individually. So something like,<br /><br /><i>// Callbacks for the first Loader<br />LoaderManager.LoaderCallbacks&lt;Cursor&gt; callBacks1 = new LoaderManager.LoaderCallbacks&lt;Cursor&gt;() {<br />/* Implement the three callback methods here */<br />};<br />getLoaderManager().initLoader(0, null, callBacks1);<br /><br />// Callbacks for the second Loader<br />LoaderManager.LoaderCallbacks&lt;List&lt;String&gt;&gt; callBacks2 = new LoaderManager.LoaderCallbacks&lt;List&lt;String&gt;&gt;() {<br />/* Implement the three callback methods here */<br />};<br />getLoaderManager().initLoader(1, null, callBacks2);</i><br /><br />There might be some typos but you get the idea. :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Unknown</div>
+<div class='content'>
+Dear Alex, thanks again so much for this. After mulling the whole new year&#39;s day on this code, i finally figured out enough of the code flow to make both the CursorLoader and custom loader to work on a simple sqlite database read via my own content provider. I have a question for you if you dont mind: since both loaders appear to share many of the methods (particularly onCreateLoader and onLoadFinished, how would a program implement both types of loaders at once, especially if the custom loader does not return the same data type? For example, currently, my code specifies both loaders return a Cursor, but what if my custom loader is meant to return a different type? Again, thoroughly enjoyed your post....HT</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+It&#39;s exactly the same as how you would use a CursorLoader in your application. Loaders are self-contained... their internals are completely hidden from the application. So even though the internals seem very &quot;noisy&quot;, as you put it, all Loaders are used in the exact same way from the Activity/Fragment&#39;s point of view (see <a href="https://github.com/alexjlockwood/AppListLoader/blob/master/src/com/adp/loadercustom/MainActivity.java" rel="nofollow"><i>MainActivity.java</i></a>). Hope that makes sense!</div>
+</div>
+<div class='comment'>
+<div class='author'>Unknown</div>
+<div class='content'>
+Hi Alex, thank you so much for these multi-part tutorials. I was wondering if you could show a quick code snippet on how to call the custom loader? I looked at your next tutorial which is a great version of the ApiDemo, but there were so much noise (sorry, no pun intended) that I could not really understand how the custom loader is invoked....happy new year by the way....HT</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Thanks for the comment, Christpher! Glad I could help!</div>
+</div>
+<div class='comment'>
+<div class='author'>Christopher</div>
+<div class='content'>
+Hi Alex .. Thank you so much for the Loader Tutorials .. you have demystified the concept of loaders via your tutorials , I now understand how powerful loaders are . Thank you again and keep on writing the good stuff .. Cheers :D</div>
+</div>
+<div class='comment'>
+<div class='author'>Michael Mossman</div>
+<div class='content'>
+Alex,<br /><br />I&#39;m notsure if I am being obtuse or just a bit slow on the uptake but, nowhere can I find a  Loader explicitly returning a Cursor object.<br /><br />I make this point because I want to create a custom CursorAdapter for the ListView, which of course needs a Cursor object as aparameter.<br /><br />Can I just cast a CursorLoader to a Cursor or even use a CursorLoader with CursorAdapter ?<br /><br />Thanks, Mike</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Hey Mirko, thanks for reading. If you don&#39;t want to use a ContentProvider but still would like to use a Loader, you might want to check out Mark Murphy&#39;s <a href="https://github.com/commonsguy/cwac-loaderex/blob/master/README.markdown" rel="nofollow">LoaderEx</a> project. Writing an entire ContentProvider is kind of overkill if all you want to do is use a Loader (if that is what you mean)... Mark&#39;s SQLiteCursorLoader makes it possible to load data asynchronously this way.</div>
+</div>
+<div class='comment'>
+<div class='author'>Mirko</div>
+<div class='content'>
+Well, you wrote the best tutorials I found about this new way of implementing database driven applications. I still think is too complicated for me as I have just started learning Android. I will go the old way, using a singleton as my SQLiteOpenHelper and all that stuff. Even Google did not update their own Notepad tutorial...lol...</div>
+</div>
+<div class='comment'>
+<div class='author'>Blundell</div>
+<div class='content'>
+CHEERS MATE</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+never mind, restartLoader().forceLoad() forces requery.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+On Configuration change, onStartLoading() is not called , but old results are delivered. How to force re-query on configuration change ?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Oops, you&#39;re right! I believe changing line 55 from &quot;<i>if (oldData != null)</i>&quot; to &quot;<i>if (oldData != null &amp;&amp; oldData != data)</i>&quot; should do the trick. Thanks for the catch! :)</div>
+</div>
+<div class='comment'>
+<div class='author'>潘铭炜</div>
+<div class='content'>
+Actually I mean the code show above has this problem.<br />Line 68 call deliverResult(mData)，so in deliverResult method data, mData, oldData are same, and will release the data in use.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+&quot;In <i>deliverResult()</i> method, why do we need to check for states?&quot;<br /><br />The <i>onReset()</i> in <i>deliverResults(D data)</i> covers the case in which an asynchronous query has completed, but the Loader has since been reset. What probably happened was: (1) a started Loader began a query on a background thread, (2) while the background thread was executing in the background, the Loader was stopped and reset, (3) when the background query completed and <i>loadInBackground()</i> returned the new data, the <i>AsyncTaskLoader</i> immediately delivered it to the client without checking to see if the Loader was reset. Therefore we must check to see if this is the case in <i>deliverResults(D data)</i>, freeing any resources associated with the data if necessary.<br /><br />It seems to me that it would have been a better idea to add these checks in the <i>AsyncTaskLoader</i> implementation... then again, I suppose the Android team must have had a good reason for doing otherwise. :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+In deliverResult() method, why do we need to check for states. I thought this should be handle in the LoaderManager? E.g. LoaderManager should have onReleaseResources(D) and not call deliverResult() when Loader is in reset state in the first place?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Are you using the APIDemos code? Because if you are, there is a very subtle bug that might be causing this problem. See lines <a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android-apps/4.1.1_r1/com/example/android/apis/app/LoaderCustom.java#267" rel="nofollow">267-268</a> and change:<br /><br />List oldApps = apps;<br />mApps = apps;<br /><br />to<br /><br />List oldApps = mApps;<br />mApps = apps;<br /><br />If this is not the problem, feel free to shoot me an email with your code... I&#39;d be interested to see it!</div>
+</div>
+<div class='comment'>
+<div class='author'>潘铭炜</div>
+<div class='content'>
+When mData exists, onStartload will call deliverResult with mData as param. At this situation, it seems that mData, data, oldData in deliverResult method are one same object, and in onReleaseResources it will release the data that are using.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+See this <a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.1.1_r1/android/app/LoaderManager.java#355" rel="nofollow">line of code</a>. The LoaderManager will only call <i>onLoaderReset</i> if (1) the callbacks are not null, (2) the loader is not null, (3) the loader has data, (4) and the Loader has successfully delivered this data to the client. If <i>onLoaderReset</i> is not being called, then at least one of these conditions has not been satisfied.<br /><br />You can try and figure out which one of those conditions is not satisfied if you really want, but the fact remains that it is <i>NOT</i> any of your concern. The LoaderManager does its job very well... it knows when it should call <i>onLoaderReset</i>. In other words, the AppListLoader&#39;s <i>onLoadReset</i> method is not called when you press the back button because the LoaderManager has decided it is not necessary. This is not a bug on your end. :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Suparna Dey</div>
+<div class='content'>
+http://developer.android.com/reference/android/content/AsyncTaskLoader.html<br />for LoaderCursor<br />http://developer.android.com/guide/components/loaders.html  <br />I am rererring these code only. Sorry!!!  By pressing &quot;back&quot; in case of AsyncTaskLoader nothing is happening. But by pressing back in case of CursorLoader LoaderManager&#39;s onLoaderReset() method is called.<br /><br />I have checked that when you press Home Button  in AsyncTask Loader only onStopLoading() method is called. If possible please clarify the Back Button press event for AsyncTaskLoader. According to me LoaderManager&#39;s  callback methods should behave same for both of them.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+<i>onStopLoading</i> and <i>onReset</i> are called by the <i>LoaderManager</i> during Activity/Fragment lifecycle events. I&#39;m not sure why you are experiencing behavior you are describing... it&#39;s too difficult to tell without seeing the code.<br /><br />Either way, you probably don&#39;t need to worry about it though. The <i>LoaderManager</i> will call <i>onLoaderReset</i> when it decides it is necessary to do so (i.e. it is smart enough to determine whether or not it has delivered new data that must be reset... if new data has never been delivered, it won&#39;t waste time calling the Loader&#39;s <i>onReset</i> method). As long as your Loader is implemented correctly (as described above), you should be fine.</div>
+</div>
+<div class='comment'>
+<div class='author'>Suparna Dey</div>
+<div class='content'>
+When onStopLoading() and onReset is called?<br />I debug the custom AsyncTask Loader code which is provided with API Demos to list already installed application. If I press the back button after the 1st launch, only onStopLoading()method is called.<br />In case CursorLoader when I press back button LoaderManager&#39;s onLoaderReset() method is called.<br />In case of custom AsyncTask Loader when onLoadReset() method is called and why onLoadReset()method is not call by pressing back?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Carl,<br /><br /><i>onStartLoading()</i> is called when the Loader is first started (the LoaderManager starts each Loader by calling <i>Loader#startLoading()</i>, which immediately calls <i>onStartLoading()</i>), so it is one of the very first methods that gets called. <i>onStartLoading()</i> will always be called on the main UI thread. Further, <i>forceLoad()</i> is the only method in the sample code above that will cause <i>loadInBackground()</i> to be called, so it will always be called after <i>onStartLoading()</i>.<br /><br />Hope that cleared things up!</div>
+</div>
+<div class='comment'>
+<div class='author'>Carl Lee</div>
+<div class='content'>
+@Alex Lockwood<br /><br />The onStartLoading() method is a little bit confusing here. Is it called before or after loadInBackground() is executed? Or is it even called in the same thread as loadInBackground()?<br /><br />In any situation(before or after or in different thread), does your template&#39;s call to forceLoader() make the loadInBackground() method executed twice?</div>
+</div>
+<div class='comment'>
+<div class='author'>Carl Lee</div>
+<div class='content'>
+@Sent1nel <br /><br />In your example, when you get data from the observer(in your case, a BroadcastReceiver), you should not pass the data directly to the Loader class, because doing this will change the pre-assumed behavior of what a Loader should, thus make users of Loader(like a LoaderManager) confused, or even wrongly functioned.<br /><br />However, it&#39;s fine to get data from the observer, you should store the data somewhere, and then ask the Loader to &quot;load it&quot;(That&#39;s what a Loader should do, right?). The &quot;somewhere&quot; could be a file, a table in the database, or even simply a private member of the Loader class.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+@Sent1nel Thanks for the comment!<br /><br />The observer is only there to listen for content changes. In other words, it will never &quot;send&quot; data to the loader... rather, it will notify the loader when a change has occurred, at which point the Loader should respond to this notification by performing a new query and delivering the up-to-date results. The observer will usually hold a private reference to the Loader so that it may call <i>onContentChanged()</i> on it when a change has been made (see the above post for more info on <i>onContentChanged()</i>). <br /><br />A good example can be found in the <a href="http://developer.android.com/reference/android/content/AsyncTaskLoader.html" rel="nofollow">AsyncTaskLoader sample code</a> (scroll down until you find the <i>PackageIntentReceiver</i>).</div>
+</div>
+<div class='comment'>
+<div class='author'>Sent1nel</div>
+<div class='content'>
+Hi Alex how would you recommend getting data from the observer to the loader?<br /><br />For example, what if I recieved a location change within a BroadcastReceiver that was set to listen for location updates. How would I get that latest location into the loader, so as the loader know&#39;s what is the most latest data to work on?<br /><br />Thanks in advance and thank you for the blog posts!</div>
+</div>
+<div class='comment'>
+<div class='author'>Pavel Osipov</div>
+<div class='content'>
+Thanks a lot for the post. I think it is very interesting idea to make custom loader for making network requests. In that way client will be abstracted where data is gathered from: database, network, local cache or something else.</div>
+</div>
+</div>

@@ -1,0 +1,68 @@
+---
+layout: post
+title: "Exit Application?" Dialogs Are Evil, Don't Use Them!
+date: 2012-08-07
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<p>Here's a question that is worth thinking about:</p> <p><i><q>Should I implement an "Exit application?" dialog in my app? </q></i></p> <p>In my experience, the answer is almost always <b>NO</b>. Consider the official Flickr app, as an example. At the main screen, the user clicks the back button and is immediately prompted with a dialog, questioning whether or not the user wishes to exit the application:</p> <table align="center" cellpadding="0" class="tr-caption-container" style="background: #E1E1E1; margin-left: auto; margin-right: auto; text-align: center;"> <tbody><tr><td style="text-align: center;"><a href="http://i.imgur.com/iuSON.png" imageanchor="1" style="margin-left: auto; margin-right: 10px;"><img alt="Back button clicked" border="0" src="http://i.imgur.com/GoI9B.png" title="Flickr's Confirm Exit Dialog (a)" /></a></td><td style="text-align: center;"><a href="http://i.imgur.com/iuSON.png" imageanchor="1" style="margin-left: 10px; margin-right: 15px;"><img alt="An exit dialog is shown" border="0" src="http://i.imgur.com/XL6wL.png" title="Flickr's Confirm Exit Dialog (b)"/></a></td></tr><tr><td class="tr-caption" style="text-align: center;">(a) Back button pressed</td><td class="tr-caption" style="text-align: center;">(b) "Exit Flickr?"</td></tr></tbody> </table> <p>So what went wrong? Well, pretty much everything, at least in my opinion. Here are the three major flaws I see in Flickr's decision to include the dialog:</p> <ol> <li value="1"><p><b>It slows down the user experience.</b> An additional click is required to leave the application. Sure, it doesn't seem like much... but zero clicks is always better than one. Including the dialog will piss off the occasional meticulous power user and will make it much more likely that people like me will write-up angry rants about it online. To make matters worse, Flickr's dialog incorrectly positions the "OK" and  "Cancel" buttons, which as of Android 4.0, should be positioned on the right and left respectively. This is also not a <i>huge</i> deal, but it forces users to think more than they should need to, and the simple action of exiting the application is no longer seamless as a result.</p></li><a name='more'></a> <li value="2"><p><b>It is inconsistent.</b> Name one native Android application that warns the user when they are about to exit the application. If you can't, that's because there are none. Of all the familiar, Google-made Android apps (Gmail, Google Drive, etc.), exactly <i>none</i> of them exhibit this behavior. The user expects the back button to bring him or her back to the top activity on the Activity Stack; there is no reason why it shouldn't do otherwise in this simple situation.</p></li> <li value="3"><p><b>It serves absolutely no purpose.</b> What baffles me the most, however, is that there is no reason to confirm exit in the first place. <i>Maybe</i> the dialog would be OK if there was a long-running operation running in the background that is specific to the Activity (i.e. an <span style="font-family: Courier New, Courier, monospace;">AsyncTask</span> that the user might not want canceled). A dialog <i>might</i> also make sense if the application took a long time to load, for example, a fancy, video intensive FPS like <a href="https://play.google.com/store/apps/details?id=com.madfingergames.deadtrigger">Dead Trigger</a>. In Flickr's case, there is no acceptable reason why the user shouldn't be allowed to "back-out" of the application immediately.</p></li></ol> <p>In my opinion, dialogs are both slow and annoying, and should be used as little as possible. Always prefer the faster "edit in place" user model (as described <a href="http://developer.android.com/reference/android/app/Activity.html#SavingPersistentState">here</a>) when it comes to saving persistent state, and never prompt the user when they wish to "back-out" of the application unless you have a <i>very</i> good reason for doing so.</p> <p>As always, let me know if you agree or disagree in the comments below! :)</p> <p><b>EDIT:</b> For more discussion on this topic, I recommend reading through the content/comments of <a href="https://plus.google.com/118417777153109946393/posts/EiXqUDrr6jT">this Google+ post</a> (made by <a class="g-profile" href="http://plus.google.com/118417777153109946393" target="_blank">+Cyril Mottier</a>, a very talented Android developer recognized by Google as a <a href="https://developers.google.com/experts/">Android Developer Expert</a>).</p></div>
+<h2>Comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Your original comment was: &quot;Because when using a multipage Android app, it is all too easy to accidentally back your way out of the app when your intentions were just to return a previous page.&quot; I still don&#39;t think it would be a good idea to include an exit confirmation dialog in your application for this reason. Plus, the developer site and Sid Bradipao are talking about dialogs that ask for user confirmation when exiting an arbitrary activity screen (i.e. in order to ensure that user data isn&#39;t lost). I agree that there may be cases where you would want to prompt the user if data may be lost... however, I don&#39;t agree that it is a good idea to prompt the user to ask for no reason whether or not they really want to leave the application.</div>
+</div>
+<div class='comment'>
+<div class='author'>Andy</div>
+<div class='content'>
+Thank you for your reply Alex. I think this reply by Sid Bradipao sums why it is sometimes needed.<br /><br />&quot;It depends. The accidental exit prevention is necessary if it prevents users from losing intermediate results/steps of their activities and/or save a long time to recover from accidental exit.<br /><br />The Android official pattern guideline clearly state that in these cases confirming is necessary :  http://developer.android.com/design/patterns/confirming-acknowledging.html <br /><br />Sometimes User Experience is more important than &quot;patterns&quot;.﻿&quot;</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Hi Andy,<br /><br />Check out this <a href="https://plus.google.com/118417777153109946393/posts/EiXqUDrr6jT" rel="nofollow">Google+ post</a> for more information about why I wouldn&#39;t recommend using an exit dialog in your application.<br /><br />Having been an Android user for a couple years now, it is very rare these days that I ever &quot;accidentally&quot; click the back button. This is most of the reason why I (and many other Android users) get annoyed by these sorts of things. I think at least part of the reason why you feel this way is because you are coming from iOS... I recommend thinking about the issue from the perspective of an Android user who is totally unfamiliar with how iOS works (as these will be the people who use and rate your application).<br /><br />Also, I wouldn&#39;t think of the &quot;home&quot; or &quot;back&quot; button as exit buttons. The home button takes you to the launcher and the back button takes you to the previous screen.<br /><br />Thanks for the comment!<br />Alex</div>
+</div>
+<div class='comment'>
+<div class='author'>Andy</div>
+<div class='content'>
+I&#39;m an app developer and want to include this exit confirmation. Why? Because when using a multipage Android app, it is all too easy to accidentally back your way out of the app when your intentions were just to return a previous page. In iOS this is not an issue as the software back button only goes as far as the first page of the app. In Android and iOS, you can exit the app at any time with the HOME button.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+In the blog post I mention that it might be OK in some circumstances (for example, in a video-intensive game). For general purpose applications, confirm exit dialogs should definitely not be used. They only hinder the user experience.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+I disagree declaring the dialog as &quot;evil&quot; for all purposes. Imagine you are playing a game and you accidently press the back button. If it exits without asking me, I would get furious.</div>
+</div>
+<div class='comment'>
+<div class='author'>David</div>
+<div class='content'>
+Everyone hijacks the back button as they see fit... es explorer requires a confirmation press!<br /><br />Dialogs are evil indeed... it&#39;s like those &quot;please hate me&quot; ones... and no, no mistake there!</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Another example is Horn, a pretty popular game for Android devices powered by the Tegra 3 and made by Zynga. The first version of the app disabled the back button at the application&#39;s main screen completely... for a while the only way you could explicitly leave the application was by pressing the &quot;Home&quot; button! The most recent update fixed this issue, however, and Zynga even acknowledged the fix on the &quot;What&#39;s New&quot; section of its <a href="https://play.google.com/store/apps/details?id=com.Phosphor.Horn.Paid" rel="nofollow">Google Play</a> page, stating, &quot;Added Android back button support!&quot; ... when will these guys ever learn :P</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+I&#39;ve been keeping a running list in my head as well... I think I&#39;ve found either 2 or 3 since I wrote this post. But the only one I can remember is the Onion News Network app, which to be fair is a pretty crappy app to begin with! The problem is definitely not as bad as on desktop, but what gets me is that developers for big companies (like Flickr, The Onion, etc.) who think it&#39;s necessary... kind of embarrassing if you ask me!</div>
+</div>
+<div class='comment'>
+<div class='author'>Brandon Nolte</div>
+<div class='content'>
+Agreed, this is a terrible design decision. Good job pointing it out.<br /><br />I&#39;ve been looking for example of this ever since I read this post and I&#39;ve had a hard time. Looks like this problem isn&#39;t as rampant as it is on the desktop - thank god!</div>
+</div>
+<div class='comment'>
+<div class='author'>tonyPRO</div>
+<div class='content'>
+This is a common annoyance that goes back to the desktop, usually driven by a marketing decision. The only logical use for it might be in business critical apps or where the user has created something. At a certain point UX designers need to defend the user from executions such as this.</div>
+</div>
+</div>

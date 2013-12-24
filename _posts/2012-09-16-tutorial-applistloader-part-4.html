@@ -1,0 +1,148 @@
+---
+layout: post
+title: Tutorial: AppListLoader (part 4)
+date: 2012-09-16
+comments: false
+---
+
+<h1>{{ page.title }}</h1>
+<div class='post'>
+<p>This will be my fourth and final post on Loaders and the LoaderManager. Let me know in the comments if they have been helpful! Links to my previous Loader-related posts are given below:</p> <ul><li><b>Part 1:</b> <a href="http://www.androiddesignpatterns.com/2012/07/loaders-and-loadermanager-background.html">Life Before Loaders</a></li><li><b>Part 2:</b> <a href="http://www.androiddesignpatterns.com/2012/07/understanding-loadermanager.html">Understanding the LoaderManager</a></li><li><b>Part 3:</b> <a href="http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html">Implementing Loaders</a></li><li><b>Part 4:</b> <a href="http://www.androiddesignpatterns.com/2012/09/tutorial-loader-loadermanager.html">Tutorial: AppListLoader</a></li></ul> <h4>Introducing AppListLoader</h4> <p>Due to public demand, I've written a sample application that illustrates how to correctly implement a custom Loader. The application is named <a href="https://play.google.com/store/apps/details?id=com.adp.loadercustom">AppListLoader</a>, and it is a simple demo application that queries and lists all installed applications on your Android device. The application is a modified, re-thought (and bug-free) extension of the <a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android-apps/4.1.1_r1/com/example/android/apis/app/LoaderCustom.java"><code>LoaderCustom.java</code></a> sample that is provided in the API Demos. The application uses an <code>AppListLoader</code> (a subclass of <code>AsyncTaskLoader</code>) to query its data, and the LoaderManager to manage the Loader across the Activity/Fragment lifecycle:<p> <p><a href="http://4.bp.blogspot.com/-h7hgUFVox1M/UFj92VbYqLI/AAAAAAAAE3w/L6B5li-ZZGw/s1600/framed_device-2012-09-18-185425.png" imageanchor="1"><img height="269" width="400" src="http://4.bp.blogspot.com/-h7hgUFVox1M/UFj92VbYqLI/AAAAAAAAE3w/L6B5li-ZZGw/s400/framed_device-2012-09-18-185425.png" style="border:0px;"/></a></p> <a name='more'></a> <p>The AppListLoader registers two <code>BroadcastReceiver</code>s which observe/listen for system-wide broadcasts that impact the underlying data source. The <code>InstalledAppsObserver</code> listens for newly installed, updated, or removed applications, and the <code>SystemLocaleObserver</code> listens for locale changes. For example, if the user changes the language from English to Spanish, the <code>SystemLocaleObserver</code> will notify the AppListLoader to re-query its data so that the application can display each application's name in Spanish (assuming an alternate Spanish name has been provided). Click "Change language" in the options menu and watch the Loader's seamless reaction to the event (it's awesome, isn't it? :P).</p> <p>Log messages are written to the logcat whenever an important Loader/LoaderManager-related event occurs, so be sure to run the application while analyzing the logcat! Hopefully it'll give you a better understanding of how Loaders work in conjunction with the LoaderManager and the Activity/Fragment lifecycle. Be sure to filter the logcat by application name ("com.adp.loadercustom") for the best results!</p> <p><a href="http://3.bp.blogspot.com/-fDNIPUJUJ-0/UFYzs313K4I/AAAAAAAAE18/QmIkU1qUfZE/s1600/AppListLoader%2Beclipse.png" imageanchor="1"><img height="260" src="http://3.bp.blogspot.com/-fDNIPUJUJ-0/UFYzs313K4I/AAAAAAAAE18/QmIkU1qUfZE/s400/AppListLoader%2Beclipse.png" style="border: 0px;" width="400" /></a></p> <h4>Download the App!</h4> <p>You can download the application from Google Play by clicking the badge below:</p> <p><a href="https://play.google.com/store/apps/details?id=com.adp.loadercustom" imageanchor="1"><img src="http://2.bp.blogspot.com/-NFnsInNBlFo/UFX2Hj3c7MI/AAAAAAAAE1U/7Nao1V2uyKg/s320/android_app_on_play_large.png" /></a></p> <h4>Grab the Source Code!</h4> <p><a href="https://github.com/alexjlockwood/AppListLoader">The source code is available on GitHub</a>. An excessive amount of comments flesh out the entire application-Loader workflow. Download it, import it as an eclipse project, and modify it all you want! :)</p> <h4>Leave a comment!</h4> <p>Let me know if these posts have been helpful by leaving a comment below! As always, don't hesitate to ask questions either!</p></div>
+<h2>Comments</h2>
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Sriks</div>
+<div class='content'>
+Amazing. Thanks a lot for such detailed explanation.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Hi Alex, Can you please post a sample project using Cursor Loader to implement a custom list adapter to update the list view when ever a new message is received by the user.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+The example given in this blog extends AsyncTaskLoader, which implements onForceLoad() for us. See the <a href="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/content/AsyncTaskLoader.java" rel="nofollow">source code</a>.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Thanks very much for this stuff. I&#39;ve been all over this code but I&#39;m confused by the fact that there is no onForceLoad() method override in your AppListLoader class. The official Android documentation indicates that you &quot;must&quot; override this to take care of requests to forceLoad(). How are you avoiding this requirement? <br /><br />Thank you.</div>
+</div>
+<div class='comment'>
+<div class='author'>Gabriel Ponce</div>
+<div class='content'>
+Thanks man, this have been really helpful!</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Maybe you should ask this question on StackOverflow because it is a little too general to be answered on this blog. You can reply to this comment with a link to your StackOverflow post and I can take a look too, if you want.</div>
+</div>
+<div class='comment'>
+<div class='author'>Diego</div>
+<div class='content'>
+Hi, Alex. First, thanks for the help. I have been reading your comments on Stackoverflow and you are like Android Sensei. Now my question, I hope you might help me. I am implementing LoaderManager with Cursor (here is my sample: http://developer.android.com/reference/android/app/LoaderManager.html). But I am brand new on this and connections are getting me trouble. Do you know about an example dictionary that works with fragments and CursorLoader? I have been searching on Stackoverflow for weeks without found it. It will be a simple upgrade (to fragments and CursorLoader) from the SearchableDictionary sample. Thnaks.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Alex Great tutorial,<br /><br />i have been doing a content provider and your article helped me a lot .<br /><br />thank you so much</div>
+</div>
+<div class='comment'>
+<div class='author'>James</div>
+<div class='content'>
+Great tutorials.</div>
+</div>
+<div class='comment'>
+<div class='author'>Eduardo Corral</div>
+<div class='content'>
+Excellent tutorials!</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Thank you a lot for this series of tutorials.<br />I would like to ask line 35 in the MainActivity.java.<br />(fm.beginTransaction().add(android.R.id.content, list).commit();)<br />It adds the fragment into android.R.id.content instead of a custom layout. Why?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Honestly, I think it is best to just learn them on the internet... I&#39;ve read books before and they are kind of a waste of money in my opinion. This <a href="http://www.amazon.com/Design-Patterns-Object-Oriented-Professional-Computing/dp/0201634988" rel="nofollow">book</a> is the only one I&#39;d really recommend... it&#39;s great, but it isn&#39;t specific to the Java programming language.</div>
+</div>
+<div class='comment'>
+<div class='author'>paramananda pradhan</div>
+<div class='content'>
+Hi Alex,<br />I had read all your blogs, its very useful in development profession. I am beginner to this profession, I wanna  to know is there any tutorial, book reference, where i will get more knowledge on JAVA design patterns.<br />Please Help!!!<br /><br />Thanks.</div>
+</div>
+<div class='comment'>
+<div class='author'>levkatata</div>
+<div class='content'>
+Alex,<br /><br />I&#39;ve looked through your source code, but can&#39;t find an answer to my question.<br /><br />I&#39;m using AsyncTaskLoader not only for populating the initial data to list, but also for loading audio file (in loadInBackground()) and playing it in onLoadFinished() in Activity callback. The loader is initializated when user press Play. For the first time it loads the audio file and delivers result (which is played), next time - only delivers result (which is played again). All is working fine in this scenario, except one thing - after activity goes to background, and than goes to foreground, onStart() is calling for activity as well as onStartLoading() for loader. And loader delivers result - activity plays audio file :) which is not expected for the user.<br /><br />Is there any way to prevent loader from starting in onStart() activity callback? Or maybe my usage of loader is not appropiate?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Have you taken a look at the <a href="https://android.googlesource.com/platform/frameworks/support/+/refs/heads/master/v4/java/android/support/v4/widget/CursorAdapter.java" rel="nofollow">source code</a>? Check out line 170 and 172... the CursorAdapter constructor will check to see if the Cursor is null before initializing it, so there shouldn&#39;t be any problem in that regard. Maybe post a StackOverflow question with some of your code? You can post a link to the question as a reply if you want and I can check it out there... in general, I don&#39;t like to get too specific in comments because then things start to get a little spammy... :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Michael Mossman</div>
+<div class='content'>
+Alex,<br /><br />I am going round in circles and I hope you can help.<br /><br />I have successfully implemented Loaders and ContentProviders and all works well with a SimpleCursorAdapter and a 1-field ListView.<br /><br />Now I am trying to create a custom ListView with multiple fields and images, so I need a custom adapter. I am trying to use CursorAdapter as my base (rather than SimpleCursorAdapter) but the problem is that the custom CursorAdapter keeps crashing on initialisation as I don&#39;t have a Cursor,as I am initialising it with null Cursor.<br /><br />How do I get around this problem of creating a custom CursorAdapter without a starting cursor, so that Loader can swap cursor on LoadFinished ?</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+That is very surprising to me... I have never come across a scenario in which startManagingCursor() has out-performed that of a Loader. I can&#39;t think of any reason why it would be slower either... in both cases, the work should be dominated by the work of the query itself. If you follow the basic template I outlined in the second part of this series, your CursorLoader should definitely outperform the other in terms of UI responsiveness since the query is performed asynchronously. Maybe the problem comes from something else, like your usage of Fragment&#39;s for example?</div>
+</div>
+<div class='comment'>
+<div class='author'>Eric Bonney</div>
+<div class='content'>
+Great series Alex! I have just this week taken the task up of updating my app to using loaders. My biggest complaint so far after completing most of my updates, is that this method seems way slower than the old method of using startManagingCursor(). In side by side testing on devices my old methods displayed the data almost immediately where using the loader methods there is a significant delay. I am sure it is in my implementation of the loader but can&#39;t see where it is just yet. This series definitely helped me understand the full process better, now if I could only get the speed back again.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Yup, what I said above should apply to this case as well. :)</div>
+</div>
+<div class='comment'>
+<div class='author'>Michael Mossman</div>
+<div class='content'>
+Yes, Thanks Alex, that makes lots of sense. Just to be totally clear, though, am I right in assuming this is the correct thing to do if the UI wants to dynamically update the ListView.<br />For example, a user may want to &#39;tick&#39; an item on a list as done and see that result on the UI as well as updating database.</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+If you need to refresh the Cursor, then you can tell the LoaderManager to refresh the Loader&#39;s data by calling LoaderManager#restartLoader(int, Bundle, LoaderCallbacks), where the first int argument is the Loader&#39;s unique id. If you are using a ContentProvider, you can use the ContentResolver&#39;s notifyChange(Uri) method and the CursorLoaders will receive a notification that its data needs to be refreshed and will force a new load accordingly. Note that notifyChange(Uri) will only notify Cursors registered to receive notification for the specified Uri... this is why ContentProvider#query() implementations will usually call &quot;cursor.setNotificationUri(uri)&quot; before returning the cursor (so that the cursor will receive these notifications in the future). Does that make more sense?</div>
+</div>
+<div class='comment'>
+<div class='author'>Michael Mossman</div>
+<div class='content'>
+Alex,<br />I am still struggling just a little bit.<br />Ithink I have now grasped the basic function of a Loader as means of implementing a Cursor for (say) a ListView.<br />But, what about if the UI allows the User to update SQLite database (say) by OnClick ?<br />Does one then have to create a new Loader, in order to refresh the ListView or is this part of the magic of Loaders ?<br /></div>
+</div>
+<div class='comment'>
+<div class='author'>Ruhul</div>
+<div class='content'>
+good job....:)</div>
+</div>
+<div class='comment'>
+<div class='author'>Alex Lockwood</div>
+<div class='content'>
+Getting trolled so hard right now... lol</div>
+</div>
+<div class='comment'>
+<div class='author'>Kasprosian</div>
+<div class='content'>
+I love this! -alex</div>
+</div>
+<div class='comment'>
+<div class='author'>June</div>
+<div class='content'>
+i love this! -june</div>
+</div>
+<div class='comment'>
+<div class='author'>Hirotaka Nakagawa</div>
+<div class='content'>
+i love this! -hiro</div>
+</div>
+</div>
