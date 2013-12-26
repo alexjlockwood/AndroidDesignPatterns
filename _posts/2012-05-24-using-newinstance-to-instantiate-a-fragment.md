@@ -44,8 +44,6 @@ The programmer forces the client to call `newInstance()` to retrieve an instance
 
 The same general idea is often applied to fragments. Providing a static factory method for your fragments is good practice when you want to add initialization arguments to the newly instantiated object. For example, consider the following code:
 
-public class MyFragment extends Fragment {
-
 ```java
 public class MyFragment extends Fragment {
 
