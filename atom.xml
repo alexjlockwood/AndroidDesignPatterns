@@ -4,11 +4,8 @@ layout: nil
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>{{ site.name }}</title>
-
-  <!-- TODO: update these links later! -->
-  <link href="http://alexjlockwood.github.io/atom.xml" rel="self" />
-  <link href="http://alexjlockwood.github.io" />
-
+  <link href="{{ site.baseurl }}/atom.xml" rel="self" />
+  <link ahref="{{ site.baseurl }}" />
   <updated>{{ site.time | date_to_xmlschema }}</updated>
   <id>{{ site.baseurl }}</id>
   <author>
@@ -18,21 +15,15 @@ layout: nil
   <rights>Copyright (c) {{ site.author.name }}</rights>
   {% for post in site.posts %}
   <entry>
-
-    <!-- TODO: update these links later! -->
-    <id>http://alexjlockwood.github.io/{{ post.id }}</id>    
+    <id>{{ post.id }}</id>    
     <title>{{ post.title }}</title>
-    <link href="http://alexjlockwood.github.io/{{ post.url }}" />
-
+    <link href="{{ site.baseurl }}{{ post.url }}" />
     <published>{{ post.date | date_to_xmlschema }}</published>
-
-    <!-- TODO: figure out if it is better to post the excerpt or the post's content. -->
     {% if post.excerpt %}
     <summary type="html">{{ post.excerpt | markdownify | xml_escape }}</summary>
     {% else %}
     <content type="html">{{ post.content | xml_escape }}</content>
     {% endif %}
-
   </entry>
   {% endfor %}
 </feed>

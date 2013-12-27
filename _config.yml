@@ -11,3 +11,7 @@ pygments: true
 
 relative_permalinks: false
 permalink: /:year/:month/:title.html
+
+excerpt_separator: <!--more-->
+
+baseurl: "http://alexjlockwood.github.io"

@@ -11,6 +11,8 @@ I recently came across an interesting question on StackOverflow regarding Fragme
 
 Good question. The answer, as the title of this blog suggests, is a matter of proper design. In this case, the `newInstance()` method is a "static factory method," allowing us to initialize and setup a new `Fragment` without having to call its constructor and additional setter methods. Providing static factory methods for your fragments is good practice because it encapsulates and abstracts the steps required to setup the object from the client. For example, consider the following code:
 
+<!--more-->
+
 ```java
 public class MyFragment extends Fragment {
 
