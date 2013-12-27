@@ -19,14 +19,11 @@ layout: nil
     <title>{{ post.title }}</title>
     <link href="{{ site.baseurl }}{{ post.url }}" />
     <published>{{ post.date | date_to_xmlschema }}</published>
-
-    <!--
     {% if post.excerpt %}
     <summary type="html">{{ post.excerpt | markdownify | xml_escape }}</summary>
-    {% else %} -->
+    {% else %}
     <content type="html">{{ post.content | markdownify | xml_escape }}</content>
-    <!-- {% endif %} -->
-
+    {% endif %}
   </entry>
   {% endfor %}
 </feed>
