@@ -25,11 +25,11 @@ layout: nil
     <link href="http://alexjlockwood.github.io/{{ post.url }}" />
 
     <published>{{ post.date | date_to_xmlschema }}</published>
-    {% if post.excerpt %}
+<!--    {% if post.excerpt %}
     <summary type="html">{{ post.excerpt | markdownify | xml_escape }}</summary>
-    {% else %}
+    {% else %}-->
     <content type="html">{{ post.content | xml_escape }}</content>
-    {% endif %}
+<!--    {% endif %}-->
   </entry>
   {% endfor %}
 </feed>
