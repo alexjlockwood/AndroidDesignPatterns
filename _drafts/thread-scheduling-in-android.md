@@ -21,7 +21,7 @@ To address this problem, Android enforces an even stricter foreground vs. backgr
 
 Threads with high nice values are implicitly assigned to the background cgroup. In addition, when an application goes into the background, Android will implicitly move all of that application's threads to the background cgroup, as the application's performance is no longer critical to the user. The automatic assignment of application threads to cgroups helps ensure that the current foreground application thread will always be the priority, regardless of how many applications are running in the background.
 
-#### `Process#setThreadPriority(int)`
+#### The `Process#setThreadPriority(int)` Method
 
 For the most part, the official Android APIs involved with concurrency will automatically assign each worker thread a background priority before its execution (see the source code for [`HandlerThread`](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/os/HandlerThread.java) and [`AsyncTask`](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/os/AsyncTask.java), for example). It is important to remember, however, that this will not generally be the case otherwise. For example, raw `Thread`s which are instantiated from the UI thread will inherit its default, foreground priority, making lag more likely and potentially hurting the application's performance. Thus, when working with raw `Thread`s, you should <b>always</b> remember to set the thread's priority by calling [`Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)`](https://developer.android.com/reference/android/os/Process.html#setThreadPriority(int)) before it starts. A short code snippet is given below: 
 
