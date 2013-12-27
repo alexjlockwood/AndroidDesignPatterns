@@ -1,4 +1,10 @@
 name: Android Design Patterns
+author:
+  name: Alex Lockwood
+  email: alex@androiddesignpatterns.com
+  profiles:
+    - label: Google+
+      url: https://plus.google.com/+AlexLockwood
 
 markdown: redcarpet
 pygments: true
