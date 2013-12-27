@@ -2,7 +2,7 @@
 layout: post
 title: Using newInstance() to Instantiate a Fragment
 date: 2012-05-24
-comments: false
+permalink: /2012/05/using-newinstance-to-instantiate.html
 ---
 
 I recently came across an interesting question on StackOverflow regarding Fragment instantiation:

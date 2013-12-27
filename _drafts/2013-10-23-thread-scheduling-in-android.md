@@ -2,7 +2,6 @@
 layout: post
 title: Thread Scheduling in Android
 date: 2013-10-23
-comments: false
 ---
 
 This post will give an overview of how thread scheduling works in Android, and will briefly describe how and when you should set thread priorities yourself to ensure that your application remains responsive even as multiple threads continue to run in the background.
