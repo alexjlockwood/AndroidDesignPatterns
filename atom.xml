@@ -4,8 +4,11 @@ layout: nil
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>{{ site.name }}</title>
-  <link href="{{ site.baseurl }}/atom.xml" rel="self" />
-  <link href="{{ site.baseurl }}" />
+
+  <!-- TODO: update these links later! -->
+  <link href="http://alexjlockwood.github.io/atom.xml" rel="self" />
+  <link href="http://alexjlockwood.github.io" />
+
   <updated>{{ site.time | date_to_xmlschema }}</updated>
   <id>{{ site.baseurl }}</id>
   <author>
@@ -15,9 +18,12 @@ layout: nil
   <rights>Copyright (c) {{ site.author.name }}</rights>
   {% for post in site.posts %}
   <entry>
-    <id>{{ site.baseurl }}{{ post.id }}</id>
+
+    <!-- TODO: update these links later! -->
+    <id>http://alexjlockwood.github.io/{{ post.id }}</id>    
     <title>{{ post.title }}</title>
-    <link href="{{ site.baseurl }}{{ post.url }}" />
+    <link href="http://alexjlockwood.github.io/{{ post.url }}" />
+
     <published>{{ post.date | date_to_xmlschema }}</published>
     {% if post.excerpt %}
     <summary type="html">{{ post.excerpt | markdownify | xml_escape }}</summary>
