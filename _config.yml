@@ -3,4 +3,5 @@ name: Android Design Patterns
 markdown: redcarpet
 pygments: true
 
+relative_permalinks: false
 permalink: /:year/:month/:title.html
