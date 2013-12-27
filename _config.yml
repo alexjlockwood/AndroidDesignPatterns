@@ -14,4 +14,4 @@ permalink: /:year/:month/:title.html
 
 excerpt_separator: <!--more-->
 
-baseurl: "http://alexjlockwood.github.io"
+baseurl: http://alexjlockwood.github.io
