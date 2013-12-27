@@ -1,3 +1,6 @@
+# TODO: update the baseurl later...
+baseurl: http://alexjlockwood.github.io
+
 name: Android Design Patterns
 author:
   name: Alex Lockwood
