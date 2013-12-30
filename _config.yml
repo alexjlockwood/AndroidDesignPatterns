@@ -6,8 +6,11 @@ author:
     - label: Google+
       url: https://plus.google.com/+AlexLockwood
 
-markdown: redcarpet
 pygments: true
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "tables"]
+
 
 relative_permalinks: false
 permalink: /:year/:month/:title.html
