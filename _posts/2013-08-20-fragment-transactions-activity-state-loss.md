@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Fragment Transactions & Activity State Loss
-date: 2012-08-20
+date: 2013-08-20
 permalink: /2013/08/fragment-transaction-commit-state-loss.html
 comments: true
 ---
@@ -22,7 +22,8 @@ The exception was thrown because you attempted to commit a `FragmentTransaction`
 after the activity's state had been saved, resulting in a phenomenon known as _Activity 
 state loss_. Before we get into the details of what this actually means, however, let's 
 first take a look at what happens under-the-hood when `onSaveInstanceState()` is 
-called. As I discussed in my last post about <a href="http://www.androiddesignpatterns.com/2013/08/binders-death-recipients.html">`Binder`'s &amp; Death Recipients</a>, 
+called. As I discussed in my last post about 
+<a href="http://www.androiddesignpatterns.com/2013/08/binders-death-recipients.html">`Binder`'s &amp; Death Recipients</a>, 
 Android applications have very little control over their destiny within the Android runtime 
 environment. The Android system has the power to terminate processes at any time to free up 
 memory, and background activities may be killed with little to no warning as a result. To 
@@ -41,9 +42,10 @@ System Server process, where it is safely stored away. When the system later dec
 to recreate the Activity, it sends this same `Bundle` object back to the 
 application, for it to use to restore the Activity's old state.
 
-So why then is the exception thrown? Well, the problem stems from the fact that 
-these `Bundle` objects represent a snapshot of an Activity at the moment 
-`onSaveInstanceState()` was called, and nothing more. That means when you call `FragmentTransaction#commit()` after `onSaveInstanceState()` is 
+So why then is the exception thrown? Well, the problem stems from the fact that
+these `Bundle` objects represent a snapshot of an Activity at the moment
+`onSaveInstanceState()` was called, and nothing more. That means when you call
+`FragmentTransaction#commit()` after `onSaveInstanceState()` is 
 called, the transaction won't be remembered because it was never recorded as part of the 
 Activity's state in the first place. From the user's point of view, the transaction will 
 appear to be lost, resulting in accidental UI state loss. In order to protect the user 
