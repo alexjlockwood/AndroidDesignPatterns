@@ -276,7 +276,7 @@ will handle re-assigning Activity instances as they are torn down and recreated,
 and the `TaskFragment` and its `AsyncTask` never need to worry about the
 unpredictable occurrence of a configuration change. Note also that it is impossible
 for `onPostExecute()` to be executed in between the calls to `onDetach()` and
-`onAttach()`, as explained in<a href="http://stackoverflow.com/q/19964180/844882">this StackOverflow answer</a>
+`onAttach()`, as explained in <a href="http://stackoverflow.com/q/19964180/844882">this StackOverflow answer</a>
 and in my reply to Doug Stevenson in
 <a href="https://plus.google.com/u/0/+AlexLockwood/posts/etWuiiRiqLf">this Google+ post</a>
 (there is also some discussion about this in the comments below).
