@@ -153,7 +153,7 @@ body {
     }
 #social {
     background: url('/images/android.gif') no-repeat left bottom;
-    background-position: 2% -100px;
+    background-position: 0 -100px;
     padding: 10px 0 0;
     height: 38px;
     text-align: right;
@@ -263,7 +263,11 @@ code {
         width: 90%;
         padding: 0 5%;
         margin: 0 auto;
+        float: none;
     }
+        #social.container {
+            float: none;
+        }
     #info {
         width: 100%;
         max-width: none;
