@@ -219,6 +219,11 @@ body {
     #info .box:last-child {
         margin: 0;
     }
+#copyright {
+    font-size: .85em;
+    padding: 20px 0;
+    clear: both;
+}
 
 /* Code
  * ---- */
