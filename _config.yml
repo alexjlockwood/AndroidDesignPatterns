@@ -5,6 +5,12 @@ author:
   profiles:
     - label: Google+
       url: https://google.com/+AlexLockwood
+    - label: Twitter
+      url: https://twitter.com/alexjlockwood
+    - label: Stack Overflow
+      url: http://stackoverflow.com/users/844882
+    - label: Flickr
+      url: http://www.flickr.com/photos/tailorransom
 
 pygments: true
 markdown: redcarpet
