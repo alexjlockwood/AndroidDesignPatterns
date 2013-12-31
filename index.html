@@ -3,20 +3,23 @@ layout: default
 title: Android Design Patterns
 ---
 
-<div class="blog-index">
   {% for post in site.posts %}
-  <article>
-    <header>
-      {{ post.date | date: '%b %-d, %Y' }}
-      <h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
-    </header>
-    <div class="entry-content">
-      {{ post.excerpt }}
+  <article class="snippet">
+    <div class="side">
+        <div class="date-posted">
+            <span class="date-block">{{ post.date | date: "%b %d %Y" }}</span>
+        </div>
     </div>
+    <div class="body">
+    <header>
+      <h2 class="no-border"><a href="{{ post.url }}">{{ post.title }}</a></h2>
+    </header>
+      {{ post.excerpt }}
     <footer>
       <a rel="full-article" href="{{ post.url }}">Continue reading&#8230;</a>
     </footer>
+    </div>
+    <div class="clearfix"></div>
   </article>
   {% endfor %}
-</div>
 

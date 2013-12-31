@@ -17,9 +17,13 @@ h1 {
 h2 {
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
-    font-size: 1.5em;
-    margin: 2em 0 1em;
+    font-size: 1.75em;
+    line-height: 1.3em;
+    margin: 50px 0 1em;
 }
+    h2.no-border a {
+        border: 0;
+    }
 h3, h4 {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -169,16 +173,30 @@ body {
     padding-bottom: 50px;
     float: left;
 }
+    article.snippet {
+        border-bottom: 1px #eee solid;
+        padding-bottom: 50px;
+        margin-bottom: 50px;
+    }
 .side {
     float: left;
     width: 200px;
-    margin-top: 1em;
+    margin: 1em 0;
 }
     .date-posted {
         font-size: .85em;
         font-style: italic;
     }
-    .date {
+    .snippet .date-posted {
+        font-size: 1em;
+        font-style: normal;
+        text-transform: uppercase;
+        padding-top: 40px;
+    }
+    .date-block {
+        background: #669900;
+        color: #fff;
+        padding: .5em;
     }
     .related li {
         border-bottom: 1px #ccc solid;
@@ -196,10 +214,16 @@ body {
     .related li.featured a {
         background: #eaeaea;
     }
+    .snippet .side {
+        width: 120px;
+    }
 .body {
     float: right;
     width: calc(100% - 240px);
 }
+    .snippet .body {
+        width: calc(100% - 160px);
+    }
 #info {
     float: left;
     width: 25%;
@@ -285,7 +309,7 @@ code {
         }
 }
 @media (max-width: 1024px) {
-    .side, .body, header h1 {
+    .side, .body, header h1, .snippet .side, .snippet .body {
         width: 100%;
         float: none;
     }
