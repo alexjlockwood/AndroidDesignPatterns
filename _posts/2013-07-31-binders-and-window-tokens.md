@@ -16,7 +16,7 @@ For a long time I took this security for granted, not completely understanding h
 
 To my surprise, the answer to nearly all of my questions was pretty simple: "the Binder". Binders are the cornerstone of Android's architecture; they abstract the low-level details of IPC from the developer, allowing applications to easily talk to both the System Server and others' remote service components. But Binders also have a number of other cool features that are used extensively throughout the system in a mix of clever ways, making it much easier for the framework to address security issues. This blog post will cover one of these features in detail, known as <i>Binder tokens</i>.
 
-#### Binder Tokens
+## Binder Tokens
 
 An interesting property of `Binder` objects is that each instance maintains <b>a unique identity across all processes in the system</b>, no matter how many process boundaries it crosses or where it goes. This facility is provided by the Binder kernel driver, which analyzes the contents of each Binder transaction and assigns a unique 32-bit integer value to each `Binder` object it sees. To ensure that Java's `==` operator adheres to the Binder's unique, cross-process object identity contract, a `Binder`'s object reference is treated a little differently than those of other objects. Specifically, each `Binder`'s object reference is assigned either,
 
@@ -129,7 +129,7 @@ Because of their unique object-identity capabilities, Binder tokens are used ext
 in the system for security. Perhaps the most interesting example of how they are used in the framework is the "window token,"
 which we will now discuss below.
 
-#### Window Tokens
+## Window Tokens
 
 If you've ever scrolled through the official documentation for Android's `View` class, chances are you've stumbled across the <a href="http://developer.android.com/reference/android/view/View.html#getWindowToken()">`getWindowToken()`</a> method and wondered what it meant. As its name implies, a window token is a special type of Binder token that the window manager uses to uniquely identify a window in the system. Window tokens are important for security because they make it impossible for malicious applications to draw on top of the windows of other applications. The window manager protects against this by requiring applications to pass their application's window token as part of each request to add or remove a window.<a href="#footnote3"><sup>3</sup></a> If the tokens don't match, the window manager rejects the request and throws a <a href="http://developer.android.com/reference/android/view/WindowManager.BadTokenException.html">`BadTokenException`</a>. Without window tokens, this necessary identification step wouldn't be possible and the window manager wouldn't be able to protect itself from malicious applications.
 
@@ -166,7 +166,7 @@ By this point you might be wondering about the real-world scenarios in which you
     in the future you encounter a situation in which you need to add a panel window to the screen from a background
     service, know that you would need to manually sign the request with your application window token in order to achieve it. :P
 
-#### Conclusion
+## Conclusion
 
 Though their existence is for the most part hidden from developers, Binder tokens are used extensively in the system for security. Android is a massively distributed system of cooperating processes reliant on the fact that Binder objects are unique across all processes on the device. Binder tokens are the driving force behind interaction in the framework, and without them secure communication between application processes and the system would be difficult to achieve.
 
