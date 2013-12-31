@@ -8,7 +8,7 @@ comments: true
 
 Consider the following code:
 
-```java
+{% highlight java linenos %}
 public class SampleActivity extends Activity {
 
   private final Handler mLeakyHandler = new Handler() {
@@ -18,7 +18,7 @@ public class SampleActivity extends Activity {
     }
   }
 }
-```
+{% endhighlight %}
 
 While not readily obvious, this code can cause cause a massive memory leak.
 Android Lint will give the following warning: 
@@ -50,7 +50,7 @@ source of the problem by first documenting what we know:
 
 So where exactly is the memory leak? It's very subtle, but consider the following code as an example:
 
-```java
+{% highlight java linenos %}
 public class SampleActivity extends Activity {
 
   private final Handler mLeakyHandler = new Handler() {
@@ -74,7 +74,7 @@ public class SampleActivity extends Activity {
     finish();
   }
 }
-```
+{% endhighlight %}
 
 When the activity is finished, the delayed message will continue to live in the main thread's
 message queue for 10 minutes before it is processed. The message holds a reference to the
@@ -93,7 +93,7 @@ leak a context. To fix the memory leak that occurs when we instantiate the anony
 class, we make the variable a static field of the class (since static instances of anonymous
 classes do not hold an implicit reference to their outer class):
 
-```java
+{% highlight java linenos %}
 public class SampleActivity extends Activity {
 
   /**
@@ -138,7 +138,7 @@ public class SampleActivity extends Activity {
     finish();
   }
 }
-```
+{% endhighlight %}
 
 The difference between static and non-static inner classes is subtle, but is something
 every Android developer should understand. What's the bottom line? Avoid using non-static
