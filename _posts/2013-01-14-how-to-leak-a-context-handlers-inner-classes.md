@@ -101,10 +101,10 @@ public class SampleActivity extends Activity {
    * reference to their outer class.
    */
   private static class MyHandler extends Handler {
-    private final WeakReference&lt;SampleActivity&gt; mActivity;
+    private final WeakReference<SampleActivity> mActivity;
 
     public MyHandler(SampleActivity activity) {
-      mActivity = new WeakReference&lt;SampleActivity&gt;(activity);
+      mActivity = new WeakReference<SampleActivity>(activity);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class SampleActivity extends Activity {
     super.onCreate(savedInstanceState);
 
     // Post a message and delay its execution for 10 minutes.
-    mHandler.postDelayed(sRunnable, 600000);
+    mHandler.postDelayed(sRunnable, 60 * 10 * 1000);
     
     // Go back to the previous Activity.
     finish();
