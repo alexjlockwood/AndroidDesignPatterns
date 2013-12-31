@@ -1,65 +1,72 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        <title>{{ page.title }}</title>
+    <title>{{ page.title }}{% if page.id %} | {{ site.name }}{% endif %}</title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" type="text/css" href="/css/reset.css" />
-        <link rel="stylesheet" type="text/css" href="/css/syntax.css" />
-        <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="/css/syntax.css" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
 
-        <!-- Web Fonts -->
-        <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Asap:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    </head>
-    <body>
-        <div id="header">
-            <div class="container">
-                <h3><a href="/">{{ site.name }}</a></h3>
-                <nav class="pull-right">
-                    <a href="/archives/">Archives</a>
-                    <a href="/about/">About</a>
-                </nav>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-        <div id="social" class="container">
-           <a href="{{ site.feedurl }}"><img src="/images/feed.png" alt="Subscribe via RSS feed" /></a>
-        </div>
-        <div id="content" class="container">
-            {{ content }}
-            <div class="clearfix"></div>
-        </div>
-        <div id="info">
+    <!-- Web Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,900,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Asap:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  </head>
 
-            <h2>About the Blog</h2>
-            <p>Android Design Patterns is a website for developers who wish to better understand the Android application framework. The tutorials here emphasize proper code design and project maintainability.</p>
-            <p><acronym title="Android Design Patterns">ADP</acronym> is maintained by <a href="https://plus.google.com/+AlexLockwood">+Alex Lockwood</a>, who is extremely sexy (and talented).</p>
-            <p><a href="/about/">More...</a></p>
+  <body>
+    <div id="header">
+      <div class="container">
+        <h3><a href="/">{{ site.name }}</a></h3>
+        <nav class="pull-right">
+          <a href="/archives/">Archives</a>
+          <a href="/about/">About</a>
+        </nav>
+        <div class="clearfix"></div>
+      </div>
+    </div>
 
-            <hr />
+    <div id="social" class="container">
+      <a href="{{ site.author.googleplus }}"><img src="/images/social/googleplus-32-black.png" alt="Google+" /></a>
+      <a href="{{ site.author.github }}"><img src="/images/social/github-32-black.png" alt="GitHub" /></a>
+      <a href="{{ site.author.twitter }}"><img src="/images/social/twitter-32-black.png" alt="Twitter" /></a>
+      <a href="{{ site.author.stackoverflow }}"><img src="/images/social/stackoverflow-32-black.png" alt="StackOverflow" /></a>
+      <a href="{{ site.author.feedburner }}"><img src="/images/social/rss-32-black.png" alt="FeedBurner" /></a>
+    </div>
 
-<!-- Place this tag where you want the widget to render. -->
-<div style="text-align: center; padding-bottom: 10px;">
-    <div class="g-person" data-href="//plus.google.com/+AlexLockwood" data-rel="author"></div>
-</div>
+    <div id="content" class="container">
+      {{ content }}
+      <div class="clearfix"></div>
+    </div>
 
-<!-- Place this tag after the last widget tag. -->
-<script type="text/javascript">
-  (function() {
-    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/platform.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-  })();
-</script>
+    <div id="info">
+      <h2>About the Blog</h2>
+      <p>{{ site.name }} is a website for developers who wish to better understand the Android application framework. The tutorials here emphasize proper code design and project maintainability.</p>
+      <p><acronym title="{{ site.name }}">ADP</acronym> is maintained by <a href="https://plus.google.com/+AlexLockwood">+Alex Lockwood</a>, who is extremely sexy (and talented).</p>
+      <p><a href="/about/">More...</a></p>
+      <hr />
 
-        </div>
-        <div id="copyright" class="container">
-            <p>&copy; 2012-{{ site.time | date: "%Y" }} Android Design Patterns | Except as noted, this content is licensed under Creative Commons Attribution 2.5.</p>
-        </div>
-    </body>
+      <!-- Place this tag where you want the widget to render. -->
+      <div style="text-align: center; padding-bottom: 10px;">
+        <div class="g-person" data-href="//plus.google.com/+AlexLockwood" data-rel="author"></div>
+      </div>
+
+      <!-- Place this tag after the last widget tag. -->
+      <script type="text/javascript">
+        (function() {
+          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+          po.src = 'https://apis.google.com/js/platform.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+      </script>
+    </div>
+
+    <div id="copyright" class="container">
+      <p>&copy; 2012-{{ site.time | date: "%Y" }} {{ site.name }} | Except as noted, this content is licensed under Creative Commons Attribution 2.5.</p>
+    </div>
+
+  </body>
 </html>

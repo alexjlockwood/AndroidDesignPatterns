@@ -2,28 +2,22 @@ name: Android Design Patterns
 author:
   name: Alex Lockwood
   email: alex@androiddesignpatterns.com
-  profiles:
-    - label: Google+
-      url: https://google.com/+AlexLockwood
-    - label: Twitter
-      url: https://twitter.com/alexjlockwood
-    - label: Stack Overflow
-      url: http://stackoverflow.com/users/844882
-    - label: Flickr
-      url: http://www.flickr.com/photos/tailorransom
+  googleplus: https://google.com/+AlexLockwood
+  twitter: https://twitter.com/alexjlockwood
+  stackoverflow: http://stackoverflow.com/users/844882
+  flickr: http://www.flickr.com/photos/tailorransom
+  github: https://github.com/alexjlockwood
+  feedburner: http://feeds.feedburner.com/androiddesignpatterns
+
+baseurl: http://alexjlockwood.github.io
+
+paginate: 5
+excerpt_separator: <!--more-->
 
 pygments: true
 markdown: redcarpet
 redcarpet:
   extensions: ["no_intra_emphasis", "fenced_code_blocks", "tables"]
 
-
 relative_permalinks: false
 permalink: /:year/:month/:title.html
-
-excerpt_separator: <!--more-->
-
-baseurl: http://alexjlockwood.github.io
-feedurl: http://feeds.feedburner.com/androiddesignpatterns
-
-paginate: 5
