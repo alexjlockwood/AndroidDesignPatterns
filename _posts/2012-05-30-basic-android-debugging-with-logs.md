@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Basic Android Debugging with Logs
+title: "Basic Android Debugging with Logs"
 date: 2012-05-30
 permalink: /2012/05/intro-to-android-debug-logging.html
 comments: true

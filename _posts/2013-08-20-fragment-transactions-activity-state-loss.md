@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fragment Transactions & Activity State Loss
+title: "Fragment Transactions & Activity State Loss"
 date: 2013-08-20
 permalink: /2013/08/fragment-transaction-commit-state-loss.html
 comments: true
