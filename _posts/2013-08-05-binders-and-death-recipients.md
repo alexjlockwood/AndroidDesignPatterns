@@ -7,8 +7,7 @@ comments: true
 ---
 
 <i>Note: before you begin, make sure you've read my
-<a href="http://www.androiddesignpatterns.com/2013/07/binders-window-tokens.html">previous post</a>
-about `Binder` tokens!</i>
+<a href="/2013/07/binders-window-tokens.html">previous post</a> about `Binder` tokens!</i>
 
 Since the very beginning, Android's central focus has been the ability to multitask. In order to achieve it,
 Android takes a unique approach by allowing multiple applications to run at the same time. Applications are
@@ -51,8 +50,7 @@ As it turns out, this task is made easy using the `Binder`'s "link-to-death" fac
      method.
 
 Analyzing the source code once again gives some insight into how this pattern is used inside the framework.
-Consider an example application that (similar to the example given in my
-<a href="http://www.androiddesignpatterns.com/2013/07/binders-window-tokens.html">previous post</a>)
+Consider an example application that (similar to the example given in my <a href="/2013/07/binders-window-tokens.html">previous post</a>)
 acquires a wake lock in `onCreate()`, but is abruptly killed by the system before it is
 able to release the wake lock in `onDestroy()`. How and when will the
 <a href="https://android.googlesource.com/platform/frameworks/base/+/android-4.3_r2.1/services/java/com/android/server/power/PowerManagerService.java">`PowerManagerService`</a>
