@@ -6,7 +6,7 @@ permalink: /2013/07/binders-window-tokens.html
 comments: true
 ---
 
-<i>Note: if you liked this post, be sure to read my second blog post about <a href="http://www.androiddesignpatterns.com/2013/08/binders-death-recipients.html">`Binder`s &amp; Death Recipients</a> as well!</i>
+<i>Note: if you liked this post, be sure to read my second blog post about <a href="/2013/08/binders-death-recipients.html">`Binder`s &amp; Death Recipients</a> as well!</i>
 
 One of Android's key design goals was to provide an open platform that doesn't rely on a central authority to verify that applications do what they claim. To achieve this, Android uses application sandboxes and Linux process isolation to prevent applications from being able to access the system or other applications in ways that are not controlled and secure. This architecture was chosen with both developers and device users in mind: neither should have to take extra steps to protect the device from malicious applications. Everything should be taken care of automatically by the system.
 
