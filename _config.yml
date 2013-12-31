@@ -25,3 +25,5 @@ excerpt_separator: <!--more-->
 
 baseurl: http://alexjlockwood.github.io
 feedurl: http://feeds.feedburner.com/androiddesignpatterns
+
+paginate: 5

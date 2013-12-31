@@ -3,7 +3,7 @@ layout: default
 title: Android Design Patterns
 ---
 
-  {% for post in site.posts %}
+  {% for post in paginator.posts %}
   <article class="snippet">
     <div class="side">
         <div class="date-posted">
@@ -23,3 +23,17 @@ title: Android Design Patterns
   </article>
   {% endfor %}
 
+  {% if paginator.previous_page or paginator.next_page %}
+    <div class="mod-pagenation">
+      {% if paginator.previous_page %}
+        {% if paginator.previous_page == 1 %}
+          <div class="prev"><a href="/">&#171; Newer Entries</a></div>
+        {% else %}
+          <div class="prev"><a href="/page{{ paginator.previous_page }}">&#171; Newer Posts</a></div>
+        {% endif %}
+      {% endif %}
+      {% if paginator.next_page %}
+        <div class="next"><a href="/page{{ paginator.next_page }}">Older Posts &#187;</a></div>
+      {% endif %}
+    </div>
+  {% endif %}
