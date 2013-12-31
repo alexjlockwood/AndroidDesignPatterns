@@ -8,8 +8,7 @@ comments: true
 
 <p>Consider the following code:</p>
 
-<p>
-<pre class="brush:java">
+```java
 public class SampleActivity extends Activity {
 
   private final Handler mLeakyHandler = new Handler() {
@@ -19,8 +18,7 @@ public class SampleActivity extends Activity {
     }
   }
 }
-</pre>
-</p>
+```
 
 <p>While not readily obvious, this code can cause cause a massive memory leak. Android Lint will give the following warning: <i>"In Android, Handler classes should be static or leaks might occur."</i> But where exactly is the leak and how might it happen? Let's determine the source of the problem by first documenting what we know:</p>
 
@@ -43,8 +41,7 @@ public class SampleActivity extends Activity {
 
 <p>So where exactly is the memory leak? It's very subtle, but consider the following code as an example:</p>
 
-<p>
-<pre class="brush:java">
+```java
 public class SampleActivity extends Activity {
 
   private final Handler mLeakyHandler = new Handler() {
@@ -68,15 +65,13 @@ public class SampleActivity extends Activity {
     finish();
   }
 }
-</pre>
-</p>
+```
 
 <p>When the activity is finished, the delayed message will continue to live in the main thread's message queue for 10 minutes before it is processed. The message holds a reference to the activity's <code>Handler</code>, and the <code>Handler</code> holds an implicit reference to its outer class (the <code>SampleActivity</code>, in this case). This reference will persist until the message is processed, thus preventing the activity context from being garbage collected and leaking all of the application's resources. Note that the same is true with the anonymous Runnable class on line 15. Non-static instances of anonymous classes hold an implicit reference to their outer class, so the context will be leaked.</p>
 
 <p>To fix the problem, subclass the <code>Handler</code> in a new file or use a static inner class instead. Static inner classes do not hold an implicit reference to their outer class, so the activity will not be leaked. If you need to invoke the outer activity's methods from within the <code>Handler</code>, have the Handler hold a <code>WeakReference</code> to the activity so you don't accidentally leak a context. To fix the memory leak that occurs when we instantiate the anonymous Runnable class, we make the variable a static field of the class (since static instances of anonymous classes do not hold an implicit reference to their outer class):</p>
 
-<p>
-<pre class="brush:java">
+```java
 public class SampleActivity extends Activity {
 
   /**
@@ -121,8 +116,7 @@ public class SampleActivity extends Activity {
     finish();
   }
 }
-</pre>
-</p>
+```
 
 <p>The difference between static and non-static inner classes is subtle, but is something every Android developer should understand. What's the bottom line? Avoid using non-static inner classes in an activity if instances of the inner class outlive the activity's lifecycle. Instead, prefer static inner classes and hold a weak reference to the activity inside.<p>
 

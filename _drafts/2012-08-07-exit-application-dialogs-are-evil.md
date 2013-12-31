@@ -8,9 +8,7 @@ comments: true
 
 <p>Here's a question that is worth thinking about:</p>
 
-<p><i><q>
-Should I implement an "Exit application?" dialog in my app?
-</q></i></p>
+> Should I implement an "Exit application?" dialog in my app?
 
 <p>In my experience, the answer is almost always <b>NO</b>. Consider the official Flickr app, as an example. At the main screen, the user clicks the back button and is immediately prompted with a dialog, questioning whether or not the user wishes to exit the application:</p>
 
@@ -37,6 +35,7 @@ Should I implement an "Exit application?" dialog in my app?
 <ol>
 
 <li value="1"><p><b>It slows down the user experience.</b> An additional click is required to leave the application. Sure, it doesn't seem like much... but zero clicks is always better than one. Including the dialog will piss off the occasional meticulous power user and will make it much more likely that people like me will write-up angry rants about it online. To make matters worse, Flickr's dialog incorrectly positions the "OK" and  "Cancel" buttons, which as of Android 4.0, should be positioned on the right and left respectively. This is also not a <i>huge</i> deal, but it forces users to think more than they should need to, and the simple action of exiting the application is no longer seamless as a result.</p></li>
+
 <!--more-->
 
 <li value="2"><p><b>It is inconsistent.</b> Name one native Android application that warns the user when they are about to exit the application. If you can't, that's because there are none. Of all the familiar, Google-made Android apps (Gmail, Google Drive, etc.), exactly <i>none</i> of them exhibit this behavior. The user expects the back button to bring him or her back to the top activity on the Activity Stack; there is no reason why it shouldn't do otherwise in this simple situation.</p></li>
