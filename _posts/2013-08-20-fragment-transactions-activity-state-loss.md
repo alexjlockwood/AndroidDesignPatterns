@@ -157,61 +157,57 @@ how the support library works and why it is so important to avoid state loss in 
 In case you've referred to this post in search of a quick fix, however, here are some suggestions 
 to keep in the back of your mind as you work with `FragmentTransaction`s in your applications:
 
-+ **Be careful when committing transactions inside Activity lifecycle methods.** 
-A large majority of applications will only ever commit transactions the very first 
-time `onCreate()` is called and/or in response to user input, and will 
-never face any problems as a result. However, as your transactions begin to venture 
-out into the other Activity lifecycle methods, such as `onActivityResult()`, 
-`onStart()`, and `onResume()`, things can get a little tricky. 
-For example, you should not commit transactions inside the `FragmentActivity#onResume()` 
-method, as there are some cases in which the method can be called before the 
-activity's state has been restored (see the <a href="http://developer.android.com/reference/android/support/v4/app/FragmentActivity.html#onResume()">documentation</a> for more information). 
-If your application requires committing a transaction in an Activity lifecycle 
-method other than `onCreate()`, do it in either 
-`FragmentActivity#onResumeFragments()` or `Activity#onPostResume()`. 
-These two methods are guaranteed to be called after the Activity has been restored to its 
-original state, and therefore avoid the possibility of state loss all together. 
-(As an example of how this can be done, check out my answer to <a href="http://stackoverflow.com/q/16265733/844882">this StackOverflow question</a> for 
-some ideas on how to commit `FragmentTransaction`s in response to calls 
-made to the `Activity#onActivityResult()` method).
+  + **Be careful when committing transactions inside Activity lifecycle methods.** 
+  A large majority of applications will only ever commit transactions the very first 
+  time `onCreate()` is called and/or in response to user input, and will 
+  never face any problems as a result. However, as your transactions begin to venture 
+  out into the other Activity lifecycle methods, such as `onActivityResult()`, 
+  `onStart()`, and `onResume()`, things can get a little tricky. 
+  For example, you should not commit transactions inside the `FragmentActivity#onResume()` 
+  method, as there are some cases in which the method can be called before the 
+  activity's state has been restored (see the <a href="http://developer.android.com/reference/android/support/v4/app/FragmentActivity.html#onResume()">documentation</a> for more information). 
+  If your application requires committing a transaction in an Activity lifecycle 
+  method other than `onCreate()`, do it in either 
+  `FragmentActivity#onResumeFragments()` or `Activity#onPostResume()`. 
+  These two methods are guaranteed to be called after the Activity has been restored to its 
+  original state, and therefore avoid the possibility of state loss all together. 
+  (As an example of how this can be done, check out my answer to <a href="http://stackoverflow.com/q/16265733/844882">this StackOverflow question</a> for 
+  some ideas on how to commit `FragmentTransaction`s in response to calls 
+  made to the `Activity#onActivityResult()` method).
 
-+ **Avoid performing transactions inside asynchronous callback methods.** This 
-includes commonly used methods such as `AsyncTask#onPostExecute()` and 
-`LoaderManager.LoaderCallbacks#onLoadFinished()`. The problem with 
-performing transactions in these methods is that they have no knowledge of the 
-current state of the Activity lifecycle when they are called. For example, 
-consider the following sequence of events:
+  + **Avoid performing transactions inside asynchronous callback methods.** This 
+  includes commonly used methods such as `AsyncTask#onPostExecute()` and 
+  `LoaderManager.LoaderCallbacks#onLoadFinished()`. The problem with 
+  performing transactions in these methods is that they have no knowledge of the 
+  current state of the Activity lifecycle when they are called. For example, 
+  consider the following sequence of events:
+      1. An activity executes an `AsyncTask`.
+      2. The user presses the "Home" key, causing the activity's `onSaveInstanceState()` and `onStop()` methods to be called.
+      3. The `AsyncTask` completes and `onPostExecute()` is called, unaware that the Activity has since been stopped.
+      4. A `FragmentTransaction` is committed inside the `onPostExecute()` method, causing an exception to be thrown.
 
-    1. An activity executes an `AsyncTask`.
-    2. The user presses the "Home" key, causing the activity's `onSaveInstanceState()` 
-and `onStop()` methods to be called.
-    3. The `AsyncTask` completes and `onPostExecute()` is 
-called, unaware that the Activity has since been stopped.
-    4. A `FragmentTransaction` is committed inside the 
-`onPostExecute()` method, causing an exception to be thrown.
+  In general, the best way to avoid the exception in these cases is to simply avoid 
+  committing transactions in asynchronous callback methods all together. Google 
+  engineers seem to agree with this belief as well. According to 
+  <a href="https://groups.google.com/d/msg/android-developers/dXZZjhRjkMk/QybqCW5ukDwJ">this post</a> 
+  on the Android Developers group, the Android team considers the major shifts in UI 
+  that can result from committing `FragmentTransaction`s from within 
+  asynchronous callback methods to be bad for the user experience. If your application 
+  requires performing the transaction inside these callback methods and there is no 
+  easy way to guarantee that the callback won't be invoked after `onSaveInstanceState()`, 
+  you may have to resort to using `commitAllowingStateLoss()` and 
+  dealing with the state loss that might occur. (See also these two StackOverflow 
+  posts for additional hints, <a href="http://stackoverflow.com/q/8040280/844882">here</a> 
+  and <a href="http://stackoverflow.com/q/7992496/844882">here</a>).
 
-    In general, the best way to avoid the exception in these cases is to simply avoid 
-committing transactions in asynchronous callback methods all together. Google 
-engineers seem to agree with this belief as well. According to 
-<a href="https://groups.google.com/d/msg/android-developers/dXZZjhRjkMk/QybqCW5ukDwJ">this post</a> 
-on the Android Developers group, the Android team considers the major shifts in UI 
-that can result from committing `FragmentTransaction`s from within 
-asynchronous callback methods to be bad for the user experience. If your application 
-requires performing the transaction inside these callback methods and there is no 
-easy way to guarantee that the callback won't be invoked after `onSaveInstanceState()`, 
-you may have to resort to using `commitAllowingStateLoss()` and 
-dealing with the state loss that might occur. (See also these two StackOverflow 
-posts for additional hints, <a href="http://stackoverflow.com/q/8040280/844882">here</a> 
-and <a href="http://stackoverflow.com/q/7992496/844882">here</a>).
-
-+ **Use `commitAllowingStateLoss()` only as a last resort.** The only 
-difference between calling `commit()` and `commitAllowingStateLoss()` 
-is that the latter will not throw an exception if state loss occurs. Usually you don't 
-want to use this method because it implies that there is a possibility that state loss 
-could happen. The better solution, of course, is to write your application so that 
-`commit()` is guaranteed to be called before the activity's state has been 
-saved, as this will result in a better user experience. Unless the possibility of 
-state loss can't be avoided, `commitAllowingStateLoss()` should not be used.
+  + **Use `commitAllowingStateLoss()` only as a last resort.** The only 
+  difference between calling `commit()` and `commitAllowingStateLoss()` 
+  is that the latter will not throw an exception if state loss occurs. Usually you don't 
+  want to use this method because it implies that there is a possibility that state loss 
+  could happen. The better solution, of course, is to write your application so that 
+  `commit()` is guaranteed to be called before the activity's state has been 
+  saved, as this will result in a better user experience. Unless the possibility of 
+  state loss can't be avoided, `commitAllowingStateLoss()` should not be used.
 
 Hopefully these tips will help you resolve any issues you have had with this exception 
 in the past. If you are still having trouble, post a question on 
