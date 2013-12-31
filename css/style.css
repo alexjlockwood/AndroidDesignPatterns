@@ -230,6 +230,7 @@ body {
     font-size: .85em;
     max-width: 400px;
     margin-top: -48px;
+    padding-bottom: 20px;
 }
     #info .box {
         padding: 20px;
@@ -301,8 +302,10 @@ code {
             float: none;
         }
     #info {
-        width: 100%;
+        padding: 20px 5%;
+        width: 90%;
         max-width: none;
+        background: #f5f5f5;
     }
         #info .box {
             padding: 20px 5%;
