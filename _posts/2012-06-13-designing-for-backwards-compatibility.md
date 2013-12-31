@@ -14,7 +14,7 @@ problem by means of a simple example, and proposes a scalable, well-designed sol
 <!--more-->
 
 (Note: please read this
-<a href="http://www.androiddesignpatterns.com/2012/06/compatability-manager-utility-class.html">short post</a>
+<a href="/2012/06/compatability-manager-utility-class.html">short post</a>
 before continuing forward).
 
 ## The Problem
@@ -96,7 +96,7 @@ public abstract class AlbumStorageDirFactory {
 The two subclasses and their implementation are given below.The class also provides
 a static factory `newInstance` method (note that this method makes use of the
 `CompatabilityUtil` utility class, which was both implemented and discussed in a
-<a href="http://www.androiddesignpatterns.com/2012/06/compatability-manager-utility-class.html">previous post</a>).
+<a href="/2012/06/compatability-manager-utility-class.html">previous post</a>).
 We discuss this method in detail in the next section.
 
 The `BaseAlbumDirFactory` subclass handles pre-Froyo SDK versions:
