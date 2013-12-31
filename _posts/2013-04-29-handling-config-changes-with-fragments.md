@@ -10,7 +10,7 @@ comments: true
 
 <p>To answer this question, we will first discuss some of the common difficulties developers face when using long-running background tasks in conjunction with the Activity lifecycle. Then, we will describe the flaws of two common approaches to solving the problem. Finally, we will conclude with sample code illustrating the recommended solution, which uses retained Fragments to achieve our goal.</p>
 
-<h4>Configuration Changes & Background Tasks</h4>
+<h4>Configuration Changes &amp; Background Tasks</h4>
 
 <p>One problem with configuration changes and the destroy-and-create cycle that Activitys go through as a result stems from the fact that these events are unpredictable and may occur at any time. Concurrent background tasks only add to this problem. Assume, for example, that an Activity starts an <code>AsyncTask</code> and soon after the user rotates the screen, causing the Activity to be destroyed and recreated. When the <code>AsyncTask</code> eventually finishes its work, it will incorrectly report its results back to the old Activity instance, completely unaware that a new Activity has been created. As if this wasn't already an issue, the new Activity instance might waste valuable resources by firing up the background work <i>again</i>, unaware that the old <code>AsyncTask</code> is still running. For these reasons, it is vital that we correctly and efficiently retain active objects across Activity instances when configuration changes occur.</p>
 
@@ -32,7 +32,8 @@ comments: true
 
 <p>The sample code below serves as a basic example of how to retain an <code>AsyncTask</code> across a configuration change using retained Fragments. The code guarantees that progress updates and results are delivered back to the currently displayed Activity instance and ensures that we never accidentally leak an <code>AsyncTask</code> during a configuration change. The design consists of two classes, a <code>MainActivity</code>...</p>
 
-<p><pre class="brush:java">/**
+```java
+/**
  * This Activity displays the screen's UI, creates a TaskFragment
  * to manage the task, and receives progress updates and results 
  * from the TaskFragment when they occur.
@@ -74,11 +75,13 @@ public class MainActivity extends Activity implements TaskFragment.TaskCallbacks
 
   @Override
   public void onPostExecute() { ... }
-}</pre>
+}
+```
 
 <p>...and a <code>TaskFragment</code>...</p>
 
-<p><pre class="brush:java">/**
+```java
+/**
  * This Fragment manages a single background task and retains 
  * itself across configuration changes.
  */
@@ -188,11 +191,12 @@ public class TaskFragment extends Fragment {
       }
     }
   }
-}</pre></p>
+}
+```
 
 <h4>Flow of Events</h4>
 
-<p>When the <code>MainActivity</code> starts up for the first time, it instantiates and adds the <code>TaskFragment</code> to the Activity's state. The <code>TaskFragment</code> creates and executes an <code>AsyncTask</code> and proxies progress updates and results back to the <code>MainActivity</code> via the <code>TaskCallbacks</code> interface. When a configuration change occurs, the <code>MainActivity</code> goes through its normal lifecycle events, and once created the new Activity instance is passed to the <code>onAttach(Activity)</code> method, thus ensuring that the <code>TaskFragment</code> will always hold a reference to the currently displayed Activity instance even after the configuration change. The resulting design is both simple and reliable; the application framework will handle re-assigning Activity instances as they are torn down and recreated, and the <code>TaskFragment</code> and its <code>AsyncTask</code> never need to worry about the unpredictable occurrence of a configuration change. Note also that it is impossible for <code>onPostExecute()</code> to be executed in between the calls to <code>onDetach()</code> and <code>onAttach()</code>, as explained in <a href="http://stackoverflow.com/q/19964180/844882">this StackOverflow answer</a> and in my reply to Doug Stevenson in <a href="https://plus.google.com/u/0/+AlexLockwood/posts/etWuiiRiqLf">this Google+ post</a> (there is also some discussion about this in the comments below).
+<p>When the <code>MainActivity</code> starts up for the first time, it instantiates and adds the <code>TaskFragment</code> to the Activity's state. The <code>TaskFragment</code> creates and executes an <code>AsyncTask</code> and proxies progress updates and results back to the <code>MainActivity</code> via the <code>TaskCallbacks</code> interface. When a configuration change occurs, the <code>MainActivity</code> goes through its normal lifecycle events, and once created the new Activity instance is passed to the <code>onAttach(Activity)</code> method, thus ensuring that the <code>TaskFragment</code> will always hold a reference to the currently displayed Activity instance even after the configuration change. The resulting design is both simple and reliable; the application framework will handle re-assigning Activity instances as they are torn down and recreated, and the <code>TaskFragment</code> and its <code>AsyncTask</code> never need to worry about the unpredictable occurrence of a configuration change. Note also that it is impossible for <code>onPostExecute()</code> to be executed in between the calls to <code>onDetach()</code> and <code>onAttach()</code>, as explained in <a href="http://stackoverflow.com/q/19964180/844882">this StackOverflow answer</a> and in my reply to Doug Stevenson in <a href="https://plus.google.com/u/0/+AlexLockwood/posts/etWuiiRiqLf">this Google+ post</a> (there is also some discussion about this in the comments below).</p>
 
 <h4>Conclusion</h4>
 
