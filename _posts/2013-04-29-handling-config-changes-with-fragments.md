@@ -10,11 +10,11 @@ comments: true
 
 <p>To answer this question, we will first discuss some of the common difficulties developers face when using long-running background tasks in conjunction with the Activity lifecycle. Then, we will describe the flaws of two common approaches to solving the problem. Finally, we will conclude with sample code illustrating the recommended solution, which uses retained Fragments to achieve our goal.</p>
 
+<!--more-->
+
 <h4>Configuration Changes & Background Tasks</h4>
 
 <p>One problem with configuration changes and the destroy-and-create cycle that Activitys go through as a result stems from the fact that these events are unpredictable and may occur at any time. Concurrent background tasks only add to this problem. Assume, for example, that an Activity starts an <code>AsyncTask</code> and soon after the user rotates the screen, causing the Activity to be destroyed and recreated. When the <code>AsyncTask</code> eventually finishes its work, it will incorrectly report its results back to the old Activity instance, completely unaware that a new Activity has been created. As if this wasn't already an issue, the new Activity instance might waste valuable resources by firing up the background work <i>again</i>, unaware that the old <code>AsyncTask</code> is still running. For these reasons, it is vital that we correctly and efficiently retain active objects across Activity instances when configuration changes occur.</p>
-
-<!--more-->
 
 <h4>Bad Practice: Retain the Activity</h4>
 
