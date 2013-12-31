@@ -12,9 +12,9 @@ One of Android's key design goals was to provide an open platform that doesn't r
 
 For a long time I took this security for granted, not completely understanding how it was actually enforced. But recently I became curious. What mechanism prevents me from, for example, tricking the system into releasing a wake lock acquired by another application, or from hiding another application's windows from the screen? More generally, how do Android's core system services respond to requests made by third-party applications in a way that is both efficient and secure?
 
-To my surprise, the answer to nearly all of my questions was pretty simple: "the Binder". Binders are the cornerstone of Android's architecture; they abstract the low-level details of IPC from the developer, allowing applications to easily talk to both the System Server and others' remote service components. But Binders also have a number of other cool features that are used extensively throughout the system in a mix of clever ways, making it much easier for the framework to address security issues. This blog post will cover one of these features in detail, known as <i>Binder tokens</i>.
-
 <!--more-->
+
+To my surprise, the answer to nearly all of my questions was pretty simple: "the Binder". Binders are the cornerstone of Android's architecture; they abstract the low-level details of IPC from the developer, allowing applications to easily talk to both the System Server and others' remote service components. But Binders also have a number of other cool features that are used extensively throughout the system in a mix of clever ways, making it much easier for the framework to address security issues. This blog post will cover one of these features in detail, known as <i>Binder tokens</i>.
 
 #### Binder Tokens
 

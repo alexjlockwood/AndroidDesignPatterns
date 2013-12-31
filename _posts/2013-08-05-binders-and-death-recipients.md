@@ -24,14 +24,14 @@ and gives Android total control over misbehaving apps that are negatively impact
 there is no guarantee that any user-space code (such as an Activity's `onDestroy()` method) will
 ever be executed when an application's process goes away.
 
+<!--more-->
+
 Considering the limited memory available in mobile environments, this approach seems promising. However, there
 is still one issue that needs to be addressed: <i>how should the system detect an application's death so that
 it can quickly clean up its state</i>? When an application dies, its state will be spread over dozens of system
 services (the Activity Manager, Window Manager, Power Manager, etc.) and several different processes. These
 system services need to be notified immediately when an application dies so that they can clean up its state
 and maintain an accurate snapshot of the system. Enter death recipients.
-
-<!--more-->
 
 #### Death Recipients
 

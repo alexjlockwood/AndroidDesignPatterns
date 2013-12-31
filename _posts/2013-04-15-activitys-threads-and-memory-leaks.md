@@ -38,11 +38,11 @@ public class MainActivity extends Activity {
 }
 ```
 
+<!--more-->
+
 <p><b>Note:</b> the source code in this blog post is available on <a href="https://github.com/alexjlockwood/leaky-threads">GitHub</a>.</p>
 
 <p>When a configuration change occurs, causing the entire Activity to be destroyed and re-created, it is easy to assume that Android will clean up after us and reclaim the memory associated with the Activity and its running thread. However, this is not the case. Both will leak never to be reclaimed, and the result will likely be a significant reduction in performance.</p>
-
-<!--more-->
 
 <h4>How to Leak an Activity</h4>
 
