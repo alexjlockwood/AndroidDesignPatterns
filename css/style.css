@@ -316,6 +316,9 @@ code {
     .side {
         margin-top: 2em;
     }
+    h2.post-title {
+        margin-top: 20px;
+    }
     .author {
         display: inline;
     }
