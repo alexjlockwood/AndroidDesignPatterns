@@ -6,8 +6,29 @@ sitemap:
   lastmod: 2013-12-29T18:56:19-07:00
 ---
 <!-- TODO: fix the sitemap YAML front matter above! -->
-<!-- TODO: fix the url links below (some of them may be incorrect). -->
-<!-- TODO: upload picture to github pages instead of hosting it on blogspot. -->
-<!-- TODO: tell people to submit pull requests if they find typos! -->
 
-<p>TODO: write this page.</p>
+<header>
+  <h1 class="entry-title">Archives</h1>
+</header>
+
+<div id="blog-archives">
+  {% for post in site.posts %}
+    {% capture this_year %}{{ post.date | date: "%Y" }}{% endcapture %}
+    {% capture next_year %}{{ post.previous.date | date: "%Y" }}{% endcapture %}
+
+    {% if forloop.first %}
+      <h2 id="{{ this_year }}-ref">{{ this_year }}</h2>
+      <ul>
+    {% endif %}
+
+    <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+
+    {% if forloop.last %}
+      </ul>
+    {% elsif this_year != next_year %}
+      </ul>
+      <h2 id="{{ next_year }}-ref">{{next_year}}</h2>
+      <ul>
+    {% endif %}
+  {% endfor %}
+</div>
