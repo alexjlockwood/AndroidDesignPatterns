@@ -15,11 +15,11 @@ the Go Programming Language
 (<a href="https://developers.google.com/appengine/docs/go/overview">Google App Engine</a>,
 hint hint).
 
-<!--more-->
-
 _...but why Go?_
 
 I'm glad you asked. There are several reasons:
+
+<!--more-->
 
   + <strong><em>Go is modern.</em></strong> Programming languages like C, C++, and Java
     are old, designed before the advent of multicore machines, networking, and web
