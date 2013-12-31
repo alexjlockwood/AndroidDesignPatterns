@@ -19,7 +19,7 @@ h2 {
     font-weight: 700;
     font-size: 1.75em;
     line-height: 1.3em;
-    margin: 50px 0 1em;
+    margin: 1em 0;
 }
     h2.no-border a {
         border: 0;
@@ -191,7 +191,7 @@ body {
         font-size: 1em;
         font-style: normal;
         text-transform: uppercase;
-        padding-top: 40px;
+        padding-top: 20px;
     }
     .date-block {
         background: #669900;
@@ -227,11 +227,12 @@ body {
 #info {
     float: left;
     width: 25%;
-    font-size: .85em;
     max-width: 400px;
-    margin-top: -48px;
     padding-bottom: 20px;
 }
+    #info p {
+        font-size: .85em;
+    }
     #info .box {
         padding: 20px;
         background: #f5f5f5;
