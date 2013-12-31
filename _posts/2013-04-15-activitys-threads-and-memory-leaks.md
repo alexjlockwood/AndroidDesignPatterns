@@ -8,7 +8,8 @@ comments: true
 
 <p>A common difficulty in Android programming is coordinating long-running tasks over the Activity lifecycle and avoiding the subtle memory leaks which might result. Consider the Activity code below, which starts and loops a new thread upon its creation:</p>
 
-<p><pre class="brush:java">/**
+```java
+/**
  * Example illustrating how threads persist across configuration
  * changes (which cause the underlying Activity instance to be
  * destroyed). The Activity context also leaks because the thread
@@ -34,7 +35,8 @@ public class MainActivity extends Activity {
       }
     }.start();
   }
-}</pre></p>
+}
+```
 
 <p><b>Note:</b> the source code in this blog post is available on <a href="https://github.com/alexjlockwood/leaky-threads">GitHub</a>.</p>
 
@@ -61,7 +63,8 @@ public class MainActivity extends Activity {
 
 <p>The fix is easy once we've identified the source of the problem: declare the thread as a private static inner class as shown below.</p>
 
-<p><pre class="brush:java">/**
+```java
+/**
  * This example avoids leaking an Activity context by declaring the 
  * thread as a private static inner class, but the threads still 
  * continue to run even across configuration changes. The DVM has a
@@ -90,7 +93,8 @@ public class MainActivity extends Activity {
       }
     }
   }
-}</pre></p>
+}
+```
 
 <p>The new thread no longer holds an implicit reference to the Activity, and the Activity will be eligible for garbage collection after the configuration change.</p>
 
@@ -98,7 +102,8 @@ public class MainActivity extends Activity {
 
 <p>The second issue is that for each new Activity that is created, a thread is leaked and never able to be reclaimed. Threads in Java are GC roots; that is, the Dalvik Virtual Machine (DVM) keeps hard references to all active threads in the runtime system, and as a result, threads that are left running will never be eligible for garbage collection. For this reason, you must remember to implement cancellation policies for your background threads! One example of how this might be done is shown below:</p>
 
-<p><pre class="brush:java">/**
+```java
+/**
  * Same as example two, except for this time we have implemented a
  * cancellation policy for our thread, ensuring that it is never 
  * leaked! onDestroy() is usually a good place to close your active 
@@ -144,7 +149,8 @@ public class MainActivity extends Activity {
     super.onDestroy();
     mThread.close();
   }
-}</pre></p>
+}
+```
 
 <p>In the code above, closing the thread in <code>onDestroy()</code> ensures that you never accidentally leak the thread. If you want to persist the same thread across configuration changes (as opposed to closing and re-creating a new thread each time), consider using a retained, UI-less worker fragment to perform the long-running task. Check out my blog post, titled <a href="http://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html">Handling Configuration Changes with Fragments</a>, for an example explaining how this can be done. There is also a comprehensive example available in the <a href="https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/FragmentRetainInstance.java">API demos</a> which illustrates the concept.</p>
 

@@ -6,7 +6,7 @@ permalink: /2013/07/binders-window-tokens.html
 comments: true
 ---
 
-<i>Note: if you liked this post, be sure to read my second blog post about <a href="http://www.androiddesignpatterns.com/2013/08/binders-death-recipients.html">`Binder`'s &amp; Death Recipient's</a> as well!</i>
+<i>Note: if you liked this post, be sure to read my second blog post about <a href="http://www.androiddesignpatterns.com/2013/08/binders-death-recipients.html">`Binder`s &amp; Death Recipients</a> as well!</i>
 
 One of Android's key design goals was to provide an open platform that doesn't rely on a central authority to verify that applications do what they claim. To achieve this, Android uses application sandboxes and Linux process isolation to prevent applications from being able to access the system or other applications in ways that are not controlled and secure. This architecture was chosen with both developers and device users in mind: neither should have to take extra steps to protect the device from malicious applications. Everything should be taken care of automatically by the system.
 
@@ -106,13 +106,28 @@ public final class PowerManager {
 
 So what's going on? Let's walk through the code step-by-step:
 
-1. The client application requests an instance of the `PowerManager` class in `onCreate()`. The `PowerManager` class provides an interface for the client application to talk to the global <a href="https://android.googlesource.com/platform/frameworks/base/+/android-4.3_r2.1/services/java/com/android/server/power/PowerManagerService.java">`PowerManagerService`</a>, which runs in the System Server process and is in charge of managing the device's power state (i.e. determining the screen's brightness, starting Daydreams, detecting when the device is plugged into a dock, etc.).
+  1. The client application requests an instance of the `PowerManager` class in `onCreate()`.
+     The `PowerManager` class provides an interface for the client application to talk to the global
+     <a href="https://android.googlesource.com/platform/frameworks/base/+/android-4.3_r2.1/services/java/com/android/server/power/PowerManagerService.java">`PowerManagerService`</a>,
+     which runs in the System Server process and is in charge of managing the device's power
+     state (i.e. determining the screen's brightness, starting Daydreams, detecting when the
+     device is plugged into a dock, etc.).
 
-2. The client application creates and acquires a wake lock in `onCreate()`. The `PowerManager` sends the `WakeLock`'s unique `Binder` token as part of the `acquire()` request. When the `PowerManagerService` receives the request, it holds onto the token for safe-keeping and forces the device to remain awake, until...
+  2. The client application creates and acquires a wake lock in `onCreate()`. The `PowerManager`
+     sends the `WakeLock`'s unique `Binder` token as part of the `acquire()` request. When the
+     `PowerManagerService` receives the request, it holds onto the token for safe-keeping and
+     forces the device to remain awake, until...
 
-3. The client application releases the wake lock in `onDestroy()`. The `PowerManager` sends the `WakeLock`'s unique `Binder` token as part of the request. When the `PowerManagerService` receives the request, it compares the token against all other `WakeLock` tokens it has stored, and only releases the `WakeLock` if it finds a match. This additional "validation step" is an important security measure put in place to guarantee that other applications cannot trick the `PowerManagerService` into releasing a `WakeLock` held by a different application.
+  3. The client application releases the wake lock in `onDestroy()`. The `PowerManager` sends
+     the `WakeLock`'s unique `Binder` token as part of the request. When the `PowerManagerService`
+     receives the request, it compares the token against all other `WakeLock` tokens it has stored,
+     and only releases the `WakeLock` if it finds a match. This additional "validation step" is an
+     important security measure put in place to guarantee that other applications cannot trick the
+     `PowerManagerService` into releasing a `WakeLock` held by a different application.
 
-Because of their unique object-identity capabilities, Binder tokens are used extensively<a href="#footnote2"><sup>2</sup></a> in the system for security. Perhaps the most interesting example of how they are used in the framework is the "window token", which we will now discuss below.
+Because of their unique object-identity capabilities, Binder tokens are used extensively<a href="#footnote2"><sup>2</sup></a>
+in the system for security. Perhaps the most interesting example of how they are used in the framework is the "window token,"
+which we will now discuss below.
 
 #### Window Tokens
 
@@ -120,13 +135,36 @@ If you've ever scrolled through the official documentation for Android's `View` 
 
 By this point you might be wondering about the real-world scenarios in which you would need to obtain a window token. Here are some examples:
 
-+ When an application starts up for the first time, the `ActivityManagerService`<a href="#footnote4"><sup>4</sup></a> creates a special kind of window token called an <b>application window token</b>, which uniquely identifies the application's top-level container window.<a href="#footnote5"><sup>5</sup></a> The activity manager gives this token to both the application and the window manager, and the application sends the token to the window manager each time it wants to add a new window to the screen. This ensures secure interaction between the application and the window manager (by making it impossible to add windows on top of other applications), and also makes it easy for the activity manager to make direct requests to the window manager. For example, the activity manager can say, "hide all of this token's windows", and the window manager will be able to correctly identify the set of windows which should be closed.
+  + When an application starts up for the first time, the `ActivityManagerService`<a href="#footnote4"><sup>4</sup></a>
+    creates a special kind of window token called an <b>application window token</b>, which uniquely identifies the application's
+    top-level container window.<a href="#footnote5"><sup>5</sup></a> The activity manager gives this token to both the
+    application and the window manager, and the application sends the token to the window manager each time it wants to
+    add a new window to the screen. This ensures secure interaction between the application and the window manager
+    (by making it impossible to add windows on top of other applications), and also makes it easy for the activity
+    manager to make direct requests to the window manager. For example, the activity manager can say, "hide all of
+    this token's windows", and the window manager will be able to correctly identify the set of windows which should be closed.
 
-+ Developers implementing their own custom Launchers can interact with the live wallpaper window that sits directly behind them by calling the <a href="https://developer.android.com/reference/android/app/WallpaperManager.html#sendWallpaperCommand(android.os.IBinder, java.lang.String, int, int, int, android.os.Bundle)">`sendWallpaperCommand(IBinder windowToken, String action, int x, int y, int z, Bundle extras)`</a> method. To ensure that no other application other than the Launcher is able to interact with the live wallpaper, the framework requires developers to pass a window token as the first argument to the method. If the window token does not identify the current foreground activity window sitting on top of the wallpaper, the command is ignored and a warning is logged.
+  + Developers implementing their own custom Launchers can interact with the live wallpaper window that sits directly behind them by calling the 
+    <a href="https://developer.android.com/reference/android/app/WallpaperManager.html#sendWallpaperCommand(android.os.IBinder, java.lang.String, int, int, int, android.os.Bundle)">`sendWallpaperCommand(IBinder windowToken, String action, int x, int y, int z, Bundle extras)`</a>
+    method. To ensure that no other application other than the Launcher is able to interact with the live wallpaper, the
+    framework requires developers to pass a window token as the first argument to the method. If the window token does not
+    identify the current foreground activity window sitting on top of the wallpaper, the command is ignored and a warning is logged.
 
-+ Applications can ask the <a href="http://developer.android.com/reference/android/view/inputmethod/InputMethodManager.html">`InputMethodManager`</a> to hide the soft keyboard by calling the <a href="http://developer.android.com/reference/android/view/inputmethod/InputMethodManager.html#hideSoftInputFromWindow(android.os.IBinder, int)">`hideSoftInputFromWindow(IBinder windowToken, int flags)`</a> method, but must provide a window token as part of the request. If the token doesn't match the window token belonging to the window currently accepting input, the `InputMethodManager` will reject the request. This makes it impossible for malicious applications to force-close a soft keyboard opened by another application.
+  + Applications can ask the <a href="http://developer.android.com/reference/android/view/inputmethod/InputMethodManager.html">`InputMethodManager`</a>
+    to hide the soft keyboard by calling the <a href="http://developer.android.com/reference/android/view/inputmethod/InputMethodManager.html#hideSoftInputFromWindow(android.os.IBinder, int)">`hideSoftInputFromWindow(IBinder windowToken, int flags)`</a>
+    method, but must provide a window token as part of the request. If the token doesn't match the window token belonging to the
+    window currently accepting input, the `InputMethodManager` will reject the request. This makes it impossible for malicious
+    applications to force-close a soft keyboard opened by another application.
 
-+ Applications which manually add new windows to the screen (i.e. using the <a href="https://developer.android.com/reference/android/view/WindowManager.html">`addView(View, WindowManager.LayoutParams)`</a> method) may need to specify their application's window token by setting the <a href="http://developer.android.com/reference/android/view/WindowManager.LayoutParams.html#token">`WindowManager.LayoutParams.token`</a> field. It is very unlikely that any normal application would ever have to do this, since the <a href="http://developer.android.com/reference/android/app/Activity.html#getWindowManager()">`getWindowManager()`</a> method returns a `WindowManager` which will automatically set the token's value for you. That said, if at some point in the future you encounter a situation in which you need to add a panel window to the screen from a background service, know that you would need to manually sign the request with your application window token in order to achieve it. :P
+  + Applications which manually add new windows to the screen (i.e. using the
+    <a href="https://developer.android.com/reference/android/view/WindowManager.html">`addView(View, WindowManager.LayoutParams)`</a>
+    method) may need to specify their application's window token by setting the
+    <a href="http://developer.android.com/reference/android/view/WindowManager.LayoutParams.html#token">`WindowManager.LayoutParams.token`</a>
+    field. It is very unlikely that any normal application would ever have to do this, since the
+    <a href="http://developer.android.com/reference/android/app/Activity.html#getWindowManager()">`getWindowManager()`</a>
+    method returns a `WindowManager` which will automatically set the token's value for you. That said, if at some point
+    in the future you encounter a situation in which you need to add a panel window to the screen from a background
+    service, know that you would need to manually sign the request with your application window token in order to achieve it. :P
 
 #### Conclusion
 
