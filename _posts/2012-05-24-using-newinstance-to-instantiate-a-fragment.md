@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Using newInstance() to Instantiate a Fragment"
+title: 'Using newInstance() to Instantiate a Fragment'
 date: 2012-05-24
 permalink: /2012/05/using-newinstance-to-instantiate.html
 comments: true

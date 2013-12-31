@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Google Play Services: Setup & Verification"
+title: 'Google Play Services: Setup & Verification'
 date: 2013-01-08
 permalink: /2013/01/google-play-services-setup.html
 comments: true

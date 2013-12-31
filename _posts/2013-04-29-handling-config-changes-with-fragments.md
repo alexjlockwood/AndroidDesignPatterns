@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Handling Configuration Changes with Fragments"
+title: 'Handling Configuration Changes with Fragments'
 date: 2013-04-29
 permalink: /2013/04/retaining-objects-across-config-changes.html
 comments: true

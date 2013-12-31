@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Binders & Death Recipients"
+title: 'Binders & Death Recipients'
 date: 2013-08-05
 permalink: /2013/08/binders-death-recipients.html
 comments: true
