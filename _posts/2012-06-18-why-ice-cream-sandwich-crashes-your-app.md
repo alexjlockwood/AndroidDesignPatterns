@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Why Ice Cream Sandwich Crashes Your App"
+title: "Why Ice Cream Sandwich Crashes your App"
 date: 2012-06-18
 permalink: /2012/06/app-force-close-honeycomb-ics.html
 comments: true
