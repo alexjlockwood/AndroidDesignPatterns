@@ -4,7 +4,7 @@ author:
   email: alex@androiddesignpatterns.com
   profiles:
     - label: Google+
-      url: https://plus.google.com/+AlexLockwood
+      url: https://google.com/+AlexLockwood
 
 pygments: true
 markdown: redcarpet
@@ -18,3 +18,4 @@ permalink: /:year/:month/:title.html
 excerpt_separator: <!--more-->
 
 baseurl: http://alexjlockwood.github.io
+feedurl: http://feeds.feedburner.com/androiddesignpatterns
