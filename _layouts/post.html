@@ -12,6 +12,6 @@ layout: default
 <div class="side">
     <hr class="hidden-big" />
     <div class="date-posted">
-        Posted <span class="date">{{ page.date | date_to_string }}</span>
+        Posted <span class="date">{{ page.date | date: "%b %-d %Y" }}</span>
     </div>
 </div>
