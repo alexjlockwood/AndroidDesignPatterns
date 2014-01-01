@@ -187,6 +187,15 @@ body {
         border-top: 1px #000 solid;
         width: 60%;
     }
+    .mod-pagination {
+        text-align: center;
+    }
+        .mod-pagination .prev {
+            float: left;
+        }
+        .mod-pagination .next {
+            float: right;
+        }
 .side {
     float: left;
     width: 200px;
