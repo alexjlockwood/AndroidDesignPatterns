@@ -76,11 +76,11 @@ after they have been _stopped_, meaning that `onSaveInstanceState()`
 will now be called before `onStop()` instead of immediately before
 `onPause()`. These differences are summarized in the table below:
 
-| | pre-Honeycomb | post-Honeycomb |
-| --- | --- | --- |
-| Activities can be killed before `onPause()`? | NO | NO |
-| Activities can be killed before `onStop()`? | YES | NO |
-| `onSaveInstanceState(Bundle)` is guaranteed to be called before... | `onPause()` | `onStop()` |
+|                                                                    | pre-Honeycomb | post-Honeycomb |
+| ------------------------------------------------------------------ | ------------- | -------------- |
+| Activities can be killed before `onPause()`?                       | NO            | NO             |
+| Activities can be killed before `onStop()`?                        | YES           | NO             |
+| `onSaveInstanceState(Bundle)` is guaranteed to be called before... | `onPause()`   | `onStop()`     |
 
 As a result of the slight changes that were made to the Activity lifecycle, the support
 library sometimes needs to alter its behavior depending on the platform version. For
@@ -96,7 +96,7 @@ state loss that might result between `onPause()` and `onStop()`.
 The support library's behavior across the two platforms is summarized in the table below:
 
 |                                               | pre-Honeycomb | post-Honeycomb |
-| ---                                           | ---           | ---            |
+| --------------------------------------------- | ------------- | -------------- |
 | `commit()` before `onPause()`                 | OK            | OK             |
 | `commit()` between `onPause()` and `onStop()` | STATE LOSS    | OK             |
 | `commit()` after `onStop()`                   | EXCEPTION     | EXCEPTION      |
