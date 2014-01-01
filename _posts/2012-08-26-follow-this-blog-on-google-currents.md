@@ -22,6 +22,5 @@ As always, don't hesitate to leave a comment if you find a bug or have any sugge
 how I can improve the edition! I'm going to try really hard to keep it up-to-date for those
 of you who follow this blog and can't get enough of Google Currents!
 
-Cheers,
-
+Cheers,<br>
 Alex
