@@ -14,6 +14,8 @@ In my experience, the answer is almost always **no**. Consider the official Flic
 as an example. At the main screen, the user clicks the back button and is immediately
 prompted with a dialog, questioning whether or not the user wishes to exit the application:
 
+<!--more-->
+
 <table align="center" cellpadding="0" class="tr-caption-container" style="background: #E1E1E1; margin-left: auto; margin-right: auto; text-align: center;">
 <tbody>
 <tr>
@@ -26,8 +28,6 @@ prompted with a dialog, questioning whether or not the user wishes to exit the a
 </tr>
 </tbody>
 </table>
-
-<!--more-->
 
 So what went wrong? Well, pretty much everything, at least in my opinion.
 Here are the three major flaws I see in Flickr's decision to include the dialog:
