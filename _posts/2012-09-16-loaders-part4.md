@@ -30,7 +30,9 @@ manage the Loader across the Activity/Fragment lifecycle:
 
 <!--more-->
 
-<a href="http://4.bp.blogspot.com/-h7hgUFVox1M/UFj92VbYqLI/AAAAAAAAE3w/L6B5li-ZZGw/s1600/framed_device-2012-09-18-185425.png" imageanchor="1"><img height="269" width="400" src="http://4.bp.blogspot.com/-h7hgUFVox1M/UFj92VbYqLI/AAAAAAAAE3w/L6B5li-ZZGw/s400/framed_device-2012-09-18-185425.png" style="border:0px;"/></a>
+<a href="/images/posts/2012/09/16/app-screenshot.png">
+<img src="/images/posts/2012/09/16/app-screenshot.png" style="border:0px; width:400px; height:269px;"/>
+</a>
 
 The AppListLoader registers two `BroadcastReceiver`s which observe/listen for system-wide broadcasts that
 impact the underlying data source. The `InstalledAppsObserver` listens for newly installed, updated, or
@@ -45,19 +47,21 @@ sure to run the application while analyzing the logcat! Hopefully it'll give you
 Loaders work in conjunction with the LoaderManager and the Activity/Fragment lifecycle. Be sure to filter the
 logcat by application name ("com.adp.loadercustom") for the best results!
 
-<a href="http://3.bp.blogspot.com/-fDNIPUJUJ-0/UFYzs313K4I/AAAAAAAAE18/QmIkU1qUfZE/s1600/AppListLoader%2Beclipse.png" imageanchor="1"><img height="260" src="http://3.bp.blogspot.com/-fDNIPUJUJ-0/UFYzs313K4I/AAAAAAAAE18/QmIkU1qUfZE/s400/AppListLoader%2Beclipse.png" style="border: 0px;" width="400" /></a>
+<a href="/images/posts/2012/09/16/eclipse-screenshot.png">
+<img src="/images/posts/2012/09/16/eclipse-screenshot.png" style="border:0px; width:400px; height:260px;"/>
+</a>
 
 ## Download the App!
 
 You can download the application from Google Play by clicking the badge below:
 
-<a href="https://play.google.com/store/apps/details?id=com.adp.loadercustom" imageanchor="1"><img src="http://2.bp.blogspot.com/-NFnsInNBlFo/UFX2Hj3c7MI/AAAAAAAAE1U/7Nao1V2uyKg/s320/android_app_on_play_large.png" /></a>
-
-## Grab the Source Code!
+<a href="https://play.google.com/store/apps/details?id=com.adp.loadercustom">
+<img src="/images/posts/2012/09/16/google-play-badge.png" />
+</a>
 
 <a href="https://github.com/alexjlockwood/AppListLoader">The source code is available on GitHub</a>.
 An excessive amount of comments flesh out the entire application-Loader workflow. Download it,
-import it as an eclipse project, and modify it all you want! :)
+import it as an eclipse project, and modify it all you want!
 
 ## Leave a comment!
 
