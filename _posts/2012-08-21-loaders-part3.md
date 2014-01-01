@@ -67,21 +67,18 @@ There are four characteristics which ultimately determine a Loader’s behavior:
 
   3. **One of three<a href="#footnote2"><sup>2</sup></a> distinct states.** Any given Loader will either be in a
      _started_, _stopped_, or _reset_ state:
-
-       + Loaders in a _started state_ execute loads and may deliver their results to the listener at any
-         time. Started Loaders should monitor for changes and perform new loads when changes are detected.
-         Once started, the Loader will remain in a started state until it is either stopped or reset.
-         This is the only state in which `onLoadFinished` will ever be called.
-
-       + Loaders in a _stopped state_ continue to monitor for changes but should **not**
-         deliver results to the client. From a stopped state, the Loader may either be started or reset.
-
-       + Loaders in a _reset state_ should **not** execute new loads, should **not** deliver new
-         results, and should **not** monitor for changes. When a loader enters a reset state, it should
-         invalidate and free any data associated with it for garbage collection (likewise, the client should
-         make sure they remove any references to this data, since it will no longer be available). More
-         often than not, reset Loaders will never be called again; however, in some cases they may be started,
-         so they should be able to start running properly again if necessary.
+      - Loaders in a _started state_ execute loads and may deliver their results to the listener at any
+        time. Started Loaders should monitor for changes and perform new loads when changes are detected.
+        Once started, the Loader will remain in a started state until it is either stopped or reset.
+        This is the only state in which `onLoadFinished` will ever be called.
+      - Loaders in a _stopped state_ continue to monitor for changes but should **not**
+        deliver results to the client. From a stopped state, the Loader may either be started or reset.
+      - Loaders in a _reset state_ should **not** execute new loads, should **not** deliver new
+        results, and should **not** monitor for changes. When a loader enters a reset state, it should
+        invalidate and free any data associated with it for garbage collection (likewise, the client should
+        make sure they remove any references to this data, since it will no longer be available). More
+        often than not, reset Loaders will never be called again; however, in some cases they may be started,
+        so they should be able to start running properly again if necessary.
 
   4. **An observer to receive notifications when the data source has changed.** Loaders should implement an observer of some sort
      (i.e. a `ContentObserver`, a `BroadcastReceiver`, etc.) to monitor the underlying data source for changes.
