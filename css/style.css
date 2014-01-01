@@ -221,6 +221,7 @@ body {
     }
     .related li {
         border-bottom: 1px #ccc solid;
+        list-style-type: none;
     }
     .related li:last-child {
         border: 0;
@@ -280,7 +281,7 @@ body {
     #blog-archives li {
         padding: .5em;
         border-bottom: 1px #eee solid;
-        list-style-type: none;          /* Good or bad? */
+        list-style-type: none;
     }
     #blog-archives li:last-child {
         border: 0;

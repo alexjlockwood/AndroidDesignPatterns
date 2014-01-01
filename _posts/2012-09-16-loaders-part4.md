@@ -4,6 +4,9 @@ title: 'Tutorial: AppListLoader (part 4)'
 date: 2012-09-16
 permalink: /2012/09/tutorial-loader-loadermanager.html
 comments: true
+related: [{title: 'Life Before Loaders', link: '/2012/07/loaders-and-loadermanager-background.html'},
+          {title: 'Understanding the LoaderManager', link: '/2012/07/understanding-loadermanager.html'},
+          {title: 'Implementing Loaders', link: '/2012/08/implementing-loaders.html'}]
 ---
 
 This will be my fourth and final post on Loaders and the LoaderManager. Let me know in the comments if they have been helpful!
