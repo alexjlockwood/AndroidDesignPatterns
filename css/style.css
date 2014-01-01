@@ -86,7 +86,7 @@ p {
     }
 pre, code {
     color: #444;
-    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Courier New, monospace;
+    font-family: 'Consolas', 'Menlo', 'Monaco', 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace;
     font-size: .95em;
     line-height: 1.3em;
 }
