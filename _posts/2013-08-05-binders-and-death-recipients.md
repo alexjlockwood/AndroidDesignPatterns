@@ -6,8 +6,9 @@ permalink: /2013/08/binders-death-recipients.html
 comments: true
 ---
 
-<i>Note: before you begin, make sure you've read my
-<a href="/2013/07/binders-window-tokens.html">previous post</a> about `Binder` tokens!</i>
+<aside>
+  Note: before you begin, make sure you've read my <a href="/2013/07/binders-window-tokens.html">previous post</a> about `Binder` tokens!
+</aside>
 
 Since the very beginning, Android's central focus has been the ability to multitask. In order to achieve it,
 Android takes a unique approach by allowing multiple applications to run at the same time. Applications are

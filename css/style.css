@@ -116,6 +116,9 @@ em, i {
 strong, b {
     font-weight: 700;
 }
+.post aside {
+    font-style: italic;                     /* TODO: fix this later! */
+}
 .post li {
     margin: 1em 0 1em 3em;
 }
@@ -138,12 +141,12 @@ thead {
 }
 sup {
     vertical-align: top;
-    font-size: .6em;
+    font-size: .8em;
+    text-decoration: underline;
 }
 
 /*
  * LAYOUT
- * ======
  */
 
 body {
