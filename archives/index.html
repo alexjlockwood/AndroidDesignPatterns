@@ -9,7 +9,7 @@ sitemap:
 <!-- TODO: fix the sitemap YAML front matter above! -->
 
 <header>
-  <h1 class="entry-title">Archives</h1>
+  <h1>Archives</h1>
 </header>
 
 <div id="blog-archives">
@@ -22,12 +22,13 @@ sitemap:
       <ul>
     {% endif %}
 
-    <li>{{ post.date | date: "%b %-d" }} <a href="{{ post.url }}">{{ post.title }}</a></li>
+    <li><span>{{ post.date | date: "%b %-d" }}</span><a href="{{ post.url }}">{{ post.title }}</a></li>
 
     {% if forloop.last %}
       </ul>
     {% elsif this_year != next_year %}
       </ul>
+      <div class="clearfix"></div>
       <h2 id="{{ next_year }}-ref">{{next_year}}</h2>
       <ul>
     {% endif %}

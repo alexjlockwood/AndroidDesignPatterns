@@ -268,6 +268,34 @@ body {
     padding: 20px 0;
     clear: both;
 }
+#blog-archives {
+}
+    #blog-archives h2 {
+        width: 120px;
+        color: #669900;
+    }
+    #blog-archives li {
+        padding: .5em;
+        border-bottom: 1px #eee solid;
+    }
+    #blog-archives li:last-child {
+        border: 0;
+    }
+    #blog-archives li span {
+        text-align: right;
+        background: #f5f5f5;
+        margin: -.5em;
+        padding: .5em;
+        color: #666;
+        display: block;
+        float: left;
+        text-transform: uppercase;
+        margin-right: 40px;
+        width: 60px;
+    }
+    #blog-archives li a {
+        border: 0;
+    }
 
 /* Code
  * ---- */
