@@ -277,6 +277,7 @@ body {
     #blog-archives li {
         padding: .5em;
         border-bottom: 1px #eee solid;
+        list-style-type: none;          /* Good or bad? */
     }
     #blog-archives li:last-child {
         border: 0;
@@ -297,8 +298,9 @@ body {
         border: 0;
     }
 
-/* Code
- * ---- */
+/*
+ * Code
+ */
 
 .highlight {
     background: transparent;

@@ -8,9 +8,7 @@ sitemap:
 ---
 <!-- TODO: fix the sitemap YAML front matter above! -->
 
-<header>
-  <h1>Archives</h1>
-</header>
+<header><h1>Archives</h1></header>
 
 <div id="blog-archives">
   {% for post in site.posts %}
@@ -18,7 +16,7 @@ sitemap:
     {% capture next_year %}{{ post.previous.date | date: "%Y" }}{% endcapture %}
 
     {% if forloop.first %}
-      <h2 id="{{ this_year }}-ref">{{ this_year }}</h2>
+      <h2>{{ this_year }}</h2>
       <ul>
     {% endif %}
 
@@ -29,7 +27,7 @@ sitemap:
     {% elsif this_year != next_year %}
       </ul>
       <div class="clearfix"></div>
-      <h2 id="{{ next_year }}-ref">{{next_year}}</h2>
+      <h2>{{ next_year }}</h2>
       <ul>
     {% endif %}
   {% endfor %}
