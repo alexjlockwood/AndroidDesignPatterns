@@ -172,7 +172,7 @@ Though their existence is for the most part hidden from developers, Binder token
 
 As always, thanks for reading, and leave a comment if you have any questions. Don't forget to +1 this blog in the top right corner!
 
-<br><hr color="#000000" size="1" width="60%" align="left">
+<hr class="footnote-divider" />
 
 <a name="footnote1"><sup>1</sup></a> The <a href="http://developer.android.com/reference/android/os/Binder.html">documentation</a> actually hints that `Binder`s can be used for this purpose: "You can... simply instantiate a raw Binder object directly to use as a token that can be shared across processes."
 
