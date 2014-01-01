@@ -116,13 +116,13 @@ em, i {
 strong, b {
     font-weight: 700;
 }
-#info li, .post li {
+.post li {
     margin: 1em 0 1em 3em;
 }
-    #info ul li, .post ul li {
+    ul {
         list-style-type: disc;
     }
-    #info ol li, .post ol li {
+    ol {
         list-style-type: decimal;
     }
 acronym, abbr {
