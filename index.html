@@ -3,37 +3,33 @@ layout: default
 title: Android Design Patterns
 ---
 
-  {% for post in paginator.posts %}
+{% for post in paginator.posts %}
   <article class="snippet">
     <div class="side">
-        <div class="date-posted">
-            <span class="date-block">{{ post.date | date: "%b %d %Y" }}</span>
-        </div>
+      <div class="date-posted">
+        <span class="date-block">{{ post.date | date: "%b %-d %Y" }}</span>
+      </div>
     </div>
     <div class="body">
-    <header>
-      <h2 class="post-title no-border"><a href="{{ post.url }}">{{ post.title }}</a></h2>
-    </header>
+      <header><h2 class="post-title no-border"><a href="{{ post.url }}">{{ post.title }}</a></h2></header>
       {{ post.excerpt }}
-    <footer>
-      <a rel="full-article" href="{{ post.url }}">Continue reading&#8230;</a>
-    </footer>
+      <footer><a href="{{ post.url }}">Continue reading&#8230;</a></footer>
     </div>
     <div class="clearfix"></div>
   </article>
-  {% endfor %}
+{% endfor %}
 
-  {% if paginator.previous_page or paginator.next_page %}
-    <div class="mod-pagination">
-      {% if paginator.previous_page %}
-        {% if paginator.previous_page == 1 %}
-          <div class="prev"><a href="/">&#171; Newer</a></div>
-        {% else %}
-          <div class="prev"><a href="/page{{ paginator.previous_page }}">&#171; Newer</a></div>
-        {% endif %}
+{% if paginator.previous_page or paginator.next_page %}
+  <div class="mod-pagination">
+    {% if paginator.previous_page %}
+      {% if paginator.previous_page == 1 %}
+        <div class="prev"><a href="/">&#171; Newer</a></div>
+      {% else %}
+        <div class="prev"><a href="/page{{ paginator.previous_page }}">&#171; Newer</a></div>
       {% endif %}
-      {% if paginator.next_page %}
-        <div class="next"><a href="/page{{ paginator.next_page }}">Older &#187;</a></div>
-      {% endif %}
-    </div>
-  {% endif %}
+    {% endif %}
+    {% if paginator.next_page %}
+      <div class="next"><a href="/page{{ paginator.next_page }}">Older &#187;</a></div>
+    {% endif %}
+  </div>
+{% endif %}
