@@ -28,7 +28,7 @@ after the activity's state had been saved, resulting in a phenomenon known as _A
 state loss_. Before we get into the details of what this actually means, however, let's
 first take a look at what happens under-the-hood when `onSaveInstanceState()` is
 called. As I discussed in my last post about
-<a href="http://www.androiddesignpatterns.com/2013/08/binders-death-recipients.html">`Binder`'s
+<a href="/2013/08/binders-death-recipients.html">`Binder`s
 & Death Recipients</a>, Android applications have very little control over their destiny
 within the Android runtime environment. The Android system has the power to terminate processes
 at any time to free up memory, and background activities may be killed with little to no warning
@@ -76,36 +76,11 @@ after they have been _stopped_, meaning that `onSaveInstanceState()`
 will now be called before `onStop()` instead of immediately before
 `onPause()`. These differences are summarized in the table below:
 
-| | pre-Honeycomb | post-Honeycomb |
-| --- | --- | --- |
-| Activities can be killed before `onPause()`? | NO | NO |
-| Activities can be killed before `onStop()`? | YES | NO |
-| `onSaveInstanceState(Bundle)` is guaranteed to be called before... | `onPause()` | `onStop()` |
-
-<!--
-<table border="1" cellpadding="5">
-  <tbody><tr>
-    <th style="width: 270px"></th>
-    <th>pre-Honeycomb</th>
-    <th>post-Honeycomb</th>
-  </tr>
-  <tr>
-    <td style="width: 270px">Activities can be killed before `onPause()`?</td>
-    <td>NO</td>
-    <td>NO</td>
-  </tr>
-  <tr>
-    <td style="width: 270px">Activities can be killed before `onStop()`?</td>
-    <td>YES</td>
-    <td>NO</td>
-  </tr>
-  <tr>
-    <td style="width: 270px">`onSaveInstanceState(Bundle)` is guaranteed to be called before...</td>
-    <td>`onPause()`</td>
-    <td>`onStop()`</td>
-  </tr>
-</tbody></table>
--->
+|                                                                    | pre-Honeycomb | post-Honeycomb |
+| ------------------------------------------------------------------ | ------------- | -------------- |
+| Activities can be killed before `onPause()`?                       | NO            | NO             |
+| Activities can be killed before `onStop()`?                        | YES           | NO             |
+| `onSaveInstanceState(Bundle)` is guaranteed to be called before... | `onPause()`   | `onStop()`     |
 
 As a result of the slight changes that were made to the Activity lifecycle, the support
 library sometimes needs to alter its behavior depending on the platform version. For
@@ -120,36 +95,11 @@ older versions of the platform, older devices would have to live with the accide
 state loss that might result between `onPause()` and `onStop()`.
 The support library's behavior across the two platforms is summarized in the table below:
 
-| | pre-Honeycomb | post-Honeycomb |
-| --- | --- | --- |
-| `commit()` before `onPause()` | OK | OK |
-| `commit()` between `onPause()` and `onStop()` | STATE LOSS | OK |
-| `commit()` after `onStop()` | EXCEPTION | EXCEPTION |
-
-<!--
-<table border="1" cellpadding="5">
-  <tbody><tr>
-    <th style="width: 270px"></th>
-    <th>pre-Honeycomb</th>
-    <th>post-Honeycomb</th>
-  </tr>
-  <tr>
-    <td style="width: 270px">`commit()` before `onPause()`</td>
-    <td>OK</td>
-    <td>OK</td>
-  </tr>
-  <tr>
-    <td style="width: 270px">`commit()` between `onPause()` and `onStop()`</td>
-    <td>STATE LOSS</td>
-    <td>OK</td>
-  </tr>
-  <tr>
-    <td style="width: 270px">`commit()` after `onStop()`</td>
-    <td>EXCEPTION</td>
-    <td>EXCEPTION</td>
-  </tr>
-</tbody></table>
--->
+|                                               | pre-Honeycomb | post-Honeycomb |
+| --------------------------------------------- | ------------- | -------------- |
+| `commit()` before `onPause()`                 | OK            | OK             |
+| `commit()` between `onPause()` and `onStop()` | STATE LOSS    | OK             |
+| `commit()` after `onStop()`                   | EXCEPTION     | EXCEPTION      |
 
 ## How to avoid the exception?
 
