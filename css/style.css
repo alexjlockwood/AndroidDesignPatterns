@@ -19,9 +19,6 @@ h2 {
     line-height: 1.3em;
     margin: 1em 0;
 }
-h2.no-border a {
-    border: 0;
-}
 h3, h4 {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -107,6 +104,9 @@ a {
 a:hover {
     color: #99cc00;
     border-bottom: 1px #ddd solid;
+}
+.no-border a {
+    border: 0;
 }
 em, i {
     font-style: italic;
@@ -362,10 +362,10 @@ code {
         float: none;
     }
     .side {
-        margin-top: 2em;
+        margin-top: 0;
     }
     h2.post-title {
-        margin-top: 20px;
+        margin-top: 0;
     }
     .author {
         display: inline;
@@ -378,16 +378,21 @@ code {
     #header h3 {
         width: 100%;
         text-align: center;
-        margin: 0 0 24px
+        margin: 0 0 14px;
     }
     #header h3 a {
         padding: 1em;
-        padding-top: 50px;
         display: block;
+        margin-left: -10%;
+        margin-right: -10%;
     }
     #header nav {
         clear: both;
         float: none;
         text-align: center;
+        margin-bottom: 12px;
+    }
+    #header nav a {
+        padding: 7px 13px;
     }
 }
