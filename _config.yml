@@ -11,7 +11,7 @@ author:
 
 baseurl: http://alexjlockwood.github.io
 
-paginate: 5
+paginate: 4
 excerpt_separator: <!--more-->
 
 pygments: true
