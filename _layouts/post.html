@@ -15,6 +15,25 @@ layout: default
     Posted <span class="date">{{ page.date | date: "%b %-d %Y" }}</span>
     <div class="author">by <a href="{{ site.author.googleplus }}">{{ site.author.name }}</a></div>
   </div>
+  <div class="share-post">
+    <!-- Google+ +1 button -->
+    <div class="g-plusone" data-size="medium"></div>
+    <!-- Twitter tweet button -->
+    <div><a href="https://twitter.com/share" class="twitter-share-button" data-via="twitterapi" data-lang="en">Tweet</a></div>
+    <!-- Twitter javascript -->
+    <script>
+      !function(d,s,id) {
+        var js,fjs=d.getElementsByTagName(s)[0];
+        if (!d.getElementById(id)) {
+          js=d.createElement(s);
+          js.id=id;
+          js.src="https://platform.twitter.com/widgets.js";
+          fjs.parentNode.insertBefore(js,fjs);
+        }
+      }(document,"script","twitter-wjs");
+    </script>
+  </div>
+
   {% if page.related %}
   <h4>Suggested Posts</h4>
   <ul class="related">

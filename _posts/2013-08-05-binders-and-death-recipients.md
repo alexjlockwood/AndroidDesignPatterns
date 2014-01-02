@@ -6,7 +6,8 @@ permalink: /2013/08/binders-death-recipients.html
 comments: true
 ---
 
-<em>Note: before you begin, make sure you've read my <a href="/2013/07/binders-window-tokens.html">previous post</a> about `Binder` tokens!</em>
+> <em>Note: before you begin, make sure you've read my [previous post](/2013/07/binders-window-tokens.html)
+> about `Binder` tokens!</em>
 
 Since the very beginning, Android's central focus has been the ability to multitask. In order to achieve it,
 Android takes a unique approach by allowing multiple applications to run at the same time. Applications are
@@ -222,4 +223,5 @@ if you get a chance!
     application framework works from an embedded systems point of view... and it taught me a couple of really cool
     `adb` commands too!
 
-As always, thanks for reading, and leave a comment if you have any questions. Don't forget to +1 this blog and share this post on Google+ if you found it interesting!
+As always, thanks for reading, and leave a comment if you have any questions. Don't forget to +1
+this blog and share this post on Google+ if you found it interesting!

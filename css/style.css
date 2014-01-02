@@ -117,9 +117,6 @@ em, i {
 strong, b {
     font-weight: 700;
 }
-.post aside {
-    font-style: italic; /* TODO: fix this later! */
-}
 .post li {
     margin: 1em 0 1em 3em;
 }
@@ -166,10 +163,10 @@ body {
     float: left;
 }
 #social {
-    background: url('/images/android.gif') no-repeat left bottom;
-    background-position: 0 -100px;
+    background: url('/images/android.png') no-repeat left bottom;
     padding: 10px 0 0;
-    height: 38px;
+    height: 35px;
+    background-size: contain;
     text-align: right;
     float: left;
 }
@@ -207,6 +204,9 @@ hr.footnote-divider {
 .date-posted {
     font-size: .85em;
     font-style: italic;
+}
+.share-post {
+    padding-top: 1em;
 }
 .snippet .date-posted {
     font-size: 1em;
