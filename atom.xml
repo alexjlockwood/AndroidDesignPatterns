@@ -3,8 +3,8 @@ layout: nil
 title: Atom Feed
 ---
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"> 
- <title>{{ site.name | xml_escape }}</title
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>{{ site.name | xml_escape }}</title>
  <link href="{{ site.baseurl }}/"/>
  <link href="{{ site.baseurl }}/atom.xml" rel="self"/>
  <updated>{{ site.time | date_to_xmlschema }}</updated>
