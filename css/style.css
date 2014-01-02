@@ -108,6 +108,9 @@ a:hover {
 .no-border a {
     border: 0;
 }
+a.no-border {
+    border: 0;
+}
 em, i {
     font-style: italic;
 }
