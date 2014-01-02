@@ -223,4 +223,5 @@ if you get a chance!
     application framework works from an embedded systems point of view... and it taught me a couple of really cool
     `adb` commands too!
 
-As always, thanks for reading, and leave a comment if you have any questions. Don't forget to +1 this blog and share this post on Google+ if you found it interesting!
+As always, thanks for reading, and leave a comment if you have any questions. Don't forget to +1
+this blog and share this post on Google+ if you found it interesting!
