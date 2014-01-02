@@ -114,9 +114,6 @@ em, i {
 strong, b {
     font-weight: 700;
 }
-.post aside {
-    font-style: italic; /* TODO: fix this later! */
-}
 .post li {
     margin: 1em 0 1em 3em;
 }
@@ -204,6 +201,9 @@ hr.footnote-divider {
 .date-posted {
     font-size: .85em;
     font-style: italic;
+}
+.share-post {
+    padding-top: 1em;
 }
 .snippet .date-posted {
     font-size: 1em;
