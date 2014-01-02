@@ -9,11 +9,13 @@ comments: true
 The following stack trace and exception message has plagued StackOverflow
 ever since Honeycomb's initial release:
 
-    java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-        at android.support.v4.app.FragmentManagerImpl.checkStateLoss(FragmentManager.java:1341)
-        at android.support.v4.app.FragmentManagerImpl.enqueueAction(FragmentManager.java:1352)
-        at android.support.v4.app.BackStackRecord.commitInternal(BackStackRecord.java:595)
-        at android.support.v4.app.BackStackRecord.commit(BackStackRecord.java:574)
+```
+java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+    at android.support.v4.app.FragmentManagerImpl.checkStateLoss(FragmentManager.java:1341)
+    at android.support.v4.app.FragmentManagerImpl.enqueueAction(FragmentManager.java:1352)
+    at android.support.v4.app.BackStackRecord.commitInternal(BackStackRecord.java:595)
+    at android.support.v4.app.BackStackRecord.commit(BackStackRecord.java:574)
+```
 
 This post will explain _why_ and _when_ this exception is thrown, and will
 conclude with several suggestions that will help ensure it never crashes your
