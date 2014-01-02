@@ -294,7 +294,7 @@ achieve this effect is available for download on the
 The source code is available on <a href="https://github.com/alexjlockwood/worker-fragments">GitHub</a>.
 Download it, import it into Eclipse, and modify it all you want!
 
-<a href="https://play.google.com/store/apps/details?id=com.adp.retaintask" imageanchor="1" ><img border="0" src="http://1.bp.blogspot.com/-1sQZ32vpOy4/UXtjWSjLhfI/AAAAAAAAHJw/KoXS-a5y3mo/s320/Screenshot_2013-04-27-04-22-18.png" /></a>
+<a href="https://play.google.com/store/apps/details?id=com.adp.retaintask"><img border="0" src="http://1.bp.blogspot.com/-1sQZ32vpOy4/UXtjWSjLhfI/AAAAAAAAHJw/KoXS-a5y3mo/s320/Screenshot_2013-04-27-04-22-18.png" /></a>
 
 As always, leave a comment if you have any questions and don't forget to +1 this
 blog in the top right corner!
