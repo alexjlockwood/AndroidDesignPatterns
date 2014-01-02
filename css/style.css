@@ -1,8 +1,6 @@
 /*
  * TYPOGRAPHY
- * ==========
  */
-
 div {
     font-family: 'Asap', sans-serif !important;
     line-height: 1.5em;
@@ -148,7 +146,6 @@ sup {
 /*
  * LAYOUT
  */
-
 body {
     background: #fff;
 }
@@ -159,7 +156,7 @@ body {
 }
 #header {
     background: #222;
-    padding: 10px 0;
+    padding: 0px 0;         /* TODO: change padding depending on desktop vs. mobile? */
 }
     #header ul li {
         padding-left: 30px;
@@ -326,9 +323,7 @@ code {
 
 /*
  * MISC.
- * =====
  */
-
 .hidden-big {
     display: none;
 }
@@ -341,9 +336,7 @@ code {
 
 /*
  * RESPONSIVE
- * ==========
  */
-
 @media (max-width: 1350px) {
     .container {
         width: 90%;
