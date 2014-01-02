@@ -277,23 +277,20 @@ hr.footnote-divider {
 }
 #blog-archives li {
     padding: .5em;
-    border-bottom: 1px #eee solid;
     list-style-type: none;
 }
 #blog-archives li:last-child {
     border: 0;
 }
 #blog-archives li span {
+    width: 80px;
     text-align: right;
-    background: #f5f5f5;
-    margin: -.5em;
-    padding: .5em;
-    color: #666;
+    padding: 0 .5em;
     display: block;
     float: left;
-    text-transform: uppercase;
-    margin-right: 40px;
-    width: 60px;
+    margin-right: 10px;
+    background: #f5f5f5;
+    color: #666;
 }
 #blog-archives li a {
     border: 0;
