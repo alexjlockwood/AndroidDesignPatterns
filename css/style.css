@@ -163,7 +163,7 @@ body {
     float: left;
 }
 #social {
-    background: url('/images/android.gif') no-repeat left bottom;
+    background: url('/images/android.png') no-repeat left bottom;
     background-position: 0 -100px;
     padding: 10px 0 0;
     height: 38px;
