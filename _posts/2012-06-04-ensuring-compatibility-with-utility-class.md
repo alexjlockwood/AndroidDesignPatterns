@@ -17,7 +17,7 @@ easily understandable way.
 
 Here's a simple example. Let's say you are building an Android application that frequently
 checks the device's SDK version code, to ensure backward compatibility. You'll need to
-use the constants provided in the `android.os.Build.VERSION_CODES`class,
+use the constants provided in the `android.os.Build.VERSION_CODES` class,
 but these constants are long and can quickly clutter up your code. In this case,
 it might be a good idea to create a `CompatabilityUtil` utility class.
 A sample implementation is given below:
