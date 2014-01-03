@@ -184,12 +184,17 @@ body {
 #social {
     background: url('/images/android.png') no-repeat left bottom;
     padding: 10px 0 0;
-    height: 35px;
+    height: 32px;
     background-size: contain;
     text-align: right;
     float: left;
+    font-size: 1.25em;
 }
-#social a, #social a:hover {
+#social a {
+    text-decoration: none;
+    color: #222;
+}
+#social a:hover {
     text-decoration: none;
 }
 #content {
