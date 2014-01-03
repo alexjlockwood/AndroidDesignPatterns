@@ -29,7 +29,7 @@ after the activity's state had been saved, resulting in a phenomenon known as _A
 state loss_. Before we get into the details of what this actually means, however, let's
 first take a look at what happens under-the-hood when `onSaveInstanceState()` is
 called. As I discussed in my last post about
-<a href="/2013/08/binders-death-recipients.html">`Binder`s
+<a href="/2013/08/binders-death-recipients.html">Binders
 & Death Recipients</a>, Android applications have very little control over their destiny
 within the Android runtime environment. The Android system has the power to terminate processes
 at any time to free up memory, and background activities may be killed with little to no warning
