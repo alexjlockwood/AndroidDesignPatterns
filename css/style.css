@@ -440,6 +440,9 @@ code {
     }
 }
 @media (max-width: 600px) {
+    li {
+        margin: 1em 0 1em 1em;
+    }
     h1 {
         font-family: 'Roboto', sans-serif;
         font-weight: 700;
