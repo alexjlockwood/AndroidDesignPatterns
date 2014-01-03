@@ -491,6 +491,9 @@ code {
         border-bottom: 1px #eee solid;
     }
 }
+
+/* TODO: confirm that the below properties are correct and work for a wide range of browsers! */
+
 @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
     #social {
         background: url('/assets/images/android2x.png') no-repeat left bottom;
