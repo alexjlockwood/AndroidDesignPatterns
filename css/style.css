@@ -22,7 +22,13 @@ h2 {
     line-height: 1.3em;
     margin: 1em 0;
 }
-h3, h4 {
+h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 1.3em;
+    margin: 2em 0 1em;
+}
+h4, #blog-header {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 1.2em;
