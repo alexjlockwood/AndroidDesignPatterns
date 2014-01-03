@@ -419,6 +419,14 @@ code {
     }
 }
 @media (max-width: 600px) {
+    h1 {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 700;
+        font-size: 1.75em;
+        line-height: 1.3em;
+        margin: 1em 0;
+        color: #222;
+    }
     #social {
         background: transparent;
     }
@@ -436,7 +444,7 @@ code {
         padding: 0 13px;
         margin: 2px;
     }
-    #header nav a:hover {
+    #header nav a:hover, #header h3 a:hover {
         background: transparent;
     }
 }
