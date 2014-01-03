@@ -63,6 +63,9 @@ h4, #blog-header {
     background: #000;
     color: #99cc00;
 }
+#header a {
+    border-radius: 1px;
+}
 h5 {
     font-weight: 700;
     margin: 2em 0 1em;
@@ -258,6 +261,7 @@ hr.footnote-divider {
     background: #669900;
     color: #fff;
     padding: .5em;
+    border-radius: 1px;
 }
 .related li {
     border-bottom: 1px #ccc solid;
