@@ -271,6 +271,7 @@ hr.footnote-divider {
 .related li {
     border-bottom: 1px #ccc solid;
     list-style-type: none;
+    margin: 0;
 }
 .related li:last-child {
     border: 0;
@@ -319,6 +320,7 @@ hr.footnote-divider {
 #blog-archives li {
     padding: .5em;
     list-style-type: none;
+    margin: 0;
 }
 #blog-archives li:last-child {
     border: 0;
@@ -427,7 +429,8 @@ code {
         text-align: center;
     }
     #header nav a {
-        padding: 7px 13px;
+        padding: 0 13px;
+        margin: 2px;
     }
     #header nav a:hover {
         background: transparent;
