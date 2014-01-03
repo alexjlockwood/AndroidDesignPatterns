@@ -33,8 +33,7 @@ h2.post-title a {
 }
 h2.post-title a:hover {
     color: #669900;
-    text-decoration:underline;
-    border-bottom: 1px #669900 solid;
+    text-decoration: underline;
 }
 h3 {
     font-family: 'Roboto', sans-serif;
