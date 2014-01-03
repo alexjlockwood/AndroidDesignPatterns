@@ -376,7 +376,7 @@ hr.footnote-divider {
 .side h4 {
     margin-top: 0;
 }
-.share-post {
+.share-buttons {
     padding-top: 1em;
 }
 .snippet .date-posted {
@@ -604,5 +604,11 @@ code {
 @media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
     #social {
         background: url('/assets/images/android2x.png') no-repeat left bottom;
+    }
+}
+
+@media print {
+    #header, #social, .share-buttons, #info {
+        display: none;
     }
 }
