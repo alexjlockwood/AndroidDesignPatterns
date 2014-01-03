@@ -5,9 +5,9 @@ date: 2013-07-31
 permalink: /2013/07/binders-window-tokens.html
 comments: true
 ---
-> <em>Note: if you liked this post, be sure to read my second blog post about
+> Note: if you liked this post, be sure to read my second blog post about
 > <a href="/2013/08/binders-death-recipients.html">`Binder`s &amp; Death Recipients</a>
-> as well!</em>
+> as well!
 
 One of Android's key design goals was to provide an open platform that doesn't rely on a
 central authority to verify that applications do what they claim. To achieve this, Android
