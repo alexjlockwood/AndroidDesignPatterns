@@ -5,7 +5,6 @@ date: 2013-04-15
 permalink: /2013/04/activitys-threads-memory-leaks.html
 comments: true
 ---
-
 A common difficulty in Android programming is coordinating long-running tasks
 over the Activity lifecycle and avoiding the subtle memory leaks which might
 result. Consider the Activity code below, which starts and loops a new thread
@@ -52,7 +51,7 @@ up after us and reclaim the memory associated with the Activity and its
 running thread. However, this is not the case. Both will leak never to be
 reclaimed, and the result will likely be a significant reduction in performance.
 
-## How to Leak an Activity
+### How to Leak an Activity
 
 The first memory leak should be immediately obvious if you read my
 <a href="http://www.androiddesignpatterns.com/2013/01/inner-class-handler-memory-leak.html">previous post</a>
@@ -70,7 +69,7 @@ Activity object is in fact retained in memory as a result of these implicit refe
 
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="float: center; margin-left: 0em; text-align: left;">
   <tbody>
-    <tr><td style="text-align: center;"><a href="http://4.bp.blogspot.com/-EKohlXPS6dk/UWwwQaH8AEI/AAAAAAAAHJI/EIFY4B3yg6w/s1600/chart134.png" style="margin-left: auto; margin-right: auto;"><img border="0" height="175" src="http://4.bp.blogspot.com/-EKohlXPS6dk/UWwwQaH8AEI/AAAAAAAAHJI/EIFY4B3yg6w/s400/chart134.png" width="400" /></a>
+    <tr><td style="text-align: center;"><a class="no-border" href="http://4.bp.blogspot.com/-EKohlXPS6dk/UWwwQaH8AEI/AAAAAAAAHJI/EIFY4B3yg6w/s1600/chart134.png" style="margin-left: auto; margin-right: auto;"><img border="0" height="175" src="http://4.bp.blogspot.com/-EKohlXPS6dk/UWwwQaH8AEI/AAAAAAAAHJI/EIFY4B3yg6w/s400/chart134.png" width="400" /></a>
     </td></tr>
     <tr><td class="tr-caption" style="text-align: center;">Figure 1. Activity instances retained in memory after ten orientation changes.
     </td></tr>
@@ -122,7 +121,7 @@ public class MainActivity extends Activity {
 The new thread no longer holds an implicit reference to the Activity, and the
 Activity will be eligible for garbage collection after the configuration change.
 
-## How to Leak a Thread
+### How to Leak a Thread
 
 The second issue is that for each new Activity that is created, a thread is
 leaked and never able to be reclaimed. Threads in Java are GC roots; that is,
@@ -193,7 +192,7 @@ example available in the
 <a href="https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/FragmentRetainInstance.java">API demos</a>
 which illustrates the concept.
 
-## Conclusion
+### Conclusion
 
 In Android, coordinating long-running tasks over the Activity lifecycle can be
 difficult and memory leaks can result if you aren't careful. Here are some
@@ -235,7 +234,9 @@ The source code for this blog post is available on
 application (which mirrors the source code exactly) is also available for download on
 <a href="https://play.google.com/store/apps/details?id=com.adp.leaky.threads">Google Play</a>.
 
-<a href="https://play.google.com/store/apps/details?id=com.adp.leaky.threads"><img border="0" src="http://4.bp.blogspot.com/-N40gsQs2Ytg/UXycCupURtI/AAAAAAAAHKE/HNLW-xEGGrc/s320/Screenshot_2013-04-27-16-22-17.png" /></a>
+<a class="no-border" href="https://play.google.com/store/apps/details?id=com.adp.leaky.threads">
+<img border="0" src="http://4.bp.blogspot.com/-N40gsQs2Ytg/UXycCupURtI/AAAAAAAAHKE/HNLW-xEGGrc/s320/Screenshot_2013-04-27-16-22-17.png" />
+</a>
 
 As always, leave a comment if you have any questions and don't forget to +1
 this blog in the top right corner!

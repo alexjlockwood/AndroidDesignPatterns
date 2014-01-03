@@ -8,7 +8,6 @@ related: [{title: 'Life Before Loaders', link: '/2012/07/loaders-and-loadermanag
           {title: 'Understanding the LoaderManager', link: '/2012/07/understanding-loadermanager.html'},
           {title: 'Implementing Loaders', link: '/2012/08/implementing-loaders.html'}]
 ---
-
 This will be my fourth and final post on Loaders and the LoaderManager. Let me know in the comments if they have been helpful!
 Links to my previous Loader-related posts are given below:
 
@@ -28,7 +27,7 @@ manage the Loader across the Activity/Fragment lifecycle:
 
 <!--more-->
 
-<a href="/images/posts/2012/09/16/app-screenshot.png">
+<a class="no-border" href="/images/posts/2012/09/16/app-screenshot.png">
 <img src="/images/posts/2012/09/16/app-screenshot.png" style="border:0px; width:400px; height:269px;"/>
 </a>
 
@@ -45,13 +44,13 @@ sure to run the application while analyzing the logcat! Hopefully it'll give you
 Loaders work in conjunction with the LoaderManager and the Activity/Fragment lifecycle. Be sure to filter the
 logcat by application name ("com.adp.loadercustom") for the best results!
 
-<a href="/images/posts/2012/09/16/eclipse-screenshot.png">
+<a class="no-border" href="/images/posts/2012/09/16/eclipse-screenshot.png">
 <img src="/images/posts/2012/09/16/eclipse-screenshot.png" style="border:0px; width:400px; height:260px;"/>
 </a>
 
 You can download the application from Google Play by clicking the badge below:
 
-<a href="https://play.google.com/store/apps/details?id=com.adp.loadercustom">
+<a class="no-border" href="https://play.google.com/store/apps/details?id=com.adp.loadercustom">
 <img src="/images/posts/2012/09/16/google-play-badge.png" />
 </a>
 

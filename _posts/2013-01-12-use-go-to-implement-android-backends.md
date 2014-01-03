@@ -5,7 +5,6 @@ date: 2013-01-12
 permalink: /2013/01/gcm-appengine-golang-android-backends.html
 comments: true
 ---
-
 A couple weeks ago I wrote a <a href="http://github.com/alexjlockwood/gcm">library</a>
 that simplifies the interaction between Go-based application servers and Google Cloud
 Messaging servers. I plan on covering GCM (both the application-side and server-side
@@ -41,7 +40,7 @@ I'm glad you asked. There are several reasons:
 That's all for now... but expect a lot more on GCM, Google App Engine, and Golang
 later! The comments are open as always, and don't forget to +1 this post!
 
-## Links
+### Links
 
   + <a href="https://github.com/alexjlockwood/gcm">Google Cloud Messaging for Go</a>
   + <a href="https://developers.google.com/appengine/">Google App Engine</a>

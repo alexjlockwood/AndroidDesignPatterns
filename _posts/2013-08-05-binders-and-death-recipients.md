@@ -5,7 +5,6 @@ date: 2013-08-05
 permalink: /2013/08/binders-death-recipients.html
 comments: true
 ---
-
 > <em>Note: before you begin, make sure you've read my [previous post](/2013/07/binders-window-tokens.html)
 > about `Binder` tokens!</em>
 
@@ -32,7 +31,7 @@ services (the Activity Manager, Window Manager, Power Manager, etc.) and several
 system services need to be notified immediately when an application dies so that they can clean up its state
 and maintain an accurate snapshot of the system. Enter death recipients.
 
-## Death Recipients
+### Death Recipients
 
 As it turns out, this task is made easy using the `Binder`'s "link-to-death" facility, which allows a process to get a callback when another process hosting a binder object goes away. In Android, any process can receive a notification when another process dies by taking the following steps:
 
@@ -171,7 +170,7 @@ The code might seem a little dense at first, but the concept is simple:
     a death notification to the registered death recipient's `binderDied()`
     method, which quickly releases the wake lock and updates the device's power state.
 
-## Examples in the Framework
+### Examples in the Framework
 
 The `Binder`'s link-to-death feature is an incredibly useful tool that is 
 used extensively by the framework's system services. Here are some of the more 
@@ -199,7 +198,7 @@ interesting examples:
     <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/location/GpsLocationProvider.java">`GpsLocationProvider`</a>,
     and the <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/wifi/WifiService.java">`WifiService`</a>.
 
-## Additional Reading
+### Additional Reading
 
 If you would like to learn more about `Binder`s and how they work at a deeper level, I've included
 some links below. These articles were extremely helpful to me as I was writing these last two posts about

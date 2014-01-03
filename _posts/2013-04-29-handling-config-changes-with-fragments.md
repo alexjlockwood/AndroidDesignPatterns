@@ -21,7 +21,7 @@ solution, which uses retained Fragments to achieve our goal.
 
 <!--more-->
 
-## Configuration Changes & Background Tasks
+### Configuration Changes & Background Tasks
 
 One problem with configuration changes and the destroy-and-create cycle
 that Activitys go through as a result stems from the fact that these events
@@ -37,7 +37,7 @@ unaware that the old `AsyncTask` is still running. For these reasons,
 it is vital that we correctly and efficiently retain active objects
 across Activity instances when configuration changes occur.
 
-## Bad Practice: Retain the Activity
+### Bad Practice: Retain the Activity
 
 Perhaps the hackiest and most widely abused workaround is to disable
 the default destroy-and-recreate behavior by setting the `android:configChanges`
@@ -66,7 +66,7 @@ system to destroy and recreate all currently running Activitys
 the next time they are resumed. As a result, setting the
 `android:configChanges` attribute is generally not good practice.
 
-## Deprecated: Override `onRetainNonConfigurationInstance()`
+### Deprecated: Override `onRetainNonConfigurationInstance()`
 
 Prior to Honeycomb's release, the recommended means of transferring
 active objects across Activity instances was to override the
@@ -80,7 +80,7 @@ capability, which provides a much cleaner and modular means of
 retaining objects during configuration changes. We discuss this
 Fragment-based approach in the next section.
 
-## Recommended: Manage the Object Inside a Retained `Fragment`
+### Recommended: Manage the Object Inside a Retained `Fragment`
 
 Ever since the introduction of Fragments in Android 3.0, the recommended
 means of retaining active objects across Activity instances is to wrap
@@ -261,7 +261,7 @@ public class TaskFragment extends Fragment {
 }
 ```
 
-## Flow of Events</h4>
+### Flow of Events
 
 When the `MainActivity` starts up for the first time, it instantiates and adds
 the `TaskFragment` to the Activity's state. The `TaskFragment` creates and
@@ -281,7 +281,7 @@ and in my reply to Doug Stevenson in
 <a href="https://plus.google.com/u/0/+AlexLockwood/posts/etWuiiRiqLf">this Google+ post</a>
 (there is also some discussion about this in the comments below).
 
-## Conclusion
+### Conclusion
 
 Synchronizing background tasks with the Activity lifecycle can be tricky and
 configuration changes will only add to the confusion. Fortunately, retained
@@ -294,7 +294,9 @@ achieve this effect is available for download on the
 The source code is available on <a href="https://github.com/alexjlockwood/worker-fragments">GitHub</a>.
 Download it, import it into Eclipse, and modify it all you want!
 
-<a href="https://play.google.com/store/apps/details?id=com.adp.retaintask"><img border="0" src="http://1.bp.blogspot.com/-1sQZ32vpOy4/UXtjWSjLhfI/AAAAAAAAHJw/KoXS-a5y3mo/s320/Screenshot_2013-04-27-04-22-18.png" /></a>
+<a class="no-border" href="https://play.google.com/store/apps/details?id=com.adp.retaintask">
+<img src="http://1.bp.blogspot.com/-1sQZ32vpOy4/UXtjWSjLhfI/AAAAAAAAHJw/KoXS-a5y3mo/s320/Screenshot_2013-04-27-04-22-18.png" />
+</a>
 
 As always, leave a comment if you have any questions and don't forget to +1 this
 blog in the top right corner!

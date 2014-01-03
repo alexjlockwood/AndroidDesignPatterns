@@ -5,7 +5,6 @@ date: 2013-07-31
 permalink: /2013/07/binders-window-tokens.html
 comments: true
 ---
-
 > <em>Note: if you liked this post, be sure to read my second blog post about
 > <a href="/2013/08/binders-death-recipients.html">`Binder`s &amp; Death Recipients</a>
 > as well!</em>
@@ -35,7 +34,7 @@ that are used extensively throughout the system in a mix of clever ways, making 
 easier for the framework to address security issues. This blog post will cover one of
 these features in detail, known as _Binder tokens_.
 
-## Binder Tokens
+### Binder Tokens
 
 An interesting property of `Binder` objects is that each instance maintains **a unique
 identity across all processes in the system**, no matter how many process boundaries
@@ -170,7 +169,7 @@ extensively<sup><a href="#footnote2">2</a></sup> in the system for security. Per
 interesting example of how they are used in the framework is the "window token," which we will now
 discuss below.
 
-## Window Tokens
+### Window Tokens
 
 If you've ever scrolled through the official documentation for Android's `View` class, chances
 are you've stumbled across the
@@ -222,7 +221,7 @@ obtain a window token. Here are some examples:
     in the future you encounter a situation in which you need to add a panel window to the screen from a background
     service, know that you would need to manually sign the request with your application window token in order to achieve it. :P
 
-## Conclusion
+### Conclusion
 
 Though their existence is for the most part hidden from developers, Binder tokens are used
 extensively in the system for security. Android is a massively distributed system of cooperating

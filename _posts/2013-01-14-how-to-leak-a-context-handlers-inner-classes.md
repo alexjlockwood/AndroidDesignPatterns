@@ -5,7 +5,6 @@ date: 2013-01-14
 permalink: /2013/01/inner-class-handler-memory-leak.html
 comments: true
 ---
-
 Consider the following code:
 
 {% highlight java linenos %}

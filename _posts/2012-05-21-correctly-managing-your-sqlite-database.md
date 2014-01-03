@@ -5,7 +5,6 @@ date: 2012-05-21
 permalink: /2012/05/correctly-managing-your-sqlite-database.html
 comments: true
 ---
-
 One thing that I've noticed other Android developers having trouble with is properly
 setting up their `SQLiteDatabase`. Often times, I come across questions on StackOverflow
 asking about error messages such as,
@@ -28,7 +27,7 @@ possibility of forgetting to close your database as you code.
 Here are two examples that illustrates three possible approaches in managing your
 singleton database. These will ensure safe access to the database throughout the application.
 
-## Approach #1: Use an Abstract Factory to Instantiate the `SQLiteOpenHelper`
+### Approach #1: Use an Abstract Factory to Instantiate the `SQLiteOpenHelper`
 
 Declare your database helper as a static instance variable and use the Abstract Factory
 pattern to guarantee the singleton property. The sample code below should give you a good
@@ -71,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 }
 ```
 
-## Approach #2: Wrap the `SQLiteDatabase` in a `ContentProvider`
+### Approach #2: Wrap the `SQLiteDatabase` in a `ContentProvider`
 
 This is also a nice approach. For one, the new `CursorLoader` class requires
 `ContentProvider`s, so if you want an Activity or Fragment to implement `LoaderManager.LoaderCallbacks<Cursor>`

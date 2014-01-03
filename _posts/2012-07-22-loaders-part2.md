@@ -21,7 +21,7 @@ of Loaders as simple, self-contained objects that (1) load data on a separate th
 source for updates, re-querying when changes are detected. This is more than enough to get you through the contents
 of this post. All Loaders are assumed to be 100% correctly implemented in this post.
 
-## What is the `LoaderManager`?
+### What is the `LoaderManager`?
 
 Simply stated, the `LoaderManager` is responsible for managing one or more `Loader`s
 associated with an Activity or Fragment. Each Activity and each Fragment has exactly one LoaderManager
@@ -67,7 +67,7 @@ _LoaderManager makes your life easy._ It initializes, manages, and destroys Load
 subtle lifecycle-related bugs in your Activitys and Fragments. Further, interacting with the LoaderManager involves implementing three
 simple callback methods. We discuss the `LoaderManager.LoaderCallbacks<D>` in the next section.
 
-## Implementing the `LoaderManager.LoaderCallbacks<D>` Interface
+### Implementing the `LoaderManager.LoaderCallbacks<D>` Interface
 
 The `LoaderManager.LoaderCallbacks<D>` interface is a simple contract that the `LoaderManager`
 uses to report data back to the client. Each Loader gets its own callback object that the LoaderManager will interact with.
@@ -113,7 +113,7 @@ is straightforward. Each callback method serves a specific purpose that makes in
 In the next section, we will discuss a commonly asked question from beginning Android developers: how to
 transition from outdated managed Cursors to the much more powerful LoaderManager.
 
-## Transitioning from Managed Cursors to the `LoaderManager`
+### Transitioning from Managed Cursors to the `LoaderManager`
 
 The code below is similar in behavior to the sample in my <a href="/2012/07/loaders-and-loadermanager-background.html">previous post</a>.
 The difference, of course, is that it has been updated to use the LoaderManager. The `CursorLoader` ensures that all
@@ -206,7 +206,7 @@ public class SampleListActivity extends ListActivity implements
 }
 ```
 
-## Conclusion
+### Conclusion
 
 As its name suggests, the `LoaderManager` is responsible for managing `Loader`s across the
 Activity/Fragment lifecycle. The LoaderManager is simple and its implementation usually requires very little code.

@@ -5,7 +5,6 @@ date: 2012-06-18
 permalink: /2012/06/app-force-close-honeycomb-ics.html
 comments: true
 ---
-
 The following question has plagued StackOverflow ever since Ice Cream
 Sandwich's initial release:
 
@@ -22,7 +21,7 @@ thread_.
 
 <!--more-->
 
-## What is the UI Thread?
+### What is the UI Thread?
 
 The concept and importance of the  application's **main UI thread**
 is something every Android developer should understand. Each time an
@@ -57,7 +56,7 @@ for more than about five seconds, the user is presented with the
 notorious "application not responding" (ANR) dialog and the app is
 force closed.
 
-## Why Android Crashes Your App
+### Why Android Crashes Your App
 
 The reason why your application crashes on Android versions 3.0 and above,
 but works fine on Android 2.x is because **Honeycomb and Ice Cream Sandwich
@@ -94,7 +93,7 @@ your user interface. An `AsyncTask` will perform the blocking operations
 in a worker thread and will publish the results on the UI thread, without
 requiring you to handle threads and/or handlers yourself.
 
-## Conclusion
+### Conclusion
 
 The reason why I decided to write about this topic is because I have seen it
 come up on StackOverflow and other forums countless times. The majority of
@@ -108,7 +107,7 @@ allows you to perform asynchronous work on your user interface.
 As always, let me know if this was helpful by +1-ing the post or leaving a
 comment below! Feel free to ask questions too... I respond to them quickly. :)
 
-## Helpful Links
+### Helpful Links
 
 Here are some helpful links that might help you get started with `AsyncTask`s:
 

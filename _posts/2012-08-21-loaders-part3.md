@@ -5,7 +5,6 @@ date: 2012-08-21
 permalink: /2012/08/implementing-loaders.html
 comments: true
 ---
-
 This post introduces the `Loader<D>` class as well as custom Loader implementations.
 This is the third of a series of posts I will be writing on Loaders and the LoaderManager:
 
@@ -27,7 +26,7 @@ configuration changes.
 
 <!--more-->
 
-## Loader Basics
+### Loader Basics
 
 Loaders are responsible for performing queries on a separate thread, monitoring the data source for changes,
 and delivering new results to a registered listener (usually the LoaderManager) when changes are detected.
@@ -50,7 +49,7 @@ These characteristics make Loaders a powerful addition to the Android SDK for se
 Loaders are a somewhat advanced topic and may take some time getting used to. We begin by analyzing
 its four defining characteristics in the next section.
 
-## What Makes Up a Loader?
+### What Makes Up a Loader?
 
 There are four characteristics which ultimately determine a Loader’s behavior:
 
@@ -91,7 +90,7 @@ come back later to read through once more (reading the
 <a href="http://developer.android.com/reference/android/content/Loader.html">documentation</a> never hurts either!).
 That being said, let’s get our hands dirty with the actual code!
 
-## Implementing the Loader
+### Implementing the Loader
 
 As I stated earlier, there is a lot that you must keep in mind when implementing your own custom Loaders.
 Subclasses must implement `loadInBackground()` and should override `onStartLoading()`,
@@ -257,7 +256,7 @@ public class SampleLoader extends AsyncTaskLoader<List<SampleItem>> {
 }
 ```
 
-## Conclusion
+### Conclusion
 
 I hope these posts were useful and gave you a better understanding of how Loaders and the LoaderManager work
 together to perform asynchronous, auto-updating queries. Remember that Loaders are your friends... if you use

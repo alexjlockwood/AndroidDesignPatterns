@@ -5,7 +5,6 @@ date: 2012-05-30
 permalink: /2012/05/intro-to-android-debug-logging.html
 comments: true
 ---
-
 As with most areas in software engineering, debugging is a crucial aspect
 of Android development. Properly setting up your application for debugging
 can save you hours of work and frustration. Unfortunately, in my experience
@@ -26,7 +25,7 @@ This will prove beneficial for a couple reasons:
     of log messages on/off can make your life a whole lot easier, especially if your
     application is complex.
 
-## The `Log` Class
+### The `Log` Class
 
 For those of you who don't know, the Android SDK includes a useful logging
 utility class called `android.util.Log`. The class allows you to
@@ -58,7 +57,7 @@ compile log messages into your application:
   + **Debug logs** are compiled in but are ignored at runtime.
   + **Error**, **warning**, and **informational** logs are always kept.
 
-## A Simple Pattern
+### A Simple Pattern
 
 A simple way to organize debugging is with the sample pattern implemented
 below. A global, static string is given to represent the specific class
@@ -113,7 +112,7 @@ V SampleActivity ++ ON START++
 V SampleActivity + ON RESUME +
 ```
 
-## Conclusion
+### Conclusion
 
 In this post, I have covered the basics in which Android debugging can (and
 should) be performed. In a future post, I will go into a bit more depth by
