@@ -413,6 +413,9 @@ code {
     }
 }
 @media (max-width: 600px) {
+    #social {
+        background: transparent;
+    }
     #header h3 {
         width: 100%;
         text-align: center;
