@@ -110,6 +110,7 @@ blockquote {
     color: #666;
     border-left: .5em #669900 solid;
     padding: 0 1em;
+    font-style: italic;
 }
 hr {
     border: 0;
