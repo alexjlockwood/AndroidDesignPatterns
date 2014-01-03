@@ -58,12 +58,10 @@ h4, #blog-header {
     text-decoration: none;
     margin: -10px;
     padding: 9px;
-    border: 0;
 }
 #header h3 a:hover {
     background: #000;
     color: #99cc00;
-    border: 0;
 }
 h5 {
     font-weight: 700;
@@ -120,19 +118,16 @@ hr {
 }
 a {
     color: #669900;
-    text-decoration: none;
-    padding: 0 0 .1em;
-    border-bottom: 1px #99cc00 solid;
+    text-decoration: underline;
 }
 a:hover {
     color: #99cc00;
-    border-bottom: 1px #ddd solid;
 }
 .no-border a {
-    border: 0;
+    text-decoration: none;
 }
 a.no-border {
-    border: 0;
+    text-decoration: none;
 }
 em, i {
     font-style: italic;
