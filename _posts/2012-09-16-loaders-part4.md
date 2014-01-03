@@ -17,8 +17,6 @@ Links to my previous Loader-related posts are given below:
   + **Part 3:** <a href="/2012/08/implementing-loaders.html">Implementing Loaders</a>
   + **Part 4:** <a href="/2012/09/tutorial-loader-loadermanager.html">Tutorial: AppListLoader</a>
 
-## Introducing AppListLoader
-
 Due to public demand, I've written a sample application that illustrates how to correctly implement a custom Loader.
 The application is named <a href="https://play.google.com/store/apps/details?id=com.adp.loadercustom">AppListLoader</a>,
 and it is a simple demo application that queries and lists all installed applications on your Android device.
@@ -51,8 +49,6 @@ logcat by application name ("com.adp.loadercustom") for the best results!
 <img src="/images/posts/2012/09/16/eclipse-screenshot.png" style="border:0px; width:400px; height:260px;"/>
 </a>
 
-## Download the App!
-
 You can download the application from Google Play by clicking the badge below:
 
 <a href="https://play.google.com/store/apps/details?id=com.adp.loadercustom">
@@ -62,8 +58,6 @@ You can download the application from Google Play by clicking the badge below:
 <a href="https://github.com/alexjlockwood/AppListLoader">The source code is available on GitHub</a>.
 An excessive amount of comments flesh out the entire application-Loader workflow. Download it,
 import it as an eclipse project, and modify it all you want!
-
-## Leave a comment!
 
 Let me know if these posts have been helpful by leaving a comment below! As always,
 don't hesitate to ask questions either!
