@@ -14,8 +14,8 @@ never explicitly closed by the user, but are instead left running at a low prior
 when memory is low. This ability to keep processes waiting in the background speeds up app-switching later
 down the line.
 
-Developers learn early on that the key to how Android handles applications in this way is that <b>processes
-aren't shut down cleanly</b>. Android doesn't rely on applications being well-written and responsive to
+Developers learn early on that the key to how Android handles applications in this way is that **processes
+aren't shut down cleanly**. Android doesn't rely on applications being well-written and responsive to
 polite requests to exit. Rather, it brutally force-kills them without warning, allowing the kernel to
 immediately reclaim resources associated with the process. This helps prevent serious out of memory situations
 and gives Android total control over misbehaving apps that are negatively impacting the system. For this reason,
@@ -25,8 +25,8 @@ ever be executed when an application's process goes away.
 <!--more-->
 
 Considering the limited memory available in mobile environments, this approach seems promising. However, there
-is still one issue that needs to be addressed: <i>how should the system detect an application's death so that
-it can quickly clean up its state</i>? When an application dies, its state will be spread over dozens of system
+is still one issue that needs to be addressed: _how should the system detect an application's death so that
+it can quickly clean up its state_? When an application dies, its state will be spread over dozens of system
 services (the Activity Manager, Window Manager, Power Manager, etc.) and several different processes. These
 system services need to be notified immediately when an application dies so that they can clean up its state
 and maintain an accurate snapshot of the system. Enter death recipients.
