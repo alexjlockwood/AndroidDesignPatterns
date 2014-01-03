@@ -378,21 +378,17 @@ code {
     #header h3 {
         width: 100%;
         text-align: center;
-        margin: 0 0 14px;
-    }
-    #header h3 a {
-        padding: 1em;
-        display: block;
-        margin-left: -10%;
-        margin-right: -10%;
+        margin: 10px auto;
     }
     #header nav {
         clear: both;
         float: none;
         text-align: center;
-        margin-bottom: 12px;
     }
     #header nav a {
         padding: 7px 13px;
+    }
+    #header nav a:hover {
+        background: transparent;
     }
 }
