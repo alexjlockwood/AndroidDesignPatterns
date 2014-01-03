@@ -324,11 +324,13 @@ hr.footnote-divider {
     clear: both;
 }
 #blog-archives h3.year {
-    display: inline block;
     float: left;
+    width: 50px;
+    margin-right: 10px;
     margin-top: 8px;
 }
 #blog-archives ul {
+    width: calc(100% - 60px);
     float: left;
     margin-bottom: 2em;
 }
@@ -351,9 +353,6 @@ hr.footnote-divider {
     float: left;
     margin-right: 10px;
     color: #666;
-}
-#blog-archives li a {
-    display: inline-block;
 }
 
 /*
@@ -470,5 +469,25 @@ code {
     }
     #header nav a:hover, #header h3 a:hover {
         background: transparent;
+    }
+    #blog-archives h3.year {
+        display: block;
+        float: none;
+    }
+    #blog-archives ul {
+        width: 100%;
+        float: none;
+    }
+    #blog-archives li span {
+        padding: 0;
+        float: none;
+        text-align: left;
+        display: block;
+        color: #666;
+    }
+    #blog-archives li {
+        padding-left: 0;
+        padding-right: 0;
+        border-bottom: 1px #eee solid;
     }
 }
