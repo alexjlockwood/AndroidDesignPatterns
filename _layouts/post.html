@@ -15,7 +15,10 @@ layout: default
       <div class="g-plusone" data-size="medium"></div>
       <!-- Twitter tweet button -->
       <div class="tweet"><a href="https://twitter.com/share" class="twitter-share-button" data-via="twitterapi" data-lang="en">Tweet</a></div>
-    </div>
+      <!-- Facebook like button -->
+<!--      <div class="fb-like" data-href="{{ page.url }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>-->
+<div class="fb-like" data-href="{{ site.baseurl }}{{ page.url }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
+</div>
   </div>
   <div class="body">
     {{ content }}
