@@ -5,7 +5,6 @@ date: 2012-06-14
 permalink: /2012/06/compatability-manager-utility-class.html
 comments: true
 ---
-
 This post introduces the concept of a **utility class** and gives a simple
 example of how you can use one to tidy up your code. As Android projects grow in size, it
 becomes increasingly important that your code remains organized and well-structured.

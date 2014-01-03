@@ -13,7 +13,7 @@ multiple threads?
 
 <!--more-->
 
-## Threads and ContentProviders
+### Threads and ContentProviders
 
 The <a href="http://developer.android.com/reference/android/content/ContentProvider.html">documentation</a>
 on ContentProviders warns that its methods may be called from multiple threads and therefore
@@ -30,7 +30,7 @@ makes sense from a framework developer's point of view. The abstract `ContentPro
 cannot assume that its subclasses will require synchronization, as doing so would be
 horribly inefficient.
 
-## Ensuring Thread Safety
+### Ensuring Thread Safety
 
 So now that we know that the ContentProvider is not thread safe, what do we need to
 do in order to eliminate potential race conditions? Just make every method
@@ -46,7 +46,7 @@ that a `ContentProvider` serves as a wrapper around the underlying data source;
 whether or not you must take extra measures to ensure thread safety often depends
 on the data source itself.
 
-## Conclusion
+### Conclusion
 
 Although the ContentProvider lacks in thread-safety, often times you will find that
 no further action is required on your part with respect to preventing potential

@@ -21,7 +21,7 @@ This is the first of a series of posts I will be writing on Loaders and the Load
 If you know nothing about `Loader`s and the `LoaderManager`, I strongly recommend you read the
 <a href="http://developer.android.com/guide/components/loaders.html">documentation</a> before continuing forward.
 
-## The Not-So-Distant Past
+### The Not-So-Distant Past
 
 Before Android 3.0, many Android applications lacked in responsiveness. UI interactions glitched, transitions
 between activities lagged, and ANR (Application Not Responding) dialogs rendered apps totally useless. This
@@ -52,7 +52,7 @@ the "managed cursors" did not retain their data across `Activity` configuration 
 `requery()` the cursor's data in these situations was unnecessary, inefficient, and made orientation
 changes clunky and sluggish as a result.
 
-## The Problem with "Managed `Cursor`s"
+### The Problem with "Managed `Cursor`s"
 
 Let's illustrate the problem with "managed cursors" through a simple code sample. Given below is a
 `ListActivity` that loads data using the pre-Honeycomb APIs. The activity makes a query
@@ -137,7 +137,7 @@ introduction of the `Fragment` meant that applications were about to become more
 A simple, single-threaded approach to loading data could no longer be encouraged. Thus, the `Loader` and
 the `LoaderManager` were born.
 
-## Android 3.0, Loaders, and the LoaderManager
+### Android 3.0, Loaders, and the LoaderManager
 
 Prior to Honeycomb, it was difficult to manage cursors, synchronize correctly with the UI thread, and ensure
 all queries occured on a background thread. Android 3.0 introduced the `Loader` and `LoaderManager` classes
@@ -151,7 +151,7 @@ instance (for example, when it is restarted due to a configuration change), thus
 unnecessary, potentially expensive re-queries. As an added bonus, `Loader`s are intelligent enough to monitor
 the underlying data source for updates, re-querying automatically when the data is changed.
 
-## Conclusion
+### Conclusion
 
 Since the introduction of `Loader`s in Honeycomb and Compatibility Library, Android applications have
 changed for the better. Making use of the now deprecated `startManagingCursor` and `managedQuery`

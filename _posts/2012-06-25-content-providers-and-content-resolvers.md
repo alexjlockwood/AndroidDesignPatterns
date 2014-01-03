@@ -5,7 +5,6 @@ date: 2012-06-25
 permalink: /2012/06/content-resolvers-and-content-providers.html
 comments: true
 ---
-
 Content Providers and Content Resolvers are a common source of confusion for beginning
 Android developers. Further, online tutorials and sample code are not sufficient in
 describing how the two classes work together to provide access to the Android data
@@ -15,7 +14,7 @@ simple query to the Content Resolver.
 
 <!--more-->
 
-## The `android.content` Package
+### The `android.content` Package
 
 The <a href="http://developer.android.com/reference/android/content/package-summary.html">`android.content`</a>
 package contains classes for accessing and publishing data. The Android framework
@@ -23,7 +22,7 @@ enforces a **robust** and **secure** data sharing model. Applications are _not_
 allowed direct access to other application's internal data. Two classes in the
 package help enforce this requirement: the `ContentResolver` and the `ContentProvider`.
 
-## What is the Content Resolver?
+### What is the Content Resolver?
 
 The Content Resolver is the single, global instance in your application that provides
 access to your (and other applications') content providers. The Content Resolver
@@ -39,7 +38,7 @@ The Content Resolver does not know the implementation of the Content Providers i
 interacting with (nor does it need to know); each method is passed an URI that specifies
 the Content Provider to interact with.
 
-## What is a Content Provider?
+### What is a Content Provider?
 
 Whereas the Content Resolver provides an abstraction from the application's Content Providers,
 Content Providers provides an abstraction from the underlying data source
@@ -52,7 +51,7 @@ simple URI addressing model using the `content://` schema. They enable you to de
 your application layers from the underlying data layers, making your application
 data-source agnostic by abstracting the underlying data source.
 
-## The Life of a Query
+### The Life of a Query
 
 So what exactly is the step-by-step process behind a simple query? As described above,
 when you query data from your database via the content provider, you don't communicate
@@ -70,7 +69,7 @@ is given below:
      a Cursor is returned (or an exception is thrown). The resulting behavior depends
      entirely on the Content Provider's implementation.
 
-## Conclusion
+### Conclusion
 
 An integral part of the 
 <a href="http://developer.android.com/reference/android/content/package-summary.html">`android.content`</a>

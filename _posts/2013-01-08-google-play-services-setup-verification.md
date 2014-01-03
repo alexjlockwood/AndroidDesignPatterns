@@ -5,7 +5,6 @@ date: 2013-01-08
 permalink: /2013/01/google-play-services-setup.html
 comments: true
 ---
-
 One of the trickiest aspects of writing a robust web-based Android application
 is authentication, simply due to its asynchronous nature and the many edge cases
 that one must cover. Thankfully, the recently released Google Play Services API
@@ -21,7 +20,7 @@ Services library while still accounting for edge cases such as these.
 
 <!--more-->
 
-## Verifying Google Play Services
+### Verifying Google Play Services
 
 In this post, we will implement a very basic (but robust) Android application
 that authenticates a user with Google services. Our implementation will consist
@@ -111,7 +110,7 @@ an error dialog will be shown and a result will eventually propagate back to
 so when a result is returned, we will perform one final check just to be sure
 that everything has been setup correctly.
 
-## Checking the Currently Logged In User
+### Checking the Currently Logged In User
 
 What we have so far is enough to ensure that our users will be able to use our
 application if and only if Google Play Services is installed and up-to-date.
@@ -205,7 +204,7 @@ As was the case before, `onResume` will be called after `onActivityResult`, ensu
 that Google Play Services is still installed and up-to-date, and that a Google account
 has indeed been selected and saved to the disk.
 
-## Conclusion
+### Conclusion
 
 However unlikely they might be, covering edge cases in your Android applications is
 very important. If a user deliberately tries to break your application (by, for

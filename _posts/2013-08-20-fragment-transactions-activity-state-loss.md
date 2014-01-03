@@ -5,7 +5,6 @@ date: 2013-08-20
 permalink: /2013/08/fragment-transaction-commit-state-loss.html
 comments: true
 ---
-
 The following stack trace and exception message has plagued StackOverflow
 ever since Honeycomb's initial release:
 
@@ -23,7 +22,7 @@ application again.
 
 <!--more-->
 
-## Why was the exception thrown?
+### Why was the exception thrown?
 
 The exception was thrown because you attempted to commit a `FragmentTransaction`
 after the activity's state had been saved, resulting in a phenomenon known as _Activity
@@ -59,7 +58,7 @@ appear to be lost, resulting in accidental UI state loss. In order to protect th
 experience, Android avoids state loss at all costs, and simply throws an
 `IllegalStateException` whenever it occurs.
 
-## When is the exception thrown?
+### When is the exception thrown?
 
 If you've encountered this exception before, you've probably noticed that the moment
 when it is thrown is slightly inconsistent across different platform versions. For
@@ -103,7 +102,7 @@ The support library's behavior across the two platforms is summarized in the tab
 | `commit()` between `onPause()` and `onStop()` | STATE LOSS    | OK             |
 | `commit()` after `onStop()`                   | EXCEPTION     | EXCEPTION      |
 
-## How to avoid the exception?
+### How to avoid the exception?
 
 Avoiding Activity state loss becomes a whole lot easier once you understand what is actually
 going on. If you've made it this far in the post, hopefully you understand a little better

@@ -5,7 +5,6 @@ date: 2012-06-13
 permalink: /2012/06/designing-for-backwards-compatibility.html
 comments: true
 ---
-
 A common issue in Android development is backwards compatibility. How can we add cool
 new features from the most recent Android API while still ensuring that it runs
 correctly on devices running older versions of Android? This post discusses the
@@ -17,7 +16,7 @@ problem by means of a simple example, and proposes a scalable, well-designed sol
 <a href="/2012/06/compatability-manager-utility-class.html">short post</a>
 before continuing forward).
 
-## The Problem
+### The Problem
 
 Let's say we are writing an application that reads and writes pictures to new albums
 (i.e. folders) located on external storage, and that we want our application to support
@@ -31,7 +30,7 @@ that allow us access to the public storage directories. To ensure backwards comp
 all the way back to Donut, we must provide two separate implementations: one for older,
 pre-Froyo devices, and another for devices running Froyo and above.
 
-## Setting up the Manifest
+### Setting up the Manifest
 
 Before we dive into the implementation, we will first update our `uses-sdk` tag in the Android
 manifest. There are two attributes we must set,
@@ -57,7 +56,7 @@ The resulting tag in our mainfest is as follows:
 </uses-sdk>
 ```
 
-## Implementation
+### Implementation
 
 Our implementation will consist of an abstract class and two subclasses that extend
 it. The abstract `AlbumStorageDirFactory` class enforces a simple contract by
@@ -135,7 +134,7 @@ public class FroyoAlbumDirFactory extends AlbumStorageDirFactory {
 }
 ```
 
-## Making Sense of the Pattern
+### Making Sense of the Pattern
 
 Take a second to study the structure of the code above. Our implementation ensures
 compatibility with pre-Froyo devices through a simple design. To ensure compatibility,
@@ -190,7 +189,7 @@ There are a couple benefits to organizing the code the way we have:
     from the client makes our code less cluttered and easier to read (note: in this case,
     "the client" was the person who wrote the Activity class).
 
-## Conclusion
+### Conclusion
 
 Android developers constantly write code to ensure backwards compatibility. As projects
 expand and applications become more complex, it becomes increasingly important to ensure

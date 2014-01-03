@@ -5,7 +5,6 @@ date: 2012-08-07
 permalink: /2012/08/exit-application-dialogs-are-evil-dont.html
 comments: true
 ---
-
 Here's a question that is worth thinking about:
 
 > Should I implement an "Exit application?" dialog in my app?
@@ -20,10 +19,10 @@ prompted with a dialog, questioning whether or not the user wishes to exit the a
 <tbody>
 <tr>
 <td style="text-align: center;">
-<a href="/images/posts/2012/08/07/back-button-pressed.png"><img alt="Back button pressed." src="/images/posts/2012/08/07/back-button-pressed.png"/></a>
+<a class="no-border" href="/images/posts/2012/08/07/back-button-pressed.png"><img alt="Back button pressed." src="/images/posts/2012/08/07/back-button-pressed.png"/></a>
 </td>
 <td style="text-align: center;">
-<a href="/images/posts/2012/08/07/dialog-showing.png"><img alt="An exit dialog is shown." src="/images/posts/2012/08/07/dialog-showing.png"/></a>
+<a class="no-border" href="/images/posts/2012/08/07/dialog-showing.png"><img alt="An exit dialog is shown." src="/images/posts/2012/08/07/dialog-showing.png"/></a>
 </td>
 </tr>
 <tr>
