@@ -2,7 +2,7 @@
  * TYPOGRAPHY
  */
 body {
-    font-size: .9em;
+    font-size: .95em;
 }
 div {
     font-family: 'Asap', sans-serif !important;
@@ -214,7 +214,7 @@ hr.footnote-divider {
     font-size: 1em;
     font-style: normal;
     text-transform: uppercase;
-    padding-top: 15px;
+    padding-top: 18px;
 }
 .date-block {
     background: #669900;
