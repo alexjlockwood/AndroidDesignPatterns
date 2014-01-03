@@ -14,6 +14,7 @@ h1 {
     font-weight: 900; /* mega-bold */
     line-height: 1.3em;
     margin: 1em 0 .75em;
+    color: #222;
 }
 h2 {
     font-family: 'Roboto', sans-serif;
@@ -21,12 +22,25 @@ h2 {
     font-size: 1.75em;
     line-height: 1.3em;
     margin: 1em 0;
+    color: #222;
+}
+h2.post-title a {
+    color: #222;
+    -webkit-transition: color 0.3s;
+    -moz-transition: color 0.3s;
+    -o-transition: color 0.3s;
+    transition: color 0.3s;
+}
+h2.post-title a:hover {
+    color: #669900;
+    text-decoration: underline;
 }
 h3 {
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
     font-size: 1.3em;
     margin: 2em 0 1em;
+    color: #222;
 }
 h4, #blog-header {
     font-family: 'Roboto', sans-serif;
@@ -185,6 +199,28 @@ body {
 #content {
     padding-bottom: 50px;
     float: left;
+}
+.snippet a[rel=full-article] {
+    background: #ebebeb;
+    display: inline-block;
+    padding: .5em 1em .4em 1em;
+    margin-right: .5em;
+    text-decoration: none;
+    color: #6e6e6e;
+    border-radius: 1px;
+    border-bottom: 0px;
+    -webkit-transition: background-color 0.4s;
+    -moz-transition: background-color 0.4s;
+    -o-transition: background-color 0.4s;
+    transition: background-color 0.4s;
+}
+.snippet a[rel=full-article]:hover {
+    background: #669900;
+    text-shadow: none;
+    color: #f8f8f8;
+}
+.snippet footer {
+    margin-top: 1em;
 }
 article.snippet {
     border-bottom: 1px #eee solid;
