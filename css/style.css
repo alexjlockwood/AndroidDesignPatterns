@@ -190,7 +190,7 @@ body {
     float: left;
 }
 #social a, #social a:hover {
-    border: 0;
+    text-decoration: none;
 }
 #content {
     padding-bottom: 50px;
