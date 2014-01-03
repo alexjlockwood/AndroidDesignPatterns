@@ -65,6 +65,10 @@ h4, #blog-header {
 }
 #header a {
     border-radius: 1px;
+    -webkit-transition: background-color 0.4s;
+    -moz-transition: background-color 0.4s;
+    -o-transition: background-color 0.4s;
+    transition: background-color 0.4s;
 }
 h5 {
     font-weight: 700;
@@ -250,19 +254,18 @@ hr.footnote-divider {
     width: 200px;
     margin: 1em 0;
 }
-.date-posted {
-    font-style: italic;
-}
 .share-post {
     padding-top: 1em;
 }
 .snippet .date-posted {
-    font-size: 1em;
     font-style: normal;
     text-transform: uppercase;
-    padding-top: 18px;
+    padding-top: 12px;
 }
 .date-block {
+    width: 90px;
+    text-align: center;
+    display: inline-block;
     background: #669900;
     color: #fff;
     padding: .5em;
@@ -350,6 +353,7 @@ pre {
     padding: 20px;
     margin: 2em 0;
     overflow-y: auto;
+    border-radius: 1px;
 }
 pre code {
     background: transparent;
