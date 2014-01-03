@@ -27,8 +27,8 @@ manage the Loader across the Activity/Fragment lifecycle:
 
 <!--more-->
 
-<a class="no-border" href="/images/posts/2012/09/16/app-screenshot.png">
-<img src="/images/posts/2012/09/16/app-screenshot.png" style="border:0px; width:400px; height:269px;"/>
+<a class="no-border" href="/assets/images/posts/2012/09/16/app-screenshot.png">
+<img src="/assets/images/posts/2012/09/16/app-screenshot.png" style="border:0px; width:400px; height:269px;"/>
 </a>
 
 The AppListLoader registers two `BroadcastReceiver`s which observe/listen for system-wide broadcasts that
@@ -44,14 +44,14 @@ sure to run the application while analyzing the logcat! Hopefully it'll give you
 Loaders work in conjunction with the LoaderManager and the Activity/Fragment lifecycle. Be sure to filter the
 logcat by application name ("com.adp.loadercustom") for the best results!
 
-<a class="no-border" href="/images/posts/2012/09/16/eclipse-screenshot.png">
-<img src="/images/posts/2012/09/16/eclipse-screenshot.png" style="border:0px; width:400px; height:260px;"/>
+<a class="no-border" href="/assets/images/posts/2012/09/16/eclipse-screenshot.png">
+<img src="/assets/images/posts/2012/09/16/eclipse-screenshot.png" style="border:0px; width:400px; height:260px;"/>
 </a>
 
 You can download the application from Google Play by clicking the badge below:
 
 <a class="no-border" href="https://play.google.com/store/apps/details?id=com.adp.loadercustom">
-<img src="/images/posts/2012/09/16/google-play-badge.png" />
+<img src="/assets/images/posts/2012/09/16/google-play-badge.png" />
 </a>
 
 <a href="https://github.com/alexjlockwood/AppListLoader">The source code is available on GitHub</a>.

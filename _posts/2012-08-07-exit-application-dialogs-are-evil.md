@@ -19,10 +19,10 @@ prompted with a dialog, questioning whether or not the user wishes to exit the a
 <tbody>
 <tr>
 <td style="text-align: center;">
-<a class="no-border" href="/images/posts/2012/08/07/back-button-pressed.png"><img alt="Back button pressed." src="/images/posts/2012/08/07/back-button-pressed.png"/></a>
+<a class="no-border" href="/assets/images/posts/2012/08/07/back-button-pressed.png"><img alt="Back button pressed." src="/assets/images/posts/2012/08/07/back-button-pressed.png"/></a>
 </td>
 <td style="text-align: center;">
-<a class="no-border" href="/images/posts/2012/08/07/dialog-showing.png"><img alt="An exit dialog is shown." src="/images/posts/2012/08/07/dialog-showing.png"/></a>
+<a class="no-border" href="/assets/images/posts/2012/08/07/dialog-showing.png"><img alt="An exit dialog is shown." src="/assets/images/posts/2012/08/07/dialog-showing.png"/></a>
 </td>
 </tr>
 <tr>
