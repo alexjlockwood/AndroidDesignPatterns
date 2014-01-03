@@ -272,12 +272,6 @@ hr.footnote-divider {
     padding: 20px 0;
     clear: both;
 }
-#blog-archives {
-}
-#blog-archives h2 {
-    width: 120px;
-    color: #669900;
-}
 #blog-archives li {
     padding: .5em;
     list-style-type: none;
