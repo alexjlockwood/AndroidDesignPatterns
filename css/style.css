@@ -189,7 +189,7 @@ body {
     float: left;
 }
 #social {
-    background: url('/images/android.png') no-repeat left bottom;
+    background: url('/images/android1x.png') no-repeat left bottom;
     padding: 10px 0 0;
     height: 32px;
     background-size: contain;
@@ -489,5 +489,10 @@ code {
         padding-left: 0;
         padding-right: 0;
         border-bottom: 1px #eee solid;
+    }
+}
+@media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+    #social {
+        background: url('/images/android2x.png') no-repeat left bottom;
     }
 }
