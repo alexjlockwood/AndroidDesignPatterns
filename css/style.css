@@ -478,6 +478,10 @@ hr.footnote-divider {
     margin-right: 10px;
     color: #666;
 }
+.scrollable {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
 .highlight {
     background: transparent;
 }

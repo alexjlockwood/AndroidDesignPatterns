@@ -7,6 +7,7 @@ comments: true
 ---
 Consider the following code:
 
+<div class="scrollable">
 {% highlight java linenos=table %}
 public class SampleActivity extends Activity {
 
@@ -18,6 +19,7 @@ public class SampleActivity extends Activity {
   }
 }
 {% endhighlight %}
+</div>
 
 While not readily obvious, this code can cause cause a massive memory leak.
 Android Lint will give the following warning: 
@@ -69,6 +71,7 @@ leak a context. To fix the memory leak that occurs when we instantiate the anony
 class, we make the variable a static field of the class (since static instances of anonymous
 classes do not hold an implicit reference to their outer class):
 
+<div class="scrollable">
 {% highlight java linenos=table %}
 public class SampleActivity extends Activity {
 
@@ -115,6 +118,7 @@ public class SampleActivity extends Activity {
   }
 }
 {% endhighlight %}
+</div>
 
 The difference between static and non-static inner classes is subtle, but is something
 every Android developer should understand. What's the bottom line? Avoid using non-static
