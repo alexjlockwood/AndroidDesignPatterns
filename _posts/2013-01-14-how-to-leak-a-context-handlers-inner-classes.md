@@ -30,18 +30,19 @@ source of the problem by first documenting what we know:
 <!--more-->
 
   1. When an Android application first starts, the framework creates a 
-     <a href="http://developer.android.com/reference/android/os/Looper.html">`Looper`</a>
+     <a href="http://developer.android.com/reference/android/os/Looper.html">Looper</a>
      object for the application's main thread. A `Looper` implements a simple message queue,
-     processing <a href="http://developer.android.com/reference/android/os/Message.html">`Message`</a>
+     processing <a href="http://developer.android.com/reference/android/os/Message.html">Message</a>
      objects in a loop one after another. All major application framework events (such
      as Activity lifecycle method calls, button clicks, etc.) are contained inside
      `Message` objects, which are added to the `Looper`'s message queue and are processed
      one-by-one. The main thread's `Looper` exists throughout the application's lifecycle.
 
-  2. When a <a href="http://developer.android.com/reference/android/os/Handler.html">`Handler`</a>
+  2. When a <a href="http://developer.android.com/reference/android/os/Handler.html">Handler</a>
      is instantiated on the main thread, it is associated with the `Looper`'s message queue.
      Messages posted to the message queue will hold a reference to the `Handler` so that the
-     framework can call <a href="http://developer.android.com/reference/android/os/Handler.html#handleMessage(android.os.Message)">`Handler#handleMessage(Message)`</a>
+     framework can call
+     <a href="http://developer.android.com/reference/android/os/Handler.html#handleMessage(android.os.Message)">Handler#handleMessage(Message)</a>
      when the `Looper` eventually processes the message.
 
   3. In Java, non-static inner and anonymous classes hold an implicit reference to their
@@ -49,31 +50,7 @@ source of the problem by first documenting what we know:
 
 So where exactly is the memory leak? It's very subtle, but consider the following code as an example:
 
-{% highlight java linenos %}
-public class SampleActivity extends Activity {
-
-  private final Handler mLeakyHandler = new Handler() {
-    @Override
-    public void handleMessage(Message msg) {
-      // ...
-    }
-  }
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
-    // Post a message and delay its execution for 10 minutes.
-    mLeakyHandler.postDelayed(new Runnable() {
-      @Override 
-      public void run() { }
-    }, 60 * 10 * 1000);
-    
-    // Go back to the previous Activity.
-    finish();
-  }
-}
-{% endhighlight %}
+{% gist 8250233 %}
 
 When the activity is finished, the delayed message will continue to live in the main thread's
 message queue for 10 minutes before it is processed. The message holds a reference to the
