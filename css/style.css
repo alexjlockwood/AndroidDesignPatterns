@@ -620,11 +620,10 @@ code {
         background-image: none !important;
     }
     #info .box {
-        display: block;
-    }
-    #info .about {
         width: 100%;
         float: none;
+        display: block;
+        margin-top: 2em;
     }
     #info .gbadge {
         width: 100%;
