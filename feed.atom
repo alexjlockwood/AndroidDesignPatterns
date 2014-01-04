@@ -15,7 +15,7 @@ title: Atom Feed
  <updated>{{ site.time | date_to_xmlschema }}</updated>
  {% for post in site.posts limit:20 %}
  <entry>
-   <title type="text">{{ post.title | strip_html }}</title>
+   <title type="text">{{ post.title | strip_html | xml_escape }}</title>
    <link href="{{ site.baseurl }}{{ post.url }}"/>
    <id>{{ site.baseurl }}{{ post.url }}</id>
    <published>{{ post.date | date_to_xmlschema }}</published>
