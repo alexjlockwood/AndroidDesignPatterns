@@ -20,7 +20,7 @@ Due to public demand, I've written a sample application that illustrates how to 
 The application is named <a href="https://play.google.com/store/apps/details?id=com.adp.loadercustom">AppListLoader</a>,
 and it is a simple demo application that queries and lists all installed applications on your Android device.
 The application is a modified, re-thought (and bug-free) extension of the
-<a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android-apps/4.1.1_r1/com/example/android/apis/app/LoaderCustom.java">`LoaderCustom.java`</a>
+<a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android-apps/4.1.1_r1/com/example/android/apis/app/LoaderCustom.java">LoaderCustom.java</a>
 sample that is provided in the API Demos. The application uses an `AppListLoader`
 (a subclass of `AsyncTaskLoader`) to query its data, and the LoaderManager to
 manage the Loader across the Activity/Fragment lifecycle:
