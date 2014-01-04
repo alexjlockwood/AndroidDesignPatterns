@@ -1,20 +1,23 @@
 ---
-layout: nil
 ---
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  {% for post in site.posts %}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>{{ site.baseurl }}{{ post.url }}</loc>
-    {% if post.lastmod == null %}
-    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
-    {% else %}
-    <lastmod>{{ post.lastmod | date_to_xmlschema }}</lastmod>
-    {% endif %}
+    <loc>{{ site.baseurl }}</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  {% endfor %}
+
+  <!-- Posts -->
+  {% for post in site.posts %}<url>
+    <loc>{{ site.baseurl }}{{ post.url }}</loc>
+    <lastmod>{% if post.updated == null %}{{ post.date | date: '%Y-%m-%d' }}{% else %}{{ post.updated | date: '%Y-%m-%d' }}{% endif %}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>{% endfor %}
+
+  <!-- Pages (TODO: fix this later) -->
   {% for page in site.pages %}
   {% if page.sitemap != null and page.sitemap != empty %}
   <url>

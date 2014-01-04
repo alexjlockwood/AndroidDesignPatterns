@@ -5,21 +5,23 @@ title: Atom Feed
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  <title>{{ site.name | xml_escape }}</title>
+ <link href="{{ site.baseurl }}{{ page.url }}" rel="self" />
  <link href="{{ site.baseurl }}/"/>
- <link href="{{ site.baseurl }}/atom.xml" rel="self"/>
- <updated>{{ site.time | date_to_xmlschema }}</updated>
  <id>{{ site.baseurl }}/</id>
  <author>
-   <name>{{ site.author.name }}</name>
-   <email>{{ site.author.email }}</email>
+   <name>{{ site.author.name | xml_escape }}</name>
+   <email>{{ site.author.email | xml_escape }}</email>
  </author>
- {% for post in site.posts %}
+ <updated>{{ site.time | date_to_xmlschema }}</updated>
+ {% for post in site.posts limit:20 %}
  <entry>
-   <title>{{ post.title | xml_escape }}</title>
+   <title type="text">{{ post.title | strip_html }}</title>
    <link href="{{ site.baseurl }}{{ post.url }}"/>
-   <updated>{{ post.date | date_to_xmlschema }}</updated>
-   <id>{{ site.baseurl }}{{ post.id }}</id>
-   <content type="html">{{ post.content | markdownify | xml_escape }}</content>
+   <id>{{ site.baseurl }}{{ post.url }}</id>
+   <published>{{ post.date | date_to_xmlschema }}</published>
+   <updated>{% if post.updated == null %}{{ post.date | date_to_xmlschema }}{% else %}{{ post.updated | append: '@12am' | date_to_xmlschema }}{% endif %}</updated>
+   <summary type="html">{{ post.excerpt | strip_html | xml_escape }}</summary>
+   <content type="html">{{ post.content | xml_escape }}</content>
  </entry>
  {% endfor %}
 </feed>
