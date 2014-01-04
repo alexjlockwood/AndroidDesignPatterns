@@ -634,6 +634,17 @@ code {
         padding-top: 2em;
         text-align: center;
     }
+    ul.related li, ul.related li:last-child {
+        float: none;
+        border: 0;
+        border-bottom: 1px #ccc solid;
+        list-style-type: none;
+        margin: 0;
+    }
+    ul.related li:last-child {
+        float: none;
+        border: 0;
+    }
     #header h3 {
         width: 100%;
         text-align: center;
