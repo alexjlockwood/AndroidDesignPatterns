@@ -78,35 +78,5 @@
       })();
     </script>
 
-    <!-- TODO: fix this code! this won't work later on if more pages are added, and doesn't
-         work during pagination. there should be a better way... -->
-    {% if page.url != '/about/index.html' and page.url != '/archives/index.html' and page.url != '/index.html' %}
-    <!-- Twitter javascript -->
-    <script>
-      !function(d,s,id) {
-        var js,fjs=d.getElementsByTagName(s)[0];
-        if (!d.getElementById(id)) {
-          js=d.createElement(s);
-          js.id=id;
-          js.src="https://platform.twitter.com/widgets.js";
-          fjs.parentNode.insertBefore(js,fjs);
-        }
-      }(document,"script","twitter-wjs");
-    </script>
-
-    <!-- Facebook javascript -->
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.async = true;
-        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    </script>
-    {% endif %}
-
   </body>
 </html>

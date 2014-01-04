@@ -104,7 +104,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
   text-transform: none;
      
   /* fix buttons height, for twitter bootstrap */
-  line-height: 1em;
+  /* line-height: 1em; */
  
   /* Animation center compensation - margins should be symmetric */
   /* remove if not needed */
@@ -121,11 +121,6 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 .icon-rss:before { content: '\e800'; }
 .icon-twitter:before { content: '\e802'; }
 .icon-github-circled:before { content: '\e803'; }
-
-a.rss:hover { color: #FF8300 !important; }
-a.twitter:hover { color: #00ACED !important; }
-a.github:hover { color: #4183C4 !important; }
-a.googleplus:hover { color: #D14836 !important; }
 
 /*************/
 /* style.css */
@@ -319,19 +314,35 @@ body {
 }
 #social {
     background: url('/assets/images/android1x.png') no-repeat left bottom;
-    padding: 10px 0 0;
+    padding: .5em 0 0;
     height: 32px;
     background-size: contain;
     text-align: right;
     float: left;
-    font-size: 1.25em;
+    font-size: 1.3em;
 }
 #social a {
     text-decoration: none;
-    color: #222;
+    color: #333;
+    -webkit-transition: color 0.2s;
+    -moz-transition: color 0.2s;
+    -o-transition: color 0.2s;
+    transition: color 0.2s;
 }
 #social a:hover {
     text-decoration: none;
+}
+#social a.rss:hover {
+    color: #ff8300 !important;
+}
+#social a.twitter:hover {
+    color: #00aced !important;
+}
+#social a.github:hover {
+    color: #4183c4 !important;
+}
+#social a.googleplus:hover {
+    color: #d14836 !important;
 }
 #content {
     padding-bottom: 50px;
