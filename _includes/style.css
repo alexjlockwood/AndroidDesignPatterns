@@ -449,9 +449,6 @@ code {
         width: 100%;
         float: none;
     }
-    .side {
-        margin-top: 0;
-    }
     .date-block {
         width: 100px;
         padding: .5em;
@@ -563,6 +560,9 @@ code {
         padding-left: 0;
         padding-right: 0;
         border-bottom: 1px #eee solid;
+    }
+    .side {
+        margin-top: 0;
     }
 }
 
