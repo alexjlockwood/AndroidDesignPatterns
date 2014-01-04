@@ -126,8 +126,6 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 
 body {
     font-size: .95em;
-}
-div {
     font-family: 'Asap', sans-serif !important;
     line-height: 1.5em;
 }
@@ -490,6 +488,9 @@ pre code {
 code {
     background: #f5f5f5;
     padding: .05em .1em;
+}
+.gist td {
+    border: 0;
 }
 .hidden-big {
     display: none;
