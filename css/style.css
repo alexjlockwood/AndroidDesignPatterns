@@ -584,7 +584,7 @@ code {
     }
     ul.related li, ul.related li:last-child  {
         float: left;
-        margin-right: 10px;
+        margin: 0 10px 10px 0;
         border: 1px #ccc solid;
     }
     h2.post-title {
