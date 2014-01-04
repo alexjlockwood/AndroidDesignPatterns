@@ -527,6 +527,9 @@ code {
     .side {
         margin-top: 0;
     }
+    .share-buttons div {
+        display: inline;
+    }
     h2.post-title {
         margin-top: 0;
     }
