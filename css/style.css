@@ -494,7 +494,7 @@ hr.footnote-divider {
 }
 pre {
     background: #f5f5f5;
-    padding: 10px 15px;
+    padding: 10px 10px;
     overflow-x: auto;
     border-radius: 1px;
     border: 1px #ccc solid;
