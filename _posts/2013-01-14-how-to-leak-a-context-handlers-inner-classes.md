@@ -7,7 +7,7 @@ comments: true
 ---
 Consider the following code:
 
-{% highlight java linenos %}
+{% highlight java linenos=table %}
 public class SampleActivity extends Activity {
 
   private final Handler mLeakyHandler = new Handler() {
@@ -69,7 +69,7 @@ leak a context. To fix the memory leak that occurs when we instantiate the anony
 class, we make the variable a static field of the class (since static instances of anonymous
 classes do not hold an implicit reference to their outer class):
 
-{% highlight java linenos %}
+{% highlight java linenos=table %}
 public class SampleActivity extends Activity {
 
   /**
