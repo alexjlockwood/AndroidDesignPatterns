@@ -122,6 +122,11 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 .icon-twitter:before { content: '\e802'; }
 .icon-github-circled:before { content: '\e803'; }
 
+a.rss:hover { color: #FF8300 !important; }
+a.twitter:hover { color: #00ACED !important; }
+a.github:hover { color: #4183C4 !important; }
+a.googleplus:hover { color: #D14836 !important; }
+
 /*************/
 /* style.css */
 /*************/
