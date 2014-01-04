@@ -22,18 +22,28 @@ layout: default
 
   <div class="body">
   {{ content }}
+
+  <div class="post-pagination">
+    {% if page.previous %}
+    <div class="prev"><a rel="prev" href="{{ page.previous.url }}">Older &#187;</a></div>
+    {% endif %}
+    {% if page.next %}
+    <div class="next"><a rel="next" href="{{ page.next.url }}">&#171; Newer</a></div>
+    {% endif %}
   </div>
 
-  {% if page.related %}
-<!-- <div class="side suggested">
+  </div>
+  
+  {% if page.suggested %}
+  <div class="side suggested">
     <h4>Suggested Posts</h4>
     <ul class="related">
-    {% for related in page.related %}
-      <li><a href="{{ related['link'] }}">{{ related['title'] }}</a></li>
+    {% for suggested in page.suggested %}
+      <li><a href="{{ suggested['link'] }}">{{ suggested['title'] }}</a></li>
     {% endfor %}
     </ul>
   </div>
-  {% endif %}-->
+  {% endif %}
 </div>
 
 <script>
