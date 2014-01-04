@@ -449,6 +449,7 @@ hr.footnote-divider {
     margin-top: 8px;
 }
 #blog-archives ul {
+    width: calc(100% - 60px);
     float: left;
     margin-bottom: 2em;
 }
