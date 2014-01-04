@@ -5,16 +5,15 @@ date: 2012-06-13
 permalink: /2012/06/designing-for-backwards-compatibility.html
 comments: true
 ---
+> Note: please read this <a href="/2012/06/compatability-manager-utility-class.html">short post</a>
+> before continuing forward.
+
 A common issue in Android development is backwards compatibility. How can we add cool
 new features from the most recent Android API while still ensuring that it runs
 correctly on devices running older versions of Android? This post discusses the
 problem by means of a simple example, and proposes a scalable, well-designed solution.
 
 <!--more-->
-
-(Note: please read this
-<a href="/2012/06/compatability-manager-utility-class.html">short post</a>
-before continuing forward).
 
 ### The Problem
 
@@ -25,7 +24,7 @@ all devices running Donut (Android 1.6, SDK version 4) and above. Upon consultin
 we realize there is a slight problem. With the introduction of Froyo (Android 2.2,
 SDK version 8) came a somewhat radical change in how external storage was laid out
 and represented on Android devices, as well as several new API methods (see
-<a href="http://developer.android.com/reference/android/os/Environment.html">`android.os.Environment`</a>)
+<a href="http://developer.android.com/reference/android/os/Environment.html">android.os.Environment</a>)
 that allow us access to the public storage directories. To ensure backwards compatibility
 all the way back to Donut, we must provide two separate implementations: one for older,
 pre-Froyo devices, and another for devices running Froyo and above.
@@ -112,11 +111,8 @@ public class BaseAlbumDirFactory extends AlbumStorageDirFactory {
 
   @Override
   public File getAlbumStorageDir(String albumName) {
-    return new File (
-                    Environment.getExternalStorageDirectory() 
-                    + CAMERA_DIR 
-                    + albumName
-    );
+    return new File(Environment.getExternalStorageDirectory() 
+            + CAMERA_DIR + albumName);
   }
 }
 ```
