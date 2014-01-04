@@ -582,6 +582,11 @@ code {
     .twitter-share-button {
         width: 90px !important;
     }
+    ul.related li, ul.related li:last-child  {
+        float: left;
+        margin-right: 10px;
+        border: 1px #ccc solid;
+    }
     h2.post-title {
         margin-top: 0;
     }
