@@ -52,7 +52,33 @@ source of the problem by first documenting what we know:
 
 So where exactly is the memory leak? It's very subtle, but consider the following code as an example:
 
-{% gist 8250233 %}
+<div class="scrollable">
+{% highlight java linenos=table %}
+public class SampleActivity extends Activity {
+ 
+  private final Handler mLeakyHandler = new Handler() {
+    @Override
+    public void handleMessage(Message msg) {
+      // ...
+    }
+  }
+ 
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+ 
+    // Post a message and delay its execution for 10 minutes.
+    mLeakyHandler.postDelayed(new Runnable() {
+      @Override
+      public void run() { }
+    }, 60 * 10 * 1000);
+ 
+    // Go back to the previous Activity.
+    finish();
+  }
+}
+{% endhighlight %}
+</div>
 
 When the activity is finished, the delayed message will continue to live in the main thread's
 message queue for 10 minutes before it is processed. The message holds a reference to the
