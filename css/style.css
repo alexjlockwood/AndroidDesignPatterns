@@ -292,7 +292,7 @@ thead {
     border: 0;
 }
 sup {
-    vertical-align: top;
+    vertical-align: super;
     font-size: .8em;
     text-decoration: underline;
 }
