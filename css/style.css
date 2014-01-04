@@ -554,6 +554,12 @@ code {
     .share-buttons div {
         display: inline;
     }
+    #___plusone_0 {
+        width: 70px !important;
+    }
+    .twitter-share-button {
+        width: 90px !important;
+    }
     h2.post-title {
         margin-top: 0;
     }
