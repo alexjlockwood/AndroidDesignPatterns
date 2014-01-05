@@ -3,7 +3,6 @@ layout: post
 title: 'Implementing Loaders (part 3)'
 date: 2012-08-21
 permalink: /2012/08/implementing-loaders.html
-comments: true
 ---
 This post introduces the `Loader<D>` class as well as custom Loader implementations.
 This is the third of a series of posts I will be writing on Loaders and the LoaderManager:

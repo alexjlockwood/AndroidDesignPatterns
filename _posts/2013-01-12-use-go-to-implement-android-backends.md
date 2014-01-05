@@ -3,7 +3,6 @@ layout: post
 title: 'Use Go to Implement your Android Backends'
 date: 2013-01-12
 permalink: /2013/01/gcm-appengine-golang-android-backends.html
-comments: true
 ---
 A couple weeks ago I wrote a <a href="http://github.com/alexjlockwood/gcm">library</a>
 that simplifies the interaction between Go-based application servers and Google Cloud

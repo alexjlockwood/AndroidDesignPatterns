@@ -3,7 +3,6 @@ layout: post
 title: 'Understanding the LoaderManager (part 2)'
 date: 2012-07-22
 permalink: /2012/07/understanding-loadermanager.html
-comments: true
 ---
 
 This post introduces the `LoaderManager` class. This is the second of a series of posts I will

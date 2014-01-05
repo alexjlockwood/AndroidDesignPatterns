@@ -3,7 +3,6 @@ layout: post
 title: 'Life Before Loaders (part 1)'
 date: 2012-07-06
 permalink: /2012/07/loaders-and-loadermanager-background.html
-comments: true
 ---
 
 This post gives a brief introduction to `Loader`s and the `LoaderManager`. The first

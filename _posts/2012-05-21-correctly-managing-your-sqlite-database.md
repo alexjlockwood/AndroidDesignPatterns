@@ -3,7 +3,6 @@ layout: post
 title: 'Correctly Managing your SQLite Database'
 date: 2012-05-21
 permalink: /2012/05/correctly-managing-your-sqlite-database.html
-comments: true
 ---
 One thing that I've noticed other Android developers having trouble with is properly
 setting up their `SQLiteDatabase`. Often times, I come across questions on StackOverflow
@@ -36,7 +35,7 @@ idea on how to go about designing the `DatabaseHelper` class correctly.
 The static factory `getInstance()` method ensures that only one `DatabaseHelper`
 will ever exist at any given time. If the `sInstance` object has not been initialized,
 one will be created. If one has already been created then it will simply be returned.
-**You should not initialize your helper object using with `new DatabaseHelper(context)`!**
+<strong>You should not initialize your helper object using with `new DatabaseHelper(context)`!</strong>
 Instead, always use `DatabaseHelper.getInstance(context)`, as it guarantees that only one
 database helper will exist across the entire application's lifecycle.
 

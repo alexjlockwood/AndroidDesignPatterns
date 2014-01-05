@@ -3,7 +3,6 @@ layout: post
 title: 'Activitys, Threads, & Memory Leaks'
 date: 2013-04-15
 permalink: /2013/04/activitys-threads-memory-leaks.html
-comments: true
 ---
 > Note: the source code in this blog post is available on
 > <a href="https://github.com/alexjlockwood/leaky-threads">GitHub</a>.

@@ -3,7 +3,6 @@ layout: post
 title: 'Follow This Blog On Google Currents!'
 date: 2012-08-26
 permalink: /2012/08/follow-this-blog-on-google-currents_8022.html
-comments: true
 ---
 
 Hi all,

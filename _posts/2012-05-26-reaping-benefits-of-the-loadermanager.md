@@ -3,7 +3,6 @@ layout: post
 title: 'Reaping the Benefits of the LoaderManager'
 date: 2012-05-26
 permalink: /2012/05/why-you-should-use-loadermanager.html
-comments: true
 ---
 With Android 3.0 came the introduction of the `LoaderManager` class, an abstract
 class associated with an `Activity` or `Fragment` for managing one or

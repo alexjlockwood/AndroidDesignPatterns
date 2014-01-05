@@ -3,7 +3,6 @@ layout: post
 title: 'Basic Android Debugging with Logs'
 date: 2012-05-30
 permalink: /2012/05/intro-to-android-debug-logging.html
-comments: true
 ---
 As with most areas in software engineering, debugging is a crucial aspect
 of Android development. Properly setting up your application for debugging

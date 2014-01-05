@@ -3,7 +3,6 @@ layout: post
 title: 'Content Providers & Content Resolvers'
 date: 2012-06-25
 permalink: /2012/06/content-resolvers-and-content-providers.html
-comments: true
 ---
 Content Providers and Content Resolvers are a common source of confusion for beginning
 Android developers. Further, online tutorials and sample code are not sufficient in

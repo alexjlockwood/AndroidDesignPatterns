@@ -3,7 +3,6 @@ layout: post
 title: 'Fragment Transactions & Activity State Loss'
 date: 2013-08-20
 permalink: /2013/08/fragment-transaction-commit-state-loss.html
-comments: true
 ---
 The following stack trace and exception message has plagued StackOverflow
 ever since Honeycomb's initial release:

@@ -3,7 +3,6 @@ layout: post
 title: "\"Exit Application?\" Dialogs Are Evil, Don\'t Use Them!"
 date: 2012-08-07
 permalink: /2012/08/exit-application-dialogs-are-evil-dont.html
-comments: true
 ---
 Here's a question that is worth thinking about:
 

@@ -3,7 +3,6 @@ layout: post
 title: 'Binders & Death Recipients'
 date: 2013-08-05
 permalink: /2013/08/binders-death-recipients.html
-comments: true
 ---
 > Note: before you begin, make sure you've read my [previous post](/2013/07/binders-window-tokens.html)
 > about Binder tokens!

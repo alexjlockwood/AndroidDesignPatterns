@@ -3,7 +3,6 @@ layout: post
 title: 'Designing for Backwards Compatibility'
 date: 2012-06-13
 permalink: /2012/06/designing-for-backwards-compatibility.html
-comments: true
 ---
 > Note: please read this <a href="/2012/06/compatability-manager-utility-class.html">short post</a>
 > before continuing forward.

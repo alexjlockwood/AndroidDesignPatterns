@@ -3,7 +3,6 @@ layout: post
 title: 'SQLite, ContentProviders, & Thread Safety'
 date: 2012-10-11
 permalink: /2012/10/sqlite-contentprovider-thread-safety.html
-comments: true
 ---
 
 A common source of confusion when implementing `ContentProvider`s is that of thread-safety.
