@@ -508,6 +508,7 @@ pre code {
         color: #222;
     }
     #social {
+        text-align: center;
         background-image: none !important;
     }
     #info .box {
