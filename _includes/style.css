@@ -48,7 +48,6 @@ body {
 #header #blog-header a {
     color: #fff;
     text-decoration: none;
-    margin: -10px;
     padding: 9px;
 }
 #header #blog-header a:hover {
@@ -556,6 +555,9 @@ pre code {
         text-align: center;
         margin: 10px auto;
     }
+    #header #blog-header a {
+        padding: 2px;
+    }
     #header nav {
         margin: 0;
         clear: both;
@@ -563,8 +565,8 @@ pre code {
         text-align: center;
     }
     #header nav a {
-        padding: 0 13px;
-        margin: 2px;
+        padding: 0 2px;
+        margin: 2px 10px;
     }
     #header nav a:hover, #header #blog-header a:hover {
         background: transparent;
