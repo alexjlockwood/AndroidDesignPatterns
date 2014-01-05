@@ -11,11 +11,8 @@ layout: default
     </div>
 
     <div class="share-buttons">
-      <!-- Google+ +1 button -->
       <div class="g-plusone" data-size="medium"></div>
-      <!-- Twitter tweet button -->
       <div class="tweet"><a href="https://twitter.com/share" class="twitter-share-button" data-via="alexjlockwood" data-lang="en">Tweet</a></div>
-      <!-- Facebook like button -->
       <div class="fb-like" data-href="{{ site.baseurl }}{{ page.url }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
     </div>
   </div>
@@ -43,6 +40,10 @@ layout: default
     {% endfor %}
     </ul>
   </div>
+  {% endif %}
+
+  {% if page.disable_comments == null %}
+    {% include disqus.html %}
   {% endif %}
 </div>
 
