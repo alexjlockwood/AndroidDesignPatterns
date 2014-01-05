@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ page.title }}{% if page.id %} | {{ site.name }}{% endif %}</title>
     <link rel="canonical" href="{{ page.url }}" />
-    <link href="{{ site.baseurl }}atom.xml" rel="alternate" title="{{ site.name }} - Feed" type="application/atom+xml" />
+    <link href="{{ site.baseurl }}/feed.atom" rel="alternate" title="{{ site.name }} - Feed" type="application/atom+xml" />
     <link rel="stylesheet" type="text/css" href="/css/all.css" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,900,700|Asap:400,700,400italic,700italic" />
   </head>
@@ -24,18 +24,10 @@
     </div>
 
     <div id="social" class="container">
-      <a href="{{ site.author.googleplus }}" class="googleplus">
-        <i class="icon-gplus"></i>
-      </a>
-      <a href="{{ site.author.twitter }}" class="twitter">
-        <i class="icon-twitter"></i>
-      </a>
-      <a href="{{ site.author.github }}" class="github">
-        <i class="icon-github-circled"></i>
-      </a>
-      <a href="{{ site.author.feedburner }}" class="rss">
-        <i class="icon-rss"></i>
-      </a>
+      <a href="{{ site.author.googleplus }}" class="googleplus"><i class="icon-gplus"></i></a>
+      <a href="{{ site.author.twitter }}" class="twitter"><i class="icon-twitter"></i></a>
+      <a href="{{ site.author.github }}" class="github"><i class="icon-github-circled"></i></a>
+      <a href="{{ site.author.feedburner }}" class="rss"><i class="icon-rss"></i></a>
     </div>
 
     <div id="content" class="container">
@@ -50,7 +42,7 @@
         <h2>About this Blog</h2>
         <p>{{ site.name }} is a website for developers who wish to better understand the Android application framework. The tutorials here emphasize proper code design and project maintainability.</p>
         <p><abbr title="{{ site.name }}">ADP</abbr> is maintained by <a href="https://plus.google.com/+AlexLockwood">+Alex Lockwood</a>.</p>
-        <p><a href="/about/">More...</a></p>
+        <p><a href="/about/">More&hellip;</a></p>
       </div>
       <div class="box gbadge">
         <!-- Google+ badge -->
@@ -67,18 +59,8 @@
     <div id="copyright" class="container">
       <p>&copy; 2012-{{ site.time | date: "%Y" }} {{ site.name }}</p>
     </div>
-
-    <!-- Google+ javascript -->
-    <script type="text/javascript">
-      (function() {
-        var po = document.createElement('script');
-        po.type = 'text/javascript';
-        po.async = true;
-        po.src = 'https://apis.google.com/js/platform.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(po, s);
-      })();
-    </script>
-
+    
+    {% include google-plus.html
+    {% include google-analytics.html %}
   </body>
 </html>
