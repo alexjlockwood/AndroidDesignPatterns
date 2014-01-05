@@ -142,11 +142,11 @@ ol {
 acronym, abbr {
     border-bottom: 1px #666 dotted;
 }
-#content td, #content th {
+td, th {
     padding: .5em;
     border: 1px #ccc solid;
 }
-#content thead {
+thead {
     background: #f5f5f5;
     border-bottom: 5px #ccc solid;
 }
