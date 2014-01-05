@@ -122,7 +122,8 @@ the `CursorLoader` across the Activity lifecycle, retaining its data on configur
 new data load to the callback's `onLoadFinished` method, where the Activity is finally free to make use of the
 queried Cursor.
 
-```java
+<div class="scrollable">
+{% highlight java linenos=table %}
 public class SampleListActivity extends ListActivity implements
     LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -204,7 +205,8 @@ public class SampleListActivity extends ListActivity implements
     mAdapter.swapCursor(null);
   }
 }
-```
+{% endhighlight %}
+</div>
 
 ### Conclusion
 

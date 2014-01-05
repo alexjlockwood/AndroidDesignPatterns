@@ -107,7 +107,8 @@ implementing these methods lightly!
 The code below serves as a template of what a Loader implementation typically looks like. The `SampleLoader`
 queries a list of `SampleItem` objects and delivers a `List<SampleItem>` to the client:
 
-```java
+<div class="scrollable">
+{% highlight java linenos=table %}
 public class SampleLoader extends AsyncTaskLoader<List<SampleItem>> {
 
   // We hold a reference to the Loader’s data here.
@@ -254,7 +255,8 @@ public class SampleLoader extends AsyncTaskLoader<List<SampleItem>> {
   // Please don’t hesitate to leave a comment if you still find this confusing! :)
   private SampleObserver mObserver;
 }
-```
+{% endhighlight %}
+</div>
 
 ### Conclusion
 

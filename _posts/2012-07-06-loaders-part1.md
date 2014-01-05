@@ -60,7 +60,8 @@ to the `ContentProvider` and begins management of the returned cursor. The resul
 a `SimpleCursorAdapter`, and are displayed on the screen in a `ListView`. The code has
 been condensed for simplicity.
 
-```java
+<div class="scrollable">
+{% highlight java linenos=table %}
 public class SampleListActivity extends ListActivity {
 
   private static final String[] PROJECTION = new String[] {"_id", "text_column"};
@@ -104,7 +105,8 @@ public class SampleListActivity extends ListActivity {
     setListAdapter(adapter);
   }
 }
-```
+{% endhighlight %}
+</div>
 
 There are three problems with the code above. If you have understood this post so far, the first two
 shouldn't be difficult to spot:
