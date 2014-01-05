@@ -214,8 +214,8 @@ body {
     padding-bottom: 50px;
     float: left;
 }
-.snippet a[class=full-article] {
-    background: #ebebeb;
+.snippet a[class=read-more] {
+    background: #ececec;
     display: inline-block;
     padding: .5em 1em .4em 1em;
     margin-right: .5em;
@@ -228,7 +228,7 @@ body {
     -o-transition: background-color 0.4s;
     transition: background-color 0.4s;
 }
-.snippet a[class=full-article]:hover {
+.snippet a[class=read-more]:hover {
     background: #669900;
     text-shadow: none;
     color: #f8f8f8;
