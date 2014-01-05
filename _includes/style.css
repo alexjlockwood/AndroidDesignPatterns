@@ -30,7 +30,7 @@ body {
 #content h3 {
     margin-top: 2em;
 }
-#content h4, #blog-header {
+#content h4, #info h4, #blog-header {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 1.2em;
