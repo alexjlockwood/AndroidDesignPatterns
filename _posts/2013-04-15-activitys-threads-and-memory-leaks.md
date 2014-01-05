@@ -220,7 +220,7 @@ background tasks with the Activity lifecycle:
     provides many classes designed to make background threading easier for developers.
     For example, consider using a Loader instead of a thread for performing short-lived
     asynchronous background queries in conjunction with the Activity lifecycle. Likewise,
-    if your the background thread is not tied to any specific Activity, consider using a
+    if the background thread is not tied to any specific Activity, consider using a
     Service and report the results back to the UI using a `BroadcastReceiver`.
     Lastly, remember that everything discussed regarding threads in this blog post also
     applies to `AsyncTask`s (since the `AsyncTask` class uses an
