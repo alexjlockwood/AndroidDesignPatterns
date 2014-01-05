@@ -41,8 +41,6 @@
       <div class="box about">
         <h2>About this Blog</h2>
         <p>{{ site.name }} is a website for developers who wish to better understand the Android application framework. The tutorials here emphasize proper code design and project maintainability.</p>
-        <p><abbr title="{{ site.name }}">ADP</abbr> is maintained by <a href="https://plus.google.com/+AlexLockwood">+Alex Lockwood</a>.</p>
-        <p><a href="/about/">More&hellip;</a></p>
       </div>
       <div class="box gbadge">
         <!-- Google+ badge -->
@@ -60,7 +58,7 @@
       <p>&copy; 2012-{{ site.time | date: "%Y" }} {{ site.name }}</p>
     </div>
     
-    {% include google-plus.html
+    {% include google-plus.html %}
     {% include google-analytics.html %}
   </body>
 </html>
