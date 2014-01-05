@@ -383,7 +383,6 @@ pre {
 }
 code {
     color: #333;
-    font-size: .9em;
     padding: .05em .1em;
     font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace;
     line-height: 1.3em;
@@ -406,6 +405,7 @@ pre code {
     overflow-y: hidden;
 }
 .highlight {
+    font-size: 0.9em;
     background: transparent;
 }
 .highlighttable {
