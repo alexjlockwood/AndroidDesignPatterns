@@ -41,7 +41,7 @@ LoaderManager is a much more intelligent and generic implementation of the now-d
 `startManagingCursor` method. While both manage data across the twists and turns of the
 Activity lifecycle, the LoaderManager is far superior for several reasons:
 
-  + **`startManagingCursor` manages Cursors, whereas the LoaderManager manages `Loader<D>` objects.**
+  + <strong>`startManagingCursor` manages Cursors, whereas the LoaderManager manages `Loader<D>` objects.</strong>
     The advantage here is that `Loader<D>` is generic, where `D` is the container object that holds the
     loaded data. In other words, the data source doesn't have to be a Cursor; it could be a `List`, a
     `JSONArray`... anything. The LoaderManager is independent of the container object that holds the data and is
