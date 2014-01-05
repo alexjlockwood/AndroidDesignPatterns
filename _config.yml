@@ -20,3 +20,5 @@ redcarpet:
 
 relative_permalinks: false
 permalink: /:year/:month/:title.html
+
+exclude: ['README.md', 'LICENSE.txt', 'CNAME']
