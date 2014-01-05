@@ -29,6 +29,12 @@ layout: default
     {% endif %}
   </div>
 
+  {% if page.disable_comments == null %}
+    <div class="post-comments">
+      {% include disqus.html %}
+    </div>
+  {% endif %}
+
   </div>
   
   {% if page.suggested %}
@@ -40,10 +46,6 @@ layout: default
     {% endfor %}
     </ul>
   </div>
-  {% endif %}
-
-  {% if page.disable_comments == null %}
-    {% include disqus.html %}
   {% endif %}
 </div>
 

@@ -265,6 +265,9 @@ hr.footnote-divider {
     display: table;
     clear: both;
 }
+.post-comments {
+    padding-top: 30px;
+}
 .side {
     float: left;
     width: 180px;
