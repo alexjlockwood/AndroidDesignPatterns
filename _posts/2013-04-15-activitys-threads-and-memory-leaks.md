@@ -5,6 +5,9 @@ date: 2013-04-15
 permalink: /2013/04/activitys-threads-memory-leaks.html
 comments: true
 ---
+> Note: the source code in this blog post is available on
+> <a href="https://github.com/alexjlockwood/leaky-threads">GitHub</a>.
+
 A common difficulty in Android programming is coordinating long-running tasks
 over the Activity lifecycle and avoiding the subtle memory leaks which might
 result. Consider the Activity code below, which starts and loops a new thread
@@ -41,9 +44,6 @@ public class MainActivity extends Activity {
 ```
 
 <!--more-->
-
-**Note:** the source code in this blog post is available on
-<a href="https://github.com/alexjlockwood/leaky-threads">GitHub</a>.
 
 When a configuration change occurs, causing the entire Activity to be
 destroyed and re-created, it is easy to assume that Android will clean
