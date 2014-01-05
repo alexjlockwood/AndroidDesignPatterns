@@ -190,6 +190,8 @@ sup {
     -moz-transition: color 0.2s;
     -o-transition: color 0.2s;
     transition: color 0.2s;
+    padding: 0 .2em;
+    margin: 0 .1em;
 }
 #social a:hover {
     text-decoration: none;
