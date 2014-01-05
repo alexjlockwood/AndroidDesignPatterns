@@ -574,6 +574,18 @@ pre code {
     .side {
         margin-top: 0;
     }
+    img#profile-picture {
+        width: 140px !important;
+        height: auto;
+    }
+}
+img#profile-picture {
+    border-radius: 50%;
+    width: 200px;
+    height: auto;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    float: right;
 }
 
 /* TODO: confirm that the below properties are correct and work for a wide range of browsers! */

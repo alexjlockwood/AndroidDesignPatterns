@@ -10,7 +10,6 @@ title: Atom Feed
  <id>{{ site.baseurl }}/</id>
  <author>
    <name>{{ site.author.name | xml_escape }}</name>
-   <email>{{ site.author.email | xml_escape }}</email>
  </author>
  <updated>{{ site.time | date_to_xmlschema }}</updated>
  {% for post in site.posts %}
