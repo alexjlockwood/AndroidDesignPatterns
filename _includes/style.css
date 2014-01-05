@@ -425,6 +425,14 @@ pre code {
 .clearfix {
     clear: both;
 }
+.container:before,
+.container:after {
+    content: " ";
+    display: table;
+}
+.container:after {
+    clear: both;
+}
 @media (max-width: 1250px) {
     .container {
         width: 90%;
