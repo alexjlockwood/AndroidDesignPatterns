@@ -69,7 +69,7 @@ Activity object is in fact retained in memory as a result of these implicit refe
 
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="float: center; margin-left: 0em; text-align: left;">
   <tbody>
-    <tr><td style="text-align: center;"><a class="no-border" href="http://4.bp.blogspot.com/-EKohlXPS6dk/UWwwQaH8AEI/AAAAAAAAHJI/EIFY4B3yg6w/s1600/chart134.png" style="margin-left: auto; margin-right: auto;"><img border="0" height="175" src="http://4.bp.blogspot.com/-EKohlXPS6dk/UWwwQaH8AEI/AAAAAAAAHJI/EIFY4B3yg6w/s400/chart134.png" width="400" /></a>
+    <tr><td style="text-align: center;"><a class="no-border" href="/assets/images/posts/2013/04/15/activity-leak.png"><img border="0" height="175" src="/assets/images/posts/2013/04/15/activity-leak.png" width="400" /></a>
     </td></tr>
     <tr><td class="tr-caption" style="text-align: center;">Figure 1. Activity instances retained in memory after ten orientation changes.
     </td></tr>
@@ -235,7 +235,7 @@ application (which mirrors the source code exactly) is also available for downlo
 <a href="https://play.google.com/store/apps/details?id=com.adp.leaky.threads">Google Play</a>.
 
 <a class="no-border" href="https://play.google.com/store/apps/details?id=com.adp.leaky.threads">
-<img border="0" src="http://4.bp.blogspot.com/-N40gsQs2Ytg/UXycCupURtI/AAAAAAAAHKE/HNLW-xEGGrc/s320/Screenshot_2013-04-27-16-22-17.png" />
+<img width="320px" height="180px" border="0" src="/assets/images/posts/2013/04/15/leaky-threads-screenshot.png" />
 </a>
 
 As always, leave a comment if you have any questions and don't forget to +1
