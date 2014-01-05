@@ -4,6 +4,7 @@ title: 'How to Leak a Context: Handlers & Inner Classes'
 date: 2013-01-14
 permalink: /2013/01/inner-class-handler-memory-leak.html
 comments: true
+updated: 2014-01-05 @ 11:30am
 ---
 Consider the following code:
 
