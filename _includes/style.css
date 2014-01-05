@@ -376,7 +376,7 @@ pre {
     overflow-x: auto;
     border-radius: 1px;
     border: 1px #ccc solid;
-    font-size: .95em;
+    font-size: .85em;
     font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace;
     line-height: 1.3em;
     background: #f5f5f5;
@@ -405,7 +405,6 @@ pre code {
     overflow-y: hidden;
 }
 .highlight {
-    font-size: 0.9em;
     background: transparent;
 }
 .highlighttable {
