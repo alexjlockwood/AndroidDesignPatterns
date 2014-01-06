@@ -293,8 +293,8 @@ achieve this effect is available for download on the
 The source code is available on <a href="https://github.com/alexjlockwood/worker-fragments">GitHub</a>.
 Download it, import it into Eclipse, and modify it all you want!
 
-<a class="no-border" href="https://play.google.com/store/apps/details?id=com.adp.retaintask">
-<img src="http://1.bp.blogspot.com/-1sQZ32vpOy4/UXtjWSjLhfI/AAAAAAAAHJw/KoXS-a5y3mo/s320/Screenshot_2013-04-27-04-22-18.png" />
+<a href="/assets/images/posts/2013/04/29/worker-fragments-screenshot.png">
+<img src="/assets/images/posts/2013/04/29/worker-fragments-screenshot.png" style="max-width:400px;height=225px;" />
 </a>
 
 As always, leave a comment if you have any questions and don't forget to +1 this
