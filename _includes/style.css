@@ -656,4 +656,8 @@ img#profile-picture {
     #header, #social, .share-buttons, #info {
         display: none;
     }
+    .post-pagination {
+        visibility: hidden;
+        page-break-after: always;
+    }
 }
