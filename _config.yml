@@ -8,7 +8,7 @@ author:
   github: https://github.com/alexjlockwood
   feedburner: http://feeds.feedburner.com/androiddesignpatterns
 
-baseurl: http://alexjlockwood.github.io
+baseurl: http://www.androiddesignpatterns.com
 
 paginate: 4
 excerpt_separator: <!--more-->
@@ -21,4 +21,4 @@ redcarpet:
 relative_permalinks: false
 permalink: /:year/:month/:title.html
 
-exclude: ['README.md', 'LICENSE.txt', 'CNAME']
+exclude: ['README.md', 'LICENSE.txt']
