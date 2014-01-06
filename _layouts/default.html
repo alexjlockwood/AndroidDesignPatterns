@@ -61,14 +61,10 @@
     {% include google-plus.html %}
     {% include google-analytics.html %}
 
+    {% if page.id == null %}
     <script type="text/javascript">
-      var disqus_shortname = 'androiddesignpatterns';
-      (function () {
-      var s = document.createElement('script'); s.async = true;
-      s.type = 'text/javascript';
-      s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-      (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-      }());
+      var disqus_shortname="androiddesignpatterns";(function(){var a=document.createElement("script");a.async=true;a.type="text/javascript";a.src="http://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("HEAD")[0]||document.getElementsByTagName("BODY")[0]).appendChild(a)}());
     </script>
+    {% endif %}
   </body>
 </html>
