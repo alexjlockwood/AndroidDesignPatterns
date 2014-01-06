@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'SQLite, ContentProviders, & Thread Safety'
+title: 'SQLite, Content Providers, & Thread Safety'
 date: 2012-10-11
 permalink: /2012/10/sqlite-contentprovider-thread-safety.html
 ---
@@ -12,7 +12,7 @@ multiple threads?
 
 <!--more-->
 
-### Threads and ContentProviders
+### Threads and Content Providers
 
 The <a href="http://developer.android.com/reference/android/content/ContentProvider.html">documentation</a>
 on ContentProviders warns that its methods may be called from multiple threads and therefore
