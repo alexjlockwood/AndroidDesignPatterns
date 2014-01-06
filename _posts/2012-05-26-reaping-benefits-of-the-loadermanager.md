@@ -38,7 +38,7 @@ for you, as well as taking care of correctly creating and closing the `Cursor`
 based on the `Activity` lifecycle.
 
 To use `LoaderManager` with (or without) the `CursorLoader`
-in an app targeting pre-HoneyComb devices, you should make use of the classes provided
+in an app targeting pre-Honeycomb devices, you should make use of the classes provided
 in the Android Support Package, including the `FragmentActivity` class. A
 `FragmentActivity` is just an `Activity` that has been created
 for Android compatibility support, and does not require the use of fragments in your
