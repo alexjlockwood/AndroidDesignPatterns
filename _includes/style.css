@@ -17,7 +17,7 @@ body {
     font-weight: 700;
     font-size: 1.75em;
     line-height: 1.3em;
-    margin: 1em 0;
+    margin: 0 0 1em;
     color: #222;
 }
 #content h3, #info h3 {
@@ -211,6 +211,9 @@ sup {
     padding-bottom: 50px;
     float: left;
 }
+.blog-index {
+    padding: 20px 0;
+}
 .snippet a[class=read-more] {
     background: #ececec;
     display: inline-block;
@@ -280,10 +283,12 @@ hr.footnote-divider {
 .share-buttons {
     padding-top: 1em;
 }
+.snippet .side {
+    margin-top: 0;
+}
 .snippet .date-posted {
     font-style: normal;
     text-transform: uppercase;
-    padding-top: 12px;
 }
 .date-block {
     width: 100%;
@@ -293,6 +298,7 @@ hr.footnote-divider {
     color: #fff;
     padding: .5em 0;
     border-radius: 1px;
+    margin-top: -2px;
 }
 .related li {
     border-bottom: 1px #ccc solid;
@@ -517,7 +523,7 @@ pre code {
         font-weight: 700;
         font-size: 1.75em;
         line-height: 1.3em;
-        margin: 1em 0;
+        margin: 0 0 1em;
         color: #222;
     }
     #social {
