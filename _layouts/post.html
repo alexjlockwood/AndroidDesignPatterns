@@ -29,11 +29,11 @@ layout: default
     {% endif %}
   </div>
 
-<!--  {% if page.disable_comments == null %}-->
+  {% if page.disable_comments == null %}
     <div class="post-comments">
-      <div id="disqus_thread"></div>
+      {% include disqus.html %}
     </div>
-<!--  {% endif %}-->
+  {% endif %}
 
   </div>
   
