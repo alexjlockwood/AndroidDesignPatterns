@@ -46,12 +46,14 @@ body {
     font-weight: 700;
     margin: 2em 0 1em;
 }
+
 #header #blog-header {
     float: left;
     text-transform: uppercase;
     margin-top: 50px;
 }
 #header #blog-header a {
+    margin: -9px;
     color: #fff;
     text-decoration: none;
     padding: 9px;
@@ -82,7 +84,7 @@ body {
     font-family: 'Roboto', sans-serif;
     text-transform: uppercase;
     font-size: .8em;
-    margin: 50px -14px 0;
+    margin: 50px -13px 0;
 }
 #header nav a {
     color: #99cc00;
@@ -167,13 +169,14 @@ sup {
     text-decoration: underline;
 }
 .container {
-    width: 65%;
-    margin: 0 40px;
-    max-width: 1400px;
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1800px;
 }
 #header {
-    background: #222;
+    margin: 0 auto;
     padding: 10px 0;
+    background: #222;
 }
 #header ul li {
     padding-left: 30px;
@@ -181,11 +184,10 @@ sup {
 }
 #social {
     background: url('/assets/images/android1x.png') no-repeat left bottom;
-    padding: .5em 0 0;
+    padding-top: .5em;
     height: 32px;
     background-size: contain;
     text-align: right;
-    float: left;
     font-size: 1.3em;
 }
 #social a {
@@ -214,7 +216,8 @@ sup {
     color: #d14836 !important;
 }
 #content {
-    padding-bottom: 50px;
+    width: calc(100% - 390px);
+    margin-right: 40px;
     float: left;
 }
 .blog-index {
@@ -334,9 +337,8 @@ hr.footnote-divider {
     width: calc(100% - 160px);
 }
 #info {
-    float: left;
-    width: 25%;
-    max-width: 400px;
+    float: right;
+    width: 350px;
 }
 #info .box {
     padding: 20px 0;
@@ -352,7 +354,7 @@ hr.footnote-divider {
     text-align: center;
 }
 #copyright {
-    padding: 40px 0;
+    padding: 20px 0;
     clear: both;
 }
 #blog-archives h3.year {
@@ -438,6 +440,14 @@ pre code {
 .clearfix {
     clear: both;
 }
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+.cf:after {
+    clear: both;
+}
 .container:before,
 .container:after {
     content: " ";
@@ -447,25 +457,24 @@ pre code {
     clear: both;
 }
 @media (max-width: 1250px) {
-    .container {
+    .main.container {
+        width: 100%;
+    }
+    #content {
+        float: none;
         width: 90%;
         padding: 0 5%;
-        margin: 0 auto;
-        float: none;
-    }
-    #social.container {
-        float: none;
     }
     #info {
-        padding: 20px 5%;
+        clear: both;
         width: 90%;
-        max-width: none;
+        padding: 40px 5%;
+        margin-top: 40px;
         background: #f5f5f5;
     }
     #info .right {
         width: calc(100% - 340px);
         margin: 0;
-        min-width: 200px;
         float: right;
     }
     #info .gbadge {
@@ -564,12 +573,16 @@ width: 90px !important;
         float: none;
         border: 0;
     }
+    #header {
+        padding: 10px 0;
+    }
     #header #blog-header {
+        margin: 10px 0;
         width: 100%;
         text-align: center;
-        margin: 10px auto;
     }
     #header #blog-header a {
+        margin: -2px;
         padding: 2px;
     }
     #header nav {

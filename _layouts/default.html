@@ -11,7 +11,7 @@
 
   <body>
     <div id="header">
-      <div class="container cf">
+      <div class="container">
         <h3 id="blog-header"><a href="/">{{ site.name }}</a></h3>
         <nav class="pull-right">
           <a href="/archives/">Archives</a>
@@ -27,13 +27,14 @@
       <a href="{{ site.author.feedburner }}" class="rss"><i class="icon-rss"></i></a>
     </div>
 
-    <div id="content" class="container">
+    <div class="main container">
+    <div id="content">
       <div class="blog-index">
         {{ content }}
       </div>
     </div>
 
-    <div id="info">
+    <div id="info" class="cf">
       <div class="right">
 
         <div class="box">
@@ -52,11 +53,12 @@
         <div class="g-person" data-href="//plus.google.com/+AlexLockwood" data-rel="author"></div>
       </div>
     </div>
+    </div>
 
     <div id="copyright" class="container">
       <p>&copy; 2012-{{ site.time | date: "%Y" }} {{ site.name }}</p>
     </div>
-    
+
     {% include google-plus.html %}
     {% include google-analytics.html %}
   </body>
