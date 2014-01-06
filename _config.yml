@@ -8,7 +8,7 @@ author:
   github: https://github.com/alexjlockwood
   feedburner: http://feeds.feedburner.com/androiddesignpatterns
 
-baseurl: http://androiddesignpatterns.com
+baseurl: http://www.androiddesignpatterns.com
 
 paginate: 4
 excerpt_separator: <!--more-->
