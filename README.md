@@ -5,7 +5,7 @@ This is the source code for www.androiddesignpatterns.com. Android Design Patter
 
 If you wish to fork this repository to use as the basis of your own blogging template, please make sure you review the [License and copyright](#license-and-copyright) information below.
 
-## <a name="find-a-typo"></a>Find a typo?
+## Find a typo?
 
 If you find a typo, please feel free to suggest a correction yourself by submitting a pull request! All published posts are written in standard markdown format and can be found in the [`_posts/`](/_posts) directory. If you are unfamiliar with GitHub, the easiest way to suggest a fix is to:
 
@@ -16,7 +16,7 @@ If you find a typo, please feel free to suggest a correction yourself by submitt
 
 Thanks in advance!
 
-## <a name="license-and-copyright"></a>License and copyright
+## License and copyright
 
 All posts and images (i.e. all files in the [`_posts/`](/_posts) and [`assets/images/`](/assets/images) directories) are copyright Alex Lockwood. You may not copy, distribute, or trasmit these files or their contents without explicit permission from the author.
 
