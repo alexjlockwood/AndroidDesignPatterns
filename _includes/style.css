@@ -216,7 +216,7 @@ sup {
     color: #d14836 !important;
 }
 #content {
-    width: calc(100% - 390px);
+    width: calc(100% - 360px);
     margin-right: 40px;
     float: left;
 }
@@ -338,7 +338,7 @@ hr.footnote-divider {
 }
 #info {
     float: right;
-    width: 350px;
+    width: 320px;
 }
 #info .box {
     padding: 20px 0;
