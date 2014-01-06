@@ -483,12 +483,14 @@ pre code {
     .share-buttons div {
         display: inline;
     }
-    #___plusone_0 {
-        width: 70px !important;
-    }
-    .twitter-share-button {
-        width: 90px !important;
-    }
+/*
+#___plusone_0 {
+width: 70px !important;
+}
+.twitter-share-button {
+width: 90px !important;
+}
+*/
     .related li, .related li:last-child  {
         float: left;
         margin: 0 10px 10px 0;
