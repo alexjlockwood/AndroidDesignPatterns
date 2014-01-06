@@ -399,16 +399,19 @@ pre {
     background: #f5f5f5;
 }
 code {
-    color: #333;
-    padding: .05em .1em;
+    font-size: 0.85em;
+    color: #cc0000;
     font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace;
     line-height: 1.3em;
-    background: #f5f5f5;
 }
 pre code {
+    font-size: 1em;
     color: #444;
     background: transparent;
     padding: 0;
+}
+a code {
+    color: #669900;
 }
 .linenos {
     width: 10px;
