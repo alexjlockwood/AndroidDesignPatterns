@@ -1,7 +1,7 @@
 Android Design Patterns
 =======================
 
-This is the source code for www.androiddesignpatterns.com. This blog was created using [Jekyll](http://jekyllrb.com/) and is hosted by [GitHub Pages](http://pages.github.com/).
+This is the source code for www.androiddesignpatterns.com. The blog is generated using [Jekyll](http://jekyllrb.com/) and is hosted by [GitHub Pages](http://pages.github.com/).
 
 If you wish to fork this repository to use as the basis of your own custom blogging template, please make sure you review the [License and copyright](#copyright) section below. 
 
