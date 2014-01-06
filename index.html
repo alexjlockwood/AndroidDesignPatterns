@@ -14,7 +14,7 @@ title: Android Design Patterns
       {{ post.excerpt }}
       <footer>
         <a class="read-more" href="{{ post.url }}">Read more&#8230;</a>
-        <a href="{{ post.url}}#disqus_thread"></a>
+        <a href="{{ post.url }}#disqus_thread" data-disqus-identifier="{{ post.path | split:'/' | last | cgi_escape }}">View Comments</a>
       </footer>
     </div>
     <div class="clearfix"></div>
