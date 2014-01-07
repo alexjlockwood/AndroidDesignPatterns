@@ -2,6 +2,7 @@
 layout: post
 title: 'Redesigning Android Design Patterns'
 permalink: 'not-sure-what-this-will-be-yet'
+thumbnails: ['/assets/images/posts/2014/01/08/adp-n7-screenshot.png']
 ---
 A couple weeks ago, I began the ambitious task of redesigning this blog from scratch.
 Today, I'm happy to introduce a brand new look: one that is cleaner, faster, and more
