@@ -4,7 +4,6 @@ title: 'Thread Scheduling in Android'
 date: 2013-10-23
 comments: true
 ---
-
 This post will give an overview of how thread scheduling works in Android, and will briefly describe how and when you should set thread priorities yourself to ensure that your application remains responsive even as multiple threads continue to run in the background.
 
 For those who are unfamiliar with the term, a _scheduler_ is the part of the operating system in charge of deciding which processes and threads run, when, and for how long. Android's thread scheduler behaves similarly to the stock scheduler used in Linux, and uses two main factors to determine how threads are scheduled across the entire system: _nice values_ and _cgroups_.
