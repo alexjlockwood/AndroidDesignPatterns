@@ -3,6 +3,9 @@ layout: post
 title: 'Why Ice Cream Sandwich Crashes your App'
 date: 2012-06-18
 permalink: /2012/06/app-force-close-honeycomb-ics.html
+related: ['/2013/08/fragment-transaction-commit-state-loss.html',
+          '/2012/06/compatability-manager-utility-class.html',
+          '/2013/01/inner-class-handler-memory-leak.html']
 ---
 The following question has plagued StackOverflow ever since Ice Cream
 Sandwich's initial release:
