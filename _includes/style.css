@@ -666,3 +666,6 @@ img#profile-picture {
 html {
     -webkit-text-size-adjust: none;
 }
+.body {
+    max-height: 999999px; /* Arbitrarily large number. */
+}
