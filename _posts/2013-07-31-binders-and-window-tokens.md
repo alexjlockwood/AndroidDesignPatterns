@@ -3,6 +3,7 @@ layout: post
 title: 'Binders & Window Tokens'
 date: 2013-07-31
 permalink: /2013/07/binders-window-tokens.html
+related: ['/2013/08/binders-death-recipients.html', '/2012/10/sqlite-contentprovider-thread-safety.html']
 ---
 > Note: if you liked this post, be sure to read my second blog post about
 > <a href="/2013/08/binders-death-recipients.html">Binders &amp; Death Recipients</a>

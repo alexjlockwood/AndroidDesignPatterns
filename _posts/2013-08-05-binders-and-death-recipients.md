@@ -3,6 +3,7 @@ layout: post
 title: 'Binders & Death Recipients'
 date: 2013-08-05
 permalink: /2013/08/binders-death-recipients.html
+related: ['/2013/07/binders-window-tokens.html', '/2012/10/sqlite-contentprovider-thread-safety.html']
 ---
 > Note: before you begin, make sure you've read my [previous post](/2013/07/binders-window-tokens.html)
 > about Binder tokens!
