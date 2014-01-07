@@ -6,9 +6,12 @@
     <meta name="google-site-verification" content="VqGny1x9EAeoXjY8v2hWFZGBUZFNQnavIOXVkY50mdk" />
     <meta property="og:title" content="{{ page.title }}" />
     <meta property="og:type" content="blog" />
-    <meta property="og:image" content="{{ site.baseurl }}/assets/images/favicon.jpg" />
     <meta property="og:url" content="{{ site.baseurl }}{{ page.url }}" />
     <meta property="og:site_name" content="{{ site.name }}" />
+    {% if page.thumbnails %}{% for thumbnail in page.thumbnails %}
+    <meta property="og:image" content="{{ site.baseurl }}{{ thumbnail }}" />
+    {% endfor %}{% endif %}
+    <meta property="og:image" content="{{ site.baseurl }}/assets/images/favicon.jpg" />
     <title>{{ page.title }}{% if page.id %} | {{ site.name }}{% endif %}</title>
     <link rel="canonical" href="{{ page.url }}" />
     <link rel="icon" href="/assets/images/favicon.jpg" type="image/x-icon">

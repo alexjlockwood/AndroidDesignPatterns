@@ -3,8 +3,8 @@ layout: post
 title: 'Handling Configuration Changes with Fragments'
 date: 2013-04-29
 permalink: /2013/04/retaining-objects-across-config-changes.html
+thumbnails: ['/assets/images/posts/2013/04/29/worker-fragments-screenshot.png']
 ---
-
 This post addresses a common question:
 
 > What is the best way to retain active objects&mdash;such as
