@@ -513,7 +513,7 @@ width: 90px !important;
         float: left;
         margin: 0 10px 10px 0;
         border: 1px #ccc solid;
-        max-width: 22%;
+        width: 22%;
     }
     h2.post-title {
         margin-top: 0;
@@ -571,6 +571,7 @@ width: 90px !important;
         border-bottom: 1px #ccc solid;
         list-style-type: none;
         margin: 0;
+        width: 100%;
     }
     .related li:last-child {
         float: none;
