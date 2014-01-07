@@ -662,3 +662,10 @@ img#profile-picture {
         page-break-after: always;
     }
 }
+
+html {
+    -webkit-text-size-adjust: none;
+}
+.body {
+    max-height: 999999px; /* Arbitrarily large number. */
+}
