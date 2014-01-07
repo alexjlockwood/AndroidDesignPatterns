@@ -3,6 +3,9 @@ layout: post
 title: 'Correctly Managing your SQLite Database'
 date: 2012-05-21
 permalink: /2012/05/correctly-managing-your-sqlite-database.html
+related: ['/2012/06/content-resolvers-and-content-providers.html',
+          '/2012/07/understanding-loadermanager.html',
+          '/2012/10/sqlite-contentprovider-thread-safety.html']
 ---
 One thing that I've noticed other Android developers having trouble with is properly
 setting up their `SQLiteDatabase`. Often times, I come across questions on StackOverflow
