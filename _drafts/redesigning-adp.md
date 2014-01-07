@@ -7,7 +7,7 @@ A couple weeks ago, I began the ambitious task of redesigning this blog from scr
 Today, I'm happy to introduce a brand new look: one that is cleaner, faster, and more
 responsive. A few of the major changes are listed below:
 
-  + **Goodbye Blogger, Hello Jekyll.** I've never been a huge fan of Blogger and was eager to
+  + **Goodbye Blogger, hello Jekyll.** I've never been a huge fan of Blogger and was eager to
     try something new. After a bit of research I decided to give [Jekyll][1] a shot. Unlike Blogger,
     which dynamically parses content and templates on each request, Jekyll generates the entire
     website once beforehand to serve statically, and is much more efficient as a result. My
