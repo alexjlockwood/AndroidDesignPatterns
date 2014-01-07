@@ -17,7 +17,7 @@ responsive. A few of the major changes are listed below:
     be found on [GitHub][2] and may be used by others as the basis of their own blogs under the 
     [MIT license][3] (with the exception of the contents of the actual posts, of course :P).
     Given that this blog wouldn't even exist without Android&mdash;one of the largest open source
-    projects in the world&emdash;this seemed only fitting. Another cool implication of an entirely
+    projects in the world&mdash;this seemed only fitting. Another cool implication of an entirely
     open-source blog is that readers can propose corrections themselves by submitting pull requests
     to GitHub. I am optimistic that this will miminize the embarrassment and shame that comes with
     the occassional typo in the long run.
