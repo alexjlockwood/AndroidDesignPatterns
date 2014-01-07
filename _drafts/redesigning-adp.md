@@ -20,7 +20,7 @@ responsive. A few of the major changes are listed below:
     projects in the world&mdash;this seemed only fitting. Another cool implication of an entirely
     open-source blog is that readers can propose corrections themselves by submitting pull requests
     to GitHub. I am optimistic that this will miminize the embarrassment and shame that comes with
-    the occassional typo in the long run.
+    the occasional typo in the long run.
 
   + **Faster page loading times.** Compare the new design to the [old design][4] and see for yourself.
   
