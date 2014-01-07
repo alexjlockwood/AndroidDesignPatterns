@@ -3,11 +3,10 @@ layout: post
 title: 'SQLite, Content Providers, & Thread Safety'
 date: 2012-10-11
 permalink: /2012/10/sqlite-contentprovider-thread-safety.html
-suggested: [{title: 'Correctly Managing your SQLite Database', link: '/2012/05/correctly-managing-your-sqlite-database.html'},
-            {title: 'Content Providers & Content Resolvers', link: '/2012/06/content-resolvers-and-content-providers.html'},
-            {title: 'Understanding the LoaderManager (part 2)', link: '/2012/07/understanding-loadermanager.html'}]
+related: ['/2012/05/correctly-managing-your-sqlite-database.html',
+          '/2012/06/content-resolvers-and-content-providers.html',
+          '/2012/07/understanding-loadermanager.html']
 ---
-
 A common source of confusion when implementing `ContentProvider`s is that of thread-safety.
 We all know that any potentially expensive query should be asynchronous so as not to block
 the UI thread, but when, if ever, is it OK to make calls to the `ContentProvider` from

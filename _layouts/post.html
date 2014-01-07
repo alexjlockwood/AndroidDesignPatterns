@@ -36,14 +36,14 @@ layout: default
   {% endif %}
 
   </div>
-  
-  {% if page.suggested %}
+
+  {% if page.related %}
   <div class="side suggested">
-    <h4>Suggested Posts</h4>
+    <h4>Related Posts</h4>
     <ul class="related">
-    {% for suggested in page.suggested %}
-      <li><a href="{{ suggested['link'] }}">{{ suggested['title'] }}</a></li>
-    {% endfor %}
+    {% for url in page.related %}{% for post in site.posts %}{% if url == post.url %}
+    <li><a href="{{ url }}">{{ post.title }}</a></li>{% break %}
+    {% endif %}{% endfor %}{% endfor %}
     </ul>
   </div>
   {% endif %}
