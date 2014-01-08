@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="google-site-verification" content="VqGny1x9EAeoXjY8v2hWFZGBUZFNQnavIOXVkY50mdk" />
     <meta property="og:title" content="{{ page.title }}" />
-    <meta property="og:type" content="blog" />
+    <meta property="og:type" {% if page.id and page.id != 'about/index' and page.id != 'archives/index' %}content="article"{% else %}content="blog"{% endif %} />
     <meta property="og:url" content="{{ site.baseurl }}{{ page.url }}" />
     <meta property="og:site_name" content="{{ site.name }}" />
     {% if page.thumbnails %}{% for thumbnail in page.thumbnails %}
