@@ -9,6 +9,8 @@ Today, I'm happy to introduce a brand new look: one that is cleaner, faster, and
 responsive. Some of the major changes are listed below (if this is your first time visiting
 the site, the old version of the site can be found [here][0]):
 
+<!--more-->
+
   + <b>Goodbye Blogger, hello Jekyll.</b> I've never been a huge fan of Blogger and was eager to
     try something new. After a bit of research I decided to give [Jekyll][1] a shot. Unlike Blogger,
     which dynamically parses content and templates on each request, Jekyll generates the entire
