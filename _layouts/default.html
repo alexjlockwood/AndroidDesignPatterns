@@ -8,9 +8,9 @@
     <meta property="og:title" content="{{ page.title }}" />
     {% if page.path and page.path contains '_posts' %}
     <meta property="og:type" content="article" />
-    <meta property="og:article:published_time" content="{{ page.date | date_to_xmlschema }}" />
+    <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}" />
     {% if page.updated %}
-    <meta property="og:article:modified_time" content="{{ page.updated | date_to_xmlschema }}" />
+    <meta property="article:modified_time" content="{{ page.updated | date_to_xmlschema }}" />
     {% endif %}
     {% else %}
     <meta property="og:type" content="blog" />
