@@ -17,7 +17,7 @@ version of the site [here](http://androiddesignpatterns.blogspot.com) to use as 
     which dynamically parses content and templates on each request, Jekyll generates the entire
     website once beforehand to serve statically, and is much more efficient as a result. It's a little
     under documented and I'm not a huge fan of [Liquid](https://github.com/Shopify/liquid),
-    but other than that I have no complaints. I would pick Jekyll over Blogger any day.
+    but other than that I have no complaints. I would take Jekyll over Blogger any day.
     
   + <b>Android Design Patterns is now 100% open-source.</b> The source code powering this blog can
     be found on [GitHub](https://github.com/alexjlockwood/alexjlockwood.github.io), and may be used
