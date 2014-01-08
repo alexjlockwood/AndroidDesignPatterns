@@ -1,11 +1,11 @@
 ---
 layout: post
 title: 'Fragment Transactions & Activity State Loss'
-date: 2013-08-20
 permalink: /2013/08/fragment-transaction-commit-state-loss.html
 related: ['/2013/04/retaining-objects-across-config-changes.html',
           '/2012/08/implementing-loaders.html',
           '/2012/10/sqlite-contentprovider-thread-safety.html']
+updated: '2014-01-08'
 ---
 The following stack trace and exception message has plagued StackOverflow
 ever since Honeycomb's initial release:

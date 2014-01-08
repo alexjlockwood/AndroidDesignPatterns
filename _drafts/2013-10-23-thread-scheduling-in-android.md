@@ -38,8 +38,8 @@ new Thread(new Runnable() {
 
 As always, thanks for reading, and leave a comment if you have any questions. Don't forget to +1 this blog in the top right corner! 
 
-<br><hr color="#000000" size="1" width="60%" align="left"> 
+<hr class="footnote-divider" />
 
-<a name="footnote1"><sup>1</sup></a> This percentage was 5% at the time of this writing, though it is possible that this value could change in the future.
+<sup><a name="footnote1">1</a></sup> This percentage was 5% at the time of this writing, though it is possible that this value could change in the future.
 
-<a name="footnote2"><sup>2</sup></a> Of course, if no foreground thread wants to run, the background threads can use all of the available CPU cycles.
+<sup><a name="footnote2">2</a></sup> Of course, if no foreground thread wants to run, the background threads can use all of the available CPU cycles.

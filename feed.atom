@@ -18,7 +18,7 @@ title: Atom Feed
    <link href="{{ site.baseurl }}{{ post.url }}"/>
    <id>{{ site.baseurl }}{{ post.url }}</id>
    <published>{{ post.date | date_to_xmlschema }}</published>
-   <updated>{% if post.updated == null %}{{ post.date | date_to_xmlschema }}{% else %}{{ post.updated | append: '@12am' | date_to_xmlschema }}{% endif %}</updated>
+   <updated>{% if post.updated == null %}{{ post.date | date_to_xmlschema }}{% else %}{{ post.updated | date_to_xmlschema }}{% endif %}</updated>
    <summary type="html">{{ post.excerpt | xml_escape }}</summary>
    <content type="html">{{ post.content | xml_escape }}</content>
  </entry>
