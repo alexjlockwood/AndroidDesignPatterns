@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="google-site-verification" content="VqGny1x9EAeoXjY8v2hWFZGBUZFNQnavIOXVkY50mdk" />
     <meta property="og:title" content="{{ page.title }}" />
-    <meta property="og:type" {% if page.id and page.id != 'about/index' and page.id != 'archives/index' %}content="article"{% else %}content="blog"{% endif %} />
+    {% if page.path and page.path contains '_posts' %}
+    <meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="{{ page.date | date_to_xmlschema }}" />
+    {% if page.updated %}
+    <meta property="og:article:modified_time" content="{{ page.updated | date_to_xmlschema }}" />
+    {% endif %}
+    {% else %}
+    <meta property="og:type" content="blog" />
+    {% endif %}
     <meta property="og:url" content="{{ site.baseurl }}{{ page.url }}" />
     <meta property="og:site_name" content="{{ site.name }}" />
     {% if page.thumbnails %}{% for thumbnail in page.thumbnails %}
