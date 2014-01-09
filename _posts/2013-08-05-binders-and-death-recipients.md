@@ -35,24 +35,24 @@ and maintain an accurate snapshot of the system. Enter death recipients.
 
 As it turns out, this task is made easy using the `Binder`'s "link-to-death" facility, which allows a process to get a callback when another process hosting a binder object goes away. In Android, any process can receive a notification when another process dies by taking the following steps:
 
-  1. First, the process creates a <a href="http://developer.android.com/reference/android/os/IBinder.DeathRecipient.html">DeathRecipient</a> 
+  1. First, the process creates a <a href="http://developer.android.com/reference/android/os/IBinder.DeathRecipient.html">`DeathRecipient`</a> 
      callback object containing the code to be executed when the death notification arrives.
 
   2. Next, it obtains a reference to a `Binder` object that lives in another process and calls its 
-     <a href="http://developer.android.com/reference/android/os/Binder.html#linkToDeath(android.os.IBinder.DeathRecipient, int)">linkToDeath(IBinder.DeathRecipient recipient, int flags)</a>,
+     <a href="http://developer.android.com/reference/android/os/Binder.html#linkToDeath(android.os.IBinder.DeathRecipient, int)">`linkToDeath(IBinder.DeathRecipient recipient, int flags)`</a>,
      passing the `DeathRecipient` callback object as the first argument.
 
   3. Finally, it waits for the process hosting the `Binder` object to die. When the Binder kernel
      driver detects that the process hosting the `Binder` is gone, it will notify the registered
      `DeathRecipient` callback object by calling its 
-     <a href="http://developer.android.com/reference/android/os/IBinder.DeathRecipient.html#binderDied()">binderDied()</a>
+     <a href="http://developer.android.com/reference/android/os/IBinder.DeathRecipient.html#binderDied()">`binderDied()`</a>
      method.
 
 Analyzing the source code once again gives some insight into how this pattern is used inside the framework.
 Consider an example application that (similar to the example given in my <a href="/2013/07/binders-window-tokens.html">previous post</a>)
 acquires a wake lock in `onCreate()`, but is abruptly killed by the system before it is
 able to release the wake lock in `onDestroy()`. How and when will the
-<a href="https://android.googlesource.com/platform/frameworks/base/+/android-4.3_r2.1/services/java/com/android/server/power/PowerManagerService.java">PowerManagerService</a>
+<a href="https://android.googlesource.com/platform/frameworks/base/+/android-4.3_r2.1/services/java/com/android/server/power/PowerManagerService.java">`PowerManagerService`</a>
 be notified so that it can quickly release the wake lock before wasting the device's battery? As you might
 expect, the `PowerManagerService` achieves this by registering a `DeathRecipient`
 (note that some of the source code has been cleaned up for the sake of brevity):
@@ -186,17 +186,17 @@ interesting examples:
     stub returned by the remote service's `onBind()` method. If the remote service suddenly
     dies, the registered death recipient's `binderDied()` method is called, which contains
     some clean up code, as well as the code that calls the
-    <a href="https://developer.android.com/reference/android/content/ServiceConnection.html#onServiceDisconnected(android.content.ComponentName)">onServiceDisconnected(ComponentName name)</a>
+    <a href="https://developer.android.com/reference/android/content/ServiceConnection.html#onServiceDisconnected(android.content.ComponentName)">`onServiceDisconnected`(ComponentName name)</a>
     method (the source code illustrating how this is done is located
     <a href="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/app/LoadedApk.java">here</a>).
 
   + Many other system services depend on the Binder's link-to-death facility in order to ensure that
     expensive resources aren't leaked when an application process is forcefully killed. Some other examples
     (not including the `PowerManagerService`) are the
-    <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/VibratorService.java">VibratorService</a>,
-    <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/LocationManagerService.java">LocationManagerService</a>,
-    <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/location/GpsLocationProvider.java">GpsLocationProvider</a>,
-    and the <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/wifi/WifiService.java">WifiService</a>.
+    <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/VibratorService.java">`VibratorService`</a>,
+    <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/LocationManagerService.java">`LocationManagerService`</a>,
+    <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/location/GpsLocationProvider.java">`GpsLocationProvider`</a>,
+    and the <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/wifi/WifiService.java">`WifiService`</a>.
 
 ### Additional Reading
 
