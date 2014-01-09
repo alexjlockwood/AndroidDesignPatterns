@@ -18,6 +18,19 @@ title: Android Design Patterns
     </div>
     <div class="clearfix"></div>
   </article>
+  {% if forloop.index0 == 1 %}
+  <!-- Display ad after second post snippet -->
+  <!--<div id="responsive-home-page-first-ad">
+    <ins class="adsbygoogle"
+	 style="display:block"
+	 data-ad-client="ca-pub-3588752900040136"
+	 data-ad-slot="7147625658"
+	 data-ad-format="auto"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>-->
+  {% endif %}
 {% endfor %}
 {% if paginator.previous_page or paginator.next_page %}
   <div class="mod-pagination">

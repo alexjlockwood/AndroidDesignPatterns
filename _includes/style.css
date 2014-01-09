@@ -357,6 +357,9 @@ hr.footnote-divider {
     padding: 20px 0;
     clear: both;
 }
+#responsive-home-page-first-ad {
+    padding-bottom: 40px;
+}
 #responsive-home-page-bottom-ad {
     padding-top: 20px;
 }
