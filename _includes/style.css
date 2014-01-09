@@ -279,7 +279,7 @@ hr.footnote-divider {
     clear: both;
 }
 .post-comments {
-    padding-top: 30px;
+    padding-top: 20px;
 }
 .side {
     float: left;
@@ -357,7 +357,10 @@ hr.footnote-divider {
     padding: 20px 0;
     clear: both;
 }
-#bottom-ad {
+#responsive-home-page-bottom-ad {
+    padding-top: 20px;
+}
+#responsive-post-bottom-ad {
     padding-top: 20px;
 }
 #blog-archives h3.year {

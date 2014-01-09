@@ -33,6 +33,7 @@
       ga('create', 'UA-32166730-1', 'androiddesignpatterns.com');
       ga('send', 'pageview');
     </script>
+
   </head>
 
   <body>
@@ -80,8 +81,7 @@
     </div>
     </div>
 
-    <div id="bottom-ad" class="container">
-      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <div id="responsive-home-page-bottom-ad" class="container">
       <ins class="adsbygoogle"
            style="display:block"
            data-ad-client="ca-pub-3588752900040136"
@@ -91,23 +91,12 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
       </script>
     </div>
-<!--
-    <div id="bottom-ad" class="container">
-      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-      <ins class="adsbygoogle"
-           style="display:inline-block;width:468px;height:60px"
-           data-ad-client="ca-pub-3588752900040136"
-           data-ad-slot="6665104455"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
--->
 
     <div id="copyright" class="container">
       <p>&copy; 2012-{{ site.time | date: "%Y" }} {{ site.name }}</p>
     </div>
 
     {% include google-plus.html %}
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   </body>
 </html>
