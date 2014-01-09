@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Redesigning Android Design Patterns
-permalink: /2014-01-08-redesigning-android-design-patterns.html
 thumbnails: ['/assets/images/posts/2014/01/08/adp-n7-screenshot-after.png']
 ---
 A couple weeks ago, I began the ambitious task of rewriting this blog from scratch.
@@ -33,19 +32,21 @@ version of the site [here](http://androiddesignpatterns.blogspot.com) to use as 
     to GitHub.
 
   + **Faster page load times.** Check out the [old version](http://androiddesignpatterns.blogspot.com) of this blog
-    and see for yourself! [Page Speed](https://developers.google.com/speed/pagespeed/) reports 89/100 for mobile
-    devices and 95/100 for desktop computers.
+    and see for yourself! [Page Speed](https://developers.google.com/speed/pagespeed/) reports an increase from 65/100 to 89/100 for mobile
+    devices and 86/100 to 95/100 for desktop computers.
 
   + **Clean, responsive, and mobile-friendly.** First of all, I'd like to thank [+Shannon Lee](https://plus.google.com/116871425473751000037)
     for coming up with most of the new design. I consider myself a beginner at web design, so this couldn't have been done without her!
     That said, I definitely recommend checking out the site on your phone or tablet, as it's one of my favorite
     aspects of the new design. Below is a comparison of the old vs. new versions of the site on a Nexus 7:
 
+    <div style="max-width:600px;margin:0 auto;">
     <div style="overflow:hidden;width:100%;display:block;">
     <a href="/assets/images/posts/2014/01/08/adp-n7-screenshot-before.png">
     <img style="display:block;float:left;max-width:300px;width:50%;position:relative;" src="/assets/images/posts/2014/01/08/adp-n7-screenshot-before.png"/>
     <a href="/assets/images/posts/2014/01/08/adp-n7-screenshot-after.png">
     <img style="display:block;float:left;max-width:300px;width:50%;position:relative;" src="/assets/images/posts/2014/01/08/adp-n7-screenshot-after.png"/></a>
+    </div>
     </div>
 
   + **Disqus comments.** Picking a third-party commenting platform to use was difficult, as there weren't
