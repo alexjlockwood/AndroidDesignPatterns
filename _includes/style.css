@@ -357,6 +357,9 @@ hr.footnote-divider {
     padding: 20px 0;
     clear: both;
 }
+#bottom-ad {
+    padding-top: 20px;
+}
 #blog-archives h3.year {
     float: left;
     width: 50px;
