@@ -1,35 +1,63 @@
+@dark-green: #669900;
+@light-green: #99cc00;
+
 body {
   background: #fff;
   font-size: .95em;
   font-family: 'Asap', sans-serif !important;
   line-height: 1.5em;
 }
-#content h1 {
-  font-family: 'Roboto', sans-serif;
-  font-size: 2.75em;
-  /* mega-bold */
-  font-weight: 900; 
-  line-height: 1.3em;
-  margin: .5em 0 .5em;
-  color: #222;
+#content {
+  h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.75em;
+    /* mega-bold */
+    font-weight: 900; 
+    line-height: 1.3em;
+    margin: .5em 0 .5em;
+    color: #222;
+  }
+  h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 1.75em;
+    line-height: 1.3em;
+    margin: 0 0 1em;
+    color: #222;
+  }
+  h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 1.3em;
+    margin: 1em 0 1em;
+    color: #222;
+    margin-top: 2em;
+  }
+  h4 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1.2em;
+    margin: 0 0 1em;
+  }
+  h5 {
+    font-weight: 700;
+    margin: 2em 0 1em;
+  }
 }
-#content h2 {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  font-size: 1.75em;
-  line-height: 1.3em;
-  margin: 0 0 1em;
-  color: #222;
-}
-#content h3, #info h3 {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  font-size: 1.3em;
-  margin: 1em 0 1em;
-  color: #222;
-}
-#content h3 {
-  margin-top: 2em;
+#info {
+  h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 1.3em;
+    margin: 1em 0 1em;
+    color: #222;
+  }
+  h4 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1.2em;
+    margin: 0 0 1em;
+  }
 }
 #blog-header {
   font-family: 'Roboto', sans-serif;
@@ -37,17 +65,6 @@ body {
   font-size: 1.3em;
   margin: 0 0 1em;
 }
-#content h4, #info h4 {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 1.2em;
-  margin: 0 0 1em;
-}
-#content h5 {
-  font-weight: 700;
-  margin: 2em 0 1em;
-}
-
 #header #blog-header {
   float: left;
   text-transform: uppercase;
@@ -62,7 +79,7 @@ body {
 }
 #header #blog-header a:hover {
   background: #000;
-  color: #99cc00;
+  color: @light-green;
 }
 #header a {
   border-radius: 1px;
@@ -79,7 +96,7 @@ body {
   transition: color 0.3s;
 }
 .post-title a:hover {
-  color: #669900;
+  color: @dark-green;
   text-decoration: underline;
 }
 #header nav {
@@ -89,7 +106,7 @@ body {
   margin: 50px -13px 0;
 }
 #header nav a {
-  color: #99cc00;
+  color: @light-green;
   text-decoration: none;
   padding: 13px;
   border: 0;
@@ -115,7 +132,7 @@ body {
 }
 #content blockquote {
   color: #666;
-  border-left: .5em #669900 solid;
+  border-left: .5em @dark-green solid;
   padding: 0 1em;
   font-style: italic;
 }
@@ -125,11 +142,11 @@ body {
   margin: 20px 0;
 }
 a {
-  color: #669900;
+  color: @dark-green;
   text-decoration: underline;
 }
 a:hover {
-  color: #99cc00;
+  color: @light-green;
 }
 .no-border a, a.no-border {
   text-decoration: none;
@@ -240,7 +257,7 @@ sup {
   transition: background-color 0.4s;
 }
 .snippet a[class=read-more]:hover {
-  background: #669900;
+  background: @dark-green;
   text-shadow: none;
   color: #f8f8f8;
 }
@@ -305,7 +322,7 @@ hr.footnote-divider {
   width: 100%;
   text-align: center;
   display: inline-block;
-  background: #669900;
+  background: @dark-green;
   color: #fff;
   padding: .5em 0;
   border-radius: 1px;
@@ -422,7 +439,7 @@ pre code {
   padding: 0;
 }
 a code {
-  color: #669900;
+  color: @dark-green;
 }
 .linenos {
   width: 10px;
@@ -532,7 +549,7 @@ a code {
   }
   .side.suggested {
     clear: both;
-    border-top: 1px #99cc00 dotted;
+    border-top: 1px @light-green dotted;
     margin-top: 40px;
     padding-top: 40px;
   }

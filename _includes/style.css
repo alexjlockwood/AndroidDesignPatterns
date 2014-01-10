@@ -21,25 +21,15 @@ body {
   margin: 0 0 1em;
   color: #222;
 }
-#content h3,
-#info h3 {
+#content h3 {
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 1.3em;
   margin: 1em 0 1em;
   color: #222;
-}
-#content h3 {
   margin-top: 2em;
 }
-#blog-header {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 1.3em;
-  margin: 0 0 1em;
-}
-#content h4,
-#info h4 {
+#content h4 {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 1.2em;
@@ -48,6 +38,25 @@ body {
 #content h5 {
   font-weight: 700;
   margin: 2em 0 1em;
+}
+#info h3 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 1.3em;
+  margin: 1em 0 1em;
+  color: #222;
+}
+#info h4 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 1.2em;
+  margin: 0 0 1em;
+}
+#blog-header {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 1.3em;
+  margin: 0 0 1em;
 }
 #header #blog-header {
   float: left;
@@ -116,7 +125,7 @@ body {
 }
 #content blockquote {
   color: #666;
-  border-left: .5em #669900 solid;
+  border-left: 0.5em #669900 solid;
   padding: 0 1em;
   font-style: italic;
 }
