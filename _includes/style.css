@@ -423,6 +423,9 @@ pre code {
 a code {
     color: #669900;
 }
+a:hover code {
+    color: #99cc00;
+}
 .linenos {
     width: 10px;
 }
