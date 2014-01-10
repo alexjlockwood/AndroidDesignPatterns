@@ -8,7 +8,7 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 2.75em;
   /* mega-bold */
-  font-weight: 900;
+  font-weight: 900; 
   line-height: 1.3em;
   margin: .5em 0 .5em;
   color: #222;
@@ -21,8 +21,7 @@ body {
   margin: 0 0 1em;
   color: #222;
 }
-#content h3,
-#info h3 {
+#content h3, #info h3 {
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 1.3em;
@@ -38,8 +37,7 @@ body {
   font-size: 1.3em;
   margin: 0 0 1em;
 }
-#content h4,
-#info h4 {
+#content h4, #info h4 {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 1.2em;
@@ -49,6 +47,7 @@ body {
   font-weight: 700;
   margin: 2em 0 1em;
 }
+
 #header #blog-header {
   float: left;
   text-transform: uppercase;
@@ -95,6 +94,8 @@ body {
   padding: 13px;
   border: 0;
 }
+#header nav a:last-child {
+}
 #header nav a:hover {
   color: #fff;
   background: #000;
@@ -104,12 +105,10 @@ body {
   color: #fff;
   background: #000;
 }
-#content p,
-#info p {
+#content p, #info p {
   margin: 1em 0;
 }
-#content p.lead,
-#info p.lead {
+#content p.lead, #info p.lead {
   font-size: 1.5em;
   line-height: 1.6em;
   margin-top: 0;
@@ -132,16 +131,13 @@ a {
 a:hover {
   color: #99cc00;
 }
-.no-border a,
-a.no-border {
+.no-border a, a.no-border {
   text-decoration: none;
 }
-em,
-i {
+em, i {
   font-style: italic;
 }
-strong,
-b {
+strong, b {
   font-weight: 700;
 }
 li {
@@ -153,12 +149,10 @@ ul {
 ol {
   list-style-type: decimal;
 }
-acronym,
-abbr {
+acronym, abbr {
   border-bottom: 1px #666 dotted;
 }
-td,
-th {
+td, th {
   padding: .5em;
   border: 1px #ccc solid;
 }
@@ -166,8 +160,7 @@ thead {
   background: #f5f5f5;
   border-bottom: 5px #ccc solid;
 }
-.highlighttable td,
-.gist td {
+.highlighttable td, .gist td {
   padding: 0;
   background: none;
   border: 0;
@@ -225,7 +218,7 @@ sup {
   color: #d14836 !important;
 }
 #content {
-  width: calc(100% - 360px);
+  width: ~"calc(100% - 360px)";
   margin-right: 40px;
   float: left;
 }
@@ -326,8 +319,7 @@ hr.footnote-divider {
 .related li:last-child {
   border: 0;
 }
-.related li a,
-.related li a:hover {
+.related li a, .related li a:hover {
   background: #f5f5f5;
   padding: 20px;
   display: block;
@@ -341,10 +333,10 @@ hr.footnote-divider {
 }
 .body {
   float: right;
-  width: calc(100% - 220px);
+  width: ~"calc(100% - 220px)";
 }
 .snippet .body {
-  width: calc(100% - 160px);
+  width: ~"calc(100% - 160px)";
 }
 #info {
   float: right;
@@ -383,7 +375,7 @@ hr.footnote-divider {
   margin-top: 8px;
 }
 #blog-archives ul {
-  width: calc(100% - 60px);
+  width: ~"calc(100% - 60px)";
   float: left;
   margin-bottom: 2em;
 }
@@ -495,7 +487,7 @@ a code {
     background: #f5f5f5;
   }
   #info .right {
-    width: calc(100% - 340px);
+    width: ~"calc(100% - 340px)";
     margin: 0;
     float: right;
   }
@@ -509,11 +501,7 @@ a code {
   }
 }
 @media (max-width: 960px) {
-  .side,
-  .body,
-  header h1,
-  .snippet .side,
-  .snippet .body {
+  .side, .body, header h1, .snippet .side, .snippet .body {
     width: 100%;
     float: none;
   }
@@ -524,8 +512,7 @@ a code {
   .share-buttons div {
     display: inline;
   }
-  .related li,
-  .related li:last-child {
+  .related li, .related li:last-child  {
     float: left;
     margin: 0 10px 10px 0;
     border: 1px #ccc solid;
@@ -581,8 +568,7 @@ a code {
     padding: 40px 0 0;
     text-align: center;
   }
-  .related li,
-  .related li:last-child {
+  .related li, .related li:last-child {
     float: none;
     border: 0;
     border-bottom: 1px #ccc solid;
@@ -616,8 +602,7 @@ a code {
     padding: 0 2px;
     margin: 2px 10px;
   }
-  #header nav a:hover,
-  #header #blog-header a:hover {
+  #header nav a:hover, #header #blog-header a:hover {
     background: transparent;
   }
   #blog-archives h3.year {
@@ -663,10 +648,7 @@ img#profile-picture {
   }
 }
 @media print {
-  #header,
-  #social,
-  .share-buttons,
-  #info {
+  #header, #social, .share-buttons, #info {
     display: none;
   }
   .post-pagination {
