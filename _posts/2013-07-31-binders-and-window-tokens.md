@@ -147,7 +147,7 @@ So what's going on? Let's walk through the code step-by-step:
 
   1. The client application requests an instance of the `PowerManager` class in `onCreate()`.
      The `PowerManager` class provides an interface for the client application to talk to the global
-     (<a href=")https://android.googlesource.com/platform/frameworks/base/+/android-4.3_r2.1/services/java/com/android/server/power/PowerManagerService.java">`PowerManagerService`</a>,
+     <a href="https://android.googlesource.com/platform/frameworks/base/+/android-4.3_r2.1/services/java/com/android/server/power/PowerManagerService.java">`PowerManagerService`</a>,
      which runs in the System Server process and is in charge of managing the device's power
      state (i.e. determining the screen's brightness, starting Daydreams, detecting when the
      device is plugged into a dock, etc.).
