@@ -4,6 +4,11 @@ body {
   font-family: 'Asap', sans-serif !important;
   line-height: 1.5em;
 }
+#content {
+  width: calc(100% - 360px);
+  margin-right: 40px;
+  float: left;
+}
 #content h1 {
   font-family: 'Roboto', sans-serif;
   font-size: 2.75em;
@@ -58,6 +63,10 @@ body {
   border-top: 1px #eee solid;
   margin: 20px 0;
 }
+#info {
+  float: right;
+  width: 320px;
+}
 #info h3 {
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
@@ -79,27 +88,33 @@ body {
   line-height: 1.6em;
   margin-top: 0;
 }
+#info .box {
+  padding: 20px 0;
+  border-top: 1px #eee solid;
+}
+#info .box:first-child {
+  border: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+#info .gbadge {
+  padding: 40px 0 0;
+  text-align: center;
+}
 #blog-header {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 1.3em;
   margin: 0 0 1em;
 }
-#header #blog-header {
+#header {
+  margin: 0 auto;
+  padding: 10px 0;
+  background: #222;
+}
+#header ul li {
+  padding-left: 30px;
   float: left;
-  text-transform: uppercase;
-  margin-top: 50px;
-}
-#header #blog-header a {
-  margin-left: -9px;
-  margin-top: -9px;
-  color: #fff;
-  text-decoration: none;
-  padding: 9px;
-}
-#header #blog-header a:hover {
-  background: #000;
-  color: #99cc00;
 }
 #header a {
   border-radius: 1px;
@@ -107,17 +122,6 @@ body {
   -moz-transition: background-color 0.4s;
   -o-transition: background-color 0.4s;
   transition: background-color 0.4s;
-}
-.post-title a {
-  color: #222;
-  -webkit-transition: color 0.3s;
-  -moz-transition: color 0.3s;
-  -o-transition: color 0.3s;
-  transition: color 0.3s;
-}
-.post-title a:hover {
-  color: #669900;
-  text-decoration: underline;
 }
 #header nav {
   font-family: 'Roboto', sans-serif;
@@ -140,12 +144,42 @@ body {
   color: #fff;
   background: #000;
 }
+#header #blog-header {
+  float: left;
+  text-transform: uppercase;
+  margin-top: 50px;
+}
+#header #blog-header a {
+  margin-left: -9px;
+  margin-top: -9px;
+  color: #fff;
+  text-decoration: none;
+  padding: 9px;
+}
+#header #blog-header a:hover {
+  background: #000;
+  color: #99cc00;
+}
+.post-title a {
+  color: #222;
+  -webkit-transition: color 0.3s;
+  -moz-transition: color 0.3s;
+  -o-transition: color 0.3s;
+  transition: color 0.3s;
+}
+.post-title a:hover {
+  color: #669900;
+  text-decoration: underline;
+}
 a {
   color: #669900;
   text-decoration: underline;
 }
 a:hover {
   color: #99cc00;
+}
+a code {
+  color: #669900;
 }
 .no-border a,
 a.no-border {
@@ -167,10 +201,6 @@ ul {
 }
 ol {
   list-style-type: decimal;
-}
-acronym,
-abbr {
-  border-bottom: 1px #666 dotted;
 }
 td,
 th {
@@ -196,15 +226,6 @@ sup {
   width: 90%;
   margin: 0 auto;
   max-width: 1400px;
-}
-#header {
-  margin: 0 auto;
-  padding: 10px 0;
-  background: #222;
-}
-#header ul li {
-  padding-left: 30px;
-  float: left;
 }
 #social {
   background: url('/assets/images/android1x.png') no-repeat left bottom;
@@ -239,13 +260,16 @@ sup {
 #social a.googleplus:hover {
   color: #d14836 !important;
 }
-#content {
-  width: calc(100% - 360px);
-  margin-right: 40px;
-  float: left;
-}
 .blog-index {
   padding: 20px 0;
+}
+.snippet {
+  border-bottom: 1px #eee solid;
+  padding-bottom: 50px;
+  margin-bottom: 40px;
+}
+.snippet footer {
+  margin-top: 1em;
 }
 .snippet a[class=read-more] {
   background: #ececec;
@@ -265,14 +289,6 @@ sup {
   background: #669900;
   text-shadow: none;
   color: #f8f8f8;
-}
-.snippet footer {
-  margin-top: 1em;
-}
-.snippet {
-  border-bottom: 1px #eee solid;
-  padding-bottom: 50px;
-  margin-bottom: 40px;
 }
 hr.footnote-divider {
   margin-top: 3em;
@@ -318,10 +334,14 @@ hr.footnote-divider {
 }
 .snippet .side {
   margin-top: 0;
+  width: 120px;
 }
 .snippet .date-posted {
   font-style: normal;
   text-transform: uppercase;
+}
+.snippet .body {
+  width: calc(100% - 160px);
 }
 .date-block {
   width: 100%;
@@ -341,7 +361,12 @@ hr.footnote-divider {
 .related li:last-child {
   border: 0;
 }
-.related li a,
+.related li a {
+  background: #f5f5f5;
+  padding: 20px;
+  display: block;
+  border: 0;
+}
 .related li a:hover {
   background: #f5f5f5;
   padding: 20px;
@@ -351,32 +376,9 @@ hr.footnote-divider {
 .related li.featured a {
   background: #eaeaea;
 }
-.snippet .side {
-  width: 120px;
-}
 .body {
   float: right;
   width: calc(100% - 220px);
-}
-.snippet .body {
-  width: calc(100% - 160px);
-}
-#info {
-  float: right;
-  width: 320px;
-}
-#info .box {
-  padding: 20px 0;
-  border-top: 1px #eee solid;
-}
-#info .box:first-child {
-  border: 0;
-  margin-top: 0;
-  padding-top: 0;
-}
-#info .gbadge {
-  padding: 40px 0 0;
-  text-align: center;
 }
 #copyright {
   padding: 20px 0;
@@ -413,7 +415,7 @@ hr.footnote-divider {
 #blog-archives li:last-child {
   border: 0;
 }
-#blog-archives li span {
+#blog-archives span {
   width: 60px;
   text-align: right;
   padding: 0 10px;
@@ -421,6 +423,12 @@ hr.footnote-divider {
   float: left;
   margin-right: 10px;
   color: #666;
+}
+code {
+  font-size: 0.95em;
+  color: #cc0000;
+  font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace;
+  line-height: 1.3em;
 }
 pre {
   padding: 10px 10px;
@@ -432,20 +440,11 @@ pre {
   line-height: 1.3em;
   background: #f5f5f5;
 }
-code {
-  font-size: 0.95em;
-  color: #cc0000;
-  font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace;
-  line-height: 1.3em;
-}
 pre code {
   font-size: 1em;
   color: #444;
   background: transparent;
   padding: 0;
-}
-a code {
-  color: #669900;
 }
 .linenos {
   width: 10px;
@@ -643,17 +642,17 @@ a code {
     width: 100%;
     float: none;
   }
+  #blog-archives li {
+    padding-left: 0;
+    padding-right: 0;
+    border-bottom: 1px #eee solid;
+  }
   #blog-archives li span {
     padding: 0;
     float: none;
     text-align: left;
     display: block;
     color: #666;
-  }
-  #blog-archives li {
-    padding-left: 0;
-    padding-right: 0;
-    border-bottom: 1px #eee solid;
   }
   .side {
     margin-top: 0;
