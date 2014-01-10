@@ -181,6 +181,9 @@ a:hover {
 a code {
   color: #669900;
 }
+a:hover code {
+  color: #99cc00;
+}
 .no-border a,
 a.no-border {
   text-decoration: none;
