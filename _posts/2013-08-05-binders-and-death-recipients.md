@@ -186,7 +186,7 @@ interesting examples:
     stub returned by the remote service's `onBind()` method. If the remote service suddenly
     dies, the registered death recipient's `binderDied()` method is called, which contains
     some clean up code, as well as the code that calls the
-    <a href="https://developer.android.com/reference/android/content/ServiceConnection.html#onServiceDisconnected(android.content.ComponentName)">`onServiceDisconnected`(ComponentName name)</a>
+    <a href="https://developer.android.com/reference/android/content/ServiceConnection.html#onServiceDisconnected(android.content.ComponentName)">`onServiceDisconnected(ComponentName)`</a>
     method (the source code illustrating how this is done is located
     <a href="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/app/LoadedApk.java">here</a>).
 
