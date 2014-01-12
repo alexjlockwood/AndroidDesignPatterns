@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="google-site-verification" content="VqGny1x9EAeoXjY8v2hWFZGBUZFNQnavIOXVkY50mdk" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:title" content="{{ page.title }}" />
+    <meta property="og:title" content="{{ page.title | escape }}" />
     {% if page.path and page.path contains '_posts' %}
     <meta property="og:type" content="article" />
     <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}" />
@@ -19,7 +19,7 @@
     <meta property="og:image" content="{{ site.baseurl }}{{ thumbnail }}" />
     {% endfor %}{% endif %}
     <meta property="og:image" content="{{ site.baseurl }}/assets/images/favicon.jpg" />
-    <title>{{ page.title }}{% if page.id %} | {{ site.name }}{% endif %}</title>
+    <title>{{ page.title | escape }}{% if page.id %} | {{ site.name }}{% endif %}</title>
     <link rel="canonical" href="{{ page.url }}" />
     <link rel="icon" href="/assets/images/favicon.jpg" type="image/x-icon">
     <link href="{{ site.baseurl }}/feed.atom" rel="alternate" title="{{ site.name }} - Feed" type="application/atom+xml" />
