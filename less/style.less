@@ -387,6 +387,8 @@ sup {
   padding: 20px 0;
   clear: both;
 }
+
+// TODO: wrap these ids in a 'adsense' class and update @media print below.
 #responsive-home-page-first-ad {
   padding-bottom: 40px;
 }
@@ -396,6 +398,7 @@ sup {
 #responsive-post-bottom-ad {
   padding-top: 20px;
 }
+
 #blog-archives {
   h3.year {
     float: left;
@@ -681,7 +684,7 @@ img#profile-picture {
   }
 }
 @media print {
-  #header, #social, .share-buttons, #info {
+  #header, #social, .share-buttons, #info, #responsive-home-page-bottom-ad, #responsive-post-bottom-ad, .side, #copyright {
     display: none;
   }
   .post-pagination {
