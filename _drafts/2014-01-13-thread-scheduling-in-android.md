@@ -42,7 +42,7 @@ using Linux [_cgroups_](http://en.wikipedia.org/wiki/Cgroups) (control groups). 
 of CPU time given to background applications, Android assigns threads to one of two cgroups. Threads
 in the default, foreground cgroup are scheduled as normal. Threads in the background cgroup, however,
 are limited to only a small percent<sup><a href="#footnote1" id="ref1">1</a></sup> of the device's total CPU
-time.<sup><a href="#footnote2" id="ref2">2</sup></a></sup> This is enough to allow background threads to make some
+time.<sup><a href="#footnote2" id="ref2">2</a></sup> This is enough to allow background threads to make some
 forward progress, without having enough of an impact on the foreground threads to be generally visible
 to the user.
 

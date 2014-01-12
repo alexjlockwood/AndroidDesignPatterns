@@ -58,12 +58,12 @@ There are four characteristics which ultimately determine a Loader’s behavior:
      When subclassed, implementing the asynchronous task is as simple as implementing the abstract
      `loadInBackground()` method, which is called on a worker thread to perform the data load.
 
-  2. **A registered listener to receive the Loader’s results when it completes a load.**<sup><a href="#footnote1" id="ref1">1</sup></a></sup>
+  2. **A registered listener to receive the Loader’s results when it completes a load.**<sup><a href="#footnote1" id="ref1">1</a></sup>
      For each of its Loaders, the LoaderManager registers an `OnLoadCompleteListener<D>` which will forward
      the Loader’s delivered results to the client with a call to `onLoadFinished(Loader<D> loader, D result)`.
      Loaders should deliver results to these registered listeners with a call to `Loader#deliverResult(D result)`.
 
-  3. **One of three<sup><a href="#footnote2" id="ref2">2</sup></a></sup> distinct states.** Any given Loader will either be in a
+  3. **One of three<sup><a href="#footnote2" id="ref2">2</a></sup> distinct states.** Any given Loader will either be in a
      _started_, _stopped_, or _reset_ state:
       - Loaders in a _started state_ execute loads and may deliver their results to the listener at any
         time. Started Loaders should monitor for changes and perform new loads when changes are detected.

@@ -55,7 +55,7 @@ its appropriate value to ensure that equality will behave as expected even in re
 processes.
 
 The Binder's unique object identity rules allow them to be used for a special purpose: as
-_shared, security access tokens_.<sup><a href="#footnote1">1</a></sup> Binders are globally
+_shared, security access tokens_.<sup><a href="#footnote1" id="ref1">1</a></sup> Binders are globally
 unique, which means if you create one, nobody else can create one that appears equal to it.
 For this reason, the application framework uses Binder tokens extensively in order to ensure
 secure interaction between cooperating processes: a client can create a `Binder` object to
@@ -165,7 +165,7 @@ So what's going on? Let's walk through the code step-by-step:
      `PowerManagerService` into releasing a `WakeLock` held by a different application.
 
 Because of their unique object-identity capabilities, Binder tokens are used
-extensively<sup><a href="#footnote2">2</a></sup> in the system for security. Perhaps the most
+extensively<sup><a href="#footnote2" id="ref2">2</a></sup> in the system for security. Perhaps the most
 interesting example of how they are used in the framework is the "window token," which we will now
 discuss below.
 
@@ -179,7 +179,7 @@ Binder token that the window manager uses to uniquely identify a window in the s
 tokens are important for security because they make it impossible for malicious applications
 to draw on top of the windows of other applications. The window manager protects against this
 by requiring applications to pass their application's window token as part of each request to
-add or remove a window.<sup><a href="#footnote3">3</a></sup> If the tokens don't match, the
+add or remove a window.<sup><a href="#footnote3" id="ref3">3</a></sup> If the tokens don't match, the
 window manager rejects the request and throws a
 <a href="http://developer.android.com/reference/android/view/WindowManager.BadTokenException.html">`BadTokenException`</a>.
 Without window tokens, this necessary identification step wouldn't be possible and the window
@@ -188,9 +188,9 @@ manager wouldn't be able to protect itself from malicious applications.
 By this point you might be wondering about the real-world scenarios in which you would need to
 obtain a window token. Here are some examples:
 
-  + When an application starts up for the first time, the `ActivityManagerService`<sup><a href="#footnote4">4</a></sup>
+  + When an application starts up for the first time, the `ActivityManagerService`<sup><a href="#footnote4" id="ref4">4</a></sup>
     creates a special kind of window token called an **application window token**, which uniquely identifies the application's
-    top-level container window.<sup><a href="#footnote5">5</a></sup> The activity manager gives this token to both the
+    top-level container window.<sup><a href="#footnote5" id="ref5">5</a></sup> The activity manager gives this token to both the
     application and the window manager, and the application sends the token to the window manager each time it wants to
     add a new window to the screen. This ensures secure interaction between the application and the window manager
     (by making it impossible to add windows on top of other applications), and also makes it easy for the activity
@@ -234,12 +234,12 @@ this blog in the top right corner!
 
 <hr class="footnote-divider" />
 
-<sup><a name="footnote1">1</a></sup> The
+<sup id="footnote1">1</sup> The
 <a href="http://developer.android.com/reference/android/os/Binder.html">documentation</a> actually
 hints that `Binder`s can be used for this purpose: "You can... simply instantiate a raw Binder
-object directly to use as a token that can be shared across processes."
+object directly to use as a token that can be shared across processes." <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
-<sup><a name="footnote2">2</a></sup> Pick a random file in
+<sup id="footnote2">2</sup> Pick a random file in
 <a href="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/services/java/com/android/server">`frameworks/base/services/java/com/android/server`</a>
 and chances are it makes use of Binder tokens in some shape or form. Another cool example involves
 the status bar, notification manager, and the system UI. Specifically, the
@@ -255,20 +255,20 @@ that point forward (i.e. the notification manager cancels the notification, or t
 that the user has swiped a notification off screen) will go through the status bar manager first.
 This makes it easier for the three system services to stay in sync: the status bar manager can be
 in charge of centralizing all of the information about which notifications should currently be shown
-without the SystemUI and notification manager ever having to interact with each other directly.
+without the SystemUI and notification manager ever having to interact with each other directly. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
-<sup><a name="footnote3">3</a></sup> Applications that hold the `android.permission.SYSTEM_ALERT_WINDOW`
+<sup id="footnote3">3</sup> Applications that hold the `android.permission.SYSTEM_ALERT_WINDOW`
 permission (a.k.a. the "draw over other apps" permission) are notable exceptions to this rule.
 <a href="https://play.google.com/store/apps/details?id=com.facebook.orca">Facebook Messenger</a>
 and <a href="https://play.google.com/store/apps/details?id=com.inisoft.mediaplayer.a">DicePlayer</a>
 are two popular applications which require this permission, and use it to add windows on top of
-other applications from a background service.
+other applications from a background service. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
 
-<sup><a name="footnote4">4</a></sup> The
+<sup id="footnote4">4</sup> The
 <a href="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/services/java/com/android/server/am/ActivityManagerService.java">`ActivityManagerService`</a>
 is the global system service (running in the System Server process) that is in charge of starting
 (and managing) new components, such as Activities and Services. It's also involved in the maintenance
-of OOM adjustments used by the in-kernel low-memory handler, permissions, task management, etc.
+of OOM adjustments used by the in-kernel low-memory handler, permissions, task management, etc. <a href="#ref4" title="Jump to footnote 4.">&#8617;</a>
 
-<sup><a name="footnote5">5</a></sup> You can obtain a reference by calling
-<a href="http://developer.android.com/reference/android/view/View.html#getApplicationWindowToken()">`getApplicationWindowToken()`</a>.
+<sup id="footnote5">5</sup> You can obtain a reference by calling
+<a href="http://developer.android.com/reference/android/view/View.html#getApplicationWindowToken()">`getApplicationWindowToken()`</a>. <a href="#ref5" title="Jump to footnote 5.">&#8617;</a>
