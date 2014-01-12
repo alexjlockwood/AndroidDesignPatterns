@@ -3,7 +3,10 @@ layout: post
 title: 'How to Leak a Context: Handlers & Inner Classes'
 date: 2013-01-14
 permalink: /2013/01/inner-class-handler-memory-leak.html
-updated: 2014-01-05 @ 11:30am
+updated: '2014-01-05'
+related: ['/2012/07/understanding-loadermanager.html',
+	  '/2013/04/activitys-threads-memory-leaks.html',
+	  '/2013/04/retaining-objects-across-config-changes.html']
 ---
 Consider the following code:
 
