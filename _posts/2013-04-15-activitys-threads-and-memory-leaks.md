@@ -90,7 +90,7 @@ thread as a private static inner class as shown below.
  * thread as a private static inner class, but the threads still 
  * continue to run even across configuration changes. The DVM has a
  * reference to all running threads and whether or not these threads
- * are garbaged collected has nothing to do with the Activity lifecycle.
+ * are garbage collected has nothing to do with the Activity lifecycle.
  * Active threads will continue to run until the kernel destroys your 
  * application's process.
  */
