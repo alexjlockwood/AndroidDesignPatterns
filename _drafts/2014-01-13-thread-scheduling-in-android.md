@@ -41,8 +41,8 @@ To address this problem, Android enforces an even stricter foreground vs. backgr
 using Linux [_cgroups_](http://en.wikipedia.org/wiki/Cgroups) (control groups). To constrain the amount
 of CPU time given to background applications, Android assigns threads to one of two cgroups. Threads
 in the default, foreground cgroup are scheduled as normal. Threads in the background cgroup, however,
-are limited to only a small percent<a href="#footnote1"><sup>1</sup></a> of the device's total CPU
-time.<a href="#footnote2"><sup>2</sup></a> This is enough to allow background threads to make some
+are limited to only a small percent<sup><a href="#footnote1" id="ref1">1</a></sup> of the device's total CPU
+time.<sup><a href="#footnote2" id="ref2">2</sup></a></sup> This is enough to allow background threads to make some
 forward progress, without having enough of an impact on the foreground threads to be generally visible
 to the user.
 
@@ -83,6 +83,6 @@ As always, thanks for reading, and leave a comment if you have any questions. Do
 
 <hr class="footnote-divider" />
 
-<sup><a name="footnote1">1</a></sup> This percentage was 5% at the time of this writing, though it is possible that this value could change in the future.
+<sup id="footnote1">1</sup> This percentage was 5% at the time of this writing, though it is possible that this value could change in the future. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
-<sup><a name="footnote2">2</a></sup> Of course, if no foreground thread wants to run, the background threads can use all of the available CPU cycles.
+<sup id="footnote2">2</sup> Of course, if no foreground thread wants to run, the background threads can use all of the available CPU cycles. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
