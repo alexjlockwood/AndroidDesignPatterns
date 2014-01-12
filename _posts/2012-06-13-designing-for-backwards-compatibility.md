@@ -45,7 +45,7 @@ manifest. There are two attributes we must set,
     version number that we have tested your application against (we will assume we have
     done so for the remainder of this example).
 
-The resulting tag in our mainfest is as follows:
+The resulting tag in our manifest is as follows:
 
 ```
 <uses-sdk 

@@ -46,7 +46,7 @@ enforcing read/write permissions) and offer a standard interface that connects d
 in one process with code running in another process.
 
 Content Providers provide an interface for publishing and consuming data, based around a
-simple URI addressing model using the `content://` schema. They enable you to decouble
+simple URI addressing model using the `content://` schema. They enable you to decouple
 your application layers from the underlying data layers, making your application
 data-source agnostic by abstracting the underlying data source.
 

@@ -43,7 +43,7 @@ method calls, ordered from lowest to highest priority:
 
 One should _always_ consider a message's type when assigning log messages to
 one of the six method calls, as this will allow you to
-<a href="http://developer.android.com/guide/developing/debugging/debugging-log.html#filteringOutput">filter your logput output</a>
+<a href="http://developer.android.com/guide/developing/debugging/debugging-log.html#filteringOutput">filter your logcat output</a>
 when appropriate. It is also important to understand when it is acceptable to
 compile log messages into your application:
 

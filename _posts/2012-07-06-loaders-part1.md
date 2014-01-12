@@ -141,7 +141,7 @@ the `LoaderManager` were born.
 ### Android 3.0, Loaders, and the LoaderManager
 
 Prior to Honeycomb, it was difficult to manage cursors, synchronize correctly with the UI thread, and ensure
-all queries occured on a background thread. Android 3.0 introduced the `Loader` and `LoaderManager` classes
+all queries occurred on a background thread. Android 3.0 introduced the `Loader` and `LoaderManager` classes
 to help simplify the process. Both classes are available for use in the Android Support Library, which
 supports all Android platforms back to Android 1.6.
 
