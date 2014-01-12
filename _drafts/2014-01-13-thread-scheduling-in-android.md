@@ -1,15 +1,20 @@
 ---
 layout: post
 title: Thread Scheduling in Android
+related: ['/2013/04/activitys-threads-memory-leaks.html',
+          '/2012/10/sqlite-contentprovider-thread-safety.html',
+          '/2013/07/binders-window-tokens.html']
 ---
 This post will give an overview of how thread scheduling works in Android, and will briefly
-describe how and when you should set thread priorities yourself to ensure that your application
-remains responsive even as multiple threads continue to run in the background.
+describe how and when you should set
+[thread priorities](http://developer.android.com/reference/android/os/Process.html#THREAD_PRIORITY_AUDIO)
+yourself to ensure that your application remains responsive even as multiple threads continue
+to run in the background.
 
 For those who are unfamiliar with the term, a _scheduler_ is the part of the operating system
-in charge of deciding which processes and threads run, when, and for how long. Android's thread
-scheduler behaves similarly to the stock scheduler used in Linux, and uses two main factors to
-determine how threads are scheduled across the entire system: _nice values_ and _cgroups_.
+in charge of deciding which processes and threads are run, when, and for how long. Android's thread
+scheduler uses two main factors to determine how threads are scheduled across the entire
+system: _nice values_ and _cgroups_.
 
 <!--more-->
 
@@ -18,44 +23,44 @@ determine how threads are scheduled across the entire system: _nice values_ and 
 Similar to how they are used in Linux's completely fair scheduling policy, _nice values_ in Android
 are used as a measure of a thread's priority. Threads with higher niceness (i.e., lower priority,
 as in they are being "nice" to other processes and threads in the system) will run less often than
-those with lower niceness (higher priority). The most important of these are the
+those with lower niceness (higher priority). The two most important thread priorities that determine
+a thread's nice value are the
 [default](http://developer.android.com/reference/android/os/Process.html#THREAD_PRIORITY_DEFAULT)
 and [background](http://developer.android.com/reference/android/os/Process.html#THREAD_PRIORITY_BACKGROUND)
-priorities: user interface threads typically run at the default priority, whereas background threads
-run in the background priority. Intuitively, background thread priorities should be chosen
+priorities. Intuitively, background thread priorities should be chosen
 inverse-proportionally to the amount of work the thread is expected to do. The more work the
 thread will do, the less favorable priority (higher niceness) it should get so that it doesn't
-starve the system. 
+starve the system. For this reason, user interface threads (such as the main thread of a foreground `Activity`) 
+typically run at the default priority, and background threads (such as a thread executing an `AsyncTask`)
+run in the background priority.
 
-Nice values are a theoretically important concept because they help reduce how much background work
+Nice values are theoretically important because they help reduce how much background work
 interrupts the user interface. In practice, however, they alone are not sufficient. For example,
 consider ten background threads and a single foreground thread driving the UI. Despite their low
-individual priorities, the ten background threads waiting to run will likely impact the performance
-of the single foreground thread, resulting in lag and hurting the user experience. At any given moment,
-several background services could potentially be waiting to run in the background, so the Android OS
+individual priorities, the ten background threads will collectively still impact the performance
+of the single foreground thread, resulting in lag and hurting the user experience. Since at any given moment,
+several background services could potentially be waiting to run, the Android OS
 must somehow address these scenarios. Enter _cgroups_.
 
 ### Cgroups
 
 To address this problem, Android enforces an even stricter foreground vs. background scheduling policy
-using Linux [_cgroups_](http://en.wikipedia.org/wiki/Cgroups) (control groups). To constrain the amount
-of CPU time given to background applications, Android assigns threads to one of two cgroups. Threads
-in the default, foreground cgroup are scheduled as normal. Threads in the background cgroup, however,
-are limited to only a small percent<sup><a href="#footnote1" id="ref1">1</a></sup> of the device's total CPU
-time.<sup><a href="#footnote2" id="ref2">2</a></sup> This is enough to allow background threads to make some
+using Linux [_cgroups_](http://en.wikipedia.org/wiki/Cgroups) (control groups). Threads that are of
+background priority are moved into the `bg_non_interactive` cgroup, which is limited to only a small percentage<sup><a href="#footnote1" id="ref1">1</a></sup> of the available CPU if threads in other groups are busy.
+This is enough to allow background threads to make some
 forward progress, without having enough of an impact on the foreground threads to be generally visible
 to the user.
 
-Threads with high nice values are implicitly assigned to the background cgroup. In addition, when an
-application goes into the background, Android will implicitly move all of that application's threads
-to the background cgroup, as the application's performance is no longer critical to the user. The
+Threads with low priorities are implicitly assigned to the background cgroup. In addition, when an
+application goes into the background, the Android OS implicitly moves all of that application's threads
+to the background cgroup, as the application's performance is no longer critical to the user. This
 automatic assignment of application threads to cgroups helps ensure that the current foreground
 application thread will always be the priority, regardless of how many applications are running
 in the background.
 
 ### The `Process#setThreadPriority(int)` Method
 
-For the most part, the official Android APIs involved with concurrency will automatically assign
+For the most part, Android will automatically assign
 each worker thread a background priority before its execution (see the source code for
 [`HandlerThread`](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/os/HandlerThread.java)
 and [`AsyncTask`](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/os/AsyncTask.java),
