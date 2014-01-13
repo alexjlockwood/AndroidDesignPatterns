@@ -21,53 +21,52 @@ system: _nice values_ and _cgroups_.
 ### Nice values
 
 Similar to how they are used in Linux's completely fair scheduling policy, _nice values_ in Android
-are used to measure a thread's priority. Threads with a higher nice value (i.e., lower priority,
+are used as a measure of a thread's priority. Threads with a higher nice value (i.e., lower priority,
 as in they are being "nice" to other threads in the system) will run less often than
-those with lower nice values (i.e., higher priority). The two most important nice values are the
+those with lower nice values (i.e., higher priority). The two most important of these are the
 [default](http://developer.android.com/reference/android/os/Process.html#THREAD_PRIORITY_DEFAULT)
 and [background](http://developer.android.com/reference/android/os/Process.html#THREAD_PRIORITY_BACKGROUND)
 thread priorities. Intuitively, thread priorities should be chosen
 inverse-proportionally to the amount of work the thread is expected to do: the more work the
 thread will do, the less favorable thread priority it should get so that it doesn't
 starve the system. For this reason, user interface threads (such as the main thread of a foreground `Activity`) 
-typically run in the default priority, whereas background threads (such as a thread executing an `AsyncTask`)
-typically run in the background priority.
+are typically given a default priority, whereas background threads (such as a thread executing an `AsyncTask`)
+are typically given a background priority.
 
 Nice values are theoretically important because they help reduce background work that might otherwise
-interrupt the user interface. In practice, however, they alone are not sufficient. For example,
-consider ten background threads and a single foreground thread driving the UI. Despite their low
-individual priorities, collectively the ten background threads will still likely impact the performance
+interrupt the user interface. In practice, however, they alone are not sufficient. For example, consider
+twenty background threads and a single foreground thread driving the UI. Despite their low
+individual priorities, collectively the twenty background threads will still likely impact the performance
 of the single foreground thread, resulting in lag and hurting the user experience. Since at any given moment
-several background services could potentially be waiting to run, the Android OS
+several applications could potentially have background threads waiting to run, the Android OS
 must somehow address these scenarios. Enter _cgroups_.
 
 ### Cgroups
 
 To address this problem, Android enforces an even stricter foreground vs. background scheduling policy
 using Linux [_cgroups_](http://en.wikipedia.org/wiki/Cgroups) (control groups). Threads with
-background priorities are implicitly moved into a background cgroup, which is
+background priorities are implicitly moved into a background cgroup, where they are
 limited to only a small percentage<sup><a href="#footnote1" id="ref1">1</a></sup> of the available
-CPU if threads in other groups are busy. This separation is enough to allow background threads to make some
-forward progress, without having enough of an impact on the foreground threads to be generally visible
+CPU if threads in other groups are busy. This separation allows background threads to make some
+forward progress, without having enough of an impact on the foreground threads to be visible
 to the user.
 
 In addition to automatically assigning low-priority threads to the background cgroup, Android ensures that all
-threads belonging to applications not currently running in the foreground are assigned to the background cgroup as well. This automatic assignment of application threads to cgroups helps ensure that the current foreground
+threads belonging to applications not currently running in the foreground are implicitly moved to the background cgroup as well. This automatic assignment of application threads to cgroups ensures that the current foreground
 application thread will always be the priority, regardless of how many applications are running in the background.
 
-### Assigning Priorities with `Process#setThreadPriority(int)`
+### Setting Priorities with `Process#setThreadPriority(int)`
 
-For the most part, the Android APIs will already assign
-each worker thread a background priority for you (see the source code for
+For the most part, the Android APIs already assign worker threads a background priority for you
+(for example, see the source code for
 [`HandlerThread`](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/os/HandlerThread.java)
-and [`AsyncTask`](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/os/AsyncTask.java),
-for example). It is important to remember, however, that this will not always be the case.
+and [`AsyncTask`](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/os/AsyncTask.java)). It is important to remember, however, that this will not always be the case.
 `Thread`s and `ExecutorService`s that are instantiated on the main UI thread, for example,
 will inherit a default, foreground priority, making lag more likely and possibly hurting
 the application's performance. In these cases, you should _always_ remember to set the thread's
 priority by calling
 [`Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)`](https://developer.android.com/reference/android/os/Process.html#setThreadPriority(int))
-before it starts. A short code snippet is given below as an example:
+before the `Thread` is run. Doing so is straightforward, as shown in the example below:
 
 ```java
 new Thread(new Runnable() {
@@ -84,4 +83,4 @@ As always, thanks for reading, and leave a comment if you have any questions. Do
 
 <hr class="footnote-divider" />
 
-<sup id="footnote1">1</sup> This percentage was 5% at the time of this writing, though it is possible that this value could change in the future. As of Android 4.4.2, cgroup mount points are created and initialized at boot-up in [`/system/core/rootdir/init.rc`](https://android.googlesource.com/platform/system/core/+/android-sdk-4.4.2_r1/rootdir/init.rc) (see lines 100-123).<a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
+<sup id="footnote1">1</sup> This percentage was 5% at the time of this writing, though it is possible that this value could change in the future. As of Android 4.4.2, cgroup mount points are created and initialized at boot-up in [`/system/core/rootdir/init.rc`](https://android.googlesource.com/platform/system/core/+/android-sdk-4.4.2_r1/rootdir/init.rc) (see lines 100-123). <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
