@@ -237,30 +237,50 @@ sup {
   height: 32px;
   background-size: contain;
   text-align: right;
-  font-size: 1.3em;
+  font-size: 16px;
   a {
     text-decoration: none;
-    color: #333;
+    color: #fff;
+    background: #333;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    border-radius: 32px;
     -webkit-transition: color 0.2s;
     -moz-transition: color 0.2s;
     -o-transition: color 0.2s;
     transition: color 0.2s;
-    padding: 0 .2em;
-    margin: 0 .1em;
+    padding: 2px;
+    text-align: center;
     &:hover {
       text-decoration: none;
     }
-    &.rss:hover {
-      color: #ff8300 !important;
+    &.rss {
+      background: #ff8300;
+      &:hover {
+        background: #f07000;
+      }
     }
-    &.twitter:hover {
-      color: #00aced !important;
+    &.twitter {
+      background: #00aced;
+      &:hover {
+        background: #0096cf;
+      }
     }
-    &.github:hover {
-      color: #4183c4 !important;
+    &.github {
+      background: #4183c4;
+      &:hover {
+        background: #2d70b3;
+      }
     }
-    &.googleplus:hover {
-      color: #d14836 !important;
+    &.googleplus {
+      background: #d14836;
+      &:hover {
+        background: #c23927;
+      }
+    }
+    i {
+      line-height: 32px;
     }
   }
 }
