@@ -7,7 +7,7 @@ related: ['/2013/04/activitys-threads-memory-leaks.html',
 ---
 This post will give an overview of how thread scheduling works in Android, and will briefly
 demonstrate how to explicitly set
-[thread priorities](http://developer.android.com/reference/android/os/Process.html#THREAD_PRIORITY_AUDIO)
+[thread priorities](http://developer.android.com/reference/android/os/Process.html)
 yourself to ensure that your application remains responsive even as multiple threads
 run in the background.
 
