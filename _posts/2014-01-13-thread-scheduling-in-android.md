@@ -65,7 +65,7 @@ and [`AsyncTask`](https://android.googlesource.com/platform/frameworks/base/+/re
 will inherit a default, foreground priority, making lag more likely and possibly hurting
 the application's performance. In these cases, you should _always_ remember to set the thread's
 priority by calling
-[`Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)`](https://developer.android.com/reference/android/os/Process.html#setThreadPriority(int))
+<a href="https://developer.android.com/reference/android/os/Process.html#setThreadPriority(int)">`Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)`</a>
 before the `Thread` is run. Doing so is straightforward, as shown in the example below:
 
 ```java
