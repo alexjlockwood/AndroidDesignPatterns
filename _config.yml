@@ -9,6 +9,7 @@ author:
   feedburner: http://feeds.feedburner.com/androiddesignpatterns
 
 baseurl: http://www.androiddesignpatterns.com
+description: 'Android Design Patterns is a website for developers who wish to better understand the Android application framework. The tutorials here emphasize proper code design and project maintainability.'
 
 paginate: 4
 excerpt_separator: <!--more-->

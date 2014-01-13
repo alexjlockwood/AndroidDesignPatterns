@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<div itemscope itemtype="http://schema.org/Article" class="post">
+<div itemscope itemtype="http://schema.org/BlogPosting" class="post">
   <header><h1 itemprop="name">{{ page.title | escape }}</h1></header>
 
   <div class="side">
@@ -17,35 +17,37 @@ layout: default
     </div>
   </div>
 
-  <div itemprop="articleBody" class="body">
-  {{ content }}
+  <div class="body">
+    <div itemprop="articleBody">
+      {{ content }}
+    </div>
 
-  <div class="post-pagination">
-    {% if page.previous %}
-    <div class="prev"><a rel="prev" href="{{ page.previous.url }}">Older &#187;</a></div>
-    {% endif %}
-    {% if page.next %}
-    <div class="next"><a rel="next" href="{{ page.next.url }}">&#171; Newer</a></div>
-    {% endif %}
-  </div>
+    <div class="post-pagination">
+      {% if page.previous %}
+      <div class="prev"><a rel="prev" href="{{ page.previous.url }}">Older &#187;</a></div>
+      {% endif %}
+      {% if page.next %}
+      <div class="next"><a rel="next" href="{{ page.next.url }}">&#171; Newer</a></div>
+      {% endif %}
+    </div>
 
-  <div id="responsive-post-bottom-ad">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-3588752900040136"
-         data-ad-slot="6089694851"
-         data-ad-format="auto"></ins>
-    <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
+    <div id="responsive-post-bottom-ad">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-3588752900040136"
+           data-ad-slot="6089694851"
+           data-ad-format="auto"></ins>
+      <script>
+	(adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
 
-  {% if page.disable_comments == null %}
+    {% if page.disable_comments == null %}
     <div class="post-comments">
       {% include disqus.html %}
     </div>
-  {% endif %}
-
+    {% endif %}
+    
   </div>
 
   {% if page.related %}
