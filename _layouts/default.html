@@ -12,11 +12,9 @@
     {% if page.description %}
     <meta name="description" content="{{ page.description | escape }}" />
     <meta name="twitter:description" content="{{ page.description | escape }}" />
-<!--
     {% else %}
-    <meta name="description" content="{{ site.description | escape }}" />
-    <meta name="twitter:description" content="{{ site.description | escape }}" />
--->
+    <!-- Don't include normal description meta tag for now. Only include twitter:description since it is explicitly required. -->
+    <meta name="twitter:description" content="{{ site.description }}" />
     {% endif %}
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="{{ page.title | escape }}" />
