@@ -67,13 +67,12 @@ will inherit a default, foreground priority, making lag more likely and possibly
 the application's performance. In these cases, you should _always_ remember to set the thread's
 priority by calling
 [`Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)`](https://developer.android.com/reference/android/os/Process.html#setThreadPriority(int))
-before it starts. A short code snippet is given below as an example: 
+before it starts. A short code snippet is given below as an example:
 
 ```java
 new Thread(new Runnable() {
   @Override
   public void run() {
-    // Moves the background thread into the background.
     Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
 
     // ...
