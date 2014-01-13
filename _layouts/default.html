@@ -11,6 +11,9 @@
     {% if page.description %}
     <meta name="description" content="{{ page.description | escape }}" />
     <meta name="twitter:description" content="{{ page.description | escape }}" />
+    {% else %}
+    <meta name="description" content="{{ site.description | escape }}" />
+    <meta name="twitter:description" content="{{ site.description | escape }}" />
     {% endif %}
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="{{ page.title | escape }}" />
