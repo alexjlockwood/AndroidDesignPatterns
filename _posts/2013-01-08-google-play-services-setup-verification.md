@@ -213,6 +213,6 @@ in this post applies to many areas of Android development, not just those apps
 which make use of Google Play Services.
 
 The full source code for this post is provided here 
-<a href="https://gist.github.com/4477849">AccountUtils.java</a> and
-<a href="https://gist.github.com/4477939">AuthActivity.java</a>. As always, leave
+<a href="https://gist.github.com/4477849">`AccountUtils.java`</a> and
+<a href="https://gist.github.com/4477939">`AuthActivity.java`</a>. As always, leave
 a comment if you have any questions and don’t forget to +1 this post!
