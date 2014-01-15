@@ -7,6 +7,7 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
           '/2013/01/inner-class-handler-memory-leak.html',
           '/2013/04/activitys-threads-memory-leaks.html']
 thumbnails: ['/assets/images/posts/2013/04/29/worker-fragments-screenshot.png']
+updated: '2014-01-14'
 ---
 This post addresses a common question that is frequently asked on [StackOverflow](http://stackoverflow.com/q/3821423/844882):
 
@@ -101,7 +102,8 @@ back to the currently displayed Activity instance and ensures that
 we never accidentally leak an `AsyncTask` during a configuration change.
 The design consists of two classes, a `MainActivity`...
 
-```java
+<div class="scrollable">
+{% highlight java linenos=table %}
 /**
  * This Activity displays the screen's UI, creates a TaskFragment
  * to manage the task, and receives progress updates and results 
@@ -145,11 +147,13 @@ public class MainActivity extends Activity implements TaskFragment.TaskCallbacks
   @Override
   public void onPostExecute() { ... }
 }
-```
+{% endhighlight %}
+</div>
 
 ...and a `TaskFragment`...
 
-```java
+<div class="scrollable">
+{% highlight java linenos=table %}
 /**
  * This Fragment manages a single background task and retains 
  * itself across configuration changes.
@@ -261,7 +265,8 @@ public class TaskFragment extends Fragment {
     }
   }
 }
-```
+{% endhighlight %}
+</div>
 
 ### Flow of Events
 
