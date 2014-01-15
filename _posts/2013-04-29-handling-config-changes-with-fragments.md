@@ -8,7 +8,7 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
           '/2013/04/activitys-threads-memory-leaks.html']
 thumbnails: ['/assets/images/posts/2013/04/29/worker-fragments-screenshot.png']
 ---
-This post addresses a common question:
+This post addresses a common question that is frequently asked on [StackOverflow](http://stackoverflow.com/q/3821423/844882):
 
 > What is the best way to retain active objects&mdash;such as
 > running `Thread`s, `Socket`s, and `AsyncTask`s&mdash;across
