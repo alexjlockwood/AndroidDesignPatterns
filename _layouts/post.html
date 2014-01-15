@@ -44,7 +44,8 @@ layout: default
 
     {% if page.disable_comments == null %}
     <div class="post-comments">
-      {% include disqus.html %}
+      <div id="disqus_thread"></div>
+      <script src="/scripts/disqus-lazy-load.js"></script>
     </div>
     {% endif %}
     
