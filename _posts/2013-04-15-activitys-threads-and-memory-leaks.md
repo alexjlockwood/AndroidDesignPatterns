@@ -3,6 +3,10 @@ layout: post
 title: 'Activitys, Threads, & Memory Leaks'
 date: 2013-04-15
 permalink: /2013/04/activitys-threads-memory-leaks.html
+updated: '2014-01-14'
+related: ['/2014/01/thread-scheduling-in-android.html',
+	  '/2013/08/fragment-transaction-commit-state-loss.html',
+	  '/2013/04/retaining-objects-across-config-changes.html']
 ---
 > Note: the source code in this blog post is available on
 > <a href="https://github.com/alexjlockwood/leaky-threads">GitHub</a>.
