@@ -39,7 +39,7 @@ These characteristics make Loaders a powerful addition to the Android SDK for se
      about offloading queries to a separate thread, as the Loader will do this automatically. This reduces
      code complexity and eliminates potential thread-related bugs.
 
-  3. <b>They are entirely <i>event-driven</i>.<b> Loaders monitor the underlying data source and automatically
+  3. <b>They are entirely <i>event-driven</i>.</b> Loaders monitor the underlying data source and automatically
      perform new loads for up-to-date results when changes are detected. This makes working with Loaders
      easy, as the client can simply trust that the Loader will auto-update its data on its own.
      All the Activity/Fragment has to do is initialize the Loader and respond to any results that might
