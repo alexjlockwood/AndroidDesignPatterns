@@ -21,7 +21,9 @@ layout: default
     <div itemprop="articleBody">
       {{ content }}
     </div>
-
+    {% if page.updated %}
+    <div id="post-last-updated">Last updated {{ page.updated | date: "%B %-d, %Y" }}.</div>
+    {% endif %}
     <div class="post-pagination">
       {% if page.previous %}
       <div class="prev"><a rel="prev" href="{{ page.previous.url }}">Older &#187;</a></div>
@@ -52,8 +54,7 @@ layout: default
   {% if page.related %}
   <div class="side suggested">
     <h4>Related Posts</h4>
-    <ul class="related">
-    {% for url in page.related %}{% for post in site.posts %}{% if url == post.url %}
+    <ul class="related">{% for url in page.related %}{% for post in site.posts %}{% if url == post.url %}
     <li><a href="{{ url }}">{{ post.title | escape }}</a></li>{% break %}
     {% endif %}{% endfor %}{% endfor %}
     </ul>
