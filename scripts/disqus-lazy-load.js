@@ -22,7 +22,7 @@ function findTop(obj) {
     }
 }
 
-if (window.location.hash.indexOf('#comments') > 0) {
+if (window.location.hash.indexOf('#comment') > 0) {
     load_disqus();
 }
 
