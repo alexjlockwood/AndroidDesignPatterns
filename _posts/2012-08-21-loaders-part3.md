@@ -3,6 +3,7 @@ layout: post
 title: 'Implementing Loaders (part 3)'
 date: 2012-08-21
 permalink: /2012/08/implementing-loaders.html
+updated: '2014-01-16'
 ---
 This post introduces the `Loader<D>` class as well as custom Loader implementations.
 This is the third of a series of posts I will be writing on Loaders and the LoaderManager:
@@ -20,8 +21,7 @@ These UI-unfriendly APIs resulted in unresponsive applications and were the prim
 the Loader and the LoaderManager in Android 3.0.
 <a href="/2012/07/understanding-loadermanager.html">Understanding the LoaderManager (part 2)</a> introduced
 the LoaderManager class and its role in delivering asynchronously loaded data to the client. The LoaderManager
-manages its Loaders across the Activity/Fragment lifecycle and can retain loaded data across trivial
-configuration changes.
+manages its Loaders across the Activity/Fragment lifecycle and can retain loaded data across configuration changes.
 
 <!--more-->
 
@@ -31,17 +31,17 @@ Loaders are responsible for performing queries on a separate thread, monitoring 
 and delivering new results to a registered listener (usually the LoaderManager) when changes are detected.
 These characteristics make Loaders a powerful addition to the Android SDK for several reasons:
 
-  1. **They encapsulate the actual loading of data.** The Activity/Fragment no longer needs to know how to load data.
+  1. <b>They encapsulate the actual loading of data.</b> The Activity/Fragment no longer needs to know how to load data.
      Instead, the Activity/Fragment delegates the task to the Loader, which carries out the request behind the scenes
      and has its results delivered back to the Activity/Fragment.
 
-  2. **They abstract out the idea of threads from the client.** The Activity/Fragment does not need to worry
+  2. <b>They abstract out the idea of threads from the client.</b> The Activity/Fragment does not need to worry
      about offloading queries to a separate thread, as the Loader will do this automatically. This reduces
      code complexity and eliminates potential thread-related bugs.
 
-  3. **They are entirely _event-driven_.** Loaders monitor the underlying data source and automatically
+  3. <b>They are entirely <i>event-driven</i>.<b> Loaders monitor the underlying data source and automatically
      perform new loads for up-to-date results when changes are detected. This makes working with Loaders
-     a pleasure, as the client can simply trust that the Loader will auto-update its data on its own.
+     easy, as the client can simply trust that the Loader will auto-update its data on its own.
      All the Activity/Fragment has to do is initialize the Loader and respond to any results that might
      be delivered. Everything in between is done by the Loader.
 
@@ -52,18 +52,18 @@ its four defining characteristics in the next section.
 
 There are four characteristics which ultimately determine a Loader’s behavior:
 
-  1. **A task to perform the asynchronous load.** To ensure that loads are done on a separate thread,
+  1. <b>A task to perform the asynchronous load.</b> To ensure that loads are done on a separate thread,
      subclasses should extend `AsyncTaskLoader<D>` as opposed to the `Loader<D>` class.
      `AsyncTaskLoader<D>` is an abstract Loader which provides an `AsyncTask` to do its work.
      When subclassed, implementing the asynchronous task is as simple as implementing the abstract
      `loadInBackground()` method, which is called on a worker thread to perform the data load.
 
-  2. **A registered listener to receive the Loader’s results when it completes a load.**<sup><a href="#footnote1" id="ref1">1</a></sup>
+  2. <b>A registered listener to receive the Loader's results when it completes a load.</b><sup><a href="#footnote1" id="ref1">1</a></sup>
      For each of its Loaders, the LoaderManager registers an `OnLoadCompleteListener<D>` which will forward
      the Loader’s delivered results to the client with a call to `onLoadFinished(Loader<D> loader, D result)`.
      Loaders should deliver results to these registered listeners with a call to `Loader#deliverResult(D result)`.
 
-  3. **One of three<sup><a href="#footnote2" id="ref2">2</a></sup> distinct states.** Any given Loader will either be in a
+  3. <b>One of three<sup><a href="#footnote2" id="ref2">2</a></sup> distinct states.</b> Any given Loader will either be in a
      _started_, _stopped_, or _reset_ state:
       - Loaders in a _started state_ execute loads and may deliver their results to the listener at any
         time. Started Loaders should monitor for changes and perform new loads when changes are detected.
