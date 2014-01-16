@@ -35,19 +35,19 @@ source of the problem by first documenting what we know:
 <!--more-->
 
   1. When an Android application first starts, the framework creates a 
-     <a href="http://developer.android.com/reference/android/os/Looper.html">Looper</a>
+     <a href="http://developer.android.com/reference/android/os/Looper.html">`Looper`</a>
      object for the application's main thread. A `Looper` implements a simple message queue,
-     processing <a href="http://developer.android.com/reference/android/os/Message.html">Message</a>
+     processing <a href="http://developer.android.com/reference/android/os/Message.html">`Message`</a>
      objects in a loop one after another. All major application framework events (such
      as Activity lifecycle method calls, button clicks, etc.) are contained inside
      `Message` objects, which are added to the `Looper`'s message queue and are processed
      one-by-one. The main thread's `Looper` exists throughout the application's lifecycle.
 
-  2. When a <a href="http://developer.android.com/reference/android/os/Handler.html">Handler</a>
+  2. When a <a href="http://developer.android.com/reference/android/os/Handler.html">`Handler`</a>
      is instantiated on the main thread, it is associated with the `Looper`'s message queue.
      Messages posted to the message queue will hold a reference to the `Handler` so that the
      framework can call
-     <a href="http://developer.android.com/reference/android/os/Handler.html#handleMessage(android.os.Message)">Handler#handleMessage(Message)</a>
+     <a href="http://developer.android.com/reference/android/os/Handler.html#handleMessage(android.os.Message)">`Handler#handleMessage(Message)`</a>
      when the `Looper` eventually processes the message.
 
   3. In Java, non-static inner and anonymous classes hold an implicit reference to their
