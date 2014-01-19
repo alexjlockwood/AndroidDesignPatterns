@@ -3,6 +3,10 @@ layout: post
 title: 'Life Before Loaders (part 1)'
 date: 2012-07-06
 permalink: /2012/07/loaders-and-loadermanager-background.html
+related: ['/2013/08/fragment-transaction-commit-state-loss.html',
+          '/2013/01/inner-class-handler-memory-leak.html',
+          '/2013/04/activitys-threads-memory-leaks.html']
+updated: '2014-01-18'
 ---
 
 This post gives a brief introduction to `Loader`s and the `LoaderManager`. The first

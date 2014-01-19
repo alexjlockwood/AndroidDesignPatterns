@@ -3,6 +3,9 @@ layout: post
 title: 'Implementing Loaders (part 3)'
 date: 2012-08-21
 permalink: /2012/08/implementing-loaders.html
+related: ['/2013/04/retaining-objects-across-config-changes.html',
+          '/2014/01/thread-scheduling-in-android.html',
+          '/2013/07/binders-window-tokens.html']
 updated: '2014-01-16'
 ---
 This post introduces the `Loader<D>` class as well as custom Loader implementations.
