@@ -34,7 +34,7 @@
     <title>{{ page.title | escape }}{% if page.id %} | {{ site.name }}{% endif %}</title>
     <link rel="canonical" href="{{ page.url }}" />
     <link rel="icon" href="/assets/images/favicon.jpg" type="image/x-icon">
-    <link href="{{ site.author.feedburner }}" rel="alternate" title="{{ site.name }} - Feed" type="application/atom+xml" />
+    <link href="{{ site.baseurl }}/feed.atom" rel="alternate" title="{{ site.name }} - Feed" type="application/atom+xml" />
     <link rel="stylesheet" type="text/css" href="/css/all.css" />
 
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -63,7 +63,7 @@
       <a href="https://plus.google.com/100751609891157863386?rel=author" class="googleplus"><i class="icon-gplus"></i></a>
       <a href="{{ site.author.twitter }}" class="twitter"><i class="icon-twitter"></i></a>
       <a href="{{ site.author.github }}" class="github"><i class="icon-github-circled"></i></a>
-      <a href="{{ site.author.feedburner }}" class="rss"><i class="icon-rss"></i></a>
+      <a href="{{ site.baseurl }}/feed.atom" class="rss"><i class="icon-rss"></i></a>
     </div>
 
     <div class="main container">
