@@ -101,7 +101,7 @@ public class SampleListActivity extends ListActivity {
         R.layout.list_item,  // Points to the XML for a list item
         cursor,              // Cursor that contains the data to display
         dataColumns,         // Bind the data in column "text_column"...
-        viewIDs);              // ...to the TextView with id "R.id.text_view"
+        viewIDs);            // ...to the TextView with id "R.id.text_view"
 
     // Sets the ListView's adapter to be the cursor adapter that was 
     // just created.
