@@ -3,7 +3,7 @@ Android Design Patterns
 
 This is the source code for www.androiddesignpatterns.com. Android Design Patterns is powered by [Jekyll](http://jekyllrb.com/) and is hosted by [GitHub Pages](http://pages.github.com/).
 
-If you wish to fork this repository to use as the basis of your own blogging template, please make sure you review the [License and copyright](#license-and-copyright) information below.
+If you wish to fork this repository to use as the basis of your own blogging template, please make sure you review the [license and copyright](#license-and-copyright) information below.
 
 ## Find a typo?
 
