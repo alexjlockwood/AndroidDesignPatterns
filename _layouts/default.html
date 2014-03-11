@@ -30,10 +30,10 @@
     {% if page.thumbnails %}{% for thumbnail in page.thumbnails %}
     <meta property="og:image" content="{{ site.baseurl }}{{ thumbnail }}" />
     {% endfor %}{% endif %}
-    <meta property="og:image" content="{{ site.baseurl }}/assets/images/favicon.jpg" />
+    <meta property="og:image" content="{{ site.baseurl }}/assets/images/favicon.png" />
     <title>{{ page.title | escape }}{% if page.id %} | {{ site.name }}{% endif %}</title>
     <link rel="canonical" href="{{ page.url }}" />
-    <link rel="icon" href="/assets/images/favicon.jpg" type="image/x-icon">
+    <link rel="icon" href="/assets/images/favicon.png" type="image/x-icon">
     <link href="{{ site.baseurl }}/feed.atom" rel="alternate" title="{{ site.name }} - Feed" type="application/atom+xml" />
     <link rel="stylesheet" type="text/css" href="/css/all.css" />
 
