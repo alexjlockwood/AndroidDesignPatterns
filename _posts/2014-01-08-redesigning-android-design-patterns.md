@@ -5,6 +5,7 @@ thumbnails: ['/assets/images/posts/2014/01/08/adp-n7-screenshot-after.png']
 related: ['/2013/07/binders-window-tokens.html',
           '/2012/06/app-force-close-honeycomb-ics.html',
           '/2012/08/exit-application-dialogs-are-evil-dont.html']
+updated: '2014-03-11'
 ---
 A couple weeks ago, I began the ambitious task of rewriting this blog from scratch.
 Today, I'm happy to introduce a brand new look: one that is _cleaner_, _faster_, and more
