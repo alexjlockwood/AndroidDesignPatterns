@@ -62,5 +62,3 @@ version of the site [here](http://androiddesignpatterns.blogspot.com) to use as 
 Let me know what you think of the new design in the comments below! Make sure to also leave any
 suggestions, criticisms, or feature requests too. The design will continue to be refined over time until
 it's perfect. :)
-
-(Also, if anyone has any ideas for a new favicon/logo for this blog, let me know!)
