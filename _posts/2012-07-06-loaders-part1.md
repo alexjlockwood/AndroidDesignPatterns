@@ -124,7 +124,7 @@ shouldn't be difficult to spot:
      no longer need to worry about deactivating/closing the cursor ourselves. However, this signals the activity to call
      `requery()` on the cursor
      <a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/1.5_r4/android/app/Activity.java#3503">each time the activity returns from a stopped state</a>,
-     and therefore puts the UI thread at risk. This cost significantly outweighs the convenience of having the activity deactivate/close the cursor for us.
+     and therefore puts the UI thread at risk. This costs significantly outweighs the convenience of having the activity deactivate/close the cursor for us.
 
   3. The `SimpleCursorAdapter` constructor (line 32) is deprecated and should not be used. The
      problem with this constructor is that it will have the `SimpleCursorAdapter` auto-requery
