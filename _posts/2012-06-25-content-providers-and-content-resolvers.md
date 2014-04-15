@@ -32,7 +32,7 @@ This design is important, as it allows a simple and secure means of accessing ot
 applications' Content Providers.
 
 The Content Resolver includes the CRUD (create, read, update, delete) methods corresponding
-to the abstract methods (insert, delete, query, update) in the Content Provider class.
+to the abstract methods (insert, query, update, delete) in the Content Provider class.
 The Content Resolver does not know the implementation of the Content Providers it is
 interacting with (nor does it need to know); each method is passed an URI that specifies
 the Content Provider to interact with.
@@ -40,7 +40,7 @@ the Content Provider to interact with.
 ### What is a Content Provider?
 
 Whereas the Content Resolver provides an abstraction from the application's Content Providers,
-Content Providers provides an abstraction from the underlying data source
+Content Providers provide an abstraction from the underlying data source
 (i.e. a SQLite database). They provide mechanisms for defining data security (i.e. by
 enforcing read/write permissions) and offer a standard interface that connects data
 in one process with code running in another process.
