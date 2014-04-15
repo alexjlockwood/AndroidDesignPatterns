@@ -111,6 +111,8 @@ The design consists of two classes, a `MainActivity`...
  */
 public class MainActivity extends Activity implements TaskFragment.TaskCallbacks {
 
+  private static final String TAG_TASK_FRAGMENT = "task_fragment";
+
   private TaskFragment mTaskFragment;
 
   @Override
@@ -119,13 +121,13 @@ public class MainActivity extends Activity implements TaskFragment.TaskCallbacks
     setContentView(R.layout.main);
 
     FragmentManager fm = getFragmentManager();
-    mTaskFragment = (TaskFragment) fm.findFragmentByTag("task");
+    mTaskFragment = (TaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
 
     // If the Fragment is non-null, then it is currently being
     // retained across a configuration change.
     if (mTaskFragment == null) {
       mTaskFragment = new TaskFragment();
-      fm.beginTransaction().add(mTaskFragment, "task").commit();
+      fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
     }
 
     // TODO: initialize views, restore saved state, etc.
