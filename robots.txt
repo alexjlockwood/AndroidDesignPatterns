@@ -1,6 +1,6 @@
 ---
 ---
 User-agent: *
-Disallow:
+Disallow: /godesignpatterns/
 
 Sitemap: {{ site.baseurl }}/sitemap.xml
