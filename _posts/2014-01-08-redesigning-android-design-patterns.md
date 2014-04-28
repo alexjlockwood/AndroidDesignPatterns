@@ -45,12 +45,12 @@ version of the site [here](http://androiddesignpatterns.blogspot.com) to use as 
     aspects of the new design. Below is a comparison of the old vs. new versions of the site on a Nexus 7:
 
     <div style="max-width:600px;margin:0 auto;">
-    <div style="overflow:hidden;width:100%;display:block;">
-    <a href="/assets/images/posts/2014/01/08/adp-n7-screenshot-before.png">
-    <img style="display:block;float:left;max-width:300px;width:50%;position:relative;" src="/assets/images/posts/2014/01/08/adp-n7-screenshot-before-resized.png"/>
-    <a href="/assets/images/posts/2014/01/08/adp-n7-screenshot-after.png">
-    <img style="display:block;float:left;max-width:300px;width:50%;position:relative;" src="/assets/images/posts/2014/01/08/adp-n7-screenshot-after-resized.png"/></a>
-    </div>
+      <div style="overflow:hidden;width:100%;display:block;">
+        <a href="/assets/images/posts/2014/01/08/adp-n7-screenshot-before.png">
+        <img style="display:block;float:left;max-width:300px;width:50%;position:relative;" src="/assets/images/posts/2014/01/08/adp-n7-screenshot-before-resized.png"/></a>
+        <a href="/assets/images/posts/2014/01/08/adp-n7-screenshot-after.png">
+        <img style="display:block;float:left;max-width:300px;width:50%;position:relative;" src="/assets/images/posts/2014/01/08/adp-n7-screenshot-after-resized.png"/></a>
+      </div>
     </div>
 
   + **Disqus comments.** Picking a third-party commenting platform to use was difficult, as there weren't
