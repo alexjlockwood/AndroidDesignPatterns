@@ -47,9 +47,9 @@ version of the site [here](http://androiddesignpatterns.blogspot.com) to use as 
     <div style="max-width:600px;margin:0 auto;">
       <div style="overflow:hidden;width:100%;display:block;">
         <a href="/assets/images/posts/2014/01/08/adp-n7-screenshot-before.png">
-        <img style="display:block;float:left;max-width:300px;width:50%;position:relative;" src="/assets/images/posts/2014/01/08/adp-n7-screenshot-before-resized.png"/></a>
+        <img style="display:block;float:left;max-width:300px;width:50%;position:relative;" src="/assets/images/posts/2014/01/08/adp-n7-screenshot-before-resized.png" alt="Website design before."/></a>
         <a href="/assets/images/posts/2014/01/08/adp-n7-screenshot-after.png">
-        <img style="display:block;float:left;max-width:300px;width:50%;position:relative;" src="/assets/images/posts/2014/01/08/adp-n7-screenshot-after-resized.png"/></a>
+        <img style="display:block;float:left;max-width:300px;width:50%;position:relative;" src="/assets/images/posts/2014/01/08/adp-n7-screenshot-after-resized.png" alt="Website design after."/></a>
       </div>
     </div>
 
