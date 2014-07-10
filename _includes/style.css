@@ -548,6 +548,9 @@ pre code {
     border: 0;
     padding: 0;
   }
+  #info #promotion2048 {
+    display: none;
+  }
 }
 @media (max-width: 960px) {
   .side,
@@ -621,6 +624,9 @@ pre code {
     float: none;
     padding: 40px 0 0;
     text-align: center;
+  }
+  #info #promotion2048 {
+    display: block;
   }
   .related li,
   .related li:last-child {
