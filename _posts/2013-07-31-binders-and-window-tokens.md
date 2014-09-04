@@ -190,14 +190,19 @@ manager wouldn't be able to protect itself from malicious applications.
 By this point you might be wondering about the real-world scenarios in which you would need to
 obtain a window token. Here are some examples:
 
-  + When an application starts up for the first time, the `ActivityManagerService`<sup><a href="#footnote4" id="ref4">4</a></sup>
-    creates a special kind of window token called an **application window token**, which uniquely identifies the application's
-    top-level container window.<sup><a href="#footnote5" id="ref5">5</a></sup> The activity manager gives this token to both the
-    application and the window manager, and the application sends the token to the window manager each time it wants to
+  + When an application starts up for the first time, the
+    `ActivityManagerService`<sup><a href="#footnote4" id="ref4">4</a></sup>
+    creates a special kind of window token called an **application window token**, which
+    uniquely identifies the application's
+    top-level container window.<sup><a href="#footnote5" id="ref5">5</a></sup> The activity
+    manager gives this token to both the
+    application and the window manager, and the application sends the token to the window
+    manager each time it wants to
     add a new window to the screen. This ensures secure interaction between the application and the window manager
     (by making it impossible to add windows on top of other applications), and also makes it easy for the activity
     manager to make direct requests to the window manager. For example, the activity manager can say, "hide all of
-    this token's windows", and the window manager will be able to correctly identify the set of windows which should be closed.
+    this token's windows", and the window manager will be able to correctly identify the set of windows which 
+    should be closed.<sup><a href="#footnote6" id="ref6">6</a></sup>
 
   + Developers implementing their own custom Launchers can interact with the live wallpaper window that sits directly behind them by calling the 
     <a href="https://developer.android.com/reference/android/app/WallpaperManager.html#sendWallpaperCommand(android.os.IBinder, java.lang.String, int, int, int, android.os.Bundle)">`sendWallpaperCommand(IBinder windowToken, String action, int x, int y, int z, Bundle extras)`</a>
@@ -274,3 +279,10 @@ of OOM adjustments used by the in-kernel low-memory handler, permissions, task m
 
 <sup id="footnote5">5</sup> You can obtain a reference by calling
 <a href="http://developer.android.com/reference/android/view/View.html#getApplicationWindowToken()">`getApplicationWindowToken()`</a>. <a href="#ref5" title="Jump to footnote 5.">&#8617;</a>
+
+<sup id="footnote6">6</sup> This explanation barely scratches the surface. For a more
+detailed explanation of how the `SurfaceFlinger`, `WindowManager`, and application interact
+with each other, see this <a href="http://source.android.com/devices/graphics/architecture.html">article</a>.
+The third paragraph of the "SurfaceFlinger and Hardware Composer" section briefly mentions
+the `Binder` application window token that is passed to the application as I discussed above.
+<a href="#ref6" title="Jump to footnote 6.">&#8617;</a>
