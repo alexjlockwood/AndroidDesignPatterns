@@ -29,13 +29,13 @@ possibility of forgetting to close your database as you code.
 Here are two examples that illustrates three possible approaches in managing your
 singleton database. These will ensure safe access to the database throughout the application.
 
-### Approach #1: Use an Abstract Factory to Instantiate the `SQLiteOpenHelper`
+### Approach #1: Use a Singleton to Instantiate the `SQLiteOpenHelper`
 
-Declare your database helper as a static instance variable and use the Abstract Factory
+Declare your database helper as a static instance variable and use the Singleton
 pattern to guarantee the singleton property. The sample code below should give you a good
 idea on how to go about designing the `DatabaseHelper` class correctly.
 
-The static factory `getInstance()` method ensures that only one `DatabaseHelper`
+The static `getInstance()` method ensures that only one `DatabaseHelper`
 will ever exist at any given time. If the `sInstance` object has not been initialized,
 one will be created. If one has already been created then it will simply be returned.
 <strong>You should not initialize your helper object using with `new DatabaseHelper(context)`!</strong>
@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
   /**
    * Constructor should be private to prevent direct instantiation.
-   * make call to static factory method "getInstance()" instead.
+   * make call to static method "getInstance()" instead.
    */
   private DatabaseHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
