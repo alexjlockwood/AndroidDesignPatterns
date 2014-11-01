@@ -14,7 +14,7 @@ description: 'Android Design Patterns is a website for developers who wish to be
 paginate: 5
 excerpt_separator: <!--more-->
 
-pygments: true
+highlighter: pygments
 markdown: redcarpet
 redcarpet:
   extensions: ["no_intra_emphasis", "fenced_code_blocks", "tables"]
