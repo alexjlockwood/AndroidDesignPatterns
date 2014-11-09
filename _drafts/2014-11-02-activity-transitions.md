@@ -30,10 +30,37 @@ Starting with Lollipop, `Transition`s can be used to animate animate `Activity`s
 
 There are two types of `Activity` transitions: _shared element transitions_ and _window content transitions_.
 
+### Window Content Transitions
+
+Window content transitions operate on the non-shared views in the activity's view hierarchy. We refer to these views as _transitioning views_. Whereas shared elements are the central focus of an activity transition, transitioning views animate in the background to provide a subtle side effect.
+
+As with shared element transitions, the framework allows us to specify [exit][0], [enter][1], [return][2], and [reenter][3] window content transitions. The default values for a window's exit and enter transition is `Fade`. How though should we select our transitions? To answer this question, we need to understand what happens under-the-hood. When activity `A` starts activity `B`, the following events occur:
+
+1. `A`'s exit transition captures start values for all of the leaf views in `A`.
+2. All of the leaf views in `A` are made `INVISIBLE`.
+3. On the next animation frame, `A`'s exit transition captures end values for all of the leaf views in `A`.
+4. `A`'s exit transition creates its `Animator` and is run.
+
+Shortly after, `B` goes through a similar sequence of events:
+
+1. All of the leaf views in `B` are made `INVISIBLE`.
+2. `B`'s enter transition captures start values for all of the leaf views in `B`.
+3. All of the leaf views in `B` are made `VISIBLE`.
+4. On the next animation frame, `B`'s enter transition captures end values for all of the leaf views in `B`.
+5. `B`'s enter transition creates its `Animator` and is run.
+
+Thus, since window transitions are governed by changes to a view's visibility, most transitions will extend `Visibility` (i.e. `Fade`, `Slide`, `Explode`, etc.).
+
 ### Shared Element Transitions
 
 asdf
 
-### Window Content Transitions
+  [0]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
+  [1]: https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)
+  [2]: https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)
+  [3]: https://developer.android.com/reference/android/view/Window.html#setReenterTransition(android.transition.Transition)
+  [4]: https://developer.android.com/reference/android/view/Window.html#setSharedElementExitTransition(android.transition.Transition)
+  [5]: https://developer.android.com/reference/android/view/Window.html#setSharedElementEnterTransition(android.transition.Transition)
+  [6]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReturnTransition(android.transition.Transition)
+  [7]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)
 
-Window content transitions operate on the non-shared views in the activity's view hierarchy. We refer to these views as _transitioning views_. Whereas shared elements are the central focus of an activity transition, transitioning views animate in the background to provide a subtle side effect.
