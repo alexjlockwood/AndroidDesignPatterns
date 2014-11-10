@@ -89,16 +89,16 @@ Now that we've seen what happens under-the-hood, there are a few key concepts th
 
 * <b>The activity's view hierarchy must finish its layout before the transition begins.</b> If the transition begins before then, the transition will not have all of the information it needs to perform the animation (i.e. the start and/or end values will be missing), and the transition will appear to break. To get around this, a common pattern will be to postpone the activity’s transition by calling `postponeEnterTransition()`. When you know for certain that the activity has finished its layout, simply call `startPostponedEnterTransition()`. A good place to call `startPostponedEnterTransition()` is in an `onPreDraw` listener. For example,
 
-```java
-view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-    @Override
-    public boolean onPreDraw() {
-        view.getViewTreeObserver().removeOnPreDrawListener(this);
-        startPostponedEnterTransition();
-        return true;
-    }
-});
-```
+    ```java
+    view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+        @Override
+        public boolean onPreDraw() {
+            view.getViewTreeObserver().removeOnPreDrawListener(this);
+            startPostponedEnterTransition();
+            return true;
+        }
+    });
+    ```
 
 where `view` is a `View` that might take a couple extra layout passes before its final end values are set.
 
