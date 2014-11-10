@@ -100,7 +100,7 @@ Now that we've seen what happens under-the-hood, there are a few key concepts th
     });
     ```
 
-where `view` is a `View` that might take a couple extra layout passes before its final end values are set.
+    where `view` is a `View` that might take a couple extra layout passes before its final end values are set.
 
 * <b>Shared elements are not actually "shared".</b> When you look at a shared element transition, you might think that what you are seeing is a single `View` object animating out of its activity and into its resting location within the new activity. _This is not the case._ What actually happens is the called Activity starts out translucent. One of the first things the framework does is it adds the shared elements to the translucent Activity and repositions them to match the view’s initial position inside the calling Activity and sets the view inside the calling Activity to `INVISIBLE`. When the transition begins, the shared element will appear to transition seamlessly from one Activity to another (but really what happens is the shared element is simply animating inside the called Activity, which gradually animates from translucent to fully opaque).
 
