@@ -5,18 +5,21 @@ title: Implementing Activity Transitions in Android Lollipop
 
 Introduction paragraph.
 
+Before we dive into the new Activity Transition APIs, it helps to have a high-level understanding of the Transitions framework on which they depend.
+
 <!--more-->
 
-### `android.transition`
+### Introducing Android `Transition`s
 
-Before we dive into the new Activity Transition APIs, it helps to have a high-level understanding of the Transitions framework on which they depend. The Transition framework makes it possible to animate between different UI states in your application in a more declarative manner. The framework is built around three core entities: Scene root, scenes, and Transitions. A scene defines a given layout state of an application's UI, whereas a transition defines a change from one scene to another.
+Activity Transitions are built on top of a relatively new feature in Android called Transitions. Introduced in KitKat, the Transition framework provides a convenient API for animating between different UI states in an Android application. The framework is built around two core entities: _Scenes_ and _Transitions_. A scene defines a given state of an application's UI, whereas a transition defines the animated change from one scene to another.
 
-When a scene change occurs, a `Transition` has two main jobs: capturing the differences between the two scenes and generating an `Animator` that will perform an animation between the two scenes. Specifically, the following steps occur when a scene change is triggered:
+When a scene change occurs, a `Transition` will have three main jobs: (1) capturing the start and end state of each of its target views, (2) analyzing the changes made to each target view's start and end state, and (3) creating an `Animator` based on those differences that will orchestrate the animation between the two scenes. This is best understood by example. Let's walk through what happens when a scene change occurs using a simple `Fade` transition:
 
-1. The `TransitionManager` captures the current start values in the scene root and then posts a request to run a transition on the next frame. Specifically, the `Transition#captureStartValues` method is called and the starting scene's properties are recorded inside the Transition object. 
-2. The views in the current scene have their properties modified.
-3. The `Transition#captureEndValues` method is called and the ending scene's properties are recorded inside the Transition object.
-4. `Transition#createAnimator` is called. Using the start and end values recorded in steps 1 and 3, an `Animator` is created that will animate between the two start and end states.
+1. The framework calls the `Fade` transition's `captureStartValues()` method for each target view. The `Fade` transition implements this method by calling `view.getVisibility()` and recording its value in the `TransitionValues` object passed as an argument.
+2. The developer modifies the visibility of one or more target views to match the desired visibility in the end scene.
+3. The framework calls the `Fade` transition's `captureEndValues()` method for each target view. The `Fade` transition implements this method by calling `view.getVisibility()` and recording its value in the `TransitionValues` object passed as an argument.
+4. The framework calls the `Fade` transition's `createAnimator()` method. For each target view, the `Fade` transition creates an `ObjectAnimator` that either fades the view in or out depending on its start and end values. After iterating over all of the views, the resulting `ObjectAnimator`s are added to a `TransitionSet` which is finally returned to the framework.
+5. The framework runs the `Animator` returned in step 4, causing all of the target views to gradually fade either in or out.
 
 **TODO: Give concrete example/video here? Explain what a "scene" is in the context of a Activity Transition. Also explain that that "scene root" is the window's decor view?**
 
@@ -123,4 +126,5 @@ In the next few blog posts, I will give detailed examples of how transitions sho
   [6]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReturnTransition(android.transition.Transition)
   [7]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)
   [8]: https://developer.android.com/reference/android/view/Window.html#setSharedElementsUseOverlay(boolean)
+  [9]: https://developer.android.com/reference/android/transition/ChangeBounds.html
 
