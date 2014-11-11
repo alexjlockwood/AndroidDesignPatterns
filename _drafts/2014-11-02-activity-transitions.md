@@ -9,87 +9,75 @@ Before we dive into the new Activity Transition APIs, it helps to have a high-le
 
 <!--more-->
 
-### Introducing the Transition Framework
+### The Transition Framework
 
-Activity Transitions are built on top of a relatively new feature in Android called _transitions_. Introduced in KitKat, the Transition framework provides a convenient, easy-to-use API for animating between different UI states in Android applications. The framework is built around two key entities: _scenes_ and _transitions_. A scene defines a given state of an application's UI, whereas a transition defines the animated change from one scene to another.
+Activity Transitions are built on top of a relatively new feature in Android called _transitions_. Introduced in KitKat, the Transition framework provides a convenient, easy-to-use API for animating between different UI states in Android applications. The framework is built around two key entities: _scenes_ and _transitions_. A scene defines a given state of an application's UI, whereas a transition defines the animated change from one scene to another. **TODO: explain the concept of "target views" as well?**
 
-When a scene change occurs, a `Transition` has three main responsibilities: (1) capturing the start and end state of each target view in the scene, (2) analyzing the differences in each target view's start and end state, and (3) creating an `Animator` based on those differences that will choreograph an animation between the two scenes. These responsibilities are best understood by example. Let's walk through what happens when a scene change occurs using a simple [`Fade`][9] transition:
+When a scene change occurs, a `Transition` has three main responsibilities: (1) capturing the start and end state of each target view in the scene, (2) analyzing the differences in each target view's start and end state, and (3) creating an `Animator` based on those differences that will choreograph an animation between the two scenes. These responsibilities are best understood by example. Let's walk through what happens when a scene change occurs using a simple [`Fade`][Fade] transition:
 
 1. The framework calls `Fade#captureStartValues(TransitionValues)` for each target `view` in the scene. The `Fade` transition implements this method by calling `view.getVisibility()` and recording its value in the `TransitionValues` object passed as an argument.
 2. The developer modifies the visibility of one or more target views to match the desired visibility in the end scene.
-3. On the next animation frame, the framework calls `Fade#captureEndValues(TransitionValues)` for each target view in the scene. The `Fade` transition implements this method by calling `view.getVisibility()` and recording its value in the `TransitionValues` object passed as an argument.
+3. On the next display frame, the framework calls `Fade#captureEndValues(TransitionValues)` for each target view in the scene. The `Fade` transition implements this method by calling `view.getVisibility()` and recording its value in the `TransitionValues` object passed as an argument.
 4. The framework calls `Fade#createAnimator(ViewGroup, TransitionValues, TransitionValues))`. The `Fade` transition implements this method by creating an `ObjectAnimator` for each target view in the scene that either fades the view in or out. After iterating over all of the views, the resulting `ObjectAnimator`s are added to a `TransitionSet` which is finally returned to the framework.
 5. The framework runs the `Animator` returned in step 4, causing all of the target views to gradually fade either in or out.
 
 **TODO: in the fade example above, make the scenario more concrete... describe the start/end scenes and maybe even add a video so there isn't any confusion**
 
-**TODO: Give concrete example/video here? Explain what a "scene" is in the context of a Activity Transition. Also explain that that "scene root" is the window's decor view?**
+### Introducing Activity Transitions
 
-### Activity Transitions Terminology
+Beginning with Lollipop, `Transition`s can now be used to orchestrate more elaborate animations between `Activity`s. Before we start getting into the code, however, it will be helpful to discuss some basic definitions and common terminology that are used in the rest of this post:
 
-Starting with Lollipop, `Transition`s can be used to animate `Activity`s. Before we get into the details of these new APIs, it will be helpful to discuss some of the common terminology used in the rest of this post. Let `A` and `B` be activities. If activity `A` starts activity `B`, then we refer to `A` as the _calling Activity_ (the activity transition that initiated the transition by "calling" `startActivity()`) and `B` as the _called Activity_.
+> Let `A` and `B` be activities and assume activity `A` starts activity `B`. We refer to `A` as the _calling Activity_ (the activity that "calls" `startActivity()`) and `B` as the _called Activity_.
 
-* An _exit transition_ is a transition that animates the views in `A` when `A` starts `B`.
-* An _enter transition_ is a transition that animates the views in `B` when `A` starts `B`.
-* A _return transition_ is a transition that animates the views in `B` when the user finishes `B` and returns to `A`. If a return transition is not explicitly set, the current enter transition is used instead.
-* A _reenter transition_ is a transition that animates the views in `A` when the user finishes `B` and returns to `A`. If a reenter transition is not explicitly set, the current exit transition is used instead.
+The Activity Transition APIs are built around the idea of _exit, enter, return, and reenter transitions_. In the context of activities `A` and `B` defined above, we describe the role of each as follows:
 
-There are two types of `Activity` transitions: _window content transitions_ and _shared element transitions_.
+> Activity `A`'s _exit transition_ determines how views in `A` are animated when `A` starts `B`.
+>
+> Activity `B`'s _enter transition_ determines how views in `B` are animated when `A` starts `B`.
+>
+> Activity `B`'s _return transition_ determines how views in `B` are animated when `B` returns to `A`.
+>
+> Activity `A`'s _reenter transition_ determines how views in `A` are animated when `B` returns to `A`.
 
-#### Window Content Transitions
+Lastly, the framework provides APIs for two types of Activity Transitions&mdash;_window transitions_ and _shared element transitions_&mdash;each of which allow us to customize the animations between activities in unique ways. We discuss each in greater detail in the below two sections.
 
-Window content transitions operate on the non-shared views in the activity's view hierarchy. We refer to these views as _transitioning views_. Whereas shared elements are the central focus of an activity transition, transitioning views animate in the background to provide a subtle side effect.
+#### Window Transitions
 
-As with shared element transitions, the framework allows us to specify [exit][0], [enter][1], [return][2], and [reenter][3] window content transitions. The default values for a window's exit and enter transition is `Fade`. How though should we select our transitions? To answer this question, we need to understand what happens under-the-hood. When activity `A` starts activity `B`, the following events occur:
+Window transitions determine how an activity's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the scene when an Activity Transition occurs. **TODO: for example, in the example on the right the calling activity is using an `Explode` exit transition, which causes its views to fly off the screen away from the center.** The default value for a window's exit and enter transitions is a simple [`Fade`][fade]. However, the framework also allows us to set our own [exit][setExit], [enter][setEnter], [return][setReturn], and [reenter][setReenter] window transitions if necessary, either programatically or in XML as part of the activity's theme. **TODO: mention the `ActivityOptions#makeSceneTransitionAnimation` method?**
 
-1. `A`'s exit transition captures start values for all of the leaf views in `A`.
-2. All of the leaf views in `A` are made `INVISIBLE`.
-3. On the next animation frame, `A`'s exit transition captures end values for all of the leaf views in `A`.
-4. `A`'s exit transition creates its `Animator` and is run.
+Window transitions should almost always (**TODO: write footnote explaining why "almost always"?**) extend [`Visibility`][visibility]. To understand why, let's see what happens under-the-hood when activity `A` starts activity `B` (**TODO: write footnote saying a similar process occurs in the opposite direction when `B` returns to `A`**):
 
-Shortly after, `B` goes through a similar sequence of events:
+1. `A`'s exit transition captures start values for the target views in `A`.
+2. All of the target views in `A` are made `INVISIBLE`.
+3. On the next display frame, `A`'s exit transition captures end values for the target views in `A`.
+4. `A`'s exit transition compares the start and end values of its target views and creates an `Animator` based on the differences.
+5. Activity `B` is started and all of its target views are made `INVISIBLE`.
+6. `B`'s enter transition captures start values for the target views in `B`.
+7. All of the target views in `B` are made `VISIBLE`.
+8. On the next display frame, `B`'s enter transition captures end values for the target views in `B`.
+9. `B`'s enter transition compares the start and end values of its target views and creates an `Animator` based on the differences.
 
-1. All of the leaf views in `B` are made `INVISIBLE`.
-2. `B`'s enter transition captures start values for all of the leaf views in `B`.
-3. All of the leaf views in `B` are made `VISIBLE`.
-4. On the next animation frame, `B`'s enter transition captures end values for all of the leaf views in `B`.
-5. `B`'s enter transition creates its `Animator` and is run.
-
-Thus, since window transitions are governed by changes to a view's visibility, most transitions will extend `Visibility` (i.e. `Fade`, `Slide`, `Explode`, etc.).
+As we can see, window transitions are primarily governed by changes made to a view's visibility. Fortunately, capturing these values is exactly what the abstract `Visibility` class is designed to do! In many cases, using a `Fade`, `Slide`, `Explode`&mdash;all of which extend `Visibility`&mdash;as our window transitions will suffice. However, if you ever find yourself implementing a custom window transition, remember that extending `Visibility` will likely save you a lot of work!
 
 #### Shared Element Transitions
 
-Shared element transitions operate on the shared views in the activity's view hierarchy. We refer to these views as _shared elements_ or _hero views_.
+Shared element transitions determine how an activity's _shared elements_ (or _hero views_) are animated from one activity to another when an Activity Transition occurs. **TODO: for example, in the example on the right the called activity is using a `ChangeBounds` enter transition, which causes the shared view to reposition itself within its new activity's layout.** The default value for a shared element exit and enter transitions is [`@android:transition/move`][move]. However, the framework also allows us to set our own [exit][setSharedElementExit], [enter][setSharedElementEnter], [return][setSharedElementReturn], and [reenter][setSharedElementReenter] shared element transitions if necessary, either programatically or in XML as part of the activity's theme. **TODO: mention the `ActivityOptions#makeSceneTransitionAnimation` method?**
 
-The framework allows us to specify [exit][4], [enter][5], [return][6], and [reenter][7] shared element transitions. The default values for a shared element exit and enter transition is `@android:transition/move`:
-
-```xml
-<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
-    <changeBounds/>
-    <changeTransform/>
-    <changeClipBounds/>
-    <changeImageTransform/>
-</transitionSet>
-```
-
-How though should we select our transitions? To answer this question, we need to understand what happens under-the-hood. When activity `A` starts activity `B`, the following events occur:
+When selecting a shared element transition to use, it is important that the transition is able to record start and end values such as size and location. To understand why, let's see what happens under-the-hood when activity `A` starts activity `B` (**TODO: write footnote saying a similar process occurs in the opposite direction when `B` returns to `A`**):
 
 1. `A`'s shared element exit transition captures start values for the shared elements in `A`.
-2. The shared elements in `A` are modified to match their final resting position in `A`.
-3. On the next animation frame, `A`'s exit transition captures end values for all of the shared elements in `A`.
-4. `A`'s shared element exit transition creates its `Animator` and is run.
+2. The shared elements in `A` are modified to match their final resting position in `A`. **TODO: explain why exit/reenter transitions are usually not necessary when animating shared elements.**
+3. On the next display frame, `A`'s exit transition captures end values for all of the shared elements in `A`.
+4. `A`'s shared element exit transition compares the start and end values of its shared element views and creates an `Animator` based on the differences.
+5. The shared elements are positioned in `B` to match their end values in `A`.
+6. `B`'s shared element enter transition captures start values for all of the shared elements in `B`.
+7. All of the shared elements in `B` are repositioned to match their end values.
+8. On the next display frame, `B`'s shared element enter transition captures end values for all of the shared elements in `B`.
+9. `B`'s shared element enter transition compares the start and end values of its shared element views and creates an `Animator` based on the differences.
 
-**TODO: explain why exit/reenter transitions are usually not necessary when animating shared elements.** Shortly after, `B` goes through a similar sequence of events:
+Whereas window content transitions are converned with changes made to its transitioning views' visibility, shared element transitions must listen for changes made to its views' position and size on the screen. As a result, `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, `ChangeImageTransform`, or some combination of each are usually good candidates to use as shared element transitions.
 
-1. The shared elements are positioned in `B` to match their end values in `A`.
-2. `B`'s shared element enter transition captures start values for all of the shared elements in `B`.
-3. All of the shared elements in `B` are repositioned to match their end values.
-4. On the next animation frame, `B`'s shared element enter transition captures end values for all of the shared elements in `B`.
-5. `B`'s shared element enter transition creates its `Animator` and is run.
-
-Since shared element transitions are governed by changes to a view’s size and position, transitions are usually a mix of `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, `ChangeImageTransform`, or a combination of all of them inside a single `TransitionSet`.
-
-### Getting Started with Activity Transitions
+### Key Concepts to Understand about Activity Transitions
 
 Now that we've seen what happens under-the-hood, there are a few key concepts that are important to understand before we begin writing the actual code.
 
@@ -110,23 +98,34 @@ Now that we've seen what happens under-the-hood, there are a few key concepts th
 
 * <b>Shared elements are not actually "shared".</b> When you look at a shared element transition, you might think that what you are seeing is a single `View` object animating out of its activity and into its resting location within the new activity. _This is not the case._ What actually happens is the called Activity starts out translucent. One of the first things the framework does is it adds the shared elements to the translucent Activity and repositions them to match the view’s initial position inside the calling Activity and sets the view inside the calling Activity to `INVISIBLE`. When the transition begins, the shared element will appear to transition seamlessly from one Activity to another (but really what happens is the shared element is simply animating inside the called Activity, which gradually animates from translucent to fully opaque).
 
-* <b>By default, shared elements are drawn on top of the view hierarchy in a `ViewOverlay`.</b> This default behavior ensures that the shared elements will always be the central focus of the Activity transition, as it makes it impossible for non-shared elements&mdash;in both the called and calling Activity's view hierarchies&mdash;to accidentally draw on top of the views that are being shared across Activities. This default behavior can be disabled in your theme's XML or programatically by calling [`Window#setSharedElementsUseOverlay(false)`][8]. **TODO: also discuss the potential side-effects of disabling the overlay? Link to G+ post about covering up the system UI?**
+* <b>By default, shared elements are drawn on top of the view hierarchy in a `ViewOverlay`.</b> This default behavior ensures that the shared elements will always be the central focus of the Activity transition, as it makes it impossible for non-shared elements&mdash;in both the called and calling Activity's view hierarchies&mdash;to accidentally draw on top of the views that are being shared across Activities. This default behavior can be disabled in your theme's XML or programatically by calling [`Window#setSharedElementsUseOverlay(false)`][setSharedElementsUseOverlay]. **TODO: also discuss the potential side-effects of disabling the overlay? Link to G+ post about covering up the system UI?**
 
 * <b>You can further customize your shared element transitions by setting a `SharedElementCallback`.</b> Understanding the SharedElementCallback class will be important if you want to implement custom Transitions that are more complicated than simply moving an image from one location to another. In particular, the following three callback methods are very important to understand when writing more complex shared element transitions:
 
     - `onMapSharedElements()` lets you adjust the mapping of shared element names to Views. **TODO: more detail.**
     - `onSharedElementStart()` and `onSharedElementEnd()` let you adjust view properties in your layout immediately before the transitions capture their start and end values respectively. **TODO: more detail.**
 
+* <b>Return and reenter transitions default to the enter and exit transitions respectively.</b> **TODO: keep this part?**
+
+* <b>By default, the exit and enter transitions overlap.</b> **TODO: keep this part?**
+
+* <b>Need to request window activity transition feature if not using material theme.</b> **TODO: keep this part?**
+
 In the next few blog posts, I will give detailed examples of how transitions should and can be used to achieve some cool effects in your applications.
 
-  [0]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
-  [1]: https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)
-  [2]: https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)
-  [3]: https://developer.android.com/reference/android/view/Window.html#setReenterTransition(android.transition.Transition)
-  [4]: https://developer.android.com/reference/android/view/Window.html#setSharedElementExitTransition(android.transition.Transition)
-  [5]: https://developer.android.com/reference/android/view/Window.html#setSharedElementEnterTransition(android.transition.Transition)
-  [6]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReturnTransition(android.transition.Transition)
-  [7]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)
-  [8]: https://developer.android.com/reference/android/view/Window.html#setSharedElementsUseOverlay(boolean)
-  [9]: https://developer.android.com/reference/android/transition/Fade.html
+  [setExit]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
+  [setEnter]: https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)
+  [setReturn]: https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)
+  [setReenter]: https://developer.android.com/reference/android/view/Window.html#setReenterTransition(android.transition.Transition)
+
+  [setSharedElementExit]: https://developer.android.com/reference/android/view/Window.html#setSharedElementExitTransition(android.transition.Transition)
+  [setSharedElementEnter]: https://developer.android.com/reference/android/view/Window.html#setSharedElementEnterTransition(android.transition.Transition)
+  [setSharedElementReturn]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReturnTransition(android.transition.Transition)
+  [setSharedElementReenter]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)
+
+  [setSharedElementsUseOverlay]: https://developer.android.com/reference/android/view/Window.html#setSharedElementsUseOverlay(boolean)
+
+  [fade]: https://developer.android.com/reference/android/transition/Fade.html
+  [move]: https://android.googlesource.com/platform/frameworks/base/+/lollipop-release/core/res/res/transition/move.xml
+  [visibility]: https://developer.android.com/reference/android/transition/Visibility.html
 
