@@ -9,17 +9,19 @@ Before we dive into the new Activity Transition APIs, it helps to have a high-le
 
 <!--more-->
 
-### Introducing Android `Transition`s
+### Introducing the Transition Framework
 
-Activity Transitions are built on top of a relatively new feature in Android called Transitions. Introduced in KitKat, the Transition framework provides a convenient API for animating between different UI states in an Android application. The framework is built around two core entities: _Scenes_ and _Transitions_. A scene defines a given state of an application's UI, whereas a transition defines the animated change from one scene to another.
+Activity Transitions are built on top of a relatively new feature in Android called _transitions_. Introduced in KitKat, the Transition framework provides a convenient, easy-to-use API for animating between different UI states in Android applications. The framework is built around two key entities: _scenes_ and _transitions_. A scene defines a given state of an application's UI, whereas a transition defines the animated change from one scene to another.
 
-When a scene change occurs, a `Transition` will have three main jobs: (1) capturing the start and end state of each of its target views, (2) analyzing the changes made to each target view's start and end state, and (3) creating an `Animator` based on those differences that will orchestrate the animation between the two scenes. This is best understood by example. Let's walk through what happens when a scene change occurs using a simple `Fade` transition:
+When a scene change occurs, a `Transition` has three main responsibilities: (1) capturing the start and end state of each target view in the scene, (2) analyzing the differences in each target view's start and end state, and (3) creating an `Animator` based on those differences that will choreograph an animation between the two scenes. These responsibilities are best understood by example. Let's walk through what happens when a scene change occurs using a simple [`Fade`][9] transition:
 
-1. The framework calls the `Fade` transition's `captureStartValues()` method for each target view. The `Fade` transition implements this method by calling `view.getVisibility()` and recording its value in the `TransitionValues` object passed as an argument.
+1. The framework calls `Fade#captureStartValues(TransitionValues)` for each target `view` in the scene. The `Fade` transition implements this method by calling `view.getVisibility()` and recording its value in the `TransitionValues` object passed as an argument.
 2. The developer modifies the visibility of one or more target views to match the desired visibility in the end scene.
-3. The framework calls the `Fade` transition's `captureEndValues()` method for each target view. The `Fade` transition implements this method by calling `view.getVisibility()` and recording its value in the `TransitionValues` object passed as an argument.
-4. The framework calls the `Fade` transition's `createAnimator()` method. For each target view, the `Fade` transition creates an `ObjectAnimator` that either fades the view in or out depending on its start and end values. After iterating over all of the views, the resulting `ObjectAnimator`s are added to a `TransitionSet` which is finally returned to the framework.
+3. On the next animation frame, the framework calls `Fade#captureEndValues(TransitionValues)` for each target view in the scene. The `Fade` transition implements this method by calling `view.getVisibility()` and recording its value in the `TransitionValues` object passed as an argument.
+4. The framework calls `Fade#createAnimator(ViewGroup, TransitionValues, TransitionValues))`. The `Fade` transition implements this method by creating an `ObjectAnimator` for each target view in the scene that either fades the view in or out. After iterating over all of the views, the resulting `ObjectAnimator`s are added to a `TransitionSet` which is finally returned to the framework.
 5. The framework runs the `Animator` returned in step 4, causing all of the target views to gradually fade either in or out.
+
+**TODO: in the fade example above, make the scenario more concrete... describe the start/end scenes and maybe even add a video so there isn't any confusion**
 
 **TODO: Give concrete example/video here? Explain what a "scene" is in the context of a Activity Transition. Also explain that that "scene root" is the window's decor view?**
 
@@ -57,7 +59,7 @@ Thus, since window transitions are governed by changes to a view's visibility, m
 
 #### Shared Element Transitions
 
-Shared element transitions operate on the shared views in the activity's view hierarchy. We refer to these views as _shared elements_ or _hero views_. 
+Shared element transitions operate on the shared views in the activity's view hierarchy. We refer to these views as _shared elements_ or _hero views_.
 
 The framework allows us to specify [exit][4], [enter][5], [return][6], and [reenter][7] shared element transitions. The default values for a shared element exit and enter transition is `@android:transition/move`:
 
@@ -126,5 +128,5 @@ In the next few blog posts, I will give detailed examples of how transitions sho
   [6]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReturnTransition(android.transition.Transition)
   [7]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)
   [8]: https://developer.android.com/reference/android/view/Window.html#setSharedElementsUseOverlay(boolean)
-  [9]: https://developer.android.com/reference/android/transition/ChangeBounds.html
+  [9]: https://developer.android.com/reference/android/transition/Fade.html
 
