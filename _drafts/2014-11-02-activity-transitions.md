@@ -11,7 +11,7 @@ Before we dive into the new Activity Transition APIs, it helps to have a high-le
 
 ### The Transition Framework
 
-Activity Transitions are built on top of a relatively new feature in Android called _transitions_. Introduced in KitKat, the transition framework provides a convenient, easy-to-use API for animating between UI states in Android applications. The framework is built around two key entities: _scenes_ and _transitions_. A scene defines a given state of an application's UI, whereas a transition defines the animated change from one scene to another.
+Activity Transitions are built on top of a relatively new feature in Android called _transitions_. Introduced in KitKat, the transition framework provides a convenient, easy-to-use API for animating between different UI states in an application. The framework is built around two key entities: _scenes_ and _transitions_. A scene defines a given state of an application's UI, whereas a transition defines the animated change from one scene to another.
 
 When a scene change occurs, a `Transition` has three main responsibilities: (1) capturing the start and end state of each view in the scene and (2) creating an `Animator` based on the differences that will perform an animation between the two scenes. Consider as an example the steps involved in running a typical `Fade` transition:
 
@@ -77,7 +77,9 @@ When selecting a shared element transition to use, it is important that the tran
 
 Whereas window content transitions are converned with changes made to its transitioning views' visibility, shared element transitions must listen for changes made to its views' position and size on the screen. As a result, `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, `ChangeImageTransform`, or some combination of each are usually good candidates to use as shared element transitions.
 
-**TODO: break post up into two parts? second part is about advanced topics discussed below?**
+**TODO: end this post with a brief code snippet illustrating how to initiate an Activity/Fragment transition?**
+
+**TODO: break the rest of this post up into two parts? second part is about advanced topics discussed below?**
 
 ### Key Concepts to Understand about Activity Transitions
 
@@ -118,7 +120,7 @@ In the next few blog posts, I will give detailed examples of how transitions sho
 ### TODO list:
 
 * **TODO: explain the concept of "target views" as well?**
-
+* **TODO: brief introduction to fragment transitions?**
 
   [setExitTransition]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
   [setEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)
