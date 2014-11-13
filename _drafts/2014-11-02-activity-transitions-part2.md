@@ -1,6 +1,8 @@
 ---
 layout: post
-title: Introduction to Activity Transitions in Android Lollipop (part 2)
+title: 'Introduction to Activity & Fragment Transitions in Android Lollipop (part 2)'
+date: 2014-11-02
+permalink: /2014/11/activity-fragment-transitions-android-lollipop-part2.html
 ---
 
 Introduction paragraph.
@@ -45,5 +47,5 @@ In the next few blog posts, I will give detailed examples of how transitions sho
 
   [setSharedElementsUseOverlay]: https://developer.android.com/reference/android/view/Window.html#setSharedElementsUseOverlay(boolean)
   [SharedElementCallback]: https://developer.android.com/reference/android/app/SharedElementCallback.html
- 
+
 

@@ -1,6 +1,8 @@
 ---
 layout: post
-title: Introduction to Activity Transitions in Android Lollipop (part 1)
+title: 'Introduction to Activity & Fragment Transitions in Android Lollipop (part 1)'
+date: 2014-11-01
+permalink: /2014/11/activity-fragment-transitions-android-lollipop-part1.html
 ---
 
 Introduction paragraph.
@@ -54,7 +56,7 @@ Let's walk through the steps involved when the `Fade` transition is run for the 
 2. After `beginDelayedTransition()` returns, the developer sets each view in the scene from `VISIBLE` to `INVISIBLE`.
 3. On the next display frame, the framework calls the transition's `captureEndValues(TransitionValues)` method for each `view` in the scene and the transition records each `view`'s (recently updated) visibility in the `TransitionValues` argument.
 4. The framework calls the transition's `createAnimator(ViewGroup, TransitionValues, TransitionValues)` method. The transition analyzes the start and end values of each view and notices a difference: the views are `VISIBLE` in the start scene but `INVISIBLE` in the end scene. As a result, the `Fade` transition creates an `Animator` that will fade each view's `alpha` property to `0` and returns it back to the framework.
-5. The framework runs the `Animator` and all views gradually fade out of the screen. 
+5. The framework runs the `Animator` and all views gradually fade out of the screen.
 
 Using `Transition`s to animate between different UI states in your application offers two main advantages. First, _`Transition`s abstract the idea of `Animator`s from the developer_. All the developer must do is ensure the start and end values for each view are properly set and the `Transition` will do the rest. Second, _animations between scenes can be easily changed simply by using a different `Transition` object_. For example, in the example above we could easily replace the `Fade` with a `Slide` and `Explode` to achieve dramatically different effects. As we will see in the rest of the post, these two advantages will make it relatively easy to implement our own custom Activity Transitions, which we discuss in the next section.
 
@@ -96,7 +98,7 @@ As we can see, window transitions are primarily governed by changes made to a vi
 
 #### Shared Element Transitions
 
-Shared element transitions determine how an activity's _shared elements_ (or _hero views_) are animated from one activity to another when an Activity Transition occurs. The default value for a shared element exit and enter transitions is [`@android:transition/move`][Move]. However, the framework also allows us to set our own [exit][setSharedElementExitTransition], [enter][setSharedElementEnterTransition], [return][setSharedElementReturnTransition], and [reenter][setSharedElementReenterTransition] shared element transitions if necessary, either programatically or in XML as part of the activity's theme. **TODO: for example, in the example on the right the called activity is using a `ChangeBounds` enter transition, which causes the shared view to reposition itself within its new activity's layout.** 
+Shared element transitions determine how an activity's _shared elements_ (or _hero views_) are animated from one activity to another when an Activity Transition occurs. The default value for a shared element exit and enter transitions is [`@android:transition/move`][Move]. However, the framework also allows us to set our own [exit][setSharedElementExitTransition], [enter][setSharedElementEnterTransition], [return][setSharedElementReturnTransition], and [reenter][setSharedElementReenterTransition] shared element transitions if necessary, either programatically or in XML as part of the activity's theme. **TODO: for example, in the example on the right the called activity is using a `ChangeBounds` enter transition, which causes the shared view to reposition itself within its new activity's layout.**
 
 When selecting a shared element transition to use, it is important that the transition is able to record start and end values such as size and location. To understand why, let's see what happens under-the-hood when activity `A` starts activity `B` (**TODO: write footnote saying a similar process occurs in the opposite direction when `B` returns to `A`**):
 
