@@ -9,6 +9,11 @@ Introduction paragraph.
 
 <!--more-->
 
+
+### Getting Started with Activity Transitions
+
+**TODO: introduction to the API**
+
 ### Key Concepts to Understand about Activity Transitions
 
 Now that we've seen what happens under-the-hood, there are a few key concepts that are important to understand before we begin writing the actual code.

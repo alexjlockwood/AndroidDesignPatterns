@@ -62,7 +62,7 @@ Using `Transition`s to animate between different UI states in your application o
 
 ### Introducing Activity Transitions
 
-Beginning with Lollipop, `Transition`s can now be used to orchestrate more elaborate animations between `Activity`s. Before we start getting into the code, however, it will be helpful to discuss some basic definitions and common terminology that are used in the rest of this post:
+Beginning with Lollipop, `Transition`s can be used to orchestrate more elaborate animations between `Activity`s. Before we start getting into the code, however, it will be helpful to discuss some basic definitions and common terminology that are used in the rest of this post:
 
 > Let `A` and `B` be activities and assume activity `A` starts activity `B`. We refer to `A` as the _calling Activity_ (the activity that "calls" `startActivity()`) and `B` as the _called Activity_.
 
@@ -76,25 +76,28 @@ The Activity Transition APIs are built around the idea of _exit, enter, return, 
 >
 > Activity `A`'s _reenter transition_ determines how views in `A` are animated when `B` returns to `A`.
 
-Lastly, the framework provides APIs for two types of Activity Transitions&mdash;_window transitions_ and _shared element transitions_&mdash;each of which allow us to customize the animations between activities in unique ways. We discuss each in greater detail in the below two sections.
+Lastly, the framework provides APIs for two types of Activity Transitions&mdash;_window content transitions_ and _shared element transitions_&mdash;each of which allow us to customize the animations between activities in unique ways. We discuss each in greater detail below.
 
-#### Window Transitions
+#### Window Content Transitions
 
-Window transitions determine how an activity's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the scene when an Activity Transition occurs. The default value for a window's exit and enter transitions is a simple [`Fade`][Fade]. However, the framework also allows us to set our own [exit][setExitTransition], [enter][setEnterTransition], [return][setReturnTransition], and [reenter][setReenterTransition] window transitions if necessary, either programatically or in XML as part of the activity's theme. (**TODO: for example, in the example on the right the calling activity is using an `Explode` exit transition, which causes its views to fly off the screen away from the center. whereas the called activity uses a fade transition.**)
+Window content transitions determine how an activity's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the Activity scene. (**TODO: for example...**) Material-themed applications have their window content exit and enter transitions set to `null` and `Fade` respectively by default. If necessary, we can specify our own [exit][setExitTransition], [enter][setEnterTransition], [return][setReturnTransition], and [reenter][setReenterTransition] window content transitions as well, either programatically or in XML as part of the activity's theme.
 
-Window transitions should almost always extend [`Visibility`][Visibility]. To understand why, let's see what happens under-the-hood when activity `A` starts activity `B` (**TODO: write footnote saying a similar process occurs in the opposite direction when `B` returns to `A`**):
+Window content transitions are initiated by altering each view's visibility. To understand what this means, let's see what happens under-the-hood when activity `A` starts activity `B`:
 
-1. `A`'s exit transition captures start values for the target views in `A`.
-2. The framework sets all target views in `A` to `INVISIBLE`.
-3. On the next display frame, `A`'s exit transition captures end values for the target views in `A`.
-4. `A`'s exit transition compares the start and end values of its target views and creates an `Animator` based on the differences.
-5. Activity `B` is started and all of its target views are made `INVISIBLE`.
-6. `B`'s enter transition captures start values for the target views in `B`.
-7. The framework sets all target views in `B` to `VISIBLE`.
-8. On the next display frame, `B`'s enter transition captures end values for the target views in `B`.
-9. `B`'s enter transition compares the start and end values of its target views and creates an `Animator` based on the differences.
+1. `A` calls `startActivity()`.
+2. `A`'s exit transition captures start values for the transitioning views in `A`.
+3. The framework sets all transitioning views in `A` to `INVISIBLE`.
+4. On the next display frame, `A`'s exit transition captures end values for the transitioning views in `A`.
+5. `A`'s exit transition compares the start and end values of its transitioning views and creates an `Animator` based on the differences. The `Animator` is run and the transitioning views exit the scene.
+6. Activity `B` is initialized with all of its transitioning views initially set as `INVISIBLE`.
+7. `B`'s enter transition captures start values for the transitioning views in `B`.
+8. The framework sets all transitioning views in `B` to `VISIBLE`.
+9. On the next display frame, `B`'s enter transition captures end values for the transitioning views in `B`.
+10. `B`'s enter transition compares the start and end values of its target views and creates an `Animator` based on the differences. The `Animator` is run and the transitioning views enter the scene.
 
-As we can see, window transitions are primarily governed by changes made to a view's visibility. Fortunately, capturing these values is exactly what the abstract `Visibility` class is designed to do! In many cases, using a `Fade`, `Slide`, `Explode`&mdash;all of which extend `Visibility`&mdash;as our window transitions will suffice. However, if you ever find yourself implementing a custom window transition, remember that extending `Visibility` will likely save you a lot of work!
+Because entering and exiting is governed by toggling visibility between `INVISIBLE` and `VISIBLE`, most window content transitions will extend the abstract `Visibility` class, which is designed to react to such changes.
+
+As we can see, window transitions are primarily governed by changes made to a view's visibility. Fortunately, capturing these values is exactly what the abstract `Visibility` class is designed to do! In many cases, using a `Fade`, `Slide`, `Explode`&mdash;all of which extend `Visibility`&mdash;as our window transitions will suffice. However, if you ever find yourself implementing a custom window transition, remember that extending `Visibility` will likely save you a lot of work! (**TODO: write footnote saying a similar process occurs in the opposite direction when `B` returns to `A`?**)
 
 #### Shared Element Transitions
 
@@ -116,12 +119,6 @@ When selecting a shared element transition to use, it is important that the tran
 
 Whereas window content transitions are concerned with changes made to its transitioning views' visibility, shared element transitions must listen for changes made to its views' position and size on the screen. As a result, `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, `ChangeImageTransform`, or some combination of each are usually good candidates to use as shared element transitions.
 
-**TODO: break the rest of this post up into two parts? second part is about advanced topics discussed below?**
-
-### Getting Started with Activity Transitions
-
-**TODO: end this post with a brief code snippet illustrating how to initiate an Activity/Fragment transition?**
-
 ### TODO list:
 
 * **TODO: explain the concept of "target views" as well?**
@@ -141,3 +138,4 @@ Whereas window content transitions are concerned with changes made to its transi
   [Move]: https://android.googlesource.com/platform/frameworks/base/+/lollipop-release/core/res/res/transition/move.xml
   [Visibility]: https://developer.android.com/reference/android/transition/Visibility.html
 
+  [Theme_Material]: https://developer.android.com/reference/android/R.style.html#Theme_Material
