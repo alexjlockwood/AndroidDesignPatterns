@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Introduction to Activity & Fragment Transitions in Android Lollipop (part 2)'
+title: 'Activity & Fragment Transitions in Android Lollipop (part 2)'
 date: 2014-11-02
 permalink: /2014/11/activity-fragment-transitions-android-lollipop-part2.html
 ---

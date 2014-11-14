@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Introduction to Activity & Fragment Transitions in Android Lollipop (part 1)'
+title: 'Activity & Fragment Transitions in Android Lollipop (part 1)'
 date: 2014-11-01
 permalink: /2014/11/activity-fragment-transitions-android-lollipop-part1.html
 ---
@@ -20,7 +20,7 @@ Perhaps the best way to understand how the Transition Framework works is through
 ```java
 public class MainActivity extends Activity implements View.OnClickListener {
     private ViewGroup mRootView;
-    private View mRedBox, mGreenBox, mBlueBox;
+    private View mRedBox, mGreenBox, mBlueBox, mBlackBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +33,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mRedBox = findViewById(R.id.red_box);
         mGreenBox = findViewById(R.id.green_box);
         mBlueBox = findViewById(R.id.blue_box);
+        mBlackBox = findViewById(R.id.black_box);
     }
 
     @Override
     public void onClick(View v) {
         TransitionManager.beginDelayedTransition(mRootView, new Fade());
-        toggleVisibility(mRedBox, mGreenBox, mBlueBox);
+        toggleVisibility(mRedBox, mGreenBox, mBlueBox, mBlackBox);
     }
 
     private static void toggleVisibility(View... views) {
@@ -52,13 +53,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 Let's walk through the steps involved when the `Fade` transition is run for the first time, assuming each view initially starts out as `VISIBLE` (**TODO: explode transition more exciting example? include video?**):
 
-1. The developer calls `TransitionManager.beginDelayedTransition(ViewGroup, Transition)`, passing the scene root and a `Fade` transition as the arguments. The framework immediately calls the transition's `captureStartValues(TransitionValues)` method for each `view` in the scene and the transition responds by recording each `view`'s visibility in the `TransitionValues` argument.
+1. The developer calls `TransitionManager.beginDelayedTransition(ViewGroup, Transition)`, passing the scene root and a `Fade` transition as the arguments. The framework immediately calls the transition's `captureStartValues(TransitionValues)` method for each `view` in the scene and the transition records each `view`'s visibility in the `TransitionValues` argument.
 2. After `beginDelayedTransition()` returns, the developer sets each view in the scene from `VISIBLE` to `INVISIBLE`.
-3. On the next display frame, the framework calls the transition's `captureEndValues(TransitionValues)` method for each `view` in the scene and the transition records each `view`'s (recently updated) visibility in the `TransitionValues` argument.
+3. On the next animation frame, the framework calls the transition's `captureEndValues(TransitionValues)` method for each `view` in the scene and the transition records each `view`'s (recently updated) visibility in the `TransitionValues` argument.
 4. The framework calls the transition's `createAnimator(ViewGroup, TransitionValues, TransitionValues)` method. The transition analyzes the start and end values of each view and notices a difference: the views are `VISIBLE` in the start scene but `INVISIBLE` in the end scene. As a result, the `Fade` transition creates an `Animator` that will fade each view's `alpha` property to `0` and returns it back to the framework.
 5. The framework runs the `Animator` and all views gradually fade out of the screen.
 
-Using `Transition`s to animate between different UI states in your application offers two main advantages. First, _`Transition`s abstract the idea of `Animator`s from the developer_. All the developer must do is ensure the start and end values for each view are properly set and the `Transition` will do the rest. Second, _animations between scenes can be easily changed simply by using a different `Transition` object_. For example, in the example above we could easily replace the `Fade` with a `Slide` and `Explode` to achieve dramatically different effects. As we will see in the rest of the post, these two advantages will make it relatively easy to implement our own custom Activity Transitions, which we discuss in the next section.
+Overall, using `Transition`s to animate between different UI states in your application offers two main advantages. First, `Transition`s abstract the idea of `Animator`s from the developer. All the developer must do is ensure the start and end values for each view are properly set and the `Transition` will do the rest. Second, animations between scenes can be easily changed simply by using a different `Transition` object. For example, in the example above we could easily replace the `Fade` with a `Slide` and `Explode` to achieve dramatically different effects. As we will see in the rest of the post, these two advantages will make it relatively easy to implement our own custom Activity Transitions, which we discuss in the next section.
 
 ### Introducing Activity Transitions
 
@@ -86,12 +87,12 @@ Window transitions should almost always extend [`Visibility`][Visibility]. To un
 
 1. `A`'s exit transition captures start values for the target views in `A`.
 2. The framework sets all target views in `A` to `INVISIBLE`.
-3. On the next display frame, `A`'s exit transition captures end values for the target views in `A`.
+3. On the next animation frame, `A`'s exit transition captures end values for the target views in `A`.
 4. `A`'s exit transition compares the start and end values of its target views and creates an `Animator` based on the differences.
 5. Activity `B` is started and all of its target views are made `INVISIBLE`.
 6. `B`'s enter transition captures start values for the target views in `B`.
 7. The framework sets all target views in `B` to `VISIBLE`.
-8. On the next display frame, `B`'s enter transition captures end values for the target views in `B`.
+8. On the next animation frame, `B`'s enter transition captures end values for the target views in `B`.
 9. `B`'s enter transition compares the start and end values of its target views and creates an `Animator` based on the differences.
 
 As we can see, window transitions are primarily governed by changes made to a view's visibility. Fortunately, capturing these values is exactly what the abstract `Visibility` class is designed to do! In many cases, using a `Fade`, `Slide`, `Explode`&mdash;all of which extend `Visibility`&mdash;as our window transitions will suffice. However, if you ever find yourself implementing a custom window transition, remember that extending `Visibility` will likely save you a lot of work!
@@ -104,12 +105,12 @@ When selecting a shared element transition to use, it is important that the tran
 
 1. `A`'s shared element exit transition captures start values for the shared elements in `A`.
 2. The shared elements in `A` are modified to match their final resting position in `A`.
-3. On the next display frame, `A`'s exit transition captures end values for all of the shared elements in `A`.
+3. On the next animation frame, `A`'s exit transition captures end values for all of the shared elements in `A`.
 4. `A`'s shared element exit transition compares the start and end values of its shared element views and creates an `Animator` based on the differences.
 5. The shared elements are positioned in `B` to match their end values in `A`.
 6. `B`'s shared element enter transition captures start values for all of the shared elements in `B`.
 7. All of the shared elements in `B` are repositioned to match their end values.
-8. On the next display frame, `B`'s shared element enter transition captures end values for all of the shared elements in `B`.
+8. On the next animation frame, `B`'s shared element enter transition captures end values for all of the shared elements in `B`.
 9. `B`'s shared element enter transition compares the start and end values of its shared element views and creates an `Animator` based on the differences.
 
 **TODO: explain why exit/reenter transitions are usually not necessary when animating shared elements.**
