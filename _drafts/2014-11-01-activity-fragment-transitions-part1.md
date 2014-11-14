@@ -128,6 +128,7 @@ In the next post, we will introduce the Activity & Fragment Transition API and w
 * **TODO: brief introduction to fragment transitions?**
 * **TODO: write footnote saying a similar under-the-hood process occurs in the opposite direction when `B` returns to `A`**
 * **TODO: explain why exit/reenter transitions are usually not necessary when animating shared elements.**
+* **TODO: mention default values of return/reenter transitions?**
 
   [setExitTransition]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
   [setEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)

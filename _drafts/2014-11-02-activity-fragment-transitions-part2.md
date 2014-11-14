@@ -12,7 +12,7 @@ Introduction paragraph.
 
 ### Getting Started with Activity Transitions
 
-**TODO: introduction to the API**
+**TODO: introduction to the API?**
 
 ### Key Concepts to Understand about Activity Transitions
 
