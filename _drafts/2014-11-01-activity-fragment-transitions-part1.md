@@ -118,6 +118,10 @@ When selecting a shared element transition to use, it is important that the tran
 
 Whereas window content transitions are governed by changes to view visibility, shared element transitions must listen for and react to a view's location and size. As a result, the `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, and `ChangeImageTransform` transitions are usually good options to use; in fact, you will probably find that sticking with the default [`@android:transition/move`][Move] transition will work fine in most cases.
 
+### Conclusion
+
+In the next post, we will introduce the Activity & Fragment Transition API and will also discuss a number of important concepts to understand while working with Activity & Fragment Transitions.
+
 ### TODO list:
 
 * **TODO: explain the concept of "target views" as well?**
