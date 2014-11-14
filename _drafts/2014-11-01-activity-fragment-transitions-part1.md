@@ -80,7 +80,7 @@ Lastly, the framework provides APIs for two types of Activity Transitions&mdash;
 
 #### Window Content Transitions
 
-Window content transitions determine how an activity's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the Activity scene. (**TODO: for example...**) Material-themed applications have their window content exit and enter transitions set to `null` and `Fade` respectively by default. If necessary, we can specify our own [exit][setExitTransition], [enter][setEnterTransition], [return][setReturnTransition], and [reenter][setReenterTransition] window content transitions as well, either programatically or in XML as part of the activity's theme.
+Window content transitions determine how an activity's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the Activity scene. (**TODO: for example...**) Material-themed applications have their window content exit and enter transitions set to `null` and `Fade` respectively by default. If necessary, you can specify our own [exit][setExitTransition], [enter][setEnterTransition], [return][setReturnTransition], and [reenter][setReenterTransition] window content transitions as well, either programatically or in XML as part of the activity's theme.
 
 Window content transitions are initiated by altering each view's visibility. To understand what this means, let's see what happens under-the-hood when activity `A` starts activity `B`:
 
@@ -95,34 +95,35 @@ Window content transitions are initiated by altering each view's visibility. To 
 9. On the next display frame, `B`'s enter transition captures end values for the transitioning views in `B`.
 10. `B`'s enter transition compares the start and end values of its target views and creates an `Animator` based on the differences. The `Animator` is run and the transitioning views enter the scene.
 
-Because entering and exiting is governed by toggling visibility between `INVISIBLE` and `VISIBLE`, most window content transitions will extend the abstract `Visibility` class, which is designed to react to such changes.
-
-As we can see, window transitions are primarily governed by changes made to a view's visibility. Fortunately, capturing these values is exactly what the abstract `Visibility` class is designed to do! In many cases, using a `Fade`, `Slide`, `Explode`&mdash;all of which extend `Visibility`&mdash;as our window transitions will suffice. However, if you ever find yourself implementing a custom window transition, remember that extending `Visibility` will likely save you a lot of work! (**TODO: write footnote saying a similar process occurs in the opposite direction when `B` returns to `A`?**)
+Since entering and exiting is governed by toggling the views' visibility between `INVISIBLE` and `VISIBLE`, most window content transitions will extend the abstract `Visibility` class, which captures the relevant view visibility properties for you and provides a convenient API for reacting to the changes.
 
 #### Shared Element Transitions
 
-Shared element transitions determine how an activity's _shared elements_ (or _hero views_) are animated from one activity to another when an Activity Transition occurs. The default value for a shared element exit and enter transitions is [`@android:transition/move`][Move]. However, the framework also allows us to set our own [exit][setSharedElementExitTransition], [enter][setSharedElementEnterTransition], [return][setSharedElementReturnTransition], and [reenter][setSharedElementReenterTransition] shared element transitions if necessary, either programatically or in XML as part of the activity's theme. **TODO: for example, in the example on the right the called activity is using a `ChangeBounds` enter transition, which causes the shared view to reposition itself within its new activity's layout.**
+On the other hand, shared element transitions determine how an activity's _shared elements_ (also called _hero views_) are animated from one activity to another when an Activity Transition occurs. (**TODO: for example...**) Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. If necessary, you can specify your own [exit][setSharedElementExitTransition], [enter][setSharedElementEnterTransition], [return][setSharedElementReturnTransition], and [reenter][setSharedElementReenterTransition] shared element transitions as well, either programatically or in XML as part of the activity's theme.
 
-When selecting a shared element transition to use, it is important that the transition is able to record start and end values such as size and location. To understand why, let's see what happens under-the-hood when activity `A` starts activity `B` (**TODO: write footnote saying a similar process occurs in the opposite direction when `B` returns to `A`**):
+Shared element transitions are initiated by altering each view's size and location on the screen. To understand what this means, let's see what happens under-the-hood when activity `A` starts activity `B`:
 
-1. `A`'s shared element exit transition captures start values for the shared elements in `A`.
-2. The shared elements in `A` are modified to match their final resting position in `A`.
-3. On the next display frame, `A`'s exit transition captures end values for all of the shared elements in `A`.
-4. `A`'s shared element exit transition compares the start and end values of its shared element views and creates an `Animator` based on the differences.
-5. The shared elements are positioned in `B` to match their end values in `A`.
-6. `B`'s shared element enter transition captures start values for all of the shared elements in `B`.
-7. All of the shared elements in `B` are repositioned to match their end values.
-8. On the next display frame, `B`'s shared element enter transition captures end values for all of the shared elements in `B`.
-9. `B`'s shared element enter transition compares the start and end values of its shared element views and creates an `Animator` based on the differences.
+When selecting a shared element transition to use, it is important that the transition is able to record start and end values such as size and location. To understand why, let's see what happens under-the-hood when activity `A` starts activity `B`:
 
-**TODO: explain why exit/reenter transitions are usually not necessary when animating shared elements.**
+1. `A` calls `startActivity()`.
+2. `A`'s shared element exit transition captures start values for the shared elements in `A`.
+3. The shared elements in `A` are modified to match their final resting position in `A`.
+4. On the next display frame, `A`'s exit transition captures end values for all of the shared elements in `A`.
+5. `A`'s shared element exit transition compares the start and end values of its shared element views and creates an `Animator` based on the differences. The `Animator` is run and the shared elements animate into place.
+6. The shared elements are positioned in `B` to match their end values in `A`.
+7. `B`'s shared element enter transition captures start values for all of the shared elements in `B`.
+8. All of the shared elements in `B` are repositioned to match their end values.
+9. On the next display frame, `B`'s shared element enter transition captures end values for all of the shared elements in `B`.
+10. `B`'s shared element enter transition compares the start and end values of its shared element views and creates an `Animator` based on the differences. The `Animator` is run and the shared elements animate into place.
 
-Whereas window content transitions are concerned with changes made to its transitioning views' visibility, shared element transitions must listen for changes made to its views' position and size on the screen. As a result, `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, `ChangeImageTransform`, or some combination of each are usually good candidates to use as shared element transitions.
+Whereas window content transitions are governed by changes to view visibility, shared element transitions must listen for and react to a view's location and size. As a result, the `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, and `ChangeImageTransform` transitions are usually good options to use; in fact, you will probably find that sticking with the default [`@android:transition/move`][Move] transition will work fine in most cases.
 
 ### TODO list:
 
 * **TODO: explain the concept of "target views" as well?**
 * **TODO: brief introduction to fragment transitions?**
+* **TODO: write footnote saying a similar under-the-hood process occurs in the opposite direction when `B` returns to `A`**
+* **TODO: explain why exit/reenter transitions are usually not necessary when animating shared elements.**
 
   [setExitTransition]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
   [setEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)
