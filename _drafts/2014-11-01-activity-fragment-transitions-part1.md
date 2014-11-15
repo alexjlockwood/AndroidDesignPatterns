@@ -61,13 +61,6 @@ Let's walk through the steps involved when the `Fade` transition is run for the 
     <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 1</strong> - Running the example transition above using a <code>Fade</code>, <code>Slide</code>, and <code>Explode</code>. Click to replay.</p>
   </div>
 </div>
-<script>
-var myVideo1 = document.getElementById("figure1");
-function playPause1() {
-    myVideo1.load();
-    myVideo1.play();
-}
-</script>
 
 1. The developer calls `beginDelayedTransition(ViewGroup, Transition)`, passing the scene root and a `Fade` transition as the arguments. The framework immediately calls the transition's `captureStartValues(TransitionValues)` method for each `view` in the scene and the transition records each `view`'s visibility in the `TransitionValues` argument.
 2. After `beginDelayedTransition()` returns, the developer sets each view in the scene from `VISIBLE` to `INVISIBLE`.
@@ -102,15 +95,7 @@ The Activity Transition APIs are built around the idea of _exit, enter, return, 
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
     <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 2</strong> - An example illustrating window content transitions and shared element transitions in action. Click to replay.</p>
   </div>
-  <div style="clear:both;"></div>
 </div>
-<script>
-var myVideo2 = document.getElementById("figure2");
-function playPause2() {
-    myVideo2.load();
-    myVideo2.play();
-}
-</script>
 
 Lastly, the framework provides APIs for two types of Activity Transitions&mdash;_window content transitions_ and _shared element transitions_&mdash;each of which allow us to customize the animations between activities in unique ways:
 

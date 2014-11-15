@@ -9,7 +9,7 @@ Introduction paragraph.
 
 <!--more-->
 
-#### Window Content Transitions
+### Window Content Transitions
 
 Window content transitions determine how an activity's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the Activity scene. (**TODO: for example...**) Material-themed applications have their window content exit and enter transitions set to `null` and `Fade` respectively by default. If necessary, you can specify our own [exit][setExitTransition], [enter][setEnterTransition], [return][setReturnTransition], and [reenter][setReenterTransition] window content transitions as well, either programatically or in XML as part of the activity's theme.
 
@@ -28,7 +28,7 @@ Window content transitions are initiated by altering each view's visibility. To 
 
 Since entering and exiting is governed by toggling the views' visibility between `INVISIBLE` and `VISIBLE`, most window content transitions will extend the abstract `Visibility` class, which captures the relevant view visibility properties for you and provides a convenient API for reacting to the changes.
 
-#### Shared Element Transitions
+### Shared Element Transitions
 
 On the other hand, shared element transitions determine how an activity's _shared elements_ (also called _hero views_) are animated from one activity to another when an Activity Transition occurs. (**TODO: for example...**) Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. If necessary, you can specify your own [exit][setSharedElementExitTransition], [enter][setSharedElementEnterTransition], [return][setSharedElementReturnTransition], and [reenter][setSharedElementReenterTransition] shared element transitions as well, either programatically or in XML as part of the activity's theme.
 
