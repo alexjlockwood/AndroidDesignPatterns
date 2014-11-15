@@ -59,6 +59,18 @@ Let's walk through the steps involved when the `Fade` transition is run for the 
 4. The framework calls the transition's `createAnimator(ViewGroup, TransitionValues, TransitionValues)` method. The transition analyzes the start and end values of each view and notices a difference: the views are `VISIBLE` in the start scene but `INVISIBLE` in the end scene. As a result, the `Fade` transition creates an `Animator` that will fade each view's `alpha` property to `0` and returns it back to the framework.
 5. The framework runs the `Animator` and all views gradually fade out of the screen.
 
+<div style="width:290px;margin-left:35px;float:right">
+  <div class="framed-nexus6-port">
+  <!-- TODO: play-on-hover doesn't work -->
+  <video class="play-on-hover" autoplay="">
+    <source src="/sample.mp4">
+  </video>
+  </div>
+  <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px"><strong>Figure 1</strong> - Click to replay the video.</p>
+  </div>
+</div>
+
 Overall, using `Transition`s to animate between different UI states in your application offers two main advantages. First, `Transition`s abstract the idea of `Animator`s from the developer. All the developer must do is ensure the start and end values for each view are properly set and the `Transition` will do the rest. Second, animations between scenes can be easily changed simply by using a different `Transition` object. For example, in the example above we could easily replace the `Fade` with a `Slide` and `Explode` to achieve dramatically different effects. As we will see in the rest of the post, these two advantages will make it relatively easy to implement our own custom Activity Transitions, which we discuss in the next section.
 
 ### Introducing Activity Transitions
