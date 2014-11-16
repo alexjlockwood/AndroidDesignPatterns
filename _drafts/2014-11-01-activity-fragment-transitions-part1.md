@@ -5,7 +5,9 @@ date: 2014-11-01
 permalink: /2014/11/activity-transitions-android-lollipop-part1.html
 ---
 
-(**TODO: write better intro... this is a multi-part blog post**) Before we dive into the new Activity Transition APIs, it helps to have a high-level understanding of the Transitions framework on which they depend.
+(**TODO: write intro... this is a multi-part blog post**)
+
+(**TODO: mention that this post will talk about activity transitions... but that most of this stuff also applies to fragments as well. fragment transitions will be summarized at the bottom of the post?**)
 
 <!--more-->
 
@@ -130,6 +132,10 @@ In this section, we'll summarize the simple steps required to enable Activity Tr
     ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
     ```
 where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities. Don't forget to give your shared elements unique transition names either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will likely break!
+
+### Getting Started with the Fragment Transitions API
+
+**TODO: Should we also have this section?**
 
 In the next post, we will explore Activity Transitions in depth and will discuss a number of important concepts to understand while working with Activity Transitions.
 

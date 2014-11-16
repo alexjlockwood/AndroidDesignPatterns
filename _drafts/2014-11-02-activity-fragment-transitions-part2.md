@@ -5,7 +5,7 @@ date: 2014-11-02
 permalink: /2014/11/activity-transitions-android-lollipop-part2.html
 ---
 
-Introduction paragraph.
+(**TODO: write intro... this is a multi-part blog post.**) The previous post only scratched the surface. In this blog post we will take an in-depth look at Activity Transitions under-the-hood.
 
 <!--more-->
 
@@ -90,4 +90,13 @@ In the next few blog posts, I will give detailed examples of how transitions sho
   [setSharedElementsUseOverlay]: https://developer.android.com/reference/android/view/Window.html#setSharedElementsUseOverlay(boolean)
   [SharedElementCallback]: https://developer.android.com/reference/android/app/SharedElementCallback.html
 
+  [setExitTransition]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
+  [setEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)
+  [setReturnTransition]: https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)
+  [setReenterTransition]: https://developer.android.com/reference/android/view/Window.html#setReenterTransition(android.transition.Transition)
+
+  [setSharedElementExitTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementExitTransition(android.transition.Transition)
+  [setSharedElementEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementEnterTransition(android.transition.Transition)
+  [setSharedElementReturnTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReturnTransition(android.transition.Transition)
+  [setSharedElementReenterTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)
 
