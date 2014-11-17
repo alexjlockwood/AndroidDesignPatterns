@@ -11,7 +11,9 @@ This post gives a brief overview of the new Activity Transition APIs added in An
 * **Part 2:** _Window Content Transitions In-Depth (coming soon!)_
 * **Part 3:** _Shared Element Transitions In-Depth (coming soon!)_
 
-Note that although Activity Transitions will be the primary focus of these posts, much of the information will also apply to the similar Fragment Transition APIs that were also added in Android 5.0 Lollipop. For those of you who are working with the Fragment Transition APIs, don't fret: any significant differences between the two APIs will be clarified!
+Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't fret: I'll point out the significant differences between the two as they are encountered in the post!
+
+**TODO: write sentence transitioning into next section...**
 
 ### The Transition Framework
 
@@ -21,7 +23,7 @@ Activity Transitions are built on top of a relatively new feature in Android cal
 
 <!--more-->
 
-Let's see how this works through a simple example. Consider an `Activity` that wants to fade in/out its views whenever the user taps the screen. We can achieve this effect with only a few lines using Android's transition framework:
+As we will soon see in the next couple of posts, understanding how the transitions framework works will give us a much greater understanding of how the Activity Transition APIs behave under-the-hood, so let's walk through a simple example. Consider an `Activity` that wants to fade its views either in or out whenever the user taps the screen. We can achieve this effect with only a few lines using Android's transition framework:
 
 ```java
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -57,7 +59,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 }
 ```
 
-Assume each view is initially `VISIBLE` on screen&mdash;that is, in the starting scene all of the views start out `VISIBLE` and in the ending scene all of the views end up `INVISIBLE`. Let's walk through the steps involved when the user taps the screen for the first time causing the `Fade` transition to be run:
+Let's walk through the steps involved when the user taps the screen for the first time. We will assume each view is initially `VISIBLE` on screen when the `Fade` transition is run&mdash;that is, in the starting scene all of the views start out `VISIBLE` and in the ending scene all of the views end up `INVISIBLE`:
 
 <div style="width:290px;margin-left:35px;float:right">
   <div class="framed-nexus6-port">
@@ -115,22 +117,22 @@ Lastly, the framework provides APIs for two types of Activity Transitions&mdash;
 
 The exit and reenter window content transitions for `A` are both `null`, meaning that no animation will take place on the views in `A` when the user exits or reenters the activity. The enter and return window content transitions for `B` on the other hand are a `TransitionSet` that plays two child transitions in parallel: a `Slide(Gravity.TOP)` transition targeting the top half of the activity and a `Slide(Gravity.BOTTOM)` transition targeting the bottom half of the activity. As for the shared element transitions, the enter and return transitions both use a simple `ChangeImageTransform`.
 
-Finally,  note that the alpha animation performed on the background image is not actually part of the enter window content transition. Instead, `B`'s enter window content transition is assigned a `TransitionListener` that will gradually fade-in the background image once the transition completes. We'll learn more about how to customize our transitions like this in a future post. For now, we'll keep things simple and first familiarize ourselves with the basic Activity Transitions API.
+Finally, note that the alpha animation performed on the background image is not actually part of the enter window content transition. Instead, `B`'s enter window content transition is assigned a `TransitionListener` that will gradually fade-in the background image once the transition completes. We'll learn more about how to customize our transitions like this in a future post. For now, let's keep things simple and first familiarize ourselves with the Activity Transitions API.
 
 ### Getting Started with the Activity Transitions API
 
 Summarized below are the simple steps required to use Activity Transitions in your application:
 
 * Enable window content transitions for both the calling and called activities by requesting the [`Window.FEATURE_CONTENT_TRANSITIONS`][FEATURE_CONTENT_TRANSITIONS] window feature, either programatically or in your theme's XML.
-* Specify [exit][setExitTransition] and [enter][setEnterTransition] window content transitions for your calling and called activities respectively. Material-themed applications have their window content exit and enter transitions set to `null` and [`Fade`][Fade] respectively by default. [Reenter][setReenterTransition] and [return][setReturnTransition] transitions default to the activity's exit and enter window content transitions respectively if not explicitly set.
-* Specify [exit][setSharedElementExitTransition] and [enter][setSharedElementEnterTransition] shared element transitions for your calling and called activities respectively. Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. [Reenter][setSharedElementReenterTransition] and [return][setSharedElementReturnTransition] transitions default to the activity's exit and enter shared element transitions respectively if not explicitly set.
-* To start an Activity Transition with no window content transitions and no shared elemens, call the `startActivity(Context, Bundle)` method, passing `null` as the second argument.
+* Specify [exit][setExitTransition] and [enter][setEnterTransition] window content transitions for your calling and called activities respectively. Material-themed applications have their window content exit and enter transitions set to `null` and [`Fade`][Fade] respectively by default. [Reenter][setReenterTransition] and [return][setReturnTransition] transitions default to the activity's exit and enter window content transitions respectively if they are not explicitly set.
+* Specify [exit][setSharedElementExitTransition] and [enter][setSharedElementEnterTransition] shared element transitions for your calling and called activities respectively. Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. [Reenter][setSharedElementReenterTransition] and [return][setSharedElementReturnTransition] transitions default to the activity's exit and enter shared element transitions respectively if they are not explicitly set.
+* To start an Activity Transition with no window content transitions and no shared elements, call the `startActivity(Context, Bundle)` method, passing `null` as the second argument.
 * To start an Activity Transition with window content transitions but no shared elements, call the `startActivity(Context, Bundle)` method, passing the following `Bundle` as the second argument:
 
     ```java
     ActivityOptions.makeSceneTransitionAnimation(activity).toBundle();
     ```
-* To start an Activity Transition with shared elements, call the `startActivity(Context, Bundle)` method, passing the following `Bundle` as the second argument:
+* To start an Activity Transition with window content transitions and shared elements, call the `startActivity(Context, Bundle)` method, passing the following `Bundle` as the second argument:
 
     ```java
     ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
@@ -139,7 +141,7 @@ where `pairs` is an array of `Pair<View, String>` objects listing the shared ele
 
 **TODO: discuss the Fragment Transition API briefly**
 
-In the next two posts, we will explore both window content transitions and shared element transitions in depth.
+(**TODO: better last sentence...**) In the next two posts, we will explore both window content transitions and shared element transitions in depth.
 
 <hr class="footnote-divider"/>
 
