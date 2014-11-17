@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 'Activity Transitions in Android Lollipop (part 2)'
+title: 'Activity Transitions In-Depth (part 2)'
 date: 2014-11-02
-permalink: /2014/11/activity-transitions-android-lollipop-part2.html
+permalink: /2014/11/activity-transitions-in-depth-part2.html
 ---
 
 (**TODO: write intro... this is a multi-part blog post.**) The previous post only scratched the surface. In this blog post we will take an in-depth look at Activity Transitions under-the-hood.
