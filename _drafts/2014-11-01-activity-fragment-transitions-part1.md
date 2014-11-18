@@ -8,8 +8,8 @@ permalink: /2014/11/activity-transitions-getting-started-part1.html
 This post gives a brief overview of the new Activity Transition APIs added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
 
 * **Part 1:** <a href="/2014/11/activity-transitions-getting-started-part1.html">Getting Started with Activity Transitions</a>
-* **Part 2:** _Window Content Transitions In-Depth (coming soon!)_
-* **Part 3:** _Shared Element Transitions In-Depth (coming soon!)_
+* **Part 2:** Window Content Transitions In-Depth (_coming soon!_)
+* **Part 3:** Shared Element Transitions In-Depth (_coming soon!_)
 
 Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't fret: I'll point out the significant differences between the two as they are encountered in the post!
 
