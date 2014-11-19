@@ -96,7 +96,7 @@ The Activity Transition APIs are built around the idea of _exit, enter, return, 
 >
 > Activity `A`'s _reenter transition_ determines how views in `A` are animated when `B` returns to `A`.
 
-<div style="width:290px;margin-right:35px;float:left">
+<div style="width:290px;margin-right:35px;float:right">
   <div class="framed-nexus6-port">
   <video id="figure2" onclick="playPause2()">
     <source src="/assets/videos/posts/2014/11/01/figure2-opt.mp4">
@@ -110,7 +110,7 @@ The Activity Transition APIs are built around the idea of _exit, enter, return, 
 Lastly, the framework provides APIs for two types of Activity Transitions&mdash;_window content transitions_ and _shared element transitions_&mdash;each of which allow us to customize the animations between activities in unique ways:
 
 > A _window content transition_ determines how an activity's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the activity scene.
->
+> 
 > A _shared element transition_ determines how an activity's _shared elements_ (also called _hero views_) are animated between two activities.
 
 **Figure 2** gives a nice illustration of window content transitions and shared element transitions in action. In the example, activity `A` displays a grid of Radiohead album covers and activity `B` displays a background image and some details about the selected album.
