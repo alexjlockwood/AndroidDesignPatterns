@@ -13,17 +13,17 @@ This post gives a brief overview of the new Activity Transition APIs added in An
 
 Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't fret: I'll point out the significant differences between the two as they are encountered in the post!
 
-**TODO: write sentence transitioning into next section...**
+Before we start discussing the new Activity Transition APIs, we should first talk about _transitions_. As we will see (especially in the next couple of posts), understanding how transitions behave under-the-hood will reduce the learning curve associated with creating natural and seamless Activity Transitions in Android Lollipop.
 
 ### The Transition Framework
 
 <!--morestart-->
 
-Activity Transitions are built on top of a relatively new feature in Android called _transitions_. Introduced in KitKat, the transition framework provides a convenient API for animating between different UI states in an application. The framework is built around two key concepts: _scenes_ and _transitions_. A scene defines a given state of an application's UI, whereas a transition defines the animated change between two scenes. When a scene change occurs, a transition has two main responsibilities: (1) capturing the start and end state of the views in each scene and (2) creating an `Animator` based on the differences that will animate the views from one scene to another.
+Activity Transitions are built on top of a relatively new feature in Android called transitions. Introduced in KitKat, the transition framework provides a convenient API for animating between different UI states in an application. The framework is built around two key concepts: _scenes_ and _transitions_. A scene defines a given state of an application's UI, whereas a transition defines the animated change between two scenes. When a scene change occurs, a transition has two main responsibilities: (1) capturing the start and end state of the views in each scene and (2) creating an `Animator` based on the differences that will animate the views from one scene to another.
 
 <!--more-->
 
-As we will soon see in the next couple of posts, understanding how the transitions framework works will give us a much greater understanding of how the Activity Transition APIs behave under-the-hood, so let's walk through a simple example. Consider an `Activity` that wants to fade its views either in or out whenever the user taps the screen. We can achieve this effect with only a few lines using Android's transition framework:
+Let's walk through a simple example. Consider an `Activity` that wants to fade its views either in or out whenever the user taps the screen. We can achieve this effect with only a few lines using Android's transition framework:
 
 ```java
 public class MainActivity extends Activity implements View.OnClickListener {
