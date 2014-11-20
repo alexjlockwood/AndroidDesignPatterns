@@ -1,3 +1,7 @@
+---
+published: false
+---
+
 This post focuses on window content transitions. This is the second of a series of posts I will be writing about Activity Transitions:
 
 * **Part 1:** <a href="/2014/11/activity-transitions-getting-started-part1.html">Getting Started with Activity Transitions</a>
@@ -41,6 +45,65 @@ In the next few blog posts, I will give detailed examples of how transitions sho
 
 * **TODO: write footnote saying a similar under-the-hood process occurs in the opposite direction when `B` returns to `A`**
 * **TODO: explain why exit/reenter transitions are usually not necessary when animating shared elements.**
+
+
+
+
+
+
+
+As defined above, window content transitions operate on a set of views called _transitioning views_. Up until now we have stated that the transitioning views are the set of _non-shared_ views that enter or exit the activity scene. How though does the framework determine this set of views that should be transitioned? For example, what if you only wanted to transition a fraction of the views on screen? Or what if you wanted to animate an entire `ViewGroup` as a group instead of animating each individual child view?
+
+In order to determine the set of views that will be transitioned during an Activity Transition, the framework performs a recursive search on the entire activity's view hierarchy, beginning with the window's root decor view.
+
+The recursive case of the search is defined in the [`ViewGroup#captureTransitioningViews()`][ViewGroup#captureTransitioningViews] method:
+
+The base cases are are defined in the [`View#isTransitionGroup()`][View#isTransitionGroup] and [`View#captureTransitioningViews`][View#captureTransitioningViews]
+
+```java
+/**
+ * Returns true if this ViewGroup should be considered as a single entity for removal
+ * when executing an Activity transition. If this is false, child elements will move
+ * individually during the transition.
+ * @return True if the ViewGroup should be acted on together during an Activity transition.
+ * The default value is false when the background is null and true when the background
+ * is not null or if {@link #getTransitionName()} is not null.
+ */
+public boolean isTransitionGroup() {
+    if ((mGroupFlags & FLAG_IS_TRANSITION_GROUP_SET) != 0) {
+        return ((mGroupFlags & FLAG_IS_TRANSITION_GROUP) != 0);
+    } else {
+        return getBackground() != null || getTransitionName() != null;
+    }
+}
+
+/**
+ * Gets the Views in the hierarchy affected by entering and exiting Activity Scene transitions.
+ * @param transitioningViews This View will be added to transitioningViews if it is VISIBLE and
+ *                           a normal View or a ViewGroup with ViewGroup#isTransitionGroup() true.
+ * @hide
+ */
+public void captureTransitioningViews(List<View> transitioningViews) {
+    if (getVisibility() == View.VISIBLE) {
+        transitioningViews.add(this);
+    }
+}
+```
+
+In other words, we must remember to call `setTransitionGroup(true)` on any view groups we want to animate as a whole during a transition (unless they have non-null transition names or background drawables).
+
+### How do window content transitions overlap?
+
+By default window content enter and exit transitions overlap. We can disable this if we want though using the API.
+
+You can also set the amount of time it takes for the window's background to fade in/out.
+
+
+
+
+
+
+
 
   [setSharedElementsUseOverlay]: https://developer.android.com/reference/android/view/Window.html#setSharedElementsUseOverlay(boolean)
   [SharedElementCallback]: https://developer.android.com/reference/android/app/SharedElementCallback.html

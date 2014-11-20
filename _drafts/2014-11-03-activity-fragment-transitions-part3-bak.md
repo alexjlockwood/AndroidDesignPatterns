@@ -1,3 +1,7 @@
+---
+published: false
+---
+
 This post focuses on shared element transitions. This is the second of a series of posts I will be writing about Activity Transitions:
 
 * **Part 1:** <a href="/2014/11/activity-transitions-getting-started-part1.html">Getting Started with Activity Transitions</a>

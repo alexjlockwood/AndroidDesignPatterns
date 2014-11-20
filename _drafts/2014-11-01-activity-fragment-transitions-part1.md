@@ -8,8 +8,12 @@ permalink: /2014/11/activity-transitions-getting-started-part1.html
 This post gives a brief overview of the new Activity Transition APIs added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
 
 * **Part 1:** <a href="/2014/11/activity-transitions-getting-started-part1.html">Getting Started with Activity Transitions</a>
-* **Part 2:** Window Content Transitions In-Depth (_coming soon!_)
-* **Part 3:** Shared Element Transitions In-Depth (_coming soon!_)
+* **Part 2:** {% comment %}<a href="/2014/11/window-content-transitions-in-depth-part2.html">{% endcomment %}
+              Window Content Transitions In-Depth (_coming soon!_)
+              {% comment %}</a>{% endcomment %}
+* **Part 3:** {% comment %}<a href="/2014/11/shared-element-transitions-in-depth-part3.html">{% endcomment %}
+              Shared Element Transitions In-Depth (_coming soon!_)
+              {% comment %}</a>{% endcomment %}
 
 Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't fret: I'll point out the significant differences between the two as they are encountered in the post!
 
@@ -61,7 +65,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 Let's walk through the steps involved when the user taps the screen for the first time. We will assume each view is initially `VISIBLE` on screen when the `Fade` transition is run&mdash;that is, in the starting scene all of the views start out `VISIBLE` and in the ending scene all of the views end up `INVISIBLE`:
 
-<div style="width:290px;margin-left:35px;float:right">
+<div id="anchorfigure1" style="width:290px;margin-left:35px;float:right">
   <div class="framed-nexus6-port">
   <video id="figure1" onclick="playPause1()">
     <source src="/assets/videos/posts/2014/11/01/figure1-opt.mp4">
@@ -138,25 +142,41 @@ Summarized below are the simple steps required to use Activity Transitions in yo
     ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
     ```
 where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities. Don't forget to give your shared elements unique transition names either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will likely break!
+* **TODO: briefly talk about enter/exit transition overlap and the default values**
 
-**TODO: discuss the Fragment Transition API briefly**
+### Getting Started with the Fragment Transitions API
 
-(**TODO: better last sentence...**) In the next two posts, we will explore both window content transitions and shared element transitions in depth.
+If you are working with Fragment Transitions instead, the API is similar with a couple of differences:
 
+* Window content [exit][Fragment#setExitTransition], [enter][Fragment#setEnterTransition], [reenter][Fragment#setReenterTransition], and [return][Fragment#setReturnTransition] transitions should be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
+* Shared element [exit][Fragment#setSharedElementExitTransition], [enter][Fragment#setSharedElementEnterTransition], [reenter][Fragment#setSharedElementReenterTransition], and [return][Fragment#setSharedElementReturnTransition] transitions should also be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
+* Whereas Activity Transitions are triggered by a call to `startActivity()`, Fragment Transitions are run automatically when a fragment is added, removed, attached, detached, shown, or hidden with similar effect.
+* Shared elements should be specified as part of the `FragmentTransaction` by calling the [`addSharedElement(View, String)`][addSharedElement] method.
+
+In the next two posts, we will take a look at window content transitions and shared element transitions in-depth.
+
+<!--
 <hr class="footnote-divider"/>
-
 <sup id="footnote1">1</sup> Foot note #1. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
+-->
 
   [setExitTransition]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
   [setEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)
   [setReturnTransition]: https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)
   [setReenterTransition]: https://developer.android.com/reference/android/view/Window.html#setReenterTransition(android.transition.Transition)
-
   [setSharedElementExitTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementExitTransition(android.transition.Transition)
   [setSharedElementEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementEnterTransition(android.transition.Transition)
   [setSharedElementReturnTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReturnTransition(android.transition.Transition)
   [setSharedElementReenterTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)
-
+  [Fragment#setExitTransition]: https://developer.android.com/reference/android/app/Fragment.html#setExitTransition(android.transition.Transition)
+  [Fragment#setEnterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setEnterTransition(android.transition.Transition)
+  [Fragment#setReturnTransition]: https://developer.android.com/reference/android/app/Fragment.html#setReturnTransition(android.transition.Transition)
+  [Fragment#setReenterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setReenterTransition(android.transition.Transition)
+  [Fragment#setSharedElementExitTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementExitTransition(android.transition.Transition)
+  [Fragment#setSharedElementEnterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementEnterTransition(android.transition.Transition)
+  [Fragment#setSharedElementReturnTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementReturnTransition(android.transition.Transition)
+  [Fragment#setSharedElementReenterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementReenterTransition(android.transition.Transition)
+  [addSharedElement]: https://developer.android.com/reference/android/app/FragmentTransaction.html#addSharedElement(android.view.View,%20java.lang.String)
   [Fade]: https://developer.android.com/reference/android/transition/Fade.html
   [Move]: https://android.googlesource.com/platform/frameworks/base/+/lollipop-release/core/res/res/transition/move.xml
   [FEATURE_CONTENT_TRANSITIONS]: http://developer.android.com/reference/android/view/Window.html#FEATURE_CONTENT_TRANSITIONS
