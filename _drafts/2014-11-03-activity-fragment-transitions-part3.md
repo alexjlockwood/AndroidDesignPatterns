@@ -85,7 +85,7 @@ You can further customize your shared element transitions by setting a [`SharedE
 **TODO: recap**
 
 <hr class="footnote-divider"/>
-<sup id="footnote1">1</sup> For Fragment Transitions, window content [exit][Fragment#setSharedElementExitTransition], [enter][Fragment#setSharedElementEnterTransition], [reenter][Fragment#setSharedElementReenterTransition], and [return][Fragment#setSharedElementReturnTransition] transitions may also be set either programatically or as attributes in your `Fragment`' XML. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
+<sup id="footnote1">1</sup> For Fragment Transitions, shared element [exit][Fragment#setSharedElementExitTransition], [enter][Fragment#setSharedElementEnterTransition], [reenter][Fragment#setSharedElementReenterTransition], and [return][Fragment#setSharedElementReturnTransition] transitions may also be set either programatically or as attributes in your `Fragment`' XML. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
   [setSharedElementExitTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementExitTransition(android.transition.Transition)
   [setSharedElementEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementEnterTransition(android.transition.Transition)
