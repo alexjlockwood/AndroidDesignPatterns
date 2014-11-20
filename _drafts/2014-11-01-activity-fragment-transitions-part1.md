@@ -27,7 +27,7 @@ Activity Transitions are built on top of a relatively new feature in Android cal
 
 <!--more-->
 
-Let's walk through a simple example. Consider an `Activity` that wants to fade its views either in or out whenever the user taps the screen. We can achieve this effect with only a few lines using Android's transition framework:
+Let's walk through a simple example. Consider an `Activity` that wants to fade its views either in or out whenever the user taps the screen. We can achieve this effect with only a few lines using Android's transition framework (**TODO: link to XML layout gist?**):
 
 ```java
 public class MainActivity extends Activity implements View.OnClickListener {

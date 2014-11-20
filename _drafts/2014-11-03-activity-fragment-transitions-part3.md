@@ -23,9 +23,9 @@ Note that although Activity Transitions will be the primary focus of these posts
 
 Shared element transitions allow us to perform animations on "shared elements" that two activities have in common during an Activity Transition, giving the user the illusion that the shared element is being animated across activity boundaries. For example, if two activities have the same image in different positions and sizes, the `changeImageTransform` shared element transition can translate and scale the image smoothly between these activities, as illustrated in [Figure 1.1][Figure1.1]. Shared element transitions give us the opportunity to create visual connections between transition states through persisting elements. (**TODO: video example?**)
 
-In the previous post, we briefly mentioned that shared element [exit][setSharedElementExitTransition], [enter][setSharedElementEnterTransition], [reenter][setSharedElementReenterTransition], and [return][setSharedElementReturnTransition] transitions may be specified either programatically or in XML as part of the activity's theme.<sup><a href="#footnote1" id="ref1">1</a></sup> However, a few questions still remain. Which types of `Transition`s can be used? (**TODO: more questions**) In the next couple of sections, we'll begin tackling these questions one-by-one, and in doing so we'll obtain a much deeper understanding of the inner-workings of the Activity Transitions framework.
-
 <!--more-->
+
+In the previous post, we briefly mentioned that shared element [exit][setSharedElementExitTransition], [enter][setSharedElementEnterTransition], [reenter][setSharedElementReenterTransition], and [return][setSharedElementReturnTransition] transitions may be specified either programatically or in XML as part of the activity's theme.<sup><a href="#footnote1" id="ref1">1</a></sup> However, a few questions still remain. Which types of `Transition`s can be used? (**TODO: more questions**) In the next couple of sections, we'll begin tackling these questions one-by-one, and in doing so we'll obtain a much deeper understanding of the inner-workings of the Activity Transitions framework.
 
 ### Which types of `Transition`s can be used?
 
@@ -33,15 +33,15 @@ There is no definitive rule about which `Transition` types can be used, as long 
 As we did with window content transitions, let's investigate what happens under-the-hood when an Activity Transition is occurs and a shared element transition is about to be run:
 
 1. `A` calls `startActivity()`.
-2. `A`'s shared element exit transition captures start values for the shared elements in `A`.
-3. The shared elements in `A` are modified to match their final resting position in `A`.
-4. On the next animation frame, `A`'s exit transition captures end values for all of the shared elements in `A`.
-5. `A`'s shared element exit transition compares the start and end values of its shared element views and creates an `Animator` based on the differences. The `Animator` is run and the shared elements animate into place.
-6. Activity `B` is started and the shared elements are positioned in `B` to match their end values in `A`.
-7. `B`'s shared element enter transition captures start values for all of the shared elements in `B`.
-8. All of the shared elements in `B` are repositioned to match their end values.
-9. On the next animation frame, `B`'s shared element enter transition captures end values for all of the shared elements in `B`.
-10. `B`'s shared element enter transition compares the start and end values of its shared element views and creates an `Animator` based on the differences. The `Animator` is run and the shared elements animate into place.
+    * `A`'s shared element exit transition captures start values for the shared elements in `A`.
+    * The shared elements in `A` are modified to match their final resting position in `A`.
+    * On the next animation frame, `A`'s exit transition captures end values for all of the shared elements in `A`.
+    * `A`'s shared element exit transition compares the start and end values of its shared element views and creates an `Animator` based on the differences. The `Animator` is run and the shared elements animate into place.
+2. Activity `B` is started and the shared elements are positioned in `B` to match their end values in `A`.
+    * `B`'s shared element enter transition captures start values for all of the shared elements in `B`.
+    * All of the shared elements in `B` are repositioned to match their end values.
+    * On the next animation frame, `B`'s shared element enter transition captures end values for all of the shared elements in `B`.
+    * `B`'s shared element enter transition compares the start and end values of its shared element views and creates an `Animator` based on the differences. The `Animator` is run and the shared elements animate into place.
 
 As we can see, whereas window content transitions are governed by changes to view visibility, shared element transitions reacts to changes made to a view's location and size. As a result, the `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, and `ChangeImageTransform` transitions are usually good options to use; in fact, you will probably find that sticking with the default [`@android:transition/move`][Move] transition will work fine in most cases.
 

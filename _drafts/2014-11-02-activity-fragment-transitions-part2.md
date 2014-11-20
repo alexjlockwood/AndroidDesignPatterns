@@ -23,26 +23,26 @@ Note that although Activity Transitions will be the primary focus of these posts
 
 Put simply, window content transitions allow us to perform custom animations on the entering or exiting views during an Activity transition. They are often used in conjunction with shared element transitions to provide a smooth, effortless background effect. For example, as a shared element is transitioned from activity `A` to activity `B`, we could use a window content enter transition to slide activity `B`'s non-shared views into the scene, as illustrated in [Figure 1.1][Figure1.1]. Coordinating the entrance and exit of the activity's transitioning views can have a powerful effect on the user, as they create visual connections between the different UI states of your application, while not taking the focus away from the shared element as it transitions into place. (**TODO: video example?**)
 
-In the previous post, we briefly mentioned that window content [exit][setExitTransition], [enter][setEnterTransition], [reenter][setReenterTransition], and [return][setReturnTransition] transitions may be specified either programatically or in XML as part of the activity's theme.<sup><a href="#footnote1" id="ref1">1</a></sup> However, a few questions still remain. Which types of `Transition`s can be used? How does the framework determine which views will be animated during the transition? Is there a way to override the default behavior and, for example, animate a `ViewGroup` and all of its children together as a single element? In the next couple of sections, we'll begin tackling these questions one-by-one, and in doing so we'll obtain a much deeper understanding of the inner-workings of the Activity Transitions framework.
-
 <!--more-->
+
+In the previous post, we briefly mentioned that window content [exit][setExitTransition], [enter][setEnterTransition], [reenter][setReenterTransition], and [return][setReturnTransition] transitions may be specified either programatically or in XML as part of the activity's theme.<sup><a href="#footnote1" id="ref1">1</a></sup> However, a few questions still remain. Which types of `Transition`s can be used? How does the framework determine which views will be animated during the transition? Is there a way to override the default behavior and, for example, animate a `ViewGroup` and all of its children together as a single element? In the next couple of sections, we'll begin tackling these questions one-by-one, and in doing so we'll obtain a much deeper understanding of the inner-workings of the Activity Transitions framework.
 
 ### Which types of `Transition`s can be used?
 
 Window content transitions should almost always extend the abstract [`Visibility`][Visibility] class. To understand why, let's investigate what happens under-the-hood when an Activity Transition is occurs and a window content transition is about to be run:
 
 1. `A` calls `startActivity()`.
-2. `A`'s exit transition captures start values for the transitioning views in `A`.
-3. The framework sets all transitioning views in `A` to `INVISIBLE`.
-4. On the next animation frame, `A`'s exit transition captures end values for the transitioning views in `A`.
-5. `A`'s exit transition compares the start and end values of its transitioning views and creates an `Animator` based on the differences. The `Animator` is run and the transitioning views exit the scene.
-6. Activity `B` is started with all of its transitioning views initially set as `INVISIBLE`.
-7. `B`'s enter transition captures start values for the transitioning views in `B`.
-8. The framework sets all transitioning views in `B` to `VISIBLE`.
-9. On the next animation frame, `B`'s enter transition captures end values for the transitioning views in `B`.
-10. `B`'s enter transition compares the start and end values of its target views and creates an `Animator` based on the differences. The `Animator` is run and the transitioning views enter the scene.
+    * `A`'s exit transition captures start values for the transitioning views in `A`.
+    * The framework sets all transitioning views in `A` to `INVISIBLE`.
+    * On the next animation frame, `A`'s exit transition captures end values for the transitioning views in `A`.
+    * `A`'s exit transition compares the start and end values of its transitioning views and creates an `Animator` based on the differences. The `Animator` is run and the transitioning views exit the scene.
+2. Activity `B` is started with all of its transitioning views initially set as `INVISIBLE`.
+    * `B`'s enter transition captures start values for the transitioning views in `B`.
+    * The framework sets all transitioning views in `B` to `VISIBLE`.
+    * On the next animation frame, `B`'s enter transition captures end values for the transitioning views in `B`.
+    * `B`'s enter transition compares the start and end values of its target views and creates an `Animator` based on the differences. The `Animator` is run and the transitioning views enter the scene.
 
-Because window content transitions are triggered by view visibility changes made by the framework, the `Transition` must at the very least be able to record each view's visibility in its start and end states and create an `Animator` that will animate the views as they enter or exit the scene. Fortunately, the abstract [`Visibility`][Visibility] class already does the first half of this work for you: subclasses of `Visibility` must only implement the [`onAppear()`][] and [`onDisappear()`][] factory methods, in which they must create and return an `Animator` that will either animate the views into or out of the scene. 
+Because window content transitions are triggered by view visibility changes made by the framework, the `Transition` must at the very least be able to record each view's visibility in its start and end states and create an `Animator` that will animate the views as they enter or exit the scene. Fortunately, the abstract [`Visibility`][Visibility] class already does the first half of this work for you: subclasses of `Visibility` must only implement the [`onAppear()`][onAppear] and [`onDisappear()`][onDisappear] factory methods, in which they must create and return an `Animator` that will either animate the views into or out of the scene. 
 
 As of API 21, only three concrete `Visibility` implementations exist: `Fade`, `Slide`, and `Explode`. However, custom `Visibility` transitions can always be implemented as well. We will see an example of how this can be done in a future blog post.
 
