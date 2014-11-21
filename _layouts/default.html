@@ -68,16 +68,10 @@
     </style>
 
     <script>
-    function playPause1() {
-        var myVideo1 = document.getElementById("figure1");
-        myVideo1.load();
-        myVideo1.play();
-    }
-
-    function playPause2() {
-        var myVideo2 = document.getElementById("figure2");
-        myVideo2.load();
-        myVideo2.play();
+    function playPause(figureName) {
+        var myVideo = document.getElementById(figureName);
+        myVideo.load();
+        myVideo.play();
     }
     </script>
   </head>

@@ -21,15 +21,26 @@ Note that although Activity Transitions will be the primary focus of these posts
 
 <!--morestart-->
 
-Shared element transitions allow us to perform animations on "shared elements" that two activities have in common during an Activity Transition, giving the user the illusion that the shared element is being animated across activity boundaries. For example, if two activities have the same image in different positions and sizes, the `changeImageTransform` shared element transition can translate and scale the image smoothly between these activities, as illustrated in [Figure 1.1][Figure1.1]. Shared element transitions give us the opportunity to create visual connections between transition states through persisting elements. (**TODO: video example?**)
+Shared element transitions allow us to perform animations on "shared elements" that two activities have in common during an Activity Transition, giving the user the illusion that the shared element is being animated across activity boundaries. For example, if two activities have the same image in different positions and sizes, the `changeImageTransform` shared element transition can translate and scale the image smoothly between these activities. Shared element transitions give us the opportunity to create visual connections between transition states through persisting elements, as illustrated in [Figure 3][Figure3].
 
 <!--more-->
+
+<div id="anchorfigure1" style="width:290px;margin-left:35px;float:right">
+  <div class="framed-nexus6-port">
+  <video id="figure3" onclick="playPause('figure3')">
+    <source src="/assets/videos/posts/2014/11/03/figure3-opt.mp4">
+  </video>
+  </div>
+  <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 3</strong> - An activity transition with two shared elements: an <code>ImageView</code> and its parent's white background. Click to replay.</p>
+  </div>
+</div>
 
 In the previous post, we briefly mentioned that shared element [exit][setSharedElementExitTransition], [enter][setSharedElementEnterTransition], [reenter][setSharedElementReenterTransition], and [return][setSharedElementReturnTransition] transitions may be specified either programatically or in XML as part of the activity's theme.<sup><a href="#footnote1" id="ref1">1</a></sup> However, a few questions still remain. Which types of `Transition`s can be used? (**TODO: more questions**) In the next couple of sections, we'll begin tackling these questions one-by-one, and in doing so we'll obtain a much deeper understanding of the inner-workings of the Activity Transitions framework.
 
 ### Which types of `Transition`s can be used?
 
-There is no definitive rule about which `Transition` types can be used, as long as they are able to properly capture and animate the values that will be changed during the course of the transition. For example, if the shared element has a different size or position in either activity, then a `ChangeBounds` transition could be used. If that view is also an `ImageView`, then a `ChangeImageTransform` transition should be used. If both (or more) of these apply, a `TransitionSet` running all of the chosen transitions in parallel could be used to ensure that all of the properties are animated as the shared element moves into place. 
+There is no definitive rule about which `Transition` types can be used, as long as they are able to properly capture and animate the values that will be changed during the course of the transition. For example, if the shared element has a different size or position in either activity, then a `ChangeBounds` transition could be used. If that view is also an `ImageView`, then a `ChangeImageTransform` transition should be used. If both (or more) of these apply, a `TransitionSet` running all of the chosen transitions in parallel could be used to ensure that all of the properties are animated as the shared element moves into place.
 As we did with window content transitions, let's investigate what happens under-the-hood when an Activity Transition is occurs and a shared element transition is about to be run:
 
 1. `A` calls `startActivity()`.
@@ -95,7 +106,7 @@ You can further customize your shared element transitions by setting a [`SharedE
   [Fragment#setSharedElementEnterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementEnterTransition(android.transition.Transition)
   [Fragment#setSharedElementReturnTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementReturnTransition(android.transition.Transition)
   [Fragment#setSharedElementReenterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementReenterTransition(android.transition.Transition)
-  [Figure1.1]: /2014/11/activity-transitions-getting-started-part1.html#anchorfigure1
+  [Figure3]: /2014/11/shared-element-transitions-in-depth-part3.html#anchorfigure3
   [Move]: https://android.googlesource.com/platform/frameworks/base/+/lollipop-release/core/res/res/transition/move.xml
   [postponeEnterTransition]: https://developer.android.com/reference/android/app/Activity.html#postponeEnterTransition()
   [startPostponedEnterTransition]: https://developer.android.com/reference/android/app/Activity.html#startPostponedEnterTransition()
