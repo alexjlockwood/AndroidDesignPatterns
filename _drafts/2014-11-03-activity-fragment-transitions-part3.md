@@ -15,7 +15,7 @@ This post focuses on shared element transitions. This is the second of a series 
               Shared Element Transitions In-Depth (_coming soon!_)
               {% comment %}</a>{% endcomment %}
 
-Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't fret: I'll point out the significant differences between the two as they are encountered in the post!
+Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't fret: I'll point out the significant differences between the two as they are encountered in the posts!
 
 ### What are Shared Element Transitions?
 
@@ -32,7 +32,7 @@ Shared element transitions allow us to perform animations on "shared elements" t
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
-    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 3</strong> - An activity transition with two shared elements: an <code>ImageView</code> and its parent's white background. Click to replay.</p>
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 3</strong> - An activity transition with two shared elements: an <code>ImageView</code> and the card's white background. Click to replay.</p>
   </div>
 </div>
 
