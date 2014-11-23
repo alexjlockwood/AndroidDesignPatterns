@@ -112,7 +112,7 @@ The Activity Transition APIs are built around the idea of _exit, enter, return, 
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
-    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 1.2</strong> - An example illustrating window content transitions and shared element transitions in action. Click to replay.</p>
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 1.2</strong> - Window content transitions and shared element transitions in action in the Google Play Newsstand app (v3.3). Click to replay.</p>
   </div>
 </div>
 
@@ -158,11 +158,9 @@ If you are working with Fragment Transitions instead, the API is similar with a 
 * Whereas Activity Transitions are triggered by a call to `startActivity()`, Fragment Transitions are run automatically when a fragment is added, removed, attached, detached, shown, or hidden with similar effect.
 * Shared elements should be specified as part of the `FragmentTransaction` by calling the [`addSharedElement(View, String)`][addSharedElement] method.
 
-### Recap
+### Conclusion
 
-**TODO: recap**
-
-In the next two posts, we will take a look at window content transitions and shared element transitions in-depth.
+**TODO: recap** In the next two posts, we will take a look at window content transitions and shared element transitions in-depth. Don't forget to +1 this post blah blah blah.
 
 <hr class="footnote-divider"/>
 <sup id="footnote1">1</sup> The layout XML code that was used for this example can be found [here][exampleXmlLayoutGist]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>

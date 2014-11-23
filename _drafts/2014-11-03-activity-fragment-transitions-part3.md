@@ -34,7 +34,7 @@ Shared element transitions allow us to perform animations on "shared elements" t
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
-    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 3.1</strong> - An activity transition with two shared elements: an <code>ImageView</code> and the card's white background. Click to replay.</p>
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 3.1</strong> - Shared element transitions in action in the Google Play Music app (v5.6). Click to replay.</p>
   </div>
 </div>
 
