@@ -21,7 +21,18 @@ Note that although Activity Transitions will be the primary focus of these posts
 
 <!--morestart-->
 
-Put simply, window content transitions allow us to perform custom animations on the entering or exiting views during an Activity transition. They are often used in conjunction with shared element transitions to provide a smooth, effortless background effect. For example, as a shared element is transitioned from activity `A` to activity `B`, we could use a window content enter transition to slide activity `B`'s non-shared views into the scene, as illustrated in [Figure 1.1][Figure1.1]. Coordinating the entrance and exit of the activity's transitioning views can have a powerful effect on the user, as they create visual connections between the different UI states of your application, while not taking the focus away from the shared element as it transitions into place. (**TODO: video example?**)
+Put simply, window content transitions allow us to perform custom animations on the entering or exiting views during an Activity transition. They are often used in conjunction with shared element transitions to provide a smooth, effortless background effect. For example, as a shared element is transitioned from activity `A` to activity `B`, we could use a window content enter transition to slide activity `B`'s non-shared views into the scene, as illustrated in [Figure 2.1][Figure2.1] (**TODO: remove this example**). Coordinating the entrance and exit of the activity's transitioning views can have a powerful effect on the user, as they create visual connections between the different UI states of your application, while not taking the focus away from the shared element as it transitions into place. (**TODO: video example?**)
+
+<div style="width:290px;margin-right:35px;float:right">
+  <div class="framed-nexus6-port">
+  <video id="figure21" onclick="playPause('figure21')">
+    <source src="/assets/videos/posts/2014/11/02/games-opt.mp4">
+  </video>
+  </div>
+  <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 2.1</strong> - An example illustrating window content transitions in action. Click to replay.</p>
+  </div>
+</div>
 
 <!--more-->
 

@@ -17,9 +17,9 @@ This post gives a brief overview of the new Activity Transition APIs added in An
 
 Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't fret: I'll point out the significant differences between the two as they are encountered in the posts!
 
-(**TODO: Transitioning sentence into next section...**)
+Before we get ahead of ourselves, let's start out by answering the following basic question: what is a `Transition`?
 
-### Android's `Transition` Framework
+### What is a `Transition`?
 
 <!--morestart-->
 
@@ -70,10 +70,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 Let's walk through the steps involved when the user taps the screen for the first time. We will assume each view is initially `VISIBLE` on screen when the `Fade` transition is run&mdash;that is, in the starting scene all of the views start out `VISIBLE` and in the ending scene all of the views end up `INVISIBLE`:
 
-<div id="anchorfigure1" style="width:290px;margin-left:35px;float:right">
+<div style="width:290px;margin-left:35px;float:right">
   <div class="framed-nexus6-port">
-  <video id="figure1" onclick="playPause('figure1')">
-    <source src="/assets/videos/posts/2014/11/01/figure1-opt.mp4">
+  <video id="figure11" onclick="playPause('figure11')">
+    <source src="/assets/videos/posts/2014/11/01/trivial-opt.mp4">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -107,8 +107,8 @@ The Activity Transition APIs are built around the idea of _exit, enter, return, 
 
 <div style="width:290px;margin-right:35px;float:right">
   <div class="framed-nexus6-port">
-  <video id="figure2" onclick="playPause('figure2')">
-    <source src="/assets/videos/posts/2014/11/01/figure2-opt.mp4">
+  <video id="figure12" onclick="playPause('figure12')">
+    <source src="/assets/videos/posts/2014/11/01/news-opt.mp4">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -122,7 +122,7 @@ Lastly, the framework provides APIs for two types of Activity Transitions&mdash;
 >
 > A _shared element transition_ determines how an activity's _shared elements_ (also called _hero views_) are animated between two activities.
 
-**Figure 2** gives a nice illustration of window content transitions and shared element transitions in action. In the example, activity `A` displays a grid of Radiohead album covers and activity `B` displays a background image and some details about the selected album.
+**Figure 1.2** gives a nice illustration of window content transitions and shared element transitions in action. In the example, activity `A` displays a grid of Radiohead album covers and activity `B` displays a background image and some details about the selected album.
 
 The exit and reenter window content transitions for `A` are both `null`, meaning that no animation will take place on the views in `A` when the user exits or reenters the activity. The enter and return window content transitions for `B` on the other hand are a `TransitionSet` that plays two child transitions in parallel: a `Slide(Gravity.TOP)` transition targeting the top half of the activity and a `Slide(Gravity.BOTTOM)` transition targeting the bottom half of the activity. As for the shared element transitions, the enter and return transitions both use a simple `ChangeImageTransform`.
 
