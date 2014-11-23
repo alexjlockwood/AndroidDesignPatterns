@@ -15,7 +15,9 @@ This post focuses on shared element transitions. This is the second of a series 
               Shared Element Transitions In-Depth (_coming soon!_)
               {% comment %}</a>{% endcomment %}
 
-Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't fret: I'll point out the significant differences between the two as they are encountered in the posts!
+Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't worry: I'll point out the significant differences between the two as they are encountered in the posts!
+
+Let's begin by defining the term through an example.
 
 ### What are Shared Element Transitions?
 

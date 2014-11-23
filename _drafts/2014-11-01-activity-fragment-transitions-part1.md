@@ -15,7 +15,7 @@ This post gives a brief overview of the new Activity Transition APIs added in An
               Shared Element Transitions In-Depth (_coming soon!_)
               {% comment %}</a>{% endcomment %}
 
-Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't fret: I'll point out the significant differences between the two as they are encountered in the posts!
+Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't worry: I'll point out the significant differences between the two as they are encountered in the posts!
 
 Before we get ahead of ourselves, let's start out by answering the following basic question: what is a `Transition`?
 
@@ -157,6 +157,10 @@ If you are working with Fragment Transitions instead, the API is similar with a 
 * Shared element [exit][Fragment#setSharedElementExitTransition], [enter][Fragment#setSharedElementEnterTransition], [reenter][Fragment#setSharedElementReenterTransition], and [return][Fragment#setSharedElementReturnTransition] transitions should also be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
 * Whereas Activity Transitions are triggered by a call to `startActivity()`, Fragment Transitions are run automatically when a fragment is added, removed, attached, detached, shown, or hidden with similar effect.
 * Shared elements should be specified as part of the `FragmentTransaction` by calling the [`addSharedElement(View, String)`][addSharedElement] method.
+
+### Recap
+
+**TODO: recap**
 
 In the next two posts, we will take a look at window content transitions and shared element transitions in-depth.
 

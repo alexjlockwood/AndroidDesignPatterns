@@ -15,13 +15,15 @@ This post will give an in-depth analysis of _window content transitions_ and the
               Shared Element Transitions In-Depth (_coming soon!_)
               {% comment %}</a>{% endcomment %}
 
-Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't fret: I'll point out the significant differences between the two as they are encountered in the posts!
+Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't worry: I'll point out the significant differences between the two as they are encountered in the posts!
+
+Let's begin by defining the term through an example.
 
 ### What are Window Content Transitions?
 
 <!--morestart-->
 
-Put simply, window content transitions allow us to perform custom animations on the entering or exiting views during an Activity transition. They are often used in conjunction with shared element transitions to provide a smooth, effortless background effect. For example, as a shared element is transitioned from activity `A` to activity `B`, we could use a window content enter transition to slide activity `B`'s non-shared views into the scene, as illustrated in [Figure 2.1][Figure2.1] (**TODO: remove this example**). Coordinating the entrance and exit of the activity's transitioning views can have a powerful effect on the user, as they create visual connections between the different UI states of your application, while not taking the focus away from the shared element as it transitions into place. (**TODO: video example?**)
+Put simply, window content transitions allow us to perform custom animations on the entering or exiting views during an Activity transition. They are often used in conjunction with shared element transitions to provide a smooth, effortless background effect. For example, as a shared element is transitioned from activity `A` to activity `B`, we could use a window content enter transition to slide activity `B`'s non-shared views into the scene, as illustrated in **Figure 2.1** (**TODO: remove this example**). Coordinating the entrance and exit of the activity's transitioning views can have a powerful effect on the user, as they create visual connections between the different UI states of your application, while not taking the focus away from the shared element as it transitions into place. (**TODO: video example?**)
 
 <div style="width:290px;margin-right:35px;float:right">
   <div class="framed-nexus6-port">
@@ -110,5 +112,4 @@ Before we move on, we should discuss the role that transition groups play during
   [Fragment#setEnterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setEnterTransition(android.transition.Transition)
   [Fragment#setReturnTransition]: https://developer.android.com/reference/android/app/Fragment.html#setReturnTransition(android.transition.Transition)
   [Fragment#setReenterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setReenterTransition(android.transition.Transition)
-  [Figure1.1]: /2014/11/activity-transitions-getting-started-part1.html#anchorfigure1
 
