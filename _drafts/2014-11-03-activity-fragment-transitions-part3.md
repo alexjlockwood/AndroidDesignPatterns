@@ -7,13 +7,13 @@ permalink: /2014/11/shared-element-transitions-in-depth-part3.html
 
 This post focuses on shared element transitions. This is the second of a series of posts I will be writing about Activity Transitions:
 
-* **Part 1:** <a href="/2014/11/activity-transitions-getting-started-part1.html">Getting Started with Activity Transitions</a>
-* **Part 2:** {% comment %}<a href="/2014/11/window-content-transitions-in-depth-part2.html">{% endcomment %}
+* **Part 1:** [Getting Started with Activity Transitions][part1]
+* **Part 2:** {% comment %}[{% endcomment %}
               Window Content Transitions In-Depth (_coming soon!_)
-              {% comment %}</a>{% endcomment %}
-* **Part 3:** {% comment %}<a href="/2014/11/shared-element-transitions-in-depth-part3.html">{% endcomment %}
+              {% comment %}][part2]{% endcomment %}
+* **Part 3:** {% comment %}[{% endcomment %}
               Shared Element Transitions In-Depth (_coming soon!_)
-              {% comment %}</a>{% endcomment %}
+              {% comment %}][part3]{% endcomment %}
 
 Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't worry: I'll point out the significant differences between the two as they are encountered in the posts!
 
@@ -34,7 +34,7 @@ Shared element transitions allow us to perform animations on "shared elements" t
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
-    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 3.1</strong> - Shared element transitions in action in the Google Play Music app (v5.6). Click to replay.</p>
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 3.1</strong> - Shared element transitions in action in the Google Play Music app (as of v5.6). Click to play.</p>
   </div>
 </div>
 
@@ -114,4 +114,8 @@ You can further customize your shared element transitions by setting a [`SharedE
   [startPostponedEnterTransition]: https://developer.android.com/reference/android/app/Activity.html#startPostponedEnterTransition()
   [setSharedElementsUseOverlay]: https://developer.android.com/reference/android/view/Window.html#setSharedElementsUseOverlay(boolean)
   [SharedElementCallback]: https://developer.android.com/reference/android/app/SharedElementCallback.html
+
+  [part1]: /2014/11/activity-transitions-getting-started-part1.html
+  [part2]: /2014/11/window-content-transitions-in-depth-part2.html
+  [part3]: /2014/11/shared-element-transitions-in-depth-part3.html
 
