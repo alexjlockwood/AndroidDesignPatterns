@@ -23,7 +23,7 @@ Let's begin by defining the term through an example.
 
 <!--morestart-->
 
-Shared element transitions allow us to perform animations on "shared elements" that two activities have in common during an Activity Transition, giving the user the illusion that the shared element is being animated across activity boundaries. For example, if two activities have the same image in different positions and sizes, the `changeImageTransform` shared element transition can translate and scale the image smoothly between these activities. Shared element transitions give us the opportunity to create visual connections between transition states through persisting elements, as illustrated in [Figure 3.1][Figure3.1].
+Shared element transitions allow us to perform animations on "shared elements" that two activities have in common during an Activity Transition, giving the user the illusion that the shared element is being animated across activity boundaries. For example, if two activities have the same image in different positions and sizes, the `changeImageTransform` shared element transition can translate and scale the image smoothly between these activities. Shared element transitions give us the opportunity to create visual connections between transition states through persisting elements, as illustrated in **Figure 3.1**.
 
 <!--more-->
 
@@ -108,7 +108,6 @@ You can further customize your shared element transitions by setting a [`SharedE
   [Fragment#setSharedElementEnterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementEnterTransition(android.transition.Transition)
   [Fragment#setSharedElementReturnTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementReturnTransition(android.transition.Transition)
   [Fragment#setSharedElementReenterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementReenterTransition(android.transition.Transition)
-  [Figure31]: /2014/11/shared-element-transitions-in-depth-part3.html#anchorfigure3
   [Move]: https://android.googlesource.com/platform/frameworks/base/+/lollipop-release/core/res/res/transition/move.xml
   [postponeEnterTransition]: https://developer.android.com/reference/android/app/Activity.html#postponeEnterTransition()
   [startPostponedEnterTransition]: https://developer.android.com/reference/android/app/Activity.html#startPostponedEnterTransition()
