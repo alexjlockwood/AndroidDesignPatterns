@@ -89,7 +89,7 @@ Let's walk through the steps involved when the user taps the screen for the firs
 
 Overall, the transitions framework offers two main advantages. First, `Transition`s abstract the idea of `Animator`s from the developer, and as a result significantly reduces the amount of code you will need to write in your activities and fragments. All the developer must do is ensure the start and end values for each view are properly set and the `Transition` will do the rest. Second, animations between scenes can be easily changed simply by using a different `Transition` object. For example, **Figure 1.1** illustrates the dramatically different effects we can achieve by simply replacing our `Fade` transition with a `Slide` or `Explode`. As we will see in the rest of this post, these two advantages make it relatively easy to implement custom Activity Transitions in Android Lollipop.
 
-### Introducing Activity Transitions
+### Introducing Activity Transitions in Android 5.0
 
 Beginning with Lollipop, `Transition`s can be used to orchestrate elaborate animations between `Activity`s. Before we start getting into the code, however, it will be helpful to discuss the terminology that is used in the rest of this post:
 
@@ -122,11 +122,14 @@ Lastly, the framework provides APIs for two types of Activity Transitions&mdash;
 >
 > A _shared element transition_ determines how an activity's _shared elements_ (also called _hero views_) are animated between two activities.
 
-**Figure 1.2** gives a nice illustration of window content transitions and shared element transitions in action. In the example, activity `A` displays a grid of Radiohead album covers and activity `B` displays a background image and some details about the selected album.
+**Figure 1.2** gives a nice illustration of window content transitions and shared element transitions used in the Google Play Newsstand app. Although we can't be sure without looking at the Newsstand source code, my best guess is that the transitions are set as follows:
 
-The exit and reenter window content transitions for `A` are both `null`, meaning that no animation will take place on the views in `A` when the user exits or reenters the activity. The enter and return window content transitions for `B` on the other hand are a `TransitionSet` that plays two child transitions in parallel: a `Slide(Gravity.TOP)` transition targeting the top half of the activity and a `Slide(Gravity.BOTTOM)` transition targeting the bottom half of the activity. As for the shared element transitions, the enter and return transitions both use a simple `ChangeImageTransform`.
+* The exit and reenter window content transitions for activity `A` (the calling activity) are both `null`. We can tell because the views in `A` are not animated when the user exits or reenters the activity. 
+* The enter window content transition for activity `B` (the called activity) uses a custom slide-in transition that shuffles the list items into view from the bottom of the screen.
+* The return window content transition for activity `B` is a `TransitionSet` that plays two child transitions that play in parallel: a `Slide(Gravity.TOP)` transition targeting the top half of the activity and a `Slide(Gravity.BOTTOM)` transition targeting the bottom half of the activity. The result is that the activity appears to "break in half" when the user clicks the back button and returns to activity `A`.
+* The enter and return shared element transitions both use a simple `ChangeImageTransform`, causing the magazine's cover `ImageView` to be animated seamlessly across the two activities.
 
-In this particular example, you will also notice that an alpha animation is performed on the background image near the end of the Activity Transition. Although it may look like it, this animation is not actually part of the called Activity's window content enter transition. Rather, the animation begins at the very end of `B`'s window content enter transition inside a `TransitionListener`'s `onTransitionEnd()` method. We'll learn more about when and why this might be necessary in a future post. For now, let's keep things simple and first familiarize ourselves with the Activity Transitions API.
+You've also probably noticed the cool circular reveal animation that plays under the shared element during the transition. We will cover how this can be done in a future blog post. For now, let's keep things simple and first familiarize ourselves with the Activity Transitions API.
 
 ### Getting Started with the Activity Transitions API
 
