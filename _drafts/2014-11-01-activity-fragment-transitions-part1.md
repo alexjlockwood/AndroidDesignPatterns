@@ -112,21 +112,21 @@ The Activity Transition APIs are built around the idea of _exit, enter, return, 
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
-    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 1.2</strong> - Window content transitions and shared element transitions in action in the Google Play Newsstand app (as of v3.3). Click to play.</p>
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 1.2</strong> - Content transitions and shared element transitions in action in the Google Play Newsstand app (as of v3.3). Click to play.</p>
   </div>
 </div>
 
-Lastly, the framework provides APIs for two types of Activity Transitions&mdash;_window content transitions_ and _shared element transitions_&mdash;each of which allow us to customize the animations between activities in unique ways:
+Lastly, the framework provides APIs for two types of Activity Transitions&mdash;_content transitions_ and _shared element transitions_&mdash;each of which allow us to customize the animations between activities in unique ways:
 
-> A _window content transition_ determines how an activity's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the activity scene.
+> A _content transition_ determines how an activity's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the activity scene.
 >
 > A _shared element transition_ determines how an activity's _shared elements_ (also called _hero views_) are animated between two activities.
 
-**Figure 1.2** gives a nice illustration of window content transitions and shared element transitions used in the Google Play Newsstand app. Although we can't be sure without looking at the Newsstand source code, my best guess is that the transitions are set as follows:
+**Figure 1.2** gives a nice illustration of content transitions and shared element transitions used in the Google Play Newsstand app. Although we can't be sure without looking at the Newsstand source code, my best guess is that the transitions are set as follows:
 
-* The exit and reenter window content transitions for activity `A` (the calling activity) are both `null`. We can tell because the views in `A` are not animated when the user exits or reenters the activity. 
-* The enter window content transition for activity `B` (the called activity) uses a custom slide-in transition that shuffles the list items into view from the bottom of the screen.
-* The return window content transition for activity `B` is a `TransitionSet` that plays two child transitions that play in parallel: a `Slide(Gravity.TOP)` transition targeting the top half of the activity and a `Slide(Gravity.BOTTOM)` transition targeting the bottom half of the activity. The result is that the activity appears to "break in half" when the user clicks the back button and returns to activity `A`.
+* The exit and reenter content transitions for activity `A` (the calling activity) are both `null`. We can tell because the views in `A` are not animated when the user exits or reenters the activity. 
+* The enter content transition for activity `B` (the called activity) uses a custom slide-in transition that shuffles the list items into view from the bottom of the screen.
+* The return content transition for activity `B` is a `TransitionSet` that plays two child transitions that play in parallel: a `Slide(Gravity.TOP)` transition targeting the top half of the activity and a `Slide(Gravity.BOTTOM)` transition targeting the bottom half of the activity. The result is that the activity appears to "break in half" when the user clicks the back button and returns to activity `A`.
 * The enter and return shared element transitions both use a simple `ChangeImageTransform`, causing the magazine's cover `ImageView` to be animated seamlessly across the two activities.
 
 You've also probably noticed the cool circular reveal animation that plays under the shared element during the transition. We will cover how this can be done in a future blog post. For now, let's keep things simple and first familiarize ourselves with the Activity Transitions API.
@@ -135,16 +135,16 @@ You've also probably noticed the cool circular reveal animation that plays under
 
 Summarized below are the simple steps required to use Activity Transitions in your application:
 
-* Enable window content transitions for both the calling and called activities by requesting the [`Window.FEATURE_CONTENT_TRANSITIONS`][FEATURE_CONTENT_TRANSITIONS] window feature, either programatically or in your theme's XML.
-* Specify [exit][setExitTransition] and [enter][setEnterTransition] window content transitions for your calling and called activities respectively. Material-themed applications have their window content exit and enter transitions set to `null` and [`Fade`][Fade] respectively by default. [Reenter][setReenterTransition] and [return][setReturnTransition] transitions default to the activity's exit and enter window content transitions respectively if they are not explicitly set.
+* Enable content transitions for both the calling and called activities by requesting the [`Window.FEATURE_CONTENT_TRANSITIONS`][FEATURE_CONTENT_TRANSITIONS] window feature, either programatically or in your theme's XML.
+* Specify [exit][setExitTransition] and [enter][setEnterTransition] content transitions for your calling and called activities respectively. Material-themed applications have their content exit and enter transitions set to `null` and [`Fade`][Fade] respectively by default. [Reenter][setReenterTransition] and [return][setReturnTransition] transitions default to the activity's exit and enter content transitions respectively if they are not explicitly set.
 * Specify [exit][setSharedElementExitTransition] and [enter][setSharedElementEnterTransition] shared element transitions for your calling and called activities respectively. Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. [Reenter][setSharedElementReenterTransition] and [return][setSharedElementReturnTransition] transitions default to the activity's exit and enter shared element transitions respectively if they are not explicitly set.
-* To start an Activity Transition with no window content transitions and no shared elements, call the `startActivity(Context, Bundle)` method, passing `null` as the second argument.
-* To start an Activity Transition with window content transitions but no shared elements, call the `startActivity(Context, Bundle)` method, passing the following `Bundle` as the second argument:
+* To start an Activity Transition with no content transitions and no shared elements, call the `startActivity(Context, Bundle)` method, passing `null` as the second argument.
+* To start an Activity Transition with content transitions but no shared elements, call the `startActivity(Context, Bundle)` method, passing the following `Bundle` as the second argument:
 
     ```java
     ActivityOptions.makeSceneTransitionAnimation(activity).toBundle();
     ```
-* To start an Activity Transition with window content transitions and shared elements, call the `startActivity(Context, Bundle)` method, passing the following `Bundle` as the second argument:
+* To start an Activity Transition with content transitions and shared elements, call the `startActivity(Context, Bundle)` method, passing the following `Bundle` as the second argument:
 
     ```java
     ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
@@ -156,14 +156,14 @@ where `pairs` is an array of `Pair<View, String>` objects listing the shared ele
 
 If you are working with Fragment Transitions instead, the API is similar with a couple of differences:
 
-* Window content [exit][Fragment#setExitTransition], [enter][Fragment#setEnterTransition], [reenter][Fragment#setReenterTransition], and [return][Fragment#setReturnTransition] transitions should be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
+* Content [exit][Fragment#setExitTransition], [enter][Fragment#setEnterTransition], [reenter][Fragment#setReenterTransition], and [return][Fragment#setReturnTransition] transitions should be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
 * Shared element [exit][Fragment#setSharedElementExitTransition], [enter][Fragment#setSharedElementEnterTransition], [reenter][Fragment#setSharedElementReenterTransition], and [return][Fragment#setSharedElementReturnTransition] transitions should also be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
 * Whereas Activity Transitions are triggered by a call to `startActivity()`, Fragment Transitions are run automatically when a fragment is added, removed, attached, detached, shown, or hidden with similar effect.
 * Shared elements should be specified as part of the `FragmentTransaction` by calling the [`addSharedElement(View, String)`][addSharedElement] method.
 
 ### Conclusion
 
-**TODO: recap** In the next two posts, we will take a look at window content transitions and shared element transitions in-depth. Don't forget to +1 this post blah blah blah.
+**TODO: recap** In the next two posts, we will take a look at content transitions and shared element transitions in-depth. Don't forget to +1 this post blah blah blah.
 
 <hr class="footnote-divider"/>
 <sup id="footnote1">1</sup> The layout XML code that was used for this example can be found [here][exampleXmlLayoutGist]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
@@ -193,5 +193,5 @@ If you are working with Fragment Transitions instead, the API is similar with a 
   [setTransitionName]: https://developer.android.com/reference/android/view/View.html#setTransitionName(java.lang.String)
 
   [part1]: /2014/11/activity-transitions-getting-started-part1.html
-  [part2]: /2014/11/window-content-transitions-in-depth-part2.html
+  [part2]: /2014/11/content-transitions-in-depth-part2.html
   [part3]: /2014/11/shared-element-transitions-in-depth-part3.html

@@ -43,7 +43,7 @@ In the previous post, we briefly mentioned that shared element [exit][setSharedE
 ### Which types of `Transition`s can be used?
 
 There is no definitive rule about which `Transition` types can be used, as long as they are able to properly capture and animate the values that will be changed during the course of the transition. For example, if the shared element has a different size or position in either activity, then a `ChangeBounds` transition could be used. If that view is also an `ImageView`, then a `ChangeImageTransform` transition should be used. If both (or more) of these apply, a `TransitionSet` running all of the chosen transitions in parallel could be used to ensure that all of the properties are animated as the shared element moves into place.
-As we did with window content transitions, let's investigate what happens under-the-hood when an Activity Transition is occurs and a shared element transition is about to be run:
+As we did with content transitions, let's investigate what happens under-the-hood when an Activity Transition is occurs and a shared element transition is about to be run:
 
 1. `A` calls `startActivity()`.
     * `A`'s shared element exit transition captures start values for the shared elements in `A`.
@@ -56,7 +56,7 @@ As we did with window content transitions, let's investigate what happens under-
     * On the next animation frame, `B`'s shared element enter transition captures end values for all of the shared elements in `B`.
     * `B`'s shared element enter transition compares the start and end values of its shared element views and creates an `Animator` based on the differences. The `Animator` is run and the shared elements animate into place.
 
-As we can see, whereas window content transitions are governed by changes to view visibility, shared element transitions reacts to changes made to a view's location and size. As a result, the `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, and `ChangeImageTransform` transitions are usually good options to use; in fact, you will probably find that sticking with the default [`@android:transition/move`][Move] transition will work fine in most cases.
+As we can see, whereas content transitions are governed by changes to view visibility, shared element transitions reacts to changes made to a view's location and size. As a result, the `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, and `ChangeImageTransform` transitions are usually good options to use; in fact, you will probably find that sticking with the default [`@android:transition/move`][Move] transition will work fine in most cases.
 
 ### How do shared element transitions work? Are `View` instances actually "shared" across activities?
 
@@ -115,6 +115,6 @@ You can further customize your shared element transitions by setting a [`SharedE
   [SharedElementCallback]: https://developer.android.com/reference/android/app/SharedElementCallback.html
 
   [part1]: /2014/11/activity-transitions-getting-started-part1.html
-  [part2]: /2014/11/window-content-transitions-in-depth-part2.html
+  [part2]: /2014/11/content-transitions-in-depth-part2.html
   [part3]: /2014/11/shared-element-transitions-in-depth-part3.html
 
