@@ -9,7 +9,7 @@ This post focuses on shared element transitions. This is the second of a series 
 
 * **Part 1:** [Getting Started with Activity Transitions][part1]
 * **Part 2:** {% comment %}[{% endcomment %}
-              Window Content Transitions In-Depth (_coming soon!_)
+              Content Transitions In-Depth (_coming soon!_)
               {% comment %}][part2]{% endcomment %}
 * **Part 3:** {% comment %}[{% endcomment %}
               Shared Element Transitions In-Depth (_coming soon!_)

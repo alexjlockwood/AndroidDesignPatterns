@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Window Content Transitions In-Depth (part 2)'
+title: 'Content Transitions In-Depth (part 2)'
 date: 2014-11-02
 permalink: /2014/11/content-transitions-in-depth-part2.html
 ---
@@ -9,7 +9,7 @@ This post will give an in-depth analysis of _content transitions_ and their role
 
 * **Part 1:** [Getting Started with Activity Transitions][part1]
 * **Part 2:** {% comment %}[{% endcomment %}
-              Window Content Transitions In-Depth (_coming soon!_)
+              Content Transitions In-Depth (_coming soon!_)
               {% comment %}][part2]{% endcomment %}
 * **Part 3:** {% comment %}[{% endcomment %}
               Shared Element Transitions In-Depth (_coming soon!_)
@@ -19,7 +19,7 @@ Note that although Activity Transitions will be the primary focus of these posts
 
 Let's start by defining the term and illustrating a real-world example.
 
-### What are Window Content Transitions?
+### What are Content Transitions?
 
 <!--morestart-->
 
@@ -46,7 +46,7 @@ In other words, content transitions allow us to perform custom animations on the
 
 In [part 1][part1], we gave a quick summary of how content transitions can be used in your own applications. However, several important questions still remain. How do content transitions work under-the-hood? Which types of `Transition` objects does it make sense to use? How does the framework determine the set of transitioning views that will be animated? Is it possible animate a `ViewGroup` and its children as a single element during the transition? In the next section, we'll begin tackling these questions one-by-one.
 
-### Window Content Transitions Under-The-Hood
+### Content Transitions Under-The-Hood
 
 Perhaps the most important thing to understand about content transitions is that they are governed by `View`-visibility changes and should almost always extend the abstract [`Visibility`][Visibility] class as a result. To understand what this means, let's investigate the sequence of events that occurs under-the-hood when activity `A` starts activity `B`:
 
