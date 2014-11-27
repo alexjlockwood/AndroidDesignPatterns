@@ -135,32 +135,35 @@ You've also probably noticed the cool circular reveal animation that plays under
 
 ### Introducing the Activity Transition API
 
-Summarized below are the simple steps required to create an Activity transition in your application:
+Creating a basic Activity transition is relatively simple using the new Lollipop APIs. Summarized below are the simple steps you must take in order to implement one in your application:
 
 * Enable content transitions for both the calling and called activities by requesting the [`Window.FEATURE_CONTENT_TRANSITIONS`][FEATURE_CONTENT_TRANSITIONS] window feature, either programatically or in your theme's XML.
-* Specify [exit][setExitTransition] and [enter][setEnterTransition] content transitions for your calling and called activities respectively. Material-themed applications have their content exit and enter transitions set to `null` and [`Fade`][Fade] respectively by default. [Reenter][setReenterTransition] and [return][setReturnTransition] transitions default to the activity's exit and enter content transitions respectively if they are not explicitly set.
+* Specify [exit][setExitTransition] and [enter][setEnterTransition] content transitions for your calling and called activities respectively. Material-themed applications have their exit and enter content transitions set to `null` and [`Fade`][Fade] respectively by default. [Reenter][setReenterTransition] and [return][setReturnTransition] transitions default to the activity's exit and enter content transitions respectively if they are not explicitly set.
 * Specify [exit][setSharedElementExitTransition] and [enter][setSharedElementEnterTransition] shared element transitions for your calling and called activities respectively. Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. [Reenter][setSharedElementReenterTransition] and [return][setSharedElementReturnTransition] transitions default to the activity's exit and enter shared element transitions respectively if they are not explicitly set.
 * To start an Activity transition with no content transitions and no shared elements, call the `startActivity(Context, Bundle)` method and pass `null` as the second argument.
-* To start an Activity transition with content transitions but no shared elements, call the `startActivity(Context, Bundle)` method and pass the following `Bundle` as the second argument:
+
+    To start an Activity transition with content transitions _but no shared elements_, call the `startActivity(Context, Bundle)` method and pass the following `Bundle` as the second argument:
 
     ```java
     ActivityOptions.makeSceneTransitionAnimation(activity).toBundle();
     ```
-* To start an Activity transition with content transitions and shared elements, call the `startActivity(Context, Bundle)` method and pass the following `Bundle` as the second argument:
+
+    To start an Activity transition with content transitions and shared elements, call the `startActivity(Context, Bundle)` method and pass the following `Bundle` as the second argument:
 
     ```java
     ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
     ```
-where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities. Don't forget to give your shared elements unique transition names either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will likely break!
-* **TODO: briefly talk about enter/exit transition overlap and the default values**
+
+    where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities. Don't forget to give your shared elements unique transition names either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will likely break!
+* By default, material-themed applications will start their enter content transition before the exit content transition has completed, creating a slight overlap that makes content transitions appear more seamless and dramatic. To explicitly enable or disable this behavior, you can call the [`setWindowAllowEnterTransitionOverlap()`][setWindowAllowEnterTransitionOverlap] method or set the flag in your theme's XML. A [similar flag][setWindowAllowReturnTransitionOverlap] can also be set to either enable or disable the Activity's return and reenter transition overlap as well.
 
 ### Introducing the Fragment Transition API
 
-If you are working with Fragment transitions instead, the API is similar with a couple of differences:
+If you are working with Fragment transitions, the API is similar with a couple of differences:
 
-* Content [exit][Fragment#setExitTransition], [enter][Fragment#setEnterTransition], [reenter][Fragment#setReenterTransition], and [return][Fragment#setReturnTransition] transitions should be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
+* Content [exit][Fragment#setExitTransition], [enter][Fragment#setEnterTransition], [reenter][Fragment#setReenterTransition], and [return][Fragment#setReturnTransition] transitions should be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML tag.
 * Shared element [exit][Fragment#setSharedElementExitTransition], [enter][Fragment#setSharedElementEnterTransition], [reenter][Fragment#setSharedElementReenterTransition], and [return][Fragment#setSharedElementReturnTransition] transitions should also be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
-* Whereas Activity transitions are triggered by a call to `startActivity()`, Fragment transitions are run automatically when a fragment is added, removed, attached, detached, shown, or hidden with similar effect.
+* Whereas Activity transitions are triggered by an explicit call to `startActivity()`, Fragment transitions are run automatically when a fragment is added, removed, attached, detached, shown, or hidden by a `FragmentTransaction`.
 * Shared elements should be specified as part of the `FragmentTransaction` by calling the [`addSharedElement(View, String)`][addSharedElement] method.
 
 ### Conclusion
@@ -197,6 +200,9 @@ If you are working with Fragment transitions instead, the API is similar with a 
 
   [Activity#overridePendingTransition]: http://developer.android.com/reference/android/app/Activity.html#overridePendingTransition(int,%20int)
   [FragmentTransaction#setCustomAnimations]: http://developer.android.com/reference/android/app/FragmentTransaction.html#setCustomAnimations(int,%20int,%20int,%20int)
+
+  [setWindowAllowEnterTransitionOverlap]: http://developer.android.com/reference/android/view/Window.html#attr_android:windowAllowEnterTransitionOverlap
+  [setWindowAllowReturnTransitionOverlap]: http://developer.android.com/reference/android/view/Window.html#attr_android:windowAllowReturnTransitionOverlap
 
   [part1]: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/11/content-transitions-in-depth-part2.html
