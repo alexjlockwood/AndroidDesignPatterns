@@ -7,7 +7,7 @@ permalink: /2014/11/shared-element-transitions-in-depth-part3.html
 
 This post focuses on shared element transitions. This is the second of a series of posts I will be writing about Activity Transitions:
 
-* **Part 1:** [Getting Started with Activity Transitions][part1]
+* **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** {% comment %}[{% endcomment %}
               Content Transitions In-Depth (_coming soon!_)
               {% comment %}][part2]{% endcomment %}
@@ -15,7 +15,7 @@ This post focuses on shared element transitions. This is the second of a series 
               Shared Element Transitions In-Depth (_coming soon!_)
               {% comment %}][part3]{% endcomment %}
 
-Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't worry: I'll point out the significant differences between the two as they are encountered in the posts!
+While these posts will focus mainly on Activity transitions, note that most of the information presented will also apply to Fragment transitions as well, with only some minor differences. I'll do my best to point out these differences as they are encountered in the posts!
 
 Let's begin by defining the term through an example.
 
@@ -116,5 +116,5 @@ You can further customize your shared element transitions by setting a [`SharedE
 
   [part1]: /2014/11/activity-transitions-getting-started-part1.html
   [part2]: /2014/11/content-transitions-in-depth-part2.html
-  [part3]: /2014/11/shared-element-transitions-in-depth-part3.html
+  [part3]: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
 

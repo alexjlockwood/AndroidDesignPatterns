@@ -7,7 +7,7 @@ permalink: /2014/11/content-transitions-in-depth-part2.html
 
 This post will give an in-depth analysis of _content transitions_ and their role in the Activity Transitions API. This is the second of a series of posts I will be writing on the topic. Make sure you have read [part 1][part1] before you start reading this post!
 
-* **Part 1:** [Getting Started with Activity Transitions][part1]
+* **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** {% comment %}[{% endcomment %}
               Content Transitions In-Depth (_coming soon!_)
               {% comment %}][part2]{% endcomment %}
@@ -15,7 +15,7 @@ This post will give an in-depth analysis of _content transitions_ and their role
               Shared Element Transitions In-Depth (_coming soon!_)
               {% comment %}][part3]{% endcomment %}
 
-Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't worry: I'll point out the significant differences between the two as they are encountered in the posts!
+While these posts will focus mainly on Activity transitions, note that most of the information presented will also apply to Fragment transitions as well, with only some minor differences. I'll do my best to point out these differences as they are encountered in the posts!
 
 Let's start by defining the term and illustrating a real-world example.
 
@@ -127,7 +127,7 @@ In this post we learned blah and blah. In the next post we will learn blah. Don'
   [addTarget]: https://developer.android.com/reference/android/transition/Transition.html#addTarget(android.view.View)
   [excludeTarget]: https://developer.android.com/reference/android/transition/Transition.html#excludeTarget(android.view.View,%20boolean)
 
-  [part1]: /2014/11/activity-transitions-getting-started-part1.html
+  [part1]: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/11/content-transitions-in-depth-part2.html
   [part3]: /2014/11/shared-element-transitions-in-depth-part3.html
 

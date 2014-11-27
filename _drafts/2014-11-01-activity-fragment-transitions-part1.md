@@ -1,13 +1,13 @@
 ---
 layout: post
-title: 'Getting Started with Activity Transitions (part 1)'
+title: 'Getting Started with Activity & Fragment Transitions (part 1)'
 date: 2014-11-01
-permalink: /2014/11/activity-transitions-getting-started-part1.html
+permalink: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
 ---
 
-This post gives a brief overview of the new Activity Transition APIs added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
+This post gives a brief overview of Android `Transition`s and the new Activity & Fragment transition APIs that were introduced in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
 
-* **Part 1:** [Getting Started with Activity Transitions][part1]
+* **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** {% comment %}[{% endcomment %}
               Content Transitions In-Depth (_coming soon!_)
               {% comment %}][part2]{% endcomment %}
@@ -15,9 +15,9 @@ This post gives a brief overview of the new Activity Transition APIs added in An
               Shared Element Transitions In-Depth (_coming soon!_)
               {% comment %}][part3]{% endcomment %}
 
-Note that although Activity Transitions will be the primary focus of these posts, much of the information also applies to Fragment Transitions as well. For those of you who are working with the Fragment Transition APIs, don't worry: I'll point out the significant differences between the two as they are encountered in the posts!
+While these posts will focus mainly on Activity transitions, note that most of the information presented also applies to Fragment transitions as well, with only some minor differences. I'll do my best to point out these differences as they are encountered in the posts!
 
-Before we get ahead of ourselves, let's start out by answering the following basic question: what is a `Transition`?
+We begin by answering the following basic question: what is a `Transition`?
 
 ### What is a `Transition`?
 
@@ -25,14 +25,14 @@ Before we get ahead of ourselves, let's start out by answering the following bas
 
 Activity and Fragment transitions in Lollipop are built on top of a relatively new feature in Android called `Transition`s. Introduced in KitKat, the transition framework provides a convenient API for animating between different UI states in an application. The framework is built around two key concepts: _scenes_ and _transitions_. A scene defines a given state of an application's UI, whereas a transition defines the animated change between two scenes.
 
-When a scene change occurs, a `Transition` has two main responsibilities:
+During a scene change, a [`Transition`][Transition] has two main responsibilities:
 
-1. Capturing the start and end state of the views in each scene, and
+1. Capturing the state of each view in both the start and end scenes, and
 2. Creating an `Animator` based on the differences that will animate the views from one scene to another.
 
 <!--more-->
 
-As an example, consider an `Activity` which wants to fade its views either in or out whenever the user taps the screen.<sup><a href="#footnote1" id="ref1">1</a></sup> We can achieve this effect with only a few lines using Android's transition framework:
+As an example, consider an `Activity` which fades its views either in or out whenever the user taps the screen. We can achieve this effect with only a few lines using Android's transition framework:<sup><a href="#footnote1" id="ref1">1</a></sup>
 
 ```java
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -68,7 +68,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 }
 ```
 
-Let's walk through the steps involved when the user taps the screen for the first time. We will assume each view is initially `VISIBLE` on screen&mdash;that is, in the starting scene all of the views start out `VISIBLE` and in the ending scene all of the views end up `INVISIBLE`:
+To better understand what is happening under-the-hood, let's analyze the process step-by-step beginning with the moment the user clicks the screen. We will assume that each view in the starting scene is initially `VISIBLE`:
 
 <div style="width:290px;margin-left:35px;float:right">
   <div class="framed-nexus6-port">
@@ -81,21 +81,23 @@ Let's walk through the steps involved when the user taps the screen for the firs
   </div>
 </div>
 
-1. A click is detected and the developer calls `beginDelayedTransition()`, passing the scene root and a `Fade` transition as the arguments. The framework immediately calls the transition's `captureStartValues()` method for each view in the scene and the transition records each view's visibility in the `TransitionValues` argument.
+1. A click is detected and the developer calls `beginDelayedTransition()`, passing the scene root and a `Fade` transition as the arguments. The framework immediately calls the transition's `captureStartValues()` method for each view in the scene and the transition records each view's visibility.
 2. After `beginDelayedTransition()` returns, the developer sets each view in the scene from `VISIBLE` to `INVISIBLE`.
-3. On the next animation frame, the framework calls the transition's `captureEndValues()` method for each view in the scene and the transition records each view's (recently updated) visibility in the `TransitionValues` argument.
-4. The framework calls the transition's `createAnimator()` method. The transition analyzes the start and end values of each view and notices a difference: the views are `VISIBLE` in the start scene but `INVISIBLE` in the end scene. The `Fade` transition uses this information to create an `Animator` that will fade each view's `alpha` property to `0f`.
+3. On the next animation frame, the framework calls the transition's `captureEndValues()` method for each view in the scene and the transition records each view's (recently updated) visibility.
+4. The framework calls the transition's `createAnimator()` method. The transition analyzes the start and end values of each view and notices a difference: the views are `VISIBLE` in the start scene but `INVISIBLE` in the end scene. The `Fade` transition uses this information to create and return an `AnimatorSet` that will fade each view's `alpha` property to `0f`.
 5. The framework runs the `Animator` and all views gradually fade out of the screen.
 
-Overall, the transitions framework offers two main advantages. First, `Transition`s abstract the idea of `Animator`s from the developer, and as a result significantly reduces the amount of code you will need to write in your activities and fragments. All the developer must do is ensure the start and end values for each view are properly set and the `Transition` will do the rest. Second, animations between scenes can be easily changed simply by using a different `Transition` object. For example, **Figure 1.1** illustrates the dramatically different effects we can achieve by simply replacing our `Fade` transition with a `Slide` or `Explode`. As we will see in the rest of this post, these two advantages make it relatively easy to implement custom Activity Transitions in Android Lollipop (**TODO: better concluding sentence... i.e. these two advantages make transitions prime candidates for powering the activity transition APIs**).
+Overall, the transitions framework offers two main advantages. First, `Transition`s abstract the idea of `Animator`s from the developer, and as a result significantly reduces the amount of code you will need to write in your activities and fragments. All the developer must do is set the views' start and end values and the `Transition` will automatically construct an animation based on the differences. Second, animations between scenes can be easily changed by simply substituting in different `Transition` objects. For example, **Figure 1.1** illustrates the dramatically different effects we can achieve by simply replacing our `Fade` transition with a `Slide` or `Explode`. As we will see moving forward, these benefits will allow us to build complex Activity & Fragment transition animations with a relatively small amount of code. In the next few sections, we will for ourselves how this can be done using Lollipop's new Activity & Fragment transition APIs.
 
-### Introducing Activity Transitions in Android 5.0
+### Activity & Fragment Transitions in Android Lollipop
 
-Beginning with Lollipop, `Transition`s can be used to orchestrate elaborate animations between `Activity`s. (**TODO: one more sentence explaining what Activity Transitions allow us to do that wasn't possible in earlier platforms**) Before we start getting into the code, however, it will be helpful to discuss the terminology that is used in the rest of this post:
+Beginning with Android 5.0, `Transition`s can be used to perform more elaborate animations when switching between different `Activity`s or `Fragment`s. Before Lollipop, custom Activity and Fragment animations could only be specified using the [`Activity#overridePendingTransition()`][Activity#overridePendingTransition] and [`FragmentTransaction#setCustomAnimation()`][FragmentTransaction#setCustomAnimations]) methods, and were limited in that they animated the Activity/Fragment container as a whole&mdash;not the individual views inside. The new Lollipop APIs take this a step further, making it possible to animate views as they enter or exit the scene and allowing us to animate shared views between the two.
+
+Before we get to far into the details, it will be helpful to discuss the terminology that is used in the rest of this post (note that although the terminology below is defined in terms of Activity transitions, the exact same terminology is used for Fragment transitions as well):
 
 > Let `A` and `B` be activities and assume activity `A` starts activity `B`. We refer to `A` as the "_calling Activity_" (the activity that "calls" `startActivity()`) and `B` as the "_called Activity_".
 
-The Activity Transition APIs are built around the idea of _exit, enter, return, and reenter transitions_. In the context of activities `A` and `B` defined above, we describe the role of each as follows:
+The Activity transition APIs are built around the idea of _exit, enter, return, and reenter transitions_. In the context of activities `A` and `B` defined above, we describe the role of each as follows:
 
 > Activity `A`'s _exit transition_ determines how views in `A` are animated when `A` starts `B`.
 >
@@ -116,7 +118,7 @@ The Activity Transition APIs are built around the idea of _exit, enter, return, 
   </div>
 </div>
 
-Lastly, the framework provides APIs for two types of Activity Transitions&mdash;_content transitions_ and _shared element transitions_&mdash;each of which allow us to customize the animations between activities in unique ways:
+Lastly, the framework provides APIs for two types of Activity transitions&mdash;_content transitions_ and _shared element transitions_&mdash;each of which allow us to customize the animations between activities in unique ways:
 
 > A _content transition_ determines how an activity's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the activity scene.
 >
@@ -124,27 +126,27 @@ Lastly, the framework provides APIs for two types of Activity Transitions&mdash;
 
 **Figure 1.2** gives a nice illustration of content transitions and shared element transitions used in the Google Play Newsstand app. Although we can't be sure without looking at the Newsstand source code, my best guess is that the transitions are set as follows:
 
-* The exit and reenter content transitions for activity `A` (the calling activity) are both `null`. We can tell because the views in `A` are not animated when the user exits or reenters the activity. 
-* The enter content transition for activity `B` (the called activity) uses a custom slide-in transition that shuffles the list items into view from the bottom of the screen.
+* The exit and reenter content transitions for activity `A` (the calling activity) are both `null`. We can tell because the views in `A` are not animated when the user exits or reenters the activity.
+* The enter content transition for activity `B` (the called activity) uses a custom slide-in transition that shuffles the list items into place from the bottom of the screen.
 * The return content transition for activity `B` is a `TransitionSet` that plays two child transitions that play in parallel: a `Slide(Gravity.TOP)` transition targeting the top half of the activity and a `Slide(Gravity.BOTTOM)` transition targeting the bottom half of the activity. The result is that the activity appears to "break in half" when the user clicks the back button and returns to activity `A`.
 * The enter and return shared element transitions both use a simple `ChangeImageTransform`, causing the magazine's cover `ImageView` to be animated seamlessly across the two activities.
 
-You've also probably noticed the cool circular reveal animation that plays under the shared element during the transition. We will cover how this can be done in a future blog post. For now, let's keep things simple and first familiarize ourselves with the Activity Transitions API.
+You've also probably noticed the cool circular reveal animation that plays under the shared element during the transition. We will cover how this can be done in a future blog post. For now, let's keep things simple and first familiarize ourselves with the Activity and Fragment transition APIs.
 
-### Getting Started with the Activity Transitions API
+### Introducing the Activity Transition API
 
-Summarized below are the simple steps required to use Activity Transitions in your application:
+Summarized below are the simple steps required to create an Activity transition in your application:
 
 * Enable content transitions for both the calling and called activities by requesting the [`Window.FEATURE_CONTENT_TRANSITIONS`][FEATURE_CONTENT_TRANSITIONS] window feature, either programatically or in your theme's XML.
 * Specify [exit][setExitTransition] and [enter][setEnterTransition] content transitions for your calling and called activities respectively. Material-themed applications have their content exit and enter transitions set to `null` and [`Fade`][Fade] respectively by default. [Reenter][setReenterTransition] and [return][setReturnTransition] transitions default to the activity's exit and enter content transitions respectively if they are not explicitly set.
 * Specify [exit][setSharedElementExitTransition] and [enter][setSharedElementEnterTransition] shared element transitions for your calling and called activities respectively. Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. [Reenter][setSharedElementReenterTransition] and [return][setSharedElementReturnTransition] transitions default to the activity's exit and enter shared element transitions respectively if they are not explicitly set.
-* To start an Activity Transition with no content transitions and no shared elements, call the `startActivity(Context, Bundle)` method, passing `null` as the second argument.
-* To start an Activity Transition with content transitions but no shared elements, call the `startActivity(Context, Bundle)` method, passing the following `Bundle` as the second argument:
+* To start an Activity transition with no content transitions and no shared elements, call the `startActivity(Context, Bundle)` method and pass `null` as the second argument.
+* To start an Activity transition with content transitions but no shared elements, call the `startActivity(Context, Bundle)` method and pass the following `Bundle` as the second argument:
 
     ```java
     ActivityOptions.makeSceneTransitionAnimation(activity).toBundle();
     ```
-* To start an Activity Transition with content transitions and shared elements, call the `startActivity(Context, Bundle)` method, passing the following `Bundle` as the second argument:
+* To start an Activity transition with content transitions and shared elements, call the `startActivity(Context, Bundle)` method and pass the following `Bundle` as the second argument:
 
     ```java
     ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
@@ -152,13 +154,13 @@ Summarized below are the simple steps required to use Activity Transitions in yo
 where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities. Don't forget to give your shared elements unique transition names either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will likely break!
 * **TODO: briefly talk about enter/exit transition overlap and the default values**
 
-### Getting Started with the Fragment Transitions API
+### Introducing the Fragment Transition API
 
-If you are working with Fragment Transitions instead, the API is similar with a couple of differences:
+If you are working with Fragment transitions instead, the API is similar with a couple of differences:
 
 * Content [exit][Fragment#setExitTransition], [enter][Fragment#setEnterTransition], [reenter][Fragment#setReenterTransition], and [return][Fragment#setReturnTransition] transitions should be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
 * Shared element [exit][Fragment#setSharedElementExitTransition], [enter][Fragment#setSharedElementEnterTransition], [reenter][Fragment#setSharedElementReenterTransition], and [return][Fragment#setSharedElementReturnTransition] transitions should also be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
-* Whereas Activity Transitions are triggered by a call to `startActivity()`, Fragment Transitions are run automatically when a fragment is added, removed, attached, detached, shown, or hidden with similar effect.
+* Whereas Activity transitions are triggered by a call to `startActivity()`, Fragment transitions are run automatically when a fragment is added, removed, attached, detached, shown, or hidden with similar effect.
 * Shared elements should be specified as part of the `FragmentTransaction` by calling the [`addSharedElement(View, String)`][addSharedElement] method.
 
 ### Conclusion
@@ -166,7 +168,7 @@ If you are working with Fragment Transitions instead, the API is similar with a 
 **TODO: recap** In the next two posts, we will take a look at content transitions and shared element transitions in-depth. Don't forget to +1 this post blah blah blah.
 
 <hr class="footnote-divider"/>
-<sup id="footnote1">1</sup> The layout XML code that was used for this example can be found [here][exampleXmlLayoutGist]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
+<sup id="footnote1">1</sup> The XML layout  that was used in the example can be viewed [here][exampleXmlLayoutGist]. If you would like to try out the example yourself, simply copy and paste the code into an empty project and run it. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
   [exampleXmlLayoutGist]: https://gist.github.com/alexjlockwood/a96781b876138c37e88e
   [setExitTransition]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
@@ -186,12 +188,16 @@ If you are working with Fragment Transitions instead, the API is similar with a 
   [Fragment#setSharedElementReturnTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementReturnTransition(android.transition.Transition)
   [Fragment#setSharedElementReenterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementReenterTransition(android.transition.Transition)
   [addSharedElement]: https://developer.android.com/reference/android/app/FragmentTransaction.html#addSharedElement(android.view.View,%20java.lang.String)
+  [Transition]: https://developer.android.com/reference/android/transition/Transition.html
   [Fade]: https://developer.android.com/reference/android/transition/Fade.html
   [Move]: https://android.googlesource.com/platform/frameworks/base/+/lollipop-release/core/res/res/transition/move.xml
   [FEATURE_CONTENT_TRANSITIONS]: http://developer.android.com/reference/android/view/Window.html#FEATURE_CONTENT_TRANSITIONS
   [transitionName]: https://developer.android.com/reference/android/view/View.html#attr_android:transitionName
   [setTransitionName]: https://developer.android.com/reference/android/view/View.html#setTransitionName(java.lang.String)
 
-  [part1]: /2014/11/activity-transitions-getting-started-part1.html
+  [Activity#overridePendingTransition]: http://developer.android.com/reference/android/app/Activity.html#overridePendingTransition(int,%20int)
+  [FragmentTransaction#setCustomAnimations]: http://developer.android.com/reference/android/app/FragmentTransaction.html#setCustomAnimations(int,%20int,%20int,%20int)
+
+  [part1]: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/11/content-transitions-in-depth-part2.html
   [part3]: /2014/11/shared-element-transitions-in-depth-part3.html
