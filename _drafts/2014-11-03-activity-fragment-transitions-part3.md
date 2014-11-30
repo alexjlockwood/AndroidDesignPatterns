@@ -14,6 +14,7 @@ This post focuses on shared element transitions. This is the second of a series 
 * **Part 3:** {% comment %}[{% endcomment %}
               Shared Element Transitions In-Depth (_coming soon!_)
               {% comment %}][part3]{% endcomment %}
+* **Part 4:** Examples (_coming soon!_)
 
 While these posts will focus mainly on Activity transitions, note that most of the information presented will also apply to Fragment transitions as well, with only some minor differences. I'll do my best to point out these differences as they are encountered in the posts!
 
