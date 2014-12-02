@@ -5,7 +5,7 @@ date: 2014-11-01
 permalink: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
 ---
 
-This post gives a brief overview of `Transition`s and introduces the new Activity & Fragment transition APIs that were added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
+This post gives a brief overview of `Transition`s and introduces the new Activity and Fragment transition APIs that were added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
 
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** {% comment %}[{% endcomment %}
@@ -26,14 +26,14 @@ We begin by answering the following question: what is a `Transition`?
 
 Activity and Fragment transitions in Lollipop are built on top of a relatively new feature in Android called `Transition`s. Introduced in KitKat, the transition framework provides a convenient API for animating between different UI states in an application. The framework is built around two key concepts: _scenes_ and _transitions_. A scene defines a given state of an application's UI, whereas a transition defines the animated change between two scenes.
 
-During a scene change, a [`Transition`][Transition] has two main responsibilities:
+When a scene changes, a [`Transition`][Transition] has two main responsibilities:
 
-1. Capturing the state of each view in both the start and end scenes, and
-2. Creating an `Animator` based on the differences that will animate the views from one scene to another.
+1. Capture the state of each view in both the start and end scenes, and
+2. Create an `Animator` based on the differences that will animate the views from one scene to another.
 
 <!--more-->
 
-As an example, consider an `Activity` which fades its views in or out whenever the user taps the screen. We can achieve this effect with only a few lines using Android's transition framework, as shown in the code<sup><a href="#footnote1" id="ref1">1</a></sup> below:
+As an example, consider an `Activity` which fades its views in or out when the user taps the screen. We can achieve this effect with only a few lines using Android's transition framework, as shown in the code<sup><a href="#footnote1" id="ref1">1</a></sup> below:
 
 ```java
 public class ExampleActivity extends Activity implements View.OnClickListener {
@@ -69,7 +69,7 @@ public class ExampleActivity extends Activity implements View.OnClickListener {
 }
 ```
 
-To better understand what is happening under-the-hood in this example, let's start from the beginning and analyze the process step-by-step, assuming that each view is initially `VISIBLE` on screen:
+To better understand what happens under-the-hood in this example, let's analyze the process step-by-step assuming that each view is initially `VISIBLE` on screen:
 
 <div style="width:290px;margin-left:35px;float:right">
   <div class="framed-nexus6-port">
@@ -85,16 +85,16 @@ To better understand what is happening under-the-hood in this example, let's sta
 1. A click is detected and the developer calls [`beginDelayedTransition()`][beginDelayedTransition], passing the scene root and a `Fade` transition as the arguments. The framework immediately calls the transition's [`captureStartValues()`][captureStartValues] method for each view in the scene and the transition records each view's visibility.
 2. After the call returns, the developer sets each view in the scene from `VISIBLE` to `INVISIBLE`.
 3. On the next animation frame, the framework calls the transition's [`captureEndValues()`][captureEndValues] method for each view in the scene and the transition records each view's (recently updated) visibility.
-4. The framework calls the transition's [`createAnimator()`][createAnimator] method. The transition analyzes the start and end values of each view and notices a difference: the views are `VISIBLE` in the start scene but `INVISIBLE` in the end scene. The `Fade` transition uses this information to create and return an `AnimatorSet` that will fade each view's `alpha` property to `0f`.
+4. The framework calls the transition's [`createAnimator()`][createAnimator] method. The transition analyzes the start and end values of each view and notices a difference: _the views are `VISIBLE` in the start scene but `INVISIBLE` in the end scene._ The `Fade` transition uses this information to create and return an `AnimatorSet` that will fade each view's `alpha` property to `0f`.
 5. The framework runs the returned `Animator`, causing all views to gradually fade out of the screen.
 
-This simple example highlights two of the main advantages that the transition framework has to offer. First, `Transition`s abstract the idea of `Animator`s from the developer, and as a result significantly reduces the amount of code you need to write in your activities and fragments. All the developer must do is set the views' start and end values and the `Transition` will automatically construct an animation based on the differences. Second, animations between scenes can be easily changed by using different `Transition` objects. **Figure 1.1**, for example, illustrates the dramatically different effects we can achieve by replacing the `Fade` transition with a `Slide` or `Explode`. As we will see moving forward, these benefits will allow us to build complex Activity and Fragment transition animations with a relatively small amount of code. In the next few sections, we will for ourselves how this can be done using Lollipop's new Activity and Fragment transition APIs.
+This simple example highlights two main advantages that the transition framework has to offer. First, `Transition`s abstract the idea of `Animator`s from the developer. As a result, `Transition`s can significantly reduce the amount of code you need to write in your activities and fragments: all the developer must do is set the views' start and end values and the `Transition` will automatically construct an animation based on the differences. Second, animations between scenes can be easily changed by using different `Transition` objects. **Figure 1.1**, for example, illustrates the dramatically different effects we can achieve by replacing the `Fade` transition with a `Slide` or `Explode`. As we will see moving forward, these advantages will allow us to build complex Activity and Fragment transition animations with a relatively small amount of code. In the next few sections, we will see for ourselves how this can be done using Lollipop's new Activity and Fragment transition APIs.
 
 ### Activity & Fragment Transitions in Android Lollipop
 
-As of Android 5.0, `Transition`s can now be used to perform elaborate animations when switching between different `Activity`s or `Fragment`s. Although custom Activity and Fragment animations could be specified in previous platform versions using the [`Activity#overridePendingTransition()`][Activity#overridePendingTransition] and [`FragmentTransaction#setCustomAnimation()`][FragmentTransaction#setCustomAnimations]) methods, they were limited in that they operated on the entire Activity/Fragment container as a whole. The new Lollipop APIs take this a step further, making it possible to animate individual views as they enter or exit the scene and even allowing us to animate shared views from one Activity/Fragment to another.
+As of Android 5.0, `Transition`s can now be used to perform elaborate animations when switching between different `Activity`s or `Fragment`s. Although Activity and Fragment animations could already be specified in previous platform versions using the [`Activity#overridePendingTransition()`][Activity#overridePendingTransition] and [`FragmentTransaction#setCustomAnimation()`][FragmentTransaction#setCustomAnimations] methods, they were limited in that they could only animate the entire Activity/Fragment container as a whole. The new Lollipop APIs take this a step further, making it possible to animate individual views as they enter or exit their containers and even allowing us to animate shared views from one Activity/Fragment to another.
 
-Let's start off by discussing the terminology that will be used in the rest of this series of posts (note that although the terminology below is defined in terms of Activity transitions, the exact same terminology is used for Fragment transitions as well):
+Let's begin by discussing the terminology that will be used in the rest of this series of posts (note that although the terminology below is defined in terms of Activity transitions, the exact same terminology is used for Fragment transitions as well):
 
 > Let `A` and `B` be activities and assume activity `A` starts activity `B`. We refer to `A` as the "_calling Activity_" (the activity that "calls" `startActivity()`) and `B` as the "_called Activity_".
 
