@@ -125,7 +125,7 @@ Lastly, the framework provides APIs for two types of Activity transitions&mdash;
 
 **Video 1.2** gives a nice illustration of content transitions and shared element transitions used in the Google Play Newsstand app. Although we can't be sure without looking at the Newsstand source code, my best guess is that the following transitions are used:
 
-* The exit and reenter content transitions for activity `A` (the calling activity) are both `null`. We can tell because the non-shared views in `A` are not animated when the user exits and reenters the activity.
+* The exit and reenter content transitions for activity `A` (the calling activity) are both `null`. We can tell because the non-shared views in `A` are not animated when the user exits and reenters the activity.<sup><a href="#footnote2" id="ref2">2</a></sup>
 * The enter content transition for activity `B` (the called activity) uses a custom slide-in transition that shuffles the list items into place from the bottom of the screen.
 * The return content transition for activity `B` is a `TransitionSet` that plays two child transitions in parallel: a `Slide(Gravity.TOP)` transition targeting the views in the top half of the activity and a `Slide(Gravity.BOTTOM)` transition targeting the views in the bottom half of the activity. The result is that the activity appears to "break in half" when the user clicks the back button and returns to activity `A`.
 * The enter and return shared element transitions both use a `ChangeImageTransform`, causing the `ImageView` to be animated seamlessly between the two activities.
@@ -145,7 +145,7 @@ Creating a basic Activity transition is relatively easy using the new Lollipop A
     ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
     ```
 
-    where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities.<sup><a href="#footnote2" id="ref2">2</a></sup> Don't forget to give your shared elements unique transition names, either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will not work properly!
+    where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities.<sup><a href="#footnote3" id="ref3">3</a></sup> Don't forget to give your shared elements unique transition names, either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will not work properly!
 * To programatically trigger a return transition, call [`finishAfterTransition()`][finishAfterTransition] instead of `finish()`.
 * By default, material-themed applications have their enter/return content transitions started a tiny bit before their exit/reenter content transitions complete, creating a small overlap that makes the overall effect more seamless and dramatic. If you wish to explicitly disable this behavior, you can do so by calling the [`setWindowAllowEnterTransitionOverlap()`][setWindowAllowEnterTransitionOverlap] and [`setWindowAllowReturnTransitionOverlap()`][setWindowAllowReturnTransitionOverlap] methods or by setting the corresponding attributes in your theme's XML.
 
@@ -167,7 +167,9 @@ As always, thanks for reading! Don't hesitate to leave a comment if you have any
 <hr class="footnote-divider"/>
 <sup id="footnote1">1</sup> The XML layout  that was used in the example can be viewed [here][exampleXmlLayoutGist]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
-<sup id="footnote2">2</sup> To start an Activity transition with content transitions _but no shared elements_, you can create the `Bundle` by calling `ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()`. To disable content transitions and shared element transitions entirely, pass in a `null` `Bundle` object instead. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
+<sup id="footnote2">2</sup> It might look like the views in `A` are fading in/out of the screen at first, but what you are really seeing is activity `B` fading in/out of the screen _on top of activity `A`_. The views in activity `A` are not actually animating during this time. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
+
+<sup id="footnote3">3</sup> To start an Activity transition with content transitions _but no shared elements_, you can create the `Bundle` by calling `ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()`. To disable content transitions and shared element transitions entirely, pass in a `null` `Bundle` object instead. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
 
   [exampleXmlLayoutGist]: https://gist.github.com/alexjlockwood/a96781b876138c37e88e
   [setExitTransition]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
