@@ -81,8 +81,8 @@ To better understand what happens under-the-hood in this example, let's analyze 
 </div>
 
 1. A click is detected and the developer calls [`beginDelayedTransition()`][beginDelayedTransition], passing the scene root and a `Fade` transition as the arguments. The framework immediately calls the transition's [`captureStartValues()`][captureStartValues] method for each view in the scene and the transition records each view's visibility.
-2. After the call returns, the developer sets each view in the scene to `INVISIBLE`.
-3. On the next animation frame, the framework calls the transition's [`captureEndValues()`][captureEndValues] method for each view in the scene and the transition records each view's (recently updated) visibility.
+2. When the call returns, the developer sets each view in the scene to `INVISIBLE`.
+3. On the next display frame, the framework calls the transition's [`captureEndValues()`][captureEndValues] method for each view in the scene and the transition records each view's (recently updated) visibility.
 4. The framework calls the transition's [`createAnimator()`][createAnimator] method. The transition analyzes the start and end values of each view and notices a difference: _the views are `VISIBLE` in the start scene but `INVISIBLE` in the end scene._ The `Fade` transition uses this information to create and return an `AnimatorSet` that will fade each view's `alpha` property to `0f`.
 5. The framework runs the returned `Animator`, causing all views to gradually fade out of the screen.
 
