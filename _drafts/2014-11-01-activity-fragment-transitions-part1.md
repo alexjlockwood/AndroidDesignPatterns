@@ -14,7 +14,7 @@ This post gives a brief overview of `Transition`s and introduces the new [Activi
 * **Part 3:** {% comment %}[{% endcomment %}
               Shared Element Transitions In-Depth (_coming soon!_)
               {% comment %}][part3]{% endcomment %}
-* **Part 4:** Examples (_coming soon!_)
+* **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
 We begin by answering the following question: what is a `Transition`?
 
@@ -137,8 +137,8 @@ You've probably also noticed the cool circular reveal animation that plays under
 Creating a basic Activity transition is relatively easy using the new Lollipop APIs. Summarized below are the steps you must take in order to implement one in your application. In the posts that follow, we will go through much more advanced use-cases and examples, but for now the next two sections will serve as a good introduction:
 
 * Enable the new transition APIs by requesting the [`Window.FEATURE_ACTIVITY_TRANSITIONS`][FEATURE_ACTIVITY_TRANSITIONS] [`Window.FEATURE_CONTENT_TRANSITIONS`][FEATURE_CONTENT_TRANSITIONS] window features in your called and calling Activities, either programatically or in your theme's XML.
-* Set [exit][setExitTransition] and [enter][setEnterTransition] content transitions for your calling and called activities respectively. Material-themed applications have their exit and enter content transitions set to `null` and [`Fade`][Fade] respectively by default. [Reenter][setReenterTransition] and [return][setReturnTransition] transitions default to the activity's exit and enter content transitions respectively if they are not explicitly set.
-* Set [exit][setSharedElementExitTransition] and [enter][setSharedElementEnterTransition] shared element transitions for your calling and called activities respectively. Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. [Reenter][setSharedElementReenterTransition] and [return][setSharedElementReturnTransition] transitions default to the activity's exit and enter shared element transitions respectively if they are not explicitly set.
+* Set [exit][setExitTransition] and [enter][setEnterTransition] content transitions for your calling and called activities respectively. Material-themed applications have their exit and enter content transitions set to `null` and [`Fade`][Fade] respectively by default. If the [reenter][setReenterTransition] or [return][setReturnTransition] transitions are not explicitly set, the activity's exit and enter content transitions respectively will be used in their place instead.
+* Set [exit][setSharedElementExitTransition] and [enter][setSharedElementEnterTransition] shared element transitions for your calling and called activities respectively. Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. If the [reenter][setSharedElementReenterTransition] or [return][setSharedElementReturnTransition] transitions are not explicitly set, the activity's exit and enter shared element transitions respectively will be used in their place instead.
 * To start an Activity transition with content transitions and shared elements, call the `startActivity(Context, Bundle)` method and pass the following `Bundle` as the second argument:
 
     ```java
@@ -167,7 +167,7 @@ As always, thanks for reading! Don't hesitate to leave a comment if you have any
 <hr class="footnote-divider"/>
 <sup id="footnote1">1</sup> The XML layout  that was used in the example can be viewed [here][exampleXmlLayoutGist]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
-<sup id="footnote2">2</sup> To start an Activity transition with content transitions _but no shared elements_, you can create the `Bundle` by calling `ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()` instead. To disable content transitions and shared element transitions all together, simply pass in a `null` `Bundle` object. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
+<sup id="footnote2">2</sup> To start an Activity transition with content transitions _but no shared elements_, you can create the `Bundle` by calling `ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()`. To disable content transitions and shared element transitions entirely, pass in a `null` `Bundle` object instead. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
   [exampleXmlLayoutGist]: https://gist.github.com/alexjlockwood/a96781b876138c37e88e
   [setExitTransition]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
