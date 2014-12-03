@@ -134,7 +134,7 @@ You've probably also noticed the cool circular reveal animation that plays under
 
 ### Introducing the Activity Transition API
 
-Creating a basic Activity transition is relatively easy using the new Lollipop APIs. Summarized below are the steps you must take in order to implement one in your application:
+Creating a basic Activity transition is relatively easy using the new Lollipop APIs. Summarized below are the steps you must take in order to implement one in your application. In the posts that follow, we will go through much more advanced use-cases and examples, but for now the next two sections will serve as a good introduction:
 
 * Enable the new transition APIs by requesting the [`Window.FEATURE_ACTIVITY_TRANSITIONS`][FEATURE_ACTIVITY_TRANSITIONS] [`Window.FEATURE_CONTENT_TRANSITIONS`][FEATURE_CONTENT_TRANSITIONS] window features in your called and calling Activities, either programatically or in your theme's XML.
 * Set [exit][setExitTransition] and [enter][setEnterTransition] content transitions for your calling and called activities respectively. Material-themed applications have their exit and enter content transitions set to `null` and [`Fade`][Fade] respectively by default. [Reenter][setReenterTransition] and [return][setReturnTransition] transitions default to the activity's exit and enter content transitions respectively if they are not explicitly set.
@@ -147,7 +147,7 @@ Creating a basic Activity transition is relatively easy using the new Lollipop A
 
     where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities.<sup><a href="#footnote2" id="ref2">2</a></sup> Don't forget to give your shared elements unique transition names either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will not work properly!
 * To programatically trigger a return transition, call `finishAfterTransition()` instead of `finish()`.
-* By default, material-themed applications have their enter/return content transitions started a tiny bit before their exit/reenter content transitions complete, creating a small overlap that makes the overall effect more seamless and dramatic. If you wish to explicitly disable this behavior, you can do so by calling the [`setWindowAllowEnterTransitionOverlap()`][setWindowAllowEnterTransitionOverlap] and [`setWindowAllowReturnTransitionOverlap()`][setWindowAllowReturnTransitionOverlap] methods or in your theme's XML.
+* By default, material-themed applications have their enter/return content transitions started a tiny bit before their exit/reenter content transitions complete, creating a small overlap that makes the overall effect more seamless and dramatic. If you wish to explicitly disable this behavior, you can do so by calling the [`setWindowAllowEnterTransitionOverlap()`][setWindowAllowEnterTransitionOverlap] and [`setWindowAllowReturnTransitionOverlap()`][setWindowAllowReturnTransitionOverlap] methods or by setting the corresponding attributes in your theme's XML.
 
 ### Introducing the Fragment Transition API
 
@@ -160,7 +160,7 @@ If you are working with Fragment transitions, the API is similar with a few smal
 
 ### Conclusion
 
-Although this post only gave a brief introduction to the Activitiy and Fragment transition APIs, you will find that understanding the basics of the transition framework first will greatly speed up the development process in the long-run, especially when writing custom `Transition`s. In the next two posts we will cover content transitions and shared element transitions even more in-depth to obtain an even greater understanding of what happens under-the-hood.
+Although this post has only given a brief introduction to the Activitiy and Fragment transition APIs so far, having a solid understanding of the basics of the transition framework will significantly speed up the development process in the long-run, especially when writing custom `Transition`s. In the posts that follow, we will cover content transitions and shared element transitions in even more depth to obtain an even greater understanding of what happens under-the-hood.
 
 As always, thanks for reading! Don't hesitate to leave a comment if you have any questions. Don't forget to +1 and/or re-share this blog post too!
 
