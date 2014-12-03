@@ -5,7 +5,7 @@ date: 2014-11-01
 permalink: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
 ---
 
-This post gives a brief overview of `Transition`s and introduces the new Activity and Fragment transition APIs that were added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
+This post gives a brief overview of `Transition`s and introduces the new [Activity & Fragment transition APIs][customizeActivityTransitions] that were added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
 
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** {% comment %}[{% endcomment %}
@@ -210,3 +210,5 @@ As always, thanks for reading! Don't hesitate to leave a comment if you have any
   [part1]: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/11/content-transitions-in-depth-part2.html
   [part3]: /2014/11/shared-element-transitions-in-depth-part3.html
+
+  [customizeActivityTransitions]: https://developer.android.com/training/material/animations.html#Transitions
