@@ -145,8 +145,8 @@ Creating a basic Activity transition is relatively easy using the new Lollipop A
     ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
     ```
 
-    where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities.<sup><a href="#footnote2" id="ref2">2</a></sup> Don't forget to give your shared elements unique transition names either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will not work properly!
-* To programatically trigger a return transition, call `finishAfterTransition()` instead of `finish()`.
+    where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities.<sup><a href="#footnote2" id="ref2">2</a></sup> Don't forget to give your shared elements unique transition names, either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will not work properly!
+* To programatically trigger a return transition, call [`finishAfterTransition()`][finishAfterTransition] instead of `finish()`.
 * By default, material-themed applications have their enter/return content transitions started a tiny bit before their exit/reenter content transitions complete, creating a small overlap that makes the overall effect more seamless and dramatic. If you wish to explicitly disable this behavior, you can do so by calling the [`setWindowAllowEnterTransitionOverlap()`][setWindowAllowEnterTransitionOverlap] and [`setWindowAllowReturnTransitionOverlap()`][setWindowAllowReturnTransitionOverlap] methods or by setting the corresponding attributes in your theme's XML.
 
 ### Introducing the Fragment Transition API
@@ -205,6 +205,7 @@ As always, thanks for reading! Don't hesitate to leave a comment if you have any
   [captureStartValues]: https://developer.android.com/reference/android/transition/Transition.html#captureStartValues(android.transition.TransitionValues)
   [captureEndValues]: https://developer.android.com/reference/android/transition/Transition.html#captureEndValues(android.transition.TransitionValues)
   [createAnimator]: https://developer.android.com/reference/android/transition/Transition.html#createAnimator(android.view.ViewGroup,%20android.transition.TransitionValues,%20android.transition.TransitionValues)
+  [finishAfterTransition]: https://developer.android.com/reference/android/app/Activity.html#finishAfterTransition()
 
   [part1]: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/11/content-transitions-in-depth-part2.html
