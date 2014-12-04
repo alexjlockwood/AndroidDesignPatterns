@@ -8,9 +8,7 @@ permalink: /2014/12/content-transitions-in-depth-part2.html
 This post will give an in-depth analysis of _content transitions_ and their role in the Activity Transitions API. This is the second of a series of posts I will be writing on the topic. Make sure you have read [part 1][part1] before you start reading this post!
 
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
-* **Part 2:** {% comment %}[{% endcomment %}
-              Content Transitions In-Depth (_coming soon!_)
-              {% comment %}][part2]{% endcomment %}
+* **Part 2:** [Content Transitions In-Depth][part2]
 * **Part 3:** {% comment %}[{% endcomment %}
               Shared Element Transitions In-Depth (_coming soon!_)
               {% comment %}][part3]{% endcomment %}
