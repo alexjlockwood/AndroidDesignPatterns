@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Getting Started with Activity & Fragment Transitions (part 1)'
-date: 2014-12-03
+date: 2014-12-04
 permalink: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
@@ -72,12 +72,12 @@ public class ExampleActivity extends Activity implements View.OnClickListener {
 
 To better understand what happens under-the-hood in this example, let's analyze the process step-by-step assuming that each view is initially `VISIBLE` on screen:
 
-<div style="width:290px;margin-left:35px;float:right" poster="/assets/videos/posts/2014/12/03/trivial-opt.png" preload="none">
+<div style="width:290px;margin-left:35px;float:right" poster="/assets/videos/posts/2014/12/04/trivial-opt.png" preload="none">
   <div class="framed-nexus6-port">
   <video id="figure11" onclick="playPause('figure11')">
-    <source src="/assets/videos/posts/2014/12/03/trivial-opt.mp4" type="video/mp4">
-    <source src="/assets/videos/posts/2014/12/03/trivial-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2014/12/03/trivial-opt.ogv" type="video/ogg">
+    <source src="/assets/videos/posts/2014/12/04/trivial-opt.mp4" type="video/mp4">
+    <source src="/assets/videos/posts/2014/12/04/trivial-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2014/12/04/trivial-opt.ogv" type="video/ogg">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -113,10 +113,10 @@ The Activity transition APIs are built around the idea of _exit, enter, return, 
 
 <div style="width:290px;margin-right:35px;float:right">
   <div class="framed-nexus6-port">
-  <video id="figure12" onclick="playPause('figure12')" poster="/assets/videos/posts/2014/12/03/news-opt.png" preload="none">
-    <source src="/assets/videos/posts/2014/12/03/news-opt.mp4" type="video/mp4">
-    <source src="/assets/videos/posts/2014/12/03/news-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2014/12/03/news-opt.ogv" type="video/ogg">
+  <video id="figure12" onclick="playPause('figure12')" poster="/assets/videos/posts/2014/12/04/news-opt.png" preload="none">
+    <source src="/assets/videos/posts/2014/12/04/news-opt.mp4" type="video/mp4">
+    <source src="/assets/videos/posts/2014/12/04/news-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2014/12/04/news-opt.ogv" type="video/ogg">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -167,7 +167,7 @@ If you are working with Fragment transitions, the API is similar with a few smal
 
 ### Conclusion
 
-In this post, we have only given a brief introduction to the new Activitiy and Fragment transition APIs. However, as we will see in the next few posts, having a solid understanding of the basics will significantly speed up the development process in the long-run, especially when it comes to writing custom `Transition`s. In the posts that follow, we will cover content transitions and shared element transitions in even more depth and will obtain an even greater understanding of how Activity and Fragment transitions work under-the-hood.
+In this post, we have only given a brief introduction to the new Activitiy and Fragment transition APIs. However, as we will see in the next few posts having a solid understanding of the basics will significantly speed up the development process in the long-run, especially when it comes to writing custom `Transition`s. In the posts that follow, we will cover content transitions and shared element transitions in even more depth and will obtain an even greater understanding of how Activity and Fragment transitions work under-the-hood.
 
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful!
 
