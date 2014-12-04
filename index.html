@@ -12,7 +12,7 @@ description: 'Android Design Patterns is a website for developers who wish to be
     </div>
     <div class="body">
       <header><h2 class="post-title no-border"><a href="{{ post.url }}">{{ post.title | escape }}</a></h2></header>
-      {{ post.excerpt }}
+      {{ post.content | split:"<!--morestart-->" | last | split:"<!--more-->" | first }}
       <footer>
         <a class="read-more" href="{{ post.url }}">Read more&#8230;</a>
       </footer>

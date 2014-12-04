@@ -3,7 +3,7 @@ layout: post
 title: 'Binders & Window Tokens'
 date: 2013-07-31
 permalink: /2013/07/binders-window-tokens.html
-related: ['/2013/08/binders-death-recipients.html', 
+related: ['/2013/08/binders-death-recipients.html',
 	  '/2014/01/thread-scheduling-in-android.html',
 	  '/2012/10/sqlite-contentprovider-thread-safety.html']
 updated: '2014-09-04'
@@ -70,11 +70,11 @@ request to the `PowerManager` to acquire (and later release) a wake lock:
 
 ```java
 /**
- * An example activity that acquires a wake lock in onCreate() 
+ * An example activity that acquires a wake lock in onCreate()
  * and releases it in onDestroy().
  */
 public class MyActivity extends Activity {
-    
+
   private PowerManager.WakeLock wakeLock;
 
   @Override
@@ -130,7 +130,7 @@ public final class PowerManager {
 
     public void acquire() {
       // Send the power manager service a request to acquire a wake
-      // lock for the application. Include the token as part of the 
+      // lock for the application. Include the token as part of the
       // request so that the power manager service can validate the
       // application's identity when it requests to release the wake
       // lock later on.
@@ -202,10 +202,10 @@ obtain a window token. Here are some examples:
     add a new window to the screen. This ensures secure interaction between the application and the window manager
     (by making it impossible to add windows on top of other applications), and also makes it easy for the activity
     manager to make direct requests to the window manager. For example, the activity manager can say, "hide all of
-    this token's windows", and the window manager will be able to correctly identify the set of windows which 
+    this token's windows", and the window manager will be able to correctly identify the set of windows which
     should be closed.<sup><a href="#footnote6" id="ref6">6</a></sup>
 
-  + Developers implementing their own custom Launchers can interact with the live wallpaper window that sits directly behind them by calling the 
+  + Developers implementing their own custom Launchers can interact with the live wallpaper window that sits directly behind them by calling the
     <a href="https://developer.android.com/reference/android/app/WallpaperManager.html#sendWallpaperCommand(android.os.IBinder, java.lang.String, int, int, int, android.os.Bundle)">`sendWallpaperCommand(IBinder windowToken, String action, int x, int y, int z, Bundle extras)`</a>
     method. To ensure that no other application other than the Launcher is able to interact with the live wallpaper, the
     framework requires developers to pass a window token as the first argument to the method. If the window token does not

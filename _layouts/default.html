@@ -47,6 +47,33 @@
       ga('send', 'pageview');
     </script>{% endif %}
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <style>
+      .framed-nexus6-port {
+        background: transparent url(/assets/images/nexus6_frame.png) no-repeat
+        scroll top left;
+        padding-top: 71px;
+        padding-right: 33px;
+        padding-bottom: 50px;
+        padding-left: 48px;
+        overflow: hidden;
+      }
+
+      .framed-nexus6-port,
+      .framed-nexus6-port video,
+      .framed-nexus6-port img {
+        width: 216px;
+        height: 384px;
+      }
+    </style>
+
+    <script>
+    function playPause(figureName) {
+        var myVideo = document.getElementById(figureName);
+        myVideo.load();
+        myVideo.play();
+    }
+    </script>
   </head>
 
   <body>
