@@ -39,11 +39,11 @@ In other words, content transitions allow us to perform custom animations on the
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
-    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Figure 2.1</strong> - Content transitions in the Google Play Games app (as of v2.1.17). Click to play.</p>
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Video 2.1</strong> - Content transitions in the Google Play Games app (as of v2.1.17). Click to play.</p>
   </div>
 </div>
 
-**Figure 2.1** illustrates how content transitions are used in the Google Play Games app to achieve smooth, seamless transitions between activities. The first thing you'll probably notice when you play the video is the shared element transition, which animates the game's background image across activities while clipping it yellow with a beautiful circular reveal effect. Content transitions, however, also play a role. For example, when the second activity starts, notice how its content enter transition subtly animates the users into the scene from the bottom edge of the screen. When the back button is pressed, you'll also notice the content return transition, which splits the view hierarchy into two and animates each half off the top and bottom of the screen respectively.
+**Video 2.1** illustrates how content transitions are used in the Google Play Games app to achieve smooth, seamless transitions between activities. The first thing you'll probably notice when you play the video is the shared element transition, which animates the game's background image across activities while clipping it yellow with a beautiful circular reveal effect. Content transitions, however, also play a role. For example, when the second activity starts, notice how its content enter transition subtly animates the users into the scene from the bottom edge of the screen. When the back button is pressed, you'll also notice the content return transition, which splits the view hierarchy into two and animates each half off the top and bottom of the screen respectively.
 
 In [part 1][part1], we gave a quick summary of how content transitions can be used in your own applications. However, several important questions still remain. How do content transitions work under-the-hood? Which types of `Transition` objects does it make sense to use? How does the framework determine the set of transitioning views that will be animated? Is it possible animate a `ViewGroup` and its children as a single element during the transition? In the next section, we'll begin tackling these questions one-by-one.
 
@@ -97,7 +97,7 @@ public void captureTransitioningViews(List<View> transitioningViews) {
 
 At this point, you are probably wondering what specific role do transition groups provide in this case. Put simply, transition groups allow us to animate `ViewGroup`s as single entities during an Activity Transition. If a `ViewGroup`'s [`isTransitionGroup()`][isTransitionGroup] method returns `true`, then the `ViewGroup` will be added to the list of transitioning views and all of its children views will be animated together as a single element during the animation. Otherwise, the recursion will continue and the `ViewGroup`'s transitioning children views will be acted upon independently throughout the transition.<sup><a href="#footnote1" id="ref1">1</a></sup>
 
-As an example, take a look once again at the content transitions in **Figure 2.1** above. Notice how the user avatar elements animate into the screen individually during the enter transition, but exit the scene together with their parent `ViewGroup` during the return transition. In order to achieve this effect, the Google Play Games app sets the parent `ViewGroup` to be a transition group _only_ during the return transition, making it appear as if the activity is splitting in half when the user navigates back.
+As an example, take a look once again at the content transitions in **Video 2.1** above. Notice how the user avatar elements animate into the screen individually during the enter transition, but exit the scene together with their parent `ViewGroup` during the return transition. In order to achieve this effect, the Google Play Games app sets the parent `ViewGroup` to be a transition group _only_ during the return transition, making it appear as if the activity is splitting in half when the user navigates back.
 
 ### Conclusion
 
