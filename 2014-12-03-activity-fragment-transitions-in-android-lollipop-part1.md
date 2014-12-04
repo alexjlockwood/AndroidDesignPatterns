@@ -1,8 +1,11 @@
 ---
 layout: post
 title: 'Getting Started with Activity & Fragment Transitions (part 1)'
-date: 2014-11-01
-permalink: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
+date: 2014-12-03
+permalink: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
+related: ['/2013/08/fragment-transaction-commit-state-loss.html',
+    '/2013/04/retaining-objects-across-config-changes.html',
+    '/2012/07/loaders-and-loadermanager-background.html']
 ---
 
 This post gives a brief overview of `Transition`s and introduces the new [Activity & Fragment transition APIs][customizeActivityTransitions] that were added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
@@ -69,10 +72,11 @@ public class ExampleActivity extends Activity implements View.OnClickListener {
 
 To better understand what happens under-the-hood in this example, let's analyze the process step-by-step assuming that each view is initially `VISIBLE` on screen:
 
-<div style="width:290px;margin-left:35px;float:right">
+<div style="width:290px;margin-left:35px;float:right" poster="/assets/videos/posts/2014/12/03/trivial-opt.png" preload="none">
   <div class="framed-nexus6-port">
   <video id="figure11" onclick="playPause('figure11')">
-    <source src="/assets/videos/posts/2014/11/01/trivial-opt.mp4">
+    <source src="/assets/videos/posts/2014/12/03/trivial-opt.mp4">
+    <source src="/assets/videos/posts/2014/12/03/trivial-opt.webm">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -108,8 +112,9 @@ The Activity transition APIs are built around the idea of _exit, enter, return, 
 
 <div style="width:290px;margin-right:35px;float:right">
   <div class="framed-nexus6-port">
-  <video id="figure12" onclick="playPause('figure12')">
-    <source src="/assets/videos/posts/2014/11/01/news-opt.mp4">
+  <video id="figure12" onclick="playPause('figure12')" poster="/assets/videos/posts/2014/12/03/news-opt.png" preload="none">
+    <source src="/assets/videos/posts/2014/12/03/news-opt.mp4">
+    <source src="/assets/videos/posts/2014/12/03/news-opt.webm">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -139,7 +144,7 @@ Creating a basic Activity transition is relatively easy using the new Lollipop A
 * Enable the new transition APIs by requesting the [`Window.FEATURE_ACTIVITY_TRANSITIONS`][FEATURE_ACTIVITY_TRANSITIONS] [`Window.FEATURE_CONTENT_TRANSITIONS`][FEATURE_CONTENT_TRANSITIONS] window features in your called and calling Activities, either programatically or in your theme's XML.
 * Set [exit][setExitTransition] and [enter][setEnterTransition] content transitions for your calling and called activities respectively. Material-themed applications have their exit and enter content transitions set to `null` and [`Fade`][Fade] respectively by default. If the [reenter][setReenterTransition] or [return][setReturnTransition] transitions are not explicitly set, the activity's exit and enter content transitions respectively will be used in their place instead.
 * Set [exit][setSharedElementExitTransition] and [enter][setSharedElementEnterTransition] shared element transitions for your calling and called activities respectively. Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. If the [reenter][setSharedElementReenterTransition] or [return][setSharedElementReturnTransition] transitions are not explicitly set, the activity's exit and enter shared element transitions respectively will be used in their place instead.
-* To start an Activity transition with content transitions and shared elements, call the `startActivity(Context, Bundle)` method and pass the following `Bundle` as the second argument:
+* To start an Activity transition with content transitions and shared elements, call the [`startActivity(Context, Bundle)`][startActivity] method and pass the following `Bundle` as the second argument:
 
     ```java
     ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
@@ -160,16 +165,17 @@ If you are working with Fragment transitions, the API is similar with a few smal
 
 ### Conclusion
 
-Although this post has only given a brief introduction to the Activitiy and Fragment transition APIs so far, having a solid understanding of the basics of the transition framework will significantly speed up the development process in the long-run, especially when writing custom `Transition`s. In the posts that follow, we will cover content transitions and shared element transitions in even more depth to obtain an even greater understanding of what happens under-the-hood.
+In this post, we have only given a brief introduction to the new Activitiy and Fragment transition APIs. However, as we will see in the next few posts, having a solid understanding of the basics will significantly speed up the development process in the long-run, especially when it comes to writing custom `Transition`s. In the posts that follow, we will cover content transitions and shared element transitions in even more depth and will obtain an even greater understanding of how Activity and Fragment transitions work under-the-hood.
 
-As always, thanks for reading! Don't hesitate to leave a comment if you have any questions. Don't forget to +1 and/or re-share this blog post too!
+As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful!
+
 
 <hr class="footnote-divider"/>
 <sup id="footnote1">1</sup> The XML layout  that was used in the example can be viewed [here][exampleXmlLayoutGist]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
 <sup id="footnote2">2</sup> It might look like the views in `A` are fading in/out of the screen at first, but what you are really seeing is activity `B` fading in/out of the screen _on top of activity `A`_. The views in activity `A` are not actually animating during this time. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
-<sup id="footnote3">3</sup> To start an Activity transition with content transitions _but no shared elements_, you can create the `Bundle` by calling `ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()`. To disable content transitions and shared element transitions entirely, pass in a `null` `Bundle` object instead. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
+<sup id="footnote3">3</sup> To start an Activity transition with content transitions _but no shared elements_, you can create the `Bundle` by calling `ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()`. To disable content transitions and shared element transitions entirely, don't create a `Bundle` object at all&mdash;just pass `null` instead. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
 
   [exampleXmlLayoutGist]: https://gist.github.com/alexjlockwood/a96781b876138c37e88e
   [setExitTransition]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
@@ -209,8 +215,9 @@ As always, thanks for reading! Don't hesitate to leave a comment if you have any
   [createAnimator]: https://developer.android.com/reference/android/transition/Transition.html#createAnimator(android.view.ViewGroup,%20android.transition.TransitionValues,%20android.transition.TransitionValues)
   [finishAfterTransition]: https://developer.android.com/reference/android/app/Activity.html#finishAfterTransition()
 
-  [part1]: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
+  [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/11/content-transitions-in-depth-part2.html
   [part3]: /2014/11/shared-element-transitions-in-depth-part3.html
 
   [customizeActivityTransitions]: https://developer.android.com/training/material/animations.html#Transitions
+  [startActivity]: http://developer.android.com/reference/android/app/Activity.html#startActivity%28android.content.Intent,%20android.os.Bundle%29
