@@ -1,9 +1,8 @@
 ---
 layout: post
 title: 'Content Transitions In-Depth (part 2)'
-date: 2014-11-02
-permalink: /2014/11/content-transitions-in-depth-part2.html
-published: false
+date: 2014-12-05
+permalink: /2014/12/content-transitions-in-depth-part2.html
 ---
 
 This post will give an in-depth analysis of _content transitions_ and their role in the Activity Transitions API. This is the second of a series of posts I will be writing on the topic. Make sure you have read [part 1][part1] before you start reading this post!
@@ -36,7 +35,7 @@ In other words, content transitions allow us to perform custom animations on the
 <div style="width:290px;margin-right:35px;float:right">
   <div class="framed-nexus6-port">
   <video id="figure21" onclick="playPause('figure21')">
-    <source src="/assets/videos/posts/2014/11/02/games-opt.mp4">
+    <source src="/assets/videos/posts/2014/12/05/games-opt.mp4">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -129,7 +128,7 @@ In this post we learned blah and blah. In the next post we will learn blah. Don'
   [addTarget]: https://developer.android.com/reference/android/transition/Transition.html#addTarget(android.view.View)
   [excludeTarget]: https://developer.android.com/reference/android/transition/Transition.html#excludeTarget(android.view.View,%20boolean)
 
-  [part1]: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
-  [part2]: /2014/11/content-transitions-in-depth-part2.html
+  [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
+  [part2]: /2014/12/content-transitions-in-depth-part2.html
   [part3]: /2014/11/shared-element-transitions-in-depth-part3.html
 

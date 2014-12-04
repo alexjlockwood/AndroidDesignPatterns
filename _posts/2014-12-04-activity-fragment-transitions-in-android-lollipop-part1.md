@@ -11,9 +11,7 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
 This post gives a brief overview of `Transition`s and introduces the new [Activity & Fragment transition APIs][customizeActivityTransitions] that were added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
 
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
-* **Part 2:** {% comment %}[{% endcomment %}
-              Content Transitions In-Depth (_coming soon!_)
-              {% comment %}][part2]{% endcomment %}
+* **Part 2:** [Content Transitions In-Depth][part2]
 * **Part 3:** {% comment %}[{% endcomment %}
               Shared Element Transitions In-Depth (_coming soon!_)
               {% comment %}][part3]{% endcomment %}
@@ -218,7 +216,7 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [finishAfterTransition]: https://developer.android.com/reference/android/app/Activity.html#finishAfterTransition()
 
   [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
-  [part2]: /2014/11/content-transitions-in-depth-part2.html
+  [part2]: /2014/12/content-transitions-in-depth-part2.html
   [part3]: /2014/11/shared-element-transitions-in-depth-part3.html
 
   [customizeActivityTransitions]: https://developer.android.com/training/material/animations.html#Transitions
