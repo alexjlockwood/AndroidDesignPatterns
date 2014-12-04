@@ -3,6 +3,7 @@ layout: post
 title: 'Content Transitions In-Depth (part 2)'
 date: 2014-11-02
 permalink: /2014/11/content-transitions-in-depth-part2.html
+published: false
 ---
 
 This post will give an in-depth analysis of _content transitions_ and their role in the Activity Transitions API. This is the second of a series of posts I will be writing on the topic. Make sure you have read [part 1][part1] before you start reading this post!

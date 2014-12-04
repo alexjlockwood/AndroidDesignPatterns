@@ -3,6 +3,7 @@ layout: post
 title: 'Shared Element Transitions In-Depth (part 3)'
 date: 2014-11-02
 permalink: /2014/11/shared-element-transitions-in-depth-part3.html
+published: false
 ---
 
 This post focuses on shared element transitions. This is the second of a series of posts I will be writing about Activity Transitions:
