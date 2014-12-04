@@ -208,8 +208,8 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [Activity#overridePendingTransition]: http://developer.android.com/reference/android/app/Activity.html#overridePendingTransition(int,%20int)
   [FragmentTransaction#setCustomAnimations]: http://developer.android.com/reference/android/app/FragmentTransaction.html#setCustomAnimations(int,%20int,%20int,%20int)
 
-  [setWindowAllowEnterTransitionOverlap]: http://developer.android.com/reference/android/view/Window.html#attr_android:windowAllowEnterTransitionOverlap
-  [setWindowAllowReturnTransitionOverlap]: http://developer.android.com/reference/android/view/Window.html#attr_android:windowAllowReturnTransitionOverlap
+  [setWindowAllowEnterTransitionOverlap]: http://developer.android.com/reference/android/view/Window.html#setAllowEnterTransitionOverlap(boolean)
+  [setWindowAllowReturnTransitionOverlap]: http://developer.android.com/reference/android/view/Window.html#setAllowReturnTransitionOverlap(boolean)
 
   [beginDelayedTransition]: https://developer.android.com/reference/android/transition/TransitionManager.html#beginDelayedTransition(android.view.ViewGroup,%20android.transition.Transition)
   [captureStartValues]: https://developer.android.com/reference/android/transition/Transition.html#captureStartValues(android.transition.TransitionValues)
