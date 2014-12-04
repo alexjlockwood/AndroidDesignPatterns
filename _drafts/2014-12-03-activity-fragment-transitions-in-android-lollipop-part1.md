@@ -75,8 +75,9 @@ To better understand what happens under-the-hood in this example, let's analyze 
 <div style="width:290px;margin-left:35px;float:right" poster="/assets/videos/posts/2014/12/03/trivial-opt.png" preload="none">
   <div class="framed-nexus6-port">
   <video id="figure11" onclick="playPause('figure11')">
-    <source src="/assets/videos/posts/2014/12/03/trivial-opt.mp4">
-    <source src="/assets/videos/posts/2014/12/03/trivial-opt.webm">
+    <source src="/assets/videos/posts/2014/12/03/trivial-opt.mp4" type="video/mp4">
+    <source src="/assets/videos/posts/2014/12/03/trivial-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2014/12/03/trivial-opt.ogv" type="video/ogg">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -113,8 +114,9 @@ The Activity transition APIs are built around the idea of _exit, enter, return, 
 <div style="width:290px;margin-right:35px;float:right">
   <div class="framed-nexus6-port">
   <video id="figure12" onclick="playPause('figure12')" poster="/assets/videos/posts/2014/12/03/news-opt.png" preload="none">
-    <source src="/assets/videos/posts/2014/12/03/news-opt.mp4">
-    <source src="/assets/videos/posts/2014/12/03/news-opt.webm">
+    <source src="/assets/videos/posts/2014/12/03/news-opt.mp4" type="video/mp4">
+    <source src="/assets/videos/posts/2014/12/03/news-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2014/12/03/news-opt.ogv" type="video/ogg">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -171,7 +173,7 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
 
 
 <hr class="footnote-divider"/>
-<sup id="footnote1">1</sup> The XML layout  that was used in the example can be viewed [here][exampleXmlLayoutGist]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
+<sup id="footnote1">1</sup> If you want to try the example out yourself, the XML layout code can be found [here][exampleXmlLayoutGist]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
 <sup id="footnote2">2</sup> It might look like the views in `A` are fading in/out of the screen at first, but what you are really seeing is activity `B` fading in/out of the screen _on top of activity `A`_. The views in activity `A` are not actually animating during this time. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
