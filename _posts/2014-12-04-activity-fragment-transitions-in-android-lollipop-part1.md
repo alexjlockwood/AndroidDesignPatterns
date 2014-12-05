@@ -161,7 +161,7 @@ Creating a basic Activity transition is relatively easy using the new Lollipop A
 If you are working with Fragment transitions, the API is similar with a few small differences:
 
 * Content [exit][Fragment#setExitTransition], [enter][Fragment#setEnterTransition], [reenter][Fragment#setReenterTransition], and [return][Fragment#setReturnTransition] transitions should be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML tag.
-* Shared element [exit][Fragment#setSharedElementExitTransition], [enter][Fragment#setSharedElementEnterTransition], [reenter][Fragment#setSharedElementReenterTransition], and [return][Fragment#setSharedElementReturnTransition] transitions should also be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
+* Shared element [enter][Fragment#setSharedElementEnterTransition] and [return][Fragment#setSharedElementReturnTransition] transitions should be set by calling the corresponding methods in the `Fragment` class or as attributes in your Fragment's XML.
 * Whereas Activity transitions are triggered by explicit calls to `startActivity()` and `finishAfterTransition()`, Fragment transitions are triggered automatically when a fragment is added, removed, attached, detached, shown, or hidden by a `FragmentTransaction`.
 * Shared elements should be specified as part of the `FragmentTransaction` by calling the [`addSharedElement(View, String)`][addSharedElement] method before the transaction is committed.
 

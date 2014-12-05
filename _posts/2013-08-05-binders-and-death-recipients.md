@@ -6,6 +6,7 @@ permalink: /2013/08/binders-death-recipients.html
 related: ['/2014/01/thread-scheduling-in-android.html', 
 	  '/2013/07/binders-window-tokens.html', 
 	  '/2012/10/sqlite-contentprovider-thread-safety.html']
+updated: '2014-12-04'
 ---
 > Note: before you begin, make sure you've read my [previous post](/2013/07/binders-window-tokens.html)
 > about Binder tokens!
@@ -193,8 +194,7 @@ interesting examples:
     <a href="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/app/LoadedApk.java">here</a>).
 
   + Many other system services depend on the Binder's link-to-death facility in order to ensure that
-    expensive resources aren't leaked when an application process is forcefully killed. Some other examples
-    (not including the `PowerManagerService`) are the
+    expensive resources aren't leaked when an application process is forcefully killed. Some other examples are the
     <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/VibratorService.java">`VibratorService`</a>,
     <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/LocationManagerService.java">`LocationManagerService`</a>,
     <a href="https://android.googlesource.com/platform/frameworks/base/+/master/services/java/com/android/server/location/GpsLocationProvider.java">`GpsLocationProvider`</a>,
