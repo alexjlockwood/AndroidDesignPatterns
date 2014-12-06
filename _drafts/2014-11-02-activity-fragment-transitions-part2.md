@@ -72,8 +72,7 @@ Up until now, we have assumed that content transitions operate on a set of non-s
 
 The framework constructs the set of transitioning views early on in the process by performing a recursive search on the window's entire view hierarchy. The search is first initiated by calling the recursive [`ViewGroup#captureTransitioningViews`][ViewGroup#captureTransitioningViews] method on the window's decor view. The source code for the search (shown below) is fairly straightforward. The framework simply recurses down each level of the tree until it finds either a visible leaf view or a [transition group][isTransitionGroup] and adds them to a list. Finally, if any views were explicitly [added][addTarget] or [excluded][excludeTarget] in the `Transition` object, the framework takes them into account and filters the list accordingly. The final result is a collection of all views in the view hierarchy that will be animated during the content transition.
 
-<div class="scrollable">
-{% highlight java linenos=table %}
+```java
 /** @hide */
 @Override
 public void captureTransitioningViews(List<View> transitioningViews) {
@@ -90,8 +89,7 @@ public void captureTransitioningViews(List<View> transitioningViews) {
         }
     }
 }
-{% endhighlight %}
-</div>
+```
 
 At this point, you are probably wondering what specific role do transition groups provide in this case. Put simply, transition groups allow us to animate `ViewGroup`s as single entities during an Activity Transition. If a `ViewGroup`'s [`isTransitionGroup()`][isTransitionGroup] method returns `true`, then the `ViewGroup` will be added to the list of transitioning views and all of its children views will be animated together as a single element during the animation. Otherwise, the recursion will continue and the `ViewGroup`'s transitioning children views will be acted upon independently throughout the transition.<sup><a href="#footnote1" id="ref1">1</a></sup>
 
