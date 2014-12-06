@@ -2,17 +2,15 @@
 layout: post
 title: 'Content Transitions In-Depth (part 2)'
 date: 2014-12-05
-permalink: /2014/12/content-transitions-in-depth-part2.html
+permalink: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
 ---
 
 This post will give an in-depth analysis of _content transitions_ and their role in the Activity Transitions API. This is the second of a series of posts I will be writing on the topic. Make sure you have read [part 1][part1] before you start reading this post!
 
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** [Content Transitions In-Depth][part2]
-* **Part 3:** {% comment %}[{% endcomment %}
-              Shared Element Transitions In-Depth (_coming soon!_)
-              {% comment %}][part3]{% endcomment %}
-* **Part 4:** Examples (_coming soon!_)
+* **Part 3:** Shared Element Transitions In-Depth (_coming soon!_)
+* **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
 While these posts will focus mainly on Activity transitions, note that most of the information presented will also apply to Fragment transitions as well, with only some minor differences. I'll do my best to point out these differences as they are encountered in the posts!
 
@@ -30,10 +28,12 @@ In other words, content transitions allow us to perform custom animations on the
 
 <!--more-->
 
-<div style="width:290px;margin-right:35px;float:right">
+<div style="width:290px;margin-right:35px;float:right" poster="/assets/videos/posts/2014/12/05/games-opt.png" preload="none">
   <div class="framed-nexus6-port">
   <video id="figure21" onclick="playPause('figure21')">
-    <source src="/assets/videos/posts/2014/12/05/games-opt.mp4">
+    <source src="/assets/videos/posts/2014/12/05/games-opt.mp4" type="video/mp4">
+    <source src="/assets/videos/posts/2014/12/05/games-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2014/12/05/games-opt.ogv" type="video/ogg">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
