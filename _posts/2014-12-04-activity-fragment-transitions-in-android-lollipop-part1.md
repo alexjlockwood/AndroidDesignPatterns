@@ -5,7 +5,7 @@ date: 2014-12-04
 permalink: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
-    '/2012/07/loaders-and-loadermanager-background.htmsl']
+    '/2012/07/loaders-and-loadermanager-background.html']
 ---
 
 This post gives a brief overview of `Transition`s and introduces the new [Activity & Fragment transition APIs][customizeActivityTransitions] that were added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
