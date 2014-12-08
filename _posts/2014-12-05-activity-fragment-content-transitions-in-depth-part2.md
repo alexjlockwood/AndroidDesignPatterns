@@ -55,7 +55,7 @@ Perhaps the most important thing to understand about content transitions is that
 <li>The framework determines the set of transitioning views that will exit the scene when <code>A</code>'s exit transition is run.</li>
 <li><code>A</code>'s exit transition captures start values for the transitioning views in <code>A</code>.</li>
 <li>The framework sets all transitioning views in <code>A</code> to <code>INVISIBLE</code>.</li>
-<li>On the next animation frame, <code>A</code>'s exit transition captures end values for the transitioning views in <code>A</code>.</li>
+<li>On the next display frame, <code>A</code>'s exit transition captures end values for the transitioning views in <code>A</code>.</li>
 <li><code>A</code>'s exit transition compares the start and end values of its transitioning views and creates an <code>Animator</code> based on the differences. The <code>Animator</code> is run and the transitioning views exit the scene.</li>
 </ol>
 </li>
@@ -64,7 +64,7 @@ Perhaps the most important thing to understand about content transitions is that
 <li>The framework determines the set of transitioning views that will enter the scene when <code>B</code>'s enter transition is run and sets them all to <code>INVISIBLE</code>.</li>
 <li><code>B</code>'s enter transition captures start values for the transitioning views in <code>B</code>.</li>
 <li>The framework sets all transitioning views in <code>B</code> to <code>VISIBLE</code>.</li>
-<li>On the next animation frame, <code>B</code>'s enter transition captures end values for the transitioning views in <code>B</code>.</li>
+<li>On the next display frame, <code>B</code>'s enter transition captures end values for the transitioning views in <code>B</code>.</li>
 <li><code>B</code>'s enter transition compares the start and end values of its target views and creates an <code>Animator</code> based on the differences. The <code>Animator</code> is run and the transitioning views enter the scene.</li>
 </ol>
 </li>
