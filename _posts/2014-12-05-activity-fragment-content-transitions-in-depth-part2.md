@@ -50,12 +50,12 @@ In [part 1][part1], we gave a quick summary of how content transitions can be us
 
 ### Content Transitions Under-The-Hood
 
-Perhaps the most important thing to understand about content transitions is that they are governed by `View`-visibility changes and should almost always extend the abstract [`Visibility`][Visibility] class as a result. To understand what this means, let's investigate the sequence of events that occurs under-the-hood when activity `A` starts activity `B`:
+Perhaps the most important thing to understand about content transitions is that they are governed by `View`-visibility changes and should almost always extend the abstract [`Visibility`][Visibility] class as a result. To understand why this is, let's investigate the sequence of events that occurs under-the-hood when activity `A` starts activity `B`:
 
 <ol>
 <li>Activity <code>A</code> calls <code>startActivity()</code>.
 <ol style="list-style-type: lower-alpha;">
-<li>The framework determines the set of transitioning views that will exit the scene when <code>A</code>'s exit transition is run.</li>
+<li>The framework traverses <code>A</code>'s view hierarchy and determines the set of transitioning views that will exit the scene when <code>A</code>'s exit transition is run.</li>
 <li><code>A</code>'s exit transition captures start values for the transitioning views in <code>A</code>.</li>
 <li>The framework sets all transitioning views in <code>A</code> to <code>INVISIBLE</code>.</li>
 <li>On the next display frame, <code>A</code>'s exit transition captures end values for the transitioning views in <code>A</code>.</li>
@@ -64,7 +64,7 @@ Perhaps the most important thing to understand about content transitions is that
 </li>
 <li>Activity <code>B</code> is started.
 <ol style="list-style-type: lower-alpha;">
-<li>The framework determines the set of transitioning views that will enter the scene when <code>B</code>'s enter transition is run and sets them all to <code>INVISIBLE</code>.</li>
+<li>The framework traverses <code>B</code>'s view hierarchy and determines the set of transitioning views that will enter the scene when <code>B</code>'s enter transition is run and sets them all to <code>INVISIBLE</code>.</li>
 <li><code>B</code>'s enter transition captures start values for the transitioning views in <code>B</code>.</li>
 <li>The framework sets all transitioning views in <code>B</code> to <code>VISIBLE</code>.</li>
 <li>On the next display frame, <code>B</code>'s enter transition captures end values for the transitioning views in <code>B</code>.</li>
@@ -111,7 +111,7 @@ As an example, take a look once again at the content transitions in **Video 2.1*
 In this post we learned blah and blah. In the next post we will learn blah. Don't forget to +1 this post if you enjoyed it and leave a comment below blah blah blah.
 
 <hr class="footnote-divider"/>
-<sup id="footnote1">1</sup> Beware of any `ViewGroup`'s in your view hierarchy with non-`null` background drawables and/or non-`null` transition names, as they will be treated as transition groups by default (as stated in the [`isTransitionGroup()`][isTransitionGroup] method's documentation). If any such views exist in your view hierarchy that you would not like to be animated as a single entity, make sure you call the view's [`setTransitionGroup(false)`][setTransitionGroup]method or else you will likely get some unexpected results. **You have been warned!** <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
+<sup id="footnote1">1</sup> Beware of any `ViewGroup`'s in your view hierarchy with non-`null` background drawables and/or non-`null` transition names, as they will be treated as transition groups by default (as stated in the [`isTransitionGroup()`][isTransitionGroup] method's documentation). If any such views exist in your view hierarchy that you would not like to be animated as a single entity, make sure you call the view's [`setTransitionGroup(false)`][setTransitionGroup] method or else you will likely get some unexpected results. **You have been warned!** <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
   [Visibility]: https://developer.android.com/reference/android/transition/Visibility.html
   [onAppear]: https://developer.android.com/reference/android/transition/Visibility.html#onAppear(android.view.ViewGroup,%20android.transition.TransitionValues,%20int,%20android.transition.TransitionValues,%20int)
