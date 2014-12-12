@@ -150,9 +150,9 @@ public class SampleActivity extends Activity {
 </div>
 
 The difference between static and non-static inner classes is subtle, but is something
-every Android developer should understand. What's the bottom line? Avoid using non-static
-inner classes in an activity if instances of the inner class outlive the activity's
-lifecycle. Instead, prefer static inner classes and hold a weak reference to the activity inside.
+every Android developer should understand. What's the bottom line? **Avoid using non-static
+inner classes in an activity if instances of the inner class could outlive the activity's
+lifecycle.** Instead, prefer static inner classes and hold a weak reference to the activity inside.
 
 As always, leave a comment if you have any questions and don't forget to +1 this blog in
 the top right corner! :)
