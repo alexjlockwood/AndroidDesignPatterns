@@ -3,7 +3,7 @@ layout: post
 title: 'How to Leak a Context: Handlers & Inner Classes'
 date: 2013-01-14
 permalink: /2013/01/inner-class-handler-memory-leak.html
-updated: '2014-01-05'
+updated: '2014-12-12'
 related: ['/2012/07/understanding-loadermanager.html',
 	  '/2013/04/activitys-threads-memory-leaks.html',
 	  '/2013/04/retaining-objects-across-config-changes.html']
@@ -73,8 +73,8 @@ public class SampleActivity extends Activity {
     // Post a message and delay its execution for 10 minutes.
     mLeakyHandler.postDelayed(new Runnable() {
       @Override
-      public void run() { }
-    }, 60 * 10 * 1000);
+      public void run() { /* ... */ }
+    }, 1000 * 60 * 10);
  
     // Go back to the previous Activity.
     finish();
@@ -132,7 +132,7 @@ public class SampleActivity extends Activity {
    */
   private static final Runnable sRunnable = new Runnable() {
       @Override
-      public void run() { }
+      public void run() { /* ... */ }
   };
 
   @Override
@@ -140,7 +140,7 @@ public class SampleActivity extends Activity {
     super.onCreate(savedInstanceState);
 
     // Post a message and delay its execution for 10 minutes.
-    mHandler.postDelayed(sRunnable, 60 * 10 * 1000);
+    mHandler.postDelayed(sRunnable, 1000 * 60 * 10);
     
     // Go back to the previous Activity.
     finish();
