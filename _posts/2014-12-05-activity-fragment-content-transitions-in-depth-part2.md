@@ -46,7 +46,7 @@ So far our analysis of content transitions has only scratched the surface; in fa
 
 ### Content Transitions Under-The-Hood
 
-Recall from the [previous post][part1] that a `Transition` has two main responsibilities: capturing the start and end state of its views and creating an `Animator` that will animate the views between the two states. Content transitions are no different. Before a content transition's animation is run, the framework toggles each transitioning view's _visibility_, giving it the information it needs to create the desired animation. To understand what this means, let's investigate what happens under-the-hood when Activity `A` starts Activity `B` using the Activity transitions API (the process is similar for Fragment transitions as well):
+Recall from the [previous post][part1] that a `Transition` has two main responsibilities: capturing the start and end state of its views and creating an `Animator` that will animate the views between the two states. Content transitions are no different. Before a content transition's animation is run, the framework gives the transition the information it needs to create its `Animator` by toggling each transitioning view's _visibility_. More specifically, when Activity `A` starts Activity `B` the following sequence of events will occur:
 
 <ol>
 <li>Activity <code>A</code> calls <code>startActivity()</code>.
@@ -64,18 +64,18 @@ Recall from the [previous post][part1] that a `Transition` has two main responsi
 <li><code>B</code>'s enter transition captures start values for the transitioning views in <code>B</code>.</li>
 <li>The framework sets all transitioning views in <code>B</code> to <code>VISIBLE</code>.</li>
 <li>On the next display frame, <code>B</code>'s enter transition captures end values for the transitioning views in <code>B</code>.</li>
-<li><code>B</code>'s enter transition compares the start and end values of its target views and creates an <code>Animator</code> based on the differences. The <code>Animator</code> is run and the transitioning views enter the scene.</li>
+<li><code>B</code>'s enter transition compares the start and end values of its transitioning views and creates an <code>Animator</code> based on the differences. The <code>Animator</code> is run and the transitioning views enter the scene.</li>
 </ol>
 </li>
 </ol>
 
-As can be seen above, with content transitions the difference between the start and end state will always be that the view's visibility was toggled by the framework: either the view started out `INVISIBLE` and ended up `VISIBLE` or vice versa. As a result, a content `Transition` object at the very least must be able to record each view's visibility in its start and end states and create an `Animator` that will animate the views as they enter or exit the scene.
+By toggling each transitioning view's visibility between `INVISIBLE` and `VISIBLE`, the framework ensures that the content transition will have captured the state information it needs in order to create the desired animation.
 
-Fortunately, the abstract [`Visibility`][Visibility] class already does the first half of this work for you: subclasses of `Visibility` must only implement the [`onAppear()`][onAppear] and [`onDisappear()`][onDisappear] factory methods, in which they must create and return an `Animator` that will either animate the views into or out of the scene. As of API 21, three concrete `Visibility` implementations exist: [`Fade`][Fade], [`Slide`][Slide], and [`Explode`][Explode]. Writing custom `Visibility` transitions will be covered in a future blog post.
+Clearly, all content `Transition` objects must at the very least be able to capture and record each view's visibility in its start and end states and create an `Animator` that will animate the views as they enter or exit the scene. Fortunately, the abstract [`Visibility`][Visibility] class already does the first half of this work for you: subclasses of `Visibility` must only implement the [`onAppear()`][onAppear] and [`onDisappear()`][onDisappear] factory methods, in which they must create and return an `Animator` that will either animate the views into or out of the scene. As of API 21, three concrete `Visibility` implementations exist&mdash;[`Fade`][Fade], [`Slide`][Slide], and [`Explode`][Explode]&mdash;all of which can be used to create Activity and Fragment content transitions. If necessary, custom `Visibility` classes may be implemented and used as well (we will cover how this can be done in a future blog post).
 
 ### Transitioning Views & Transition Groups
 
-Up until now, we have assumed that content transitions operate on a set of non-shared views called _transitioning views_. In this section, we will discuss how the framework determines the set of views to be transitioned and this default selection can be further customized using _transition groups_.
+Up until now, we have assumed that content transitions operate on a set of non-shared views called _transitioning views_. In this section, we will discuss how the framework determines the set of views to be transitioned and how this default selection can be further customized using _transition groups_.
 
 The framework constructs the set of transitioning views early on in the process by performing a recursive search on the window's entire view hierarchy. The search is first initiated by calling the recursive `ViewGroup#captureTransitioningViews` method on the window's decor view. The search is fairly straightforward. The framework simply recurses down each level of the tree until it finds either a visible leaf view or a [transition group][isTransitionGroup] and adds them to a list. Finally, if any views were explicitly [added][addTarget] or [excluded][excludeTarget] in the `Transition` object, the framework takes them into account and filters the list accordingly. The final result is a collection of all views in the view hierarchy that will be animated during the content transition. The [source code][ViewGroup#captureTransitioningViews] for the main part of the search is shown below:
 
