@@ -18,7 +18,7 @@ We begin by summarizing what we learned about content transitions from [part 1][
 
 <!--morestart-->
 
-A _content transition_ determines how an Activity or Fragment's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the scene during an Activity or Fragment transition. Coordinating the entrance and exit of each Activity/Fragment's transitioning views makes switching between different application screens seem effortless, especially when coupled with shared element transitions. They help create visual connections between the different UI states and provide a seamless background effect as the Activity/Fragment's shared elements animate into place. (**TODO: awk last two sentences?**)
+A _content transition_ determines how an Activity or Fragment's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the scene during an Activity or Fragment transition. Coordinating the entrance and exit of each Activity/Fragment's transitioning views makes switching between different application screens seem effortless, especially when coupled with shared element transitions. They help create visual connections between the different UI states and provide a seamless background effect as the Activity/Fragment's shared elements animate into place.
 
 As we discussed in the [previous post][part1], content transitions can be set by calling the following [`Window`][Window] and [`Fragment`][Fragment] methods:
 
@@ -42,15 +42,15 @@ As we discussed in the [previous post][part1], content transitions can be set by
   </div>
 </div>
 
-As an example, **Video 2.1** illustrates how content transitions are used in the Google Play Games app to achieve smooth transitions between activities. When the second activity starts, notice how its content enter transition subtly animates the users into the scene from the bottom edge of the screen. When the back button is pressed, you'll also notice the content return transition, which splits the view hierarchy into two and animates each half off the top and bottom of the screen respectively. (**TODO: mention the shared element transition at all?**)
+As an example, **Video 2.1** illustrates how content transitions are used in the Google Play Games app to achieve smooth transitions between activities. When the second activity starts, notice how its content enter transition subtly animates the users into the scene from the bottom edge of the screen. On the other hand, when the back button is pressed the return content transition splits the view hierarchy into two and animates each half separately off the top and bottom of the screen.
 
 In [part 1][part1], we gave a quick summary of how content transitions can be used in your own applications. However, several important questions still remain. How do content transitions work under-the-hood? Which types of `Transition` objects does it make sense to use? How does the framework determine the set of transitioning views that will be animated? Is it possible animate a `ViewGroup` and its children as a single element during the transition? In the next section, we'll begin tackling these questions one-by-one.
 
 ### Content Transitions Under-The-Hood
 
-In the [previous post][part1] we learned that a `Transition`'s two main responsibilities are capturing the start and end state of its views and creating an `Animator` based on the differences. As a result, the framework must first modify the transitioning views' start and end values before a content transition's animation can be created and run, as it is these differences that will ultimately decide how the views will be animated during the transition. In this section, we will take a deeper look at how the framework operates under-the-hood.
+Recall from the [previous post][part1] that a `Transition` has two main responsibilities: capturing the start and end state of its views and creating an `Animator` that will animate the views between the two states. In order to understand how content transitions work, it is therefore crucial to know what the start and end states represent, as the difference between the two will ultimately decide the animation to be performed. In this section, we will learn how the framework modifies the start and end state of its transitioning views in order to trigger the desired effect.
 
-Perhaps the most important thing to understand about content transitions is that they are governed by `View`-visibility changes and should almost always extend the abstract [`Visibility`][Visibility] class as a result. To understand why this is, let's investigate the sequence of events that occurs under-the-hood when Activity `A` starts Activity `B` (the process is similar for Fragment transitions):
+Perhaps the most important thing to understand about content transitions is that they are governed by `View`-visibility differences and should almost always extend the abstract [`Visibility`][Visibility] class as a result. To understand why this is, let's investigate the sequence of events that occurs under-the-hood when Activity `A` starts Activity `B` (the process is similar for Fragment transitions):
 
 <ol>
 <li>Activity <code>A</code> calls <code>startActivity()</code>.
@@ -81,7 +81,7 @@ Fortunately, the abstract [`Visibility`][Visibility] class already does the firs
 
 Up until now, we have assumed that content transitions operate on a set of non-shared views called _transitioning views_. In this section, we will discuss how the framework determines the set of views to be transitioned and this default selection can be further customized using _transition groups_.
 
-The framework constructs the set of transitioning views early on in the process by performing a recursive search on the window's entire view hierarchy. The search is first initiated by calling the recursive [`ViewGroup#captureTransitioningViews`][ViewGroup#captureTransitioningViews] method on the window's decor view. The source code for the search (shown below) is fairly straightforward. The framework simply recurses down each level of the tree until it finds either a visible leaf view or a [transition group][isTransitionGroup] and adds them to a list. Finally, if any views were explicitly [added][addTarget] or [excluded][excludeTarget] in the `Transition` object, the framework takes them into account and filters the list accordingly. The final result is a collection of all views in the view hierarchy that will be animated during the content transition.
+The framework constructs the set of transitioning views early on in the process by performing a recursive search on the window's entire view hierarchy. The search is first initiated by calling the recursive `ViewGroup#captureTransitioningViews` method on the window's decor view. The search is fairly straightforward. The framework simply recurses down each level of the tree until it finds either a visible leaf view or a [transition group][isTransitionGroup] and adds them to a list. Finally, if any views were explicitly [added][addTarget] or [excluded][excludeTarget] in the `Transition` object, the framework takes them into account and filters the list accordingly. The final result is a collection of all views in the view hierarchy that will be animated during the content transition. The [source code][ViewGroup#captureTransitioningViews] of the main part of the search is shown below:
 
 ```java
 /** @hide */
@@ -107,6 +107,12 @@ At this point, you are probably wondering what specific role do transition group
 As an example, take a look once again at the content transitions in **Video 2.1** above. Notice how the user avatar elements animate into the screen individually during the enter transition, but exit the scene together with their parent `ViewGroup` during the return transition. In order to achieve this effect, the Google Play Games app sets the parent `ViewGroup` to be a transition group _only_ during the return transition, making it appear as if the activity is splitting in half when the user navigates back. (**TODO: give example... i.e. `WebView`?**)
 
 ### Conclusion
+
+In this post, we covered three important points:
+
+1. Content transitions determine how an Activity or Fragment's non-shared views—called transitioning views—enter or exit the scene during an Activity or Fragment transition.
+2. Content transitions are triggered by changes made to its transitioning views' visibility and should almost always extend the abstract `Visibility` class as a result.
+3. Transition groups allow us to animate `ViewGroup`s and custom views as a single entity during a content transition.
 
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful!
 
