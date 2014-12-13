@@ -169,7 +169,6 @@ In this post, we have only given a brief introduction to the new Activitiy and F
 
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful!
 
-
 <hr class="footnote-divider"/>
 <sup id="footnote1">1</sup> If you want to try the example out yourself, the XML layout code can be found [here][exampleXmlLayoutGist]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
