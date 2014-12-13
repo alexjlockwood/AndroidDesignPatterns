@@ -12,20 +12,18 @@ This post will give an in-depth analysis of _content transitions_ and their role
 * **Part 3:** Shared Element Transitions In-Depth (_coming soon!_)
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
-We begin by summarizing what we learned about content transitions from [part 1][part1] and illustrating how they can be used in real-world applications to achieve smooth, seamless animations in Android Lollipop.
+We begin by summarizing what we learned about content transitions in [part 1][part1] and illustrating how they can be used in real-world applications to achieve smooth, seamless animations in Android Lollipop.
 
 ### What is a Content Transition?
 
 <!--morestart-->
 
-A _content transition_ determines how an Activity or Fragment's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the scene during an Activity or Fragment transition. Coordinating the entrance and exit of each Activity/Fragment's transitioning views makes switching between different application screens seem effortless, especially when coupled with shared element transitions. They help create visual connections between the different UI states and provide a seamless background effect as the Activity/Fragment's shared elements animate into place.
+A _content transition_ determines how the non-shared views&mdash;called _transitioning views_&mdash;enter or exit the scene during an Activity or Fragment transition. Motivated by Google's new [Material Design][MaterialDesignMeaningfulTransitions] language, they enable us to coordinate the entrance and exit of each Activity/Fragment's views and make the act of switching between different screens seem smooth and effortless. Beginning with Android Lollipop, content transitions can be set programatically by calling the following [`Window`][Window] or [`Fragment`][Fragment] methods:
 
-As we discussed in the [previous post][part1], content transitions can be set by calling the following [`Window`][Window] and [`Fragment`][Fragment] methods:
-
-* `setExitTransition()` - `A`'s exit transition animates the transitioning views **out** of the scene when `A` **starts** `B`.
-* `setEnterTransition()` - `B`'s enter transition animates the transitioning views **into** the scene when `A` **starts** `B`.
-* `setReturnTransition()` - `B`'s return transition animates the transitioning views **out** of the scene when `B` **returns** to `A`.
-* `setReenterTransition()` - `A`'s reenter transition animates the transitioning views **into** the scene when `B` **returns** to `A`.
+* `setExitTransition()` - `A`'s exit transition animates its transitioning views **out** of the scene when `A` **starts** `B`.
+* `setEnterTransition()` - `B`'s enter transition animates its transitioning views **into** the scene when `A` **starts** `B`.
+* `setReturnTransition()` - `B`'s return transition animates its transitioning views **out** of the scene when `B` **returns** to `A`.
+* `setReenterTransition()` - `A`'s reenter transition animates its transitioning views **into** the scene when `B` **returns** to `A`.
 
 <!--more-->
 
@@ -42,15 +40,13 @@ As we discussed in the [previous post][part1], content transitions can be set by
   </div>
 </div>
 
-As an example, **Video 2.1** illustrates how content transitions are used in the Google Play Games app to achieve smooth transitions between activities. When the second activity starts, notice how its content enter transition subtly animates the users into the scene from the bottom edge of the screen. On the other hand, when the back button is pressed the return content transition splits the view hierarchy into two and animates each half separately off the top and bottom of the screen.
+As an example, **Video 2.1** illustrates how content transitions are used in the Google Play Games app to achieve smooth animations between activities. When the second activity starts, its enter content transition gently shuffles the user bubbles into the scene from the bottom edge of the screen. On the other hand, when the back button is pressed the second activity's return content transition splits its view hierarchy into two and animates each half off the top and bottom of the screen.
 
-In [part 1][part1], we gave a quick summary of how content transitions can be used in your own applications. However, several important questions still remain. How do content transitions work under-the-hood? Which types of `Transition` objects does it make sense to use? How does the framework determine the set of transitioning views that will be animated? Is it possible animate a `ViewGroup` and its children as a single element during the transition? In the next section, we'll begin tackling these questions one-by-one.
+So far our analysis of content transitions has only scratched the surface; in fact, several important questions still remain. How are content transitions triggered under-the-hood? Which types of `Transition` objects does it make sense to use? How does the framework select the set of transitioning views that will be animated? Is it possible animate a `ViewGroup` and its children as a single element during the transition? In the next section, we'll begin tackling these questions one-by-one.
 
 ### Content Transitions Under-The-Hood
 
-Recall from the [previous post][part1] that a `Transition` has two main responsibilities: capturing the start and end state of its views and creating an `Animator` that will animate the views between the two states. In order to understand how content transitions work, it is therefore crucial to know what the start and end states represent, as the difference between the two will ultimately decide the animation to be performed. In this section, we will learn how the framework modifies the start and end state of its transitioning views in order to trigger the desired effect.
-
-Perhaps the most important thing to understand about content transitions is that they are governed by `View`-visibility differences and should almost always extend the abstract [`Visibility`][Visibility] class as a result. To understand why this is, let's investigate the sequence of events that occurs under-the-hood when Activity `A` starts Activity `B` (the process is similar for Fragment transitions):
+Recall from the [previous post][part1] that a `Transition` has two main responsibilities: capturing the start and end state of its views and creating an `Animator` that will animate the views between the two states. Content transitions are no different. Before a content transition's animation is run, the framework toggles each transitioning view's _visibility_, giving it the information it needs to create the desired animation. To understand what this means, let's investigate what happens under-the-hood when Activity `A` starts Activity `B` using the Activity transitions API (the process is similar for Fragment transitions as well):
 
 <ol>
 <li>Activity <code>A</code> calls <code>startActivity()</code>.
@@ -144,6 +140,8 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
 
   [Window]: http://developer.android.com/reference/android/view/Window.html
   [Fragment]: http://developer.android.com/reference/android/app/Fragment.html
+
+  [MaterialDesignMeaningfulTransitions]: http://www.google.com/design/spec/animation/meaningful-transitions.html
 
   [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/12/content-transitions-in-depth-part2.html
