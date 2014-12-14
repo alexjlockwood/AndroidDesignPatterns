@@ -105,17 +105,21 @@ public void captureTransitioningViews(List<View> transitioningViews) {
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
-    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Video 2.2</strong> - Glitch. Click to play.</p>
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Video 2.2</strong> - A simple Radiohead app that illustrates a potential bug involving transition groups and <code>WebView</code>s. Click to play.</p>
   </div>
 </div>
 
-The recursion is relatively straightforward: the framework traverses each level of the tree until it finds either a `VISIBLE` leaf view or [transition group][isTransitionGroup]. By allowing us to exit the recursion early, transition groups give us a way to animate entire `ViewGroup`s as single entities during an Activity/Fragment transition. If a `ViewGroup`'s [`isTransitionGroup()`][isTransitionGroup] method returns `true`, then it and all of its children views will be animated together as a single element during the animation. Otherwise, the recursion will continue and the `ViewGroup`'s transitioning children views will be acted upon independently throughout the transition.<sup><a href="#footnote2" id="ref2">2</a></sup> The final result of the search is the complete set of transitioning views that will be animated when the content transition is run.<sup><a href="#footnote3" id="ref3">3</a></sup>
+The recursion is relatively straightforward: the framework traverses each level of the tree until it finds either a `VISIBLE` leaf view or _transition group_. By allowing us to exit the recursion early, transition groups give us a way to animate entire `ViewGroup`s as single entities during an Activity/Fragment transition. If a `ViewGroup`'s [`isTransitionGroup()`][isTransitionGroup]<sup><a href="#footnote2" id="ref2">2</a></sup> method returns `true`, then it and all of its children views will be animated together as a single element during the animation. Otherwise, the recursion will continue and the `ViewGroup`'s transitioning children views will be acted upon independently throughout the transition. The final result of the search is the complete set of transitioning views that will be animated when the content transition is run.<sup><a href="#footnote3" id="ref3">3</a></sup>
 
-An example illustrating transition groups in action can be seen in **Video 2.1** above. During the enter transition, the user avatars shuffle into the screen independently of the others, whereas during the return transition the entire `ViewGroup` containing the user avatars is animated as one. The Google Play Games app likely uses a transition group to achieve this effect during the return transition, making it look as if the activity is splitting in half when the user navigates back. (**TODO: give a better example... i.e. `WebView`?**)
+An example illustrating transition groups in action can be seen in **Video 2.1** above. During the enter transition, the user avatars shuffle into the screen independently of the others, whereas during the return transition the entire `ViewGroup` containing the user avatars is animated as one. The Google Play Games app likely uses a transition group to achieve this effect during the return transition, making it look as if the activity is splitting in half when the user navigates back.
+
+Sometimes transition groups must also be used to fix mysterious bugs in your Activity/Fragment transitions as well. For example, consider the sample application in **Video 2.2**. The calling Activity displays a grid of Radiohead album covers and the called Activity shows a background header image, the shared album cover, and a `WebView`. During the return transition, we would like to split the view hierarchy in half similar to the Google Play Games app, sliding the header background image and `WebView` off the top and bottom of the screen respectively. However, as you can see in the video, a glitch occurs when the back button is clicked and the `WebView` fails to slide off the screen.
+
+So why does the `WebView` stay put throughout the duration of the return animation only to abruptly disappear from the screen once the transition has finished? The problem stems from the fact that `WebView` is a `ViewGroup` and as a result is _not_ selected to be a transitioning view by default. We can easily fix this, however, by simply calling `webView.setTransitionGroup(true)` at some point before the return transition begins.
 
 ### Conclusion
 
-In this post, we covered three important points:
+This post covered three important points:
 
 1. Content transitions determine how an Activity or Fragment's non-shared views—called transitioning views—enter or exit the scene during an Activity or Fragment transition.
 2. Content transitions are triggered by changes made to its transitioning views' visibility and should almost always extend the abstract `Visibility` class as a result.
