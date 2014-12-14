@@ -42,7 +42,7 @@ A _content transition_ determines how the non-shared views&mdash;called _transit
 
 As an example, **Video 2.1** illustrates how content transitions are used in the Google Play Games app to achieve smooth animations between activities. When the second activity starts, its enter content transition gently shuffles the user bubbles into the scene from the bottom edge of the screen. On the other hand, when the back button is pressed the second activity's return content transition splits its view hierarchy into two and animates each half off the top and bottom of the screen.
 
-So far our analysis of content transitions has only scratched the surface; in fact, several important questions still remain. How are content transitions triggered under-the-hood? Which types of `Transition` objects does it make sense to use? How does the framework select the set of transitioning views that will be animated? Is it possible animate a `ViewGroup` and its children as a single element during the transition? In the next section, we'll begin tackling these questions one-by-one.
+So far our analysis of content transitions has only scratched the surface; several important questions still remain. How are content transitions triggered under-the-hood? Which types of `Transition` objects does it make sense to use? How does the framework select the set of transitioning views that will be animated? Is it possible animate a `ViewGroup` and its children as a single element during the transition? In the next section, we'll begin tackling these questions one-by-one.
 
 ### Content Transitions Under-The-Hood
 
@@ -75,9 +75,9 @@ Clearly, all content `Transition` objects must at the very least be able to capt
 
 ### Transitioning Views & Transition Groups
 
-Up until now, we have assumed that content transitions operate on a set of non-shared views called _transitioning views_. In this section, we will discuss how the framework determines the set of views to be transitioned and how this default selection can be further customized using _transition groups_.
+Up until now, we have assumed that content transitions operate on a set of non-shared views called _transitioning views_. In this section, we will discuss how the framework determines this set of views and how it can be further customized using _transition groups_.
 
-The framework constructs the set of transitioning views early on in the process by performing a recursive search on the window's entire view hierarchy. The search is first initiated by calling the recursive `ViewGroup#captureTransitioningViews` method on the window's decor view. The search is fairly straightforward. The framework simply recurses down each level of the tree until it finds either a visible leaf view or a [transition group][isTransitionGroup] and adds them to a list. Finally, if any views were explicitly [added][addTarget] or [excluded][excludeTarget] in the `Transition` object, the framework takes them into account and filters the list accordingly. The final result is a collection of all views in the view hierarchy that will be animated during the content transition. The [source code][ViewGroup#captureTransitioningViews] for the main part of the search is shown below:
+When it comes time to construct the set of transitioning views, the framework does so by performing a recursive search on the activity window's (or fragment's) entire view hierarchy. The search begins by calling the recursive [`ViewGroup#captureTransitioningViews`][ViewGroup#captureTransitioningViews] method on the hierarchy's root view:
 
 ```java
 /** @hide */
@@ -98,9 +98,9 @@ public void captureTransitioningViews(List<View> transitioningViews) {
 }
 ```
 
-At this point, you are probably wondering what specific role do transition groups provide in this case. Put simply, transition groups allow us to animate `ViewGroup`s as single entities during an Activity Transition. If a `ViewGroup`'s [`isTransitionGroup()`][isTransitionGroup] method returns `true`, then the `ViewGroup` will be added to the list of transitioning views and all of its children views will be animated together as a single element during the animation. Otherwise, the recursion will continue and the `ViewGroup`'s transitioning children views will be acted upon independently throughout the transition.<sup><a href="#footnote1" id="ref1">1</a></sup>
+The recursion is relatively straight forward. The framework simply traveres each level of the tree until it finds either a `VISIBLE` leaf view or a [transition group][isTransitionGroup]. Put simply, transition groups give us a way to animate a `ViewGroup` as single entities during an Activity or Fragment transition. If a `ViewGroup`'s [`isTransitionGroup()`][isTransitionGroup] method returns `true`, then it and all of its children views will be animated together as a single element during the animation. Otherwise, the recursion will continue and the `ViewGroup`'s transitioning children views will be acted upon independently throughout the transition.<sup><a href="#footnote1" id="ref1">1</a></sup> The final result of the search is the complete set of transitioning views that will be animated when the content transition is run.<sup><a href="#footnote2" id="ref2">2</a></sup>
 
-As an example, take a look once again at the content transitions in **Video 2.1** above. Notice how the user avatar elements animate into the screen individually during the enter transition, but exit the scene together with their parent `ViewGroup` during the return transition. In order to achieve this effect, the Google Play Games app sets the parent `ViewGroup` to be a transition group _only_ during the return transition, making it appear as if the activity is splitting in half when the user navigates back. (**TODO: give example... i.e. `WebView`?**)
+An example illustrating transition groups in action is given in **Video 2.1** above. Notice how the user avatar elements animate into the screen individually during the enter transition, but exit the scene together with their parent `ViewGroup` during the return transition. In order to achieve this effect, the Google Play Games app sets the parent `ViewGroup` to be a transition group _only_ during the return transition, making it appear as if the activity is splitting in half when the user navigates back. (**TODO: give a better example... i.e. `WebView`?**)
 
 ### Conclusion
 
@@ -114,6 +114,8 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
 
 <hr class="footnote-divider"/>
 <sup id="footnote1">1</sup> Beware of any `ViewGroup`'s in your view hierarchy with non-`null` background drawables and/or non-`null` transition names, as they will be treated as transition groups by default (as stated in the [`isTransitionGroup()`][isTransitionGroup] method's documentation). If any such views exist in your view hierarchy that you would not like to be animated as a single entity, make sure you call the view's [`setTransitionGroup(false)`][setTransitionGroup] method or else you will likely get some unexpected results. **You have been warned!** <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
+
+<sup id="footnote2">2</sup> Note that if any views were explicitly [added][addTarget] or [excluded][excludeTarget] in the content `Transition` object, the framework will take this into account as well and will filter the set of transitioning views further if necessary. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
   [Visibility]: https://developer.android.com/reference/android/transition/Visibility.html
   [onAppear]: https://developer.android.com/reference/android/transition/Visibility.html#onAppear(android.view.ViewGroup,%20android.transition.TransitionValues,%20int,%20android.transition.TransitionValues,%20int)
