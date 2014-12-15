@@ -6,6 +6,7 @@ permalink: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
     '/2012/07/loaders-and-loadermanager-background.html']
+updated: '2014-12-11'
 ---
 
 This post gives a brief overview of `Transition`s and introduces the new [Activity & Fragment transition APIs][customizeActivityTransitions] that were added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
@@ -172,7 +173,7 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
 <hr class="footnote-divider"/>
 <sup id="footnote1">1</sup> If you want to try the example out yourself, the XML layout code can be found [here][exampleXmlLayoutGist]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
-<sup id="footnote2">2</sup> It might look like the views in `A` are fading in/out of the screen at first, but what you are really seeing is activity `B` fading in/out of the screen _on top of activity `A`_. The views in activity `A` are not actually animating during this time. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
+<sup id="footnote2">2</sup> It might look like the views in `A` are fading in/out of the screen at first, but what you are really seeing is activity `B` fading in/out of the screen _on top of activity `A`_. The views in activity `A` are not actually animating during this time. You can adjust the duration of the background fade by calling [`setTransitionBackgroundFadeDuration()`][setTransitionBackgroundFadeDuration] on the called activity's `Window`. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
 <sup id="footnote3">3</sup> To start an Activity transition with content transitions _but no shared elements_, you can create the `Bundle` by calling `ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()`. To disable content transitions and shared element transitions entirely, don't create a `Bundle` object at all&mdash;just pass `null` instead. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
 
@@ -220,3 +221,5 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
 
   [customizeActivityTransitions]: https://developer.android.com/training/material/animations.html#Transitions
   [startActivity]: http://developer.android.com/reference/android/app/Activity.html#startActivity%28android.content.Intent,%20android.os.Bundle%29
+
+  [setTransitionBackgroundFadeDuration]: http://developer.android.com/reference/android/view/Window.html#setTransitionBackgroundFadeDuration(long)
