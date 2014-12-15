@@ -113,13 +113,13 @@ The recursion is relatively straightforward: the framework traverses each level 
 
 An example illustrating transition groups in action can be seen in **Video 2.1** above. During the enter transition, the user avatars shuffle into the screen independently of the others, whereas during the return transition the parent `ViewGroup` containing the user avatars is animated as together one. The Google Play Games app likely uses a transition group to achieve this effect, making it look as if the current scene splits in half when the user returns to the previous activity.
 
-Sometimes transition groups must also be used to fix mysterious bugs in your Activity/Fragment transitions as well. For example, consider the sample application in **Video 2.2**: the calling Activity displays a grid of Radiohead album covers and the called Activity shows a background header image, the shared element album cover, and a `WebView`. The app uses a return transition similar to the Google Play Games app, sliding the top background image and bottom `WebView` off the top and bottom of the screen respectively. However, as you can see in the video, a glitch occurs and the `WebView` fails to slide smoothly off the screen.
+Sometimes transition groups must also be used to fix mysterious bugs in your Activity/Fragment transitions. For example, consider the sample application in **Video 2.2**: the calling Activity displays a grid of Radiohead album covers and the called Activity shows a background header image, the shared element album cover, and a `WebView`. The app uses a return transition similar to the Google Play Games app, sliding the top background image and bottom `WebView` off the top and bottom of the screen respectively. However, as you can see in the video, a glitch occurs and the `WebView` fails to slide smoothly off the screen.
 
 So what went wrong? Well, the problem stems from the fact that `WebView` is a `ViewGroup` and as a result is _not_ selected to be a transitioning view by default. Thus, when the return content transition is run, the `WebView` will be ignored entirely and will remain drawn on the screen before being abruptly removed when the transition ends. Fortunately, we can easily fix this by calling `webView.setTransitionGroup(true)` at some point before the return transition begins.
 
 ### Conclusion
 
-This post presented three important points that are worth remembering:
+Overall, this post presented three important points:
 
 1. A content transition determines how an Activity or Fragment's non-shared views&mdash;called transitioning views&mdash;enter or exit the scene during an Activity or Fragment transition.
 2. Content transitions are triggered by changes made to its transitioning views' visibility and should almost always extend the abstract `Visibility` class as a result.
