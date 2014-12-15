@@ -1,8 +1,11 @@
 ---
 layout: post
 title: 'Content Transitions In-Depth (part 2)'
-date: 2014-12-05
+date: 2014-12-15
 permalink: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
+related: ['/2012/06/app-force-close-honeycomb-ics.html',
+    '/2012/08/implementing-loaders.html',
+    '/2013/08/fragment-transaction-commit-state-loss.html']
 ---
 
 This post will give an in-depth analysis of _content transitions_ and their role in the Activity and Fragment Transitions API. This is the second of a series of posts I will be writing on the topic:
@@ -27,12 +30,12 @@ A _content transition_ determines how the non-shared views&mdash;called _transit
 
 <!--more-->
 
-<div style="width:290px;margin-right:35px;float:right" poster="/assets/videos/posts/2014/12/05/games-opt.png" preload="none">
+<div style="width:290px;margin-right:35px;float:right" poster="/assets/videos/posts/2014/12/15/games-opt.png" preload="none">
   <div class="framed-nexus6-port">
   <video id="figure21" onclick="playPause('figure21')">
-    <source src="/assets/videos/posts/2014/12/05/games-opt.mp4" type="video/mp4">
-    <source src="/assets/videos/posts/2014/12/05/games-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2014/12/05/games-opt.ogv" type="video/ogg">
+    <source src="/assets/videos/posts/2014/12/15/games-opt.mp4" type="video/mp4">
+    <source src="/assets/videos/posts/2014/12/15/games-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2014/12/15/games-opt.ogv" type="video/ogg">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -96,12 +99,12 @@ public void captureTransitioningViews(List<View> transitioningViews) {
 }
 ```
 
-<div style="width:290px;margin-right:35px;float:right" poster="/assets/videos/posts/2014/12/05/webview-opt.png" preload="none">
+<div style="width:290px;margin-right:35px;float:right" poster="/assets/videos/posts/2014/12/15/webview-opt.png" preload="none">
   <div class="framed-nexus6-port">
   <video id="figure22" onclick="playPause('figure22')">
-    <source src="/assets/videos/posts/2014/12/05/webview-opt.mp4" type="video/mp4">
-    <source src="/assets/videos/posts/2014/12/05/webview-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2014/12/05/webview-opt.ogv" type="video/ogg">
+    <source src="/assets/videos/posts/2014/12/15/webview-opt.mp4" type="video/mp4">
+    <source src="/assets/videos/posts/2014/12/15/webview-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2014/12/15/webview-opt.ogv" type="video/ogg">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">

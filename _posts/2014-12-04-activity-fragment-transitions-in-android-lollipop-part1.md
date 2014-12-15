@@ -216,7 +216,7 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [finishAfterTransition]: https://developer.android.com/reference/android/app/Activity.html#finishAfterTransition()
 
   [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
-  [part2]: /2014/12/content-transitions-in-depth-part2.html
+  [part2]: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
   [part3]: /2014/11/shared-element-transitions-in-depth-part3.html
 
   [customizeActivityTransitions]: https://developer.android.com/training/material/animations.html#Transitions
