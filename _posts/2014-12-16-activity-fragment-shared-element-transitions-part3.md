@@ -1,21 +1,20 @@
 ---
 layout: post
 title: 'Shared Element Transitions In-Depth (part 3)'
-date: 2014-11-02
-permalink: /2014/11/shared-element-transitions-in-depth-part3.html
-published: false
+date: 2014-12-16
+permalink: /2014/12/activity-fragment-shared-element-transitions-in-depth-part3.html
+related: ['/2012/08/implementing-loaders.html',
+    '/2013/08/fragment-transaction-commit-state-loss.html',
+    '/2012/06/app-force-close-honeycomb-ics.html']
 ---
 
-This post focuses on shared element transitions. This is the second of a series of posts I will be writing about Activity Transitions:
+This post will give an in-depth analysis of _shared element transitions_ and their role in the Activity and Fragment Transitions API. This is the third of a series of posts I will be writing on the topic:
 
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
-* **Part 2:** {% comment %}[{% endcomment %}
-              Content Transitions In-Depth (_coming soon!_)
-              {% comment %}][part2]{% endcomment %}
-* **Part 3:** {% comment %}[{% endcomment %}
-              Shared Element Transitions In-Depth (_coming soon!_)
-              {% comment %}][part3]{% endcomment %}
-* **Part 4:** Examples (_coming soon!_)
+* **Part 2:** [Content Transitions In-Depth][part2]
+* **Part 3:** [Shared Element Transitions In-Depth][part3]
+* **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
+
 
 While these posts will focus mainly on Activity transitions, note that most of the information presented will also apply to Fragment transitions as well, with only some minor differences. I'll do my best to point out these differences as they are encountered in the posts!
 
@@ -116,7 +115,7 @@ You can further customize your shared element transitions by setting a [`SharedE
   [setSharedElementsUseOverlay]: https://developer.android.com/reference/android/view/Window.html#setSharedElementsUseOverlay(boolean)
   [SharedElementCallback]: https://developer.android.com/reference/android/app/SharedElementCallback.html
 
-  [part1]: /2014/11/activity-transitions-getting-started-part1.html
-  [part2]: /2014/11/content-transitions-in-depth-part2.html
-  [part3]: /2014/11/activity-fragment-transitions-in-android-lollipop-part1.html
+  [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
+  [part2]: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
+  [part3]: /2014/12/activity-fragment-shared-element-transitions-in-depth-part3.html
 
