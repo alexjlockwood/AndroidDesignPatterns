@@ -31,7 +31,7 @@ Shared element transitions allow us to perform animations on "shared elements" t
 <div style="width:290px;margin-left:35px;float:right">
   <div class="framed-nexus6-port">
   <video id="figure31" onclick="playPause('figure31')">
-    <source src="/assets/videos/posts/2014/11/03/music-opt.mp4">
+    <source src="/assets/videos/posts/2014/12/16/music-opt.mp4">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -99,7 +99,7 @@ You can further customize your shared element transitions by setting a [`SharedE
 **TODO: recap**
 
 <hr class="footnote-divider"/>
-<sup id="footnote1">1</sup> For Fragment Transitions, shared element [exit][Fragment#setSharedElementExitTransition], [enter][Fragment#setSharedElementEnterTransition], [reenter][Fragment#setSharedElementReenterTransition], and [return][Fragment#setSharedElementReturnTransition] transitions may also be set either programatically or as attributes in your `Fragment`' XML. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
+<sup id="footnote1">1</sup> For Fragment Transitions, shared element [exit][Fragment#setSharedElementExitTransition], [enter][Fragment#setSharedElementEnterTransition], [reenter][Fragment#setSharedElementReenterTransition], and [return][Fragment#setSharedElementReturnTransition] transitions may also be set either programatically or as attributes in your `Fragment`'s XML. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
   [setSharedElementExitTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementExitTransition(android.transition.Transition)
   [setSharedElementEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementEnterTransition(android.transition.Transition)
