@@ -78,7 +78,7 @@ By toggling each transitioning view's visibility between `INVISIBLE` and `VISIBL
 
 Up until now, we have assumed that content transitions operate on a set of non-shared views called _transitioning views_. In this section, we will discuss how the framework determines this set of views and how it can be further customized using _transition groups_.
 
-Before the transition starts, the framework constructs the set of transitioning views by performing a recursive search on the Activity window's (or Fragment's) entire view hierarchy. The search begins by calling the overridden recursive [`ViewGroup#captureTransitioningViews`][ViewGroup#captureTransitioningViews] method on the hierarchy's root view, the source code of which is given below:
+Before the transition starts, the framework constructs the set of transitioning views by performing a recursive search on the Activity window's (or Fragment's) entire view hierarchy. The search begins by calling the overridden recursive `ViewGroup#captureTransitioningViews` method on the hierarchy's root view, the [source code][ViewGroup#captureTransitioningViews] of which is given below:
 
 ```java
 /** @hide */
@@ -135,7 +135,7 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
 
 <sup id="footnote2">2</sup> Note that `isTransitionGroup()` will return `true` if the `ViewGroup` has a non-`null` background drawable and/or non-`null` transition name by default (as stated in the method's [documentation][isTransitionGroup]). <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
-<sup id="footnote3">3</sup> Note that if any views were explicitly [added][addTarget] or [excluded][excludeTarget] in the content `Transition` object, the framework will take this into account as well and will filter the set of transitioning views further if necessary. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
+<sup id="footnote3">3</sup> Note that any views that were explicitly [added][addTarget] or [excluded][excludeTarget] in the content `Transition` object will also be taken into account when the transition is run. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
 
   [Visibility]: https://developer.android.com/reference/android/transition/Visibility.html
   [onAppear]: https://developer.android.com/reference/android/transition/Visibility.html#onAppear(android.view.ViewGroup,%20android.transition.TransitionValues,%20int,%20android.transition.TransitionValues,%20int)
