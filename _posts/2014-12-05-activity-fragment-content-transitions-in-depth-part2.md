@@ -167,6 +167,6 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [MaterialDesignMeaningfulTransitions]: http://www.google.com/design/spec/animation/meaningful-transitions.html
 
   [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
-  [part2]: /2014/12/content-transitions-in-depth-part2.html
+  [part2]: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
   [part3]: /2014/11/shared-element-transitions-in-depth-part3.html
 
