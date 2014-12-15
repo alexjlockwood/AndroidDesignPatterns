@@ -3,9 +3,9 @@ layout: post
 title: 'Content Transitions In-Depth (part 2)'
 date: 2014-12-15
 permalink: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
-related: ['/2012/06/app-force-close-honeycomb-ics.html',
-    '/2012/08/implementing-loaders.html',
-    '/2013/08/fragment-transaction-commit-state-loss.html']
+related: ['/2012/08/implementing-loaders.html',
+    '/2013/08/fragment-transaction-commit-state-loss.html',
+    '/2012/06/app-force-close-honeycomb-ics.html']
 ---
 
 This post will give an in-depth analysis of _content transitions_ and their role in the Activity and Fragment Transitions API. This is the second of a series of posts I will be writing on the topic:
