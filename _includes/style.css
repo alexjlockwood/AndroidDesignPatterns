@@ -584,8 +584,12 @@ pre code {
   }
 }
 @media (max-width: 600px) {
+  ul,
+  ol {
+    padding-left: 1em;
+  }
   li {
-    margin: 1em 0 1em 1em;
+    margin: 1em 0;
   }
   #content h1 {
     font-family: 'Roboto', sans-serif;
@@ -594,6 +598,10 @@ pre code {
     line-height: 1.3em;
     margin: 0 0 1em;
     color: #222;
+  }
+  .responsive-figure {
+    float: none !important;
+    margin: 0 auto !important;
   }
   #social {
     text-align: center;
