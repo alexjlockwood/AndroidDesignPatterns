@@ -71,7 +71,7 @@ public class ExampleActivity extends Activity implements View.OnClickListener {
 
 To better understand what happens under-the-hood in this example, let's analyze the process step-by-step assuming that each view is initially `VISIBLE` on screen:
 
-<div style="width:290px;margin-left:35px;float:right" class="responsive-figure">
+<div class="responsive-figure nexus6-figure">
   <div class="framed-nexus6-port">
   <video id="figure11" onclick="playPause('figure11')" poster="/assets/videos/posts/2014/12/04/trivial-opt.png" preload="none">
     <source src="/assets/videos/posts/2014/12/04/trivial-opt.mp4" type="video/mp4">
@@ -110,7 +110,7 @@ The Activity transition APIs are built around the idea of _exit, enter, return, 
 >
 > Activity `A`'s _reenter transition_ determines how views in `A` are animated when `B` returns to `A`.
 
-<div style="width:290px;margin-right:35px;float:right" class="responsive-figure">
+<div class="responsive-figure nexus6-figure">
   <div class="framed-nexus6-port">
   <video id="figure12" onclick="playPause('figure12')" poster="/assets/videos/posts/2014/12/04/news-opt.png" preload="none">
     <source src="/assets/videos/posts/2014/12/04/news-opt.mp4" type="video/mp4">
