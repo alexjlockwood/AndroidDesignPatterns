@@ -71,9 +71,9 @@ public class ExampleActivity extends Activity implements View.OnClickListener {
 
 To better understand what happens under-the-hood in this example, let's analyze the process step-by-step assuming that each view is initially `VISIBLE` on screen:
 
-<div style="width:290px;margin-left:35px;float:right" poster="/assets/videos/posts/2014/12/04/trivial-opt.png" preload="none">
+<div style="width:290px;margin-left:35px;float:right">
   <div class="framed-nexus6-port">
-  <video id="figure11" onclick="playPause('figure11')">
+  <video id="figure11" onclick="playPause('figure11')" poster="/assets/videos/posts/2014/12/04/trivial-opt.png" preload="none">
     <source src="/assets/videos/posts/2014/12/04/trivial-opt.mp4" type="video/mp4">
     <source src="/assets/videos/posts/2014/12/04/trivial-opt.webm" type="video/webm">
     <source src="/assets/videos/posts/2014/12/04/trivial-opt.ogv" type="video/ogg">
