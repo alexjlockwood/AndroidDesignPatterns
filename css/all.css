@@ -1,6 +1,6 @@
 ---
 ---
-{% include reset.css %}
+{% include normalize.css %}
 {% include syntax.css %}
 {% include social.css %}
 {% include style.css %}

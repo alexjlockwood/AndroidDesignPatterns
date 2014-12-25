@@ -30,7 +30,7 @@ A _content transition_ determines how the non-shared views&mdash;called _transit
 
 <!--more-->
 
-<div style="width:290px;margin-right:35px;float:right">
+<div style="width:290px;margin-right:35px;float:right" class="responsive-figure">
   <div class="framed-nexus6-port">
   <video id="figure21" onclick="playPause('figure21')" poster="/assets/videos/posts/2014/12/15/games-opt.png" preload="none">
     <source src="/assets/videos/posts/2014/12/15/games-opt.mp4" type="video/mp4">
@@ -99,7 +99,7 @@ public void captureTransitioningViews(List<View> transitioningViews) {
 }
 ```
 
-<div style="width:290px;margin-right:35px;float:right">
+<div style="width:290px;margin-right:35px;float:right" class="responsive-figure">
   <div class="framed-nexus6-port">
   <video id="figure22" onclick="playPause('figure22')" poster="/assets/videos/posts/2014/12/15/webview-opt.png" preload="none">
     <source src="/assets/videos/posts/2014/12/15/webview-opt.mp4" type="video/mp4">
