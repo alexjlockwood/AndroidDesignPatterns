@@ -13,8 +13,8 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 2.75em;
   font-weight: 900;
-  line-height: 1.3em;
-  margin: .5em 0 .5em;
+  line-height: 1em;
+  margin: 0 0 .5em;
   color: #222;
 }
 #content h2 {
