@@ -28,10 +28,10 @@ A _shared element transition_ determines how the shared views&mdash;also called 
 
 <!--more-->
 
-<div style="width:290px;margin-left:35px;float:right">
+<div class="responsive-figure nexus6-figure">
   <div class="framed-nexus6-port">
-  <video id="figure31" onclick="playPause('figure31')">
-    <source src="/assets/videos/posts/2014/12/16/music-opt.mp4">
+  <video id="figure31" onclick="playPause('figure31')" poster="/assets/videos/posts/2014/12/16/music-opt.png" preload="none">
+    <source src="/assets/videos/posts/2014/12/16/music-opt.mp4" type="video/mp4">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -39,20 +39,9 @@ A _shared element transition_ determines how the shared views&mdash;also called 
   </div>
 </div>
 
-As an example, **Video 2.1** illustrates how content transitions are used in the Google Play Games app to achieve smooth animations between activities. When the second activity starts, its enter content transition gently shuffles the user avatar views into the scene from the bottom edge of the screen. When the back button is pressed, the second activity's return content transition splits the view hierarchy into two and animates each half off the top and bottom of the screen.
+As an example, **Video 3.1** illustrates how shared element transitions are used in the Google Play Music app. The transition consists of two shared elements: an `ImageView` and its parent `CardView`. During the transition, the `ImageView` seamlessly animates between its two positions while its parent `CardView` expands and gradually fills the called activity's white background.
 
-So far our analysis of content transitions has only scratched the surface; several important questions still remain. How are content transitions triggered under-the-hood? Which types of `Transition` objects can be used? How does the framework determine the set of transitioning views? Can a `ViewGroup` and its children be animated together as a single entity during a content transition? In the next couple sections, we'll tackle these questions one-by-one.
-
-
-
-<!--morestart-->
-
-Shared element transitions allow us to perform animations on "shared elements" that two activities have in common during an Activity Transition, giving the user the illusion that the shared element is being animated across activity boundaries. For example, if two activities have the same image in different positions and sizes, the `ChangeImageTransform` shared element transition can translate and scale the image smoothly between these activities. Shared element transitions give us the opportunity to create visual connections between transition states through persisting elements, as illustrated in **Figure 3.1**.
-
-<!--more-->
-
-
-In the previous post, we briefly mentioned that shared element [exit][setSharedElementExitTransition], [enter][setSharedElementEnterTransition], [reenter][setSharedElementReenterTransition], and [return][setSharedElementReturnTransition] transitions may be specified either programatically or in XML as part of the activity's theme.<sup><a href="#footnote2" id="ref2">2</a></sup> However, a few questions still remain. Which types of `Transition`s can be used? (**TODO: more questions**) In the next couple of sections, we'll begin tackling these questions one-by-one, and in doing so we'll obtain a much deeper understanding of the inner-workings of the Activity Transitions framework.
+So far our analysis of shared element transitions has only scratched the surface; several important questions still remain. How are shared element transitions triggered under-the-hood? Which types of `Transition` objects can be used? (**TODO: more questions**) In the next couple sections, we'll tackle these questions one-by-one.
 
 ### Which types of `Transition`s can be used?
 
@@ -113,8 +102,6 @@ You can further customize your shared element transitions by setting a [`SharedE
 
 <hr class="footnote-divider"/>
 <sup id="footnote1">1</sup> For Activity Transitions, additional animations may also be specified using the `setSharedElementExitTransition()` and `setSharedElementReenterTransition()` methods. An example illustrating when it might make sense to specify an exit or reenter shared element transition is given in [this blog post][SharedElementExitReenterBlogPost]. For an explanation of why these two methods are not available for Fragment transitions, see the comments on George Mount's StackOverflow answer [here][StackOverflowExitReenterTransitions]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
-
-<sup id="footnote2">2</sup> For Fragment Transitions, shared element [exit][Fragment#setSharedElementExitTransition], [enter][Fragment#setSharedElementEnterTransition], [reenter][Fragment#setSharedElementReenterTransition], and [return][Fragment#setSharedElementReturnTransition] transitions may also be set either programatically or as attributes in your `Fragment`'s XML. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
   [setSharedElementExitTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementExitTransition(android.transition.Transition)
   [setSharedElementEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementEnterTransition(android.transition.Transition)
