@@ -21,7 +21,7 @@ We begin by summarizing what we learned about content transitions in [part 1][pa
 
 <!--morestart-->
 
-A _shared element transition_ determines how the shared element views&mdash;also called _hero views_&mdash;are animated between scenes during an Activity or Fragment transition. In accordance with Google's new [Material Design][MaterialDesignMeaningfulTransitions] language, shared elements add visual continuity as the user switches between application screens, allowing the user to clearly understand where their attention should be focuseda throughout the duration of the transition. Beginning with Android Lollipop, shared element transitions can be set programatically by calling the following [`Window`][Window] and [`Fragment`][Fragment] methods:<sup><a href="#footnote1" id="ref1">1</a></sup>
+A _shared element transition_ determines how the shared element views&mdash;also called _hero views_&mdash;are animated between scenes during an Activity or Fragment transition. In accordance with Google's new [Material Design][MaterialDesignMeaningfulTransitions] language, shared elements add visual continuity as the user switches between application screens, allowing the user to clearly understand where their attention should be focuseda throughout the duration of the transition. Beginning with Android Lollipop, shared element transitions can be set programatically by calling the following [`Window`][Window] and [`Fragment`][Fragment] methods:<sup><a href="#footnote?" id="ref?">?</a></sup>
 
 * `setSharedElementEnterTransition()` - `B`'s shared element transition animates shared views from their starting positions in `A` to their resting positions in `B`.
 * `setSharedElementReturnTransition()` - `B`'s shared element transition animates shared views from their starting positions in `B` to their resting positions in `A`.
@@ -45,7 +45,7 @@ So far our analysis of shared element transitions has only scratched the surface
 
 ### Shared Element Transitions Under-The-Hood
 
-Recall from the [part 1][part1] of this series that a `Transition` has two main responsibilities: capturing the start and end state of its target views and creating an `Animator` that will animate the views between the two states. Shared element transitions are no different: before a shared element transition's animation can be created, the framework must give it the state information it needs by altering each shared element's state (such as position and size) on the screen. More specifically, when Activity `A` starts Activity `B` the following sequence of events occurs:<sup><a href="#footnote2" id="ref2">2</a></sup>
+Recall from the [part 1][part1] of this series that a `Transition` has two main responsibilities: capturing the start and end state of its target views and creating an `Animator` that will animate the views between the two states. Shared element transitions are no different: before a shared element transition's animation can be created, the framework must give it the state information it needs by altering each shared element's state (such as position and size) on the screen. More specifically, when Activity `A` starts Activity `B` the following sequence of events occurs:<sup><a href="#footnote?" id="ref?">?</a></sup>
 
 1. `A` calls `startActivity()`, specifying the shared elements that should be animated during the transition.
 2. Activity `B` is started with its window initially made translucent. The framework searches `B`'s view hierarchy for the shared elements to be animated by comparing their transition names and positions them in `B` to match their position in `A`.
@@ -56,30 +56,37 @@ Recall from the [part 1][part1] of this series that a `Transition` has two main 
 
 Whereas content transitions are governed by changes made to each transitioning view's visibility, shared element transitions are governed by changes made to each shared element view's position and size. As a result, the `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, and `ChangeImageTransform` transitions are usually good options to use (**TODO: break down what each type of transition does and how it behaves?**). In fact, you will probably find that sticking with the default [`@android:transition/move`][Move] transition will work fine in most cases.
 
+### Shared Elements Are Not Actually "Shared"
+
 It is also worth noting that shared elements are not actually "shared". When you look at a shared element transition, you might think that what you are seeing is a single `View` object animating out of its activity and into its resting location within the new activity. _This is not the case._ What actually happens is the called Activity starts out translucent. One of the first things the framework does is it adds the shared elements to the translucent Activity and repositions them to match the view’s initial position inside the calling Activity and sets the view inside the calling Activity to `INVISIBLE`. When the transition begins, the shared element will appear to transition seamlessly from one Activity to another (but really what happens is the shared element is simply animating inside the called Activity, which gradually animates from translucent to fully opaque).
 
 Finally, we should note that shared elements are drawn on top of the view hierarchy in a `ViewOverlay`. This default behavior ensures that the shared elements will always be the central focus of the Activity transition, as it makes it impossible for non-shared elements&mdash;in both the called and calling Activity's view hierarchies&mdash;to accidentally draw on top of the views that are being shared across Activities. This default behavior can be disabled in your theme's XML or programatically by calling [`Window#setSharedElementsUseOverlay(false)`][setSharedElementsUseOverlay]. **TODO: also discuss the potential side-effects of disabling the overlay? Link to G+ post about covering up the system UI?**
 
 ### Postponing Shared Element Transitions
 
-While there are several reasons why a transition might glitch, the most common reason is that your transition started before the shared element's start values were properly set. The activity's view hierarchy must finish its layout before the transition begins. If the transition begins before then, the transition will not have all of the information it needs to perform the animation (i.e. the start and/or end values will be missing), and the transition will appear to break. To get around this, a common pattern will be to postpone the activity’s transition by calling [`postponeEnterTransition()`][postponeEnterTransition]. When you know for certain that the activity has finished its layout, simply call [`startPostponedEnterTransition()`][startPostponedEnterTransition]. A good place to call this method is in an `onPreDraw` listener. For example,
+A common source of problems when dealing with shared element transitions stems from the fact that they are initiated by the framework early in the Activity lifecycle. Recall that `Transition`s require both the start and end state of its target views in order to function properly. Thus, if the shared element transition is started before its final position and size has been determined, the transition will fail to create an `Animator` that will animate the shared views between the two states. Unfortunately, it is not uncommon that one of your shared elements will not have finished its final layout by the time the shared element transition begins. Some common examples are,
+
+* **The shared element lives inside a `Fragment`.** `FragmentTransaction`s are not executed immediately by default, so if your shared element exists as part of the `Fragment`'s view hierarchy, there is a chance that the framework will accidentally start the shared element transition before the `Fragment`'s view hierarchy has been properly measured and laid out. Forcing the `FragmentTransaction`s to execute immediately by calling [`FragmentManager#executePendingTransactions()`][FragmentManager#executePendingTransactions] may help, but may also introduce unintended side effects depending on the situation.
+
+* **The shared element is a high-resolution image.** If the high resolution image exceeds the `ImageView`s initial bounds, an additional layout pass on the `ImageView` will be triggered. Especially if you are using an image loading library such as Picasso or you are scaling bitmap images asynchronously yourself, the framework will likely begin the shared element transition before the `ImageView` has finished being properly laid out.
+
+* **The shared element depends on asynchronously loaded data.** If the shared element views depend on asynchronously loaded data (from a `Loader`, for example), the framework will likely initiate the shared element transition before the data is delivered and applied to the views in the activity.
+
+Fortunately, we can get around these issues by postponing the activity's shared element transition using the Activity's [`postponeEnterTransition()`][postponeEnterTransition] and [`startPostponedEnterTransition()`][startPostponedEnterTransition] methods.<sup><a href="#footnote?" id="ref?">?</a></sup> The first method tells the framework to pause the shared element transition until all data has been loaded and all views have been laid out. Since the framework cannot automatically know when this is, we must also call the second method to tell the framework that it is OK to start the transition. Clearly we must wait for the views to finish their layout before the shared element transition can begin. Thus, a common pattern is to start the postponed transition in an `onPreDraw` listener, which is guaranteed to be called after the view is properly measured and laid out:
 
 ```java
+activity.postponeEnterTransition();
 view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
     @Override
     public boolean onPreDraw() {
         view.getViewTreeObserver().removeOnPreDrawListener(this);
-        startPostponedEnterTransition();
+        activity.startPostponedEnterTransition();
         return true;
     }
 });
 ```
 
-where `view` is a `View` that might take a couple extra layout passes before its final end values are set.
-
-**TODO: talk about how postponed transitions are helpful when waiting for data from a `Loader`, `AsyncTask`, etc.?**
-
-**TODO: talk about how fragment transitions can be postponed?**
+Despite their names, these two methods can be used to postpone both enter and return shared element transitions. If `A` starts `B` then the enter shared element transition can be postponed by calling `postponeEnterTransition()` in `B`'s `onCreate()` method. If `B` is returning to `A`, then the return shared element transition can be postponed by calling `postponeEnterTransition()` in `A`'s `onActivityReenter()` method.
 
 ### Creating Advanced Transitions Using a `SharedElementCallback`
 
@@ -99,9 +106,11 @@ Overall, this post presented **(three?)** important points:
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful!
 
 <hr class="footnote-divider"/>
-<sup id="footnote1">1</sup> For Activity Transitions, additional animations may also be specified using the `setSharedElementExitTransition()` and `setSharedElementReenterTransition()` methods. By default, the activity window's exit and reenter shared element transitions are `null`. An example illustrating when it might make sense to specify an exit or reenter shared element transition is given in [this blog post][SharedElementExitReenterBlogPost]. For an explanation of why these two methods are not available for Fragment transitions, see the comments on George Mount's StackOverflow answer [here][StackOverflowExitReenterTransitions]. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
+<sup id="footnote?">?</sup> For Activity Transitions, additional animations may also be specified using the `setSharedElementExitTransition()` and `setSharedElementReenterTransition()` methods. By default, the activity window's exit and reenter shared element transitions are `null`. An example illustrating when it might make sense to specify an exit or reenter shared element transition is given in [this blog post][SharedElementExitReenterBlogPost]. For an explanation of why these two methods are not available for Fragment transitions, see the comments on George Mount's StackOverflow answer [here][StackOverflowExitReenterTransitions]. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
 
-<sup id="footnote2">2</sup> **TODO: footnote that talks about the shared element exit transition in-depth... i.e. in between step 1 and 2 the framework will run the exit shared element transition** <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
+<sup id="footnote?">?</sup> **TODO: footnote that talks about the shared element exit transition in-depth... i.e. in between step 1 and 2 the framework will run the exit shared element transition** <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
+
+<sup id="footnote?">?</sup> Note that `postponeEnterTransition()` and `startPostponedEnterTransition()` methods only work for Activity Transitions and not for Fragment Transitions. For an explanation and possible workaround, see [this StackOverflow answer][PostponeEnterTransitionForFragments] and [this Google+ post][PostponeEnterTransitionForFragmentsG+]. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
 
   [setSharedElementExitTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementExitTransition(android.transition.Transition)
   [setSharedElementEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementEnterTransition(android.transition.Transition)
@@ -123,6 +132,11 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [SharedElementExitReenterBlogPost]: https://halfthought.wordpress.com/2014/12/08/what-are-all-these-dang-transitions/
   [StackOverflowExitReenterTransitions]: http://stackoverflow.com/q/27346020/844882
 
+  [FragmentManager#executePendingTransactions]: https://developer.android.com/reference/android/app/FragmentManager.html#executePendingTransactions()
+  [GooglePlusPostponeEnterTransition]: https://plus.google.com/+AlexLockwood/posts/FJsp1N9XNLS
+  [GooglePlusSystemUI]: https://plus.google.com/+AlexLockwood/posts/RPtwZ5nNebb
+  [PostponeEnterTransitionForFragments]: http://stackoverflow.com/q/26977303/844882
+  [PostponeEnterTransitionForFragmentsG+]: https://plus.google.com/+AlexLockwood/posts/3DxHT42rmmY
 
   [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
