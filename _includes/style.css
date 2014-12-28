@@ -418,6 +418,8 @@ thead {
 #blog-archives ul {
   width: calc(100% - 60px);
   float: left;
+  padding: 0;
+  margin: 0;
   margin-bottom: 2em;
 }
 #blog-archives ul:last-child {
