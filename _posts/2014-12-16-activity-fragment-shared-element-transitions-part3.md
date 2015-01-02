@@ -15,16 +15,16 @@ This post will give an in-depth analysis of _shared element transitions_ and the
 * **Part 3:** [Shared Element Transitions In-Depth][part3]
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
-We begin by summarizing what we learned about content transitions in [part 1][part1] and illustrating how they can be used to achieve smooth, seamless animations in Android Lollipop.
+We begin by summarizing what we learned about shared element transitions in [part 1][part1] and illustrating how they can be used to achieve smooth, seamless animations in Android Lollipop.
 
 ### What is a Shared Element Transition?
 
 <!--morestart-->
 
-A _shared element transition_ determines how the shared element views&mdash;also called _hero views_&mdash;are animated between scenes during an Activity or Fragment transition. In accordance with Google's new [Material Design][MaterialDesignMeaningfulTransitions] language, shared elements add visual continuity as the user switches between application screens, allowing the user to clearly understand where their attention should be focuseda throughout the duration of the transition. Beginning with Android Lollipop, shared element transitions can be set programatically by calling the following [`Window`][Window] and [`Fragment`][Fragment] methods:<sup><a href="#footnote?" id="ref?">?</a></sup>
+A _shared element transition_ determines how the shared element views&mdash;also called _hero views_&mdash;are animated from one Activity/Fragment to another during a scene transition. For the most part, the resulting animation is determined by the called Activity or Fragment's enter and return shared element transitions,<sup><a href="#footnote?" id="ref?">?</a></sup> each of which can be specified using the following [`Window`][Window] and [`Fragment`][Fragment] methods:
 
-* `setSharedElementEnterTransition()` - `B`'s shared element transition animates shared views from their starting positions in `A` to their resting positions in `B`.
-* `setSharedElementReturnTransition()` - `B`'s shared element transition animates shared views from their starting positions in `B` to their resting positions in `A`.
+* `setSharedElementEnterTransition()` - `B`'s enter shared element transition animates shared views from their starting positions in `A` to their final positions in `B`.
+* `setSharedElementReturnTransition()` - `B`'s return shared element transition animates shared views from their starting positions in `B` to their final positions in `A`.
 
 <!--more-->
 
@@ -39,19 +39,23 @@ A _shared element transition_ determines how the shared element views&mdash;also
   </div>
 </div>
 
-As an example, **Video 3.1** illustrates how shared element transitions are used in the Google Play Music app. The transition consists of two shared elements: an `ImageView` and its parent `CardView`. During the transition, the `ImageView` seamlessly animates between its two positions while its parent `CardView` expands and gradually fills the called activity's white background.
+As an example, **Video 3.1** illustrates how shared element transitions are used in the Google Play Music app. The transition consists of two shared elements: an `ImageView` and its parent `CardView`. During the transition, the `ImageView` seamlessly animates between the two activities, while the `CardView` gradually expands/contracts into place.
 
-So far our analysis of shared element transitions has only scratched the surface; several important questions still remain. How are shared element transitions triggered under-the-hood? Which types of `Transition` objects can be used? (**TODO: other questions?**) In the next couple sections, we'll tackle these questions one-by-one.
+Whereas [part 1][part1] only briefly introduced the subject, this blog post aims to give a much more in-depth analysis of shared element transitions. How are shared element transitions triggered under-the-hood? Which types of `Transition` objects can be used? (**TODO: other questions?**) In the next couple sections, we'll tackle these questions one-by-one.
 
 ### Shared Element Transitions Under-The-Hood
 
-Recall from the [part 1][part1] of this series that a `Transition` has two main responsibilities: capturing the start and end state of its target views and creating an `Animator` that will animate the views between the two states. Shared element transitions are no different: before a shared element transition's animation can be created, the framework must give it the state information it needs by altering each shared element's state (such as position and size) on the screen. More specifically, when Activity `A` starts Activity `B` the following sequence of events occurs:<sup><a href="#footnote?" id="ref?">?</a></sup>
+Recall from the previous two posts that a `Transition` has two main responsibilities: capturing the start and end state of its target views and creating an `Animator` that will animate the views between the two states. Shared element transitions operate no differently: before a shared element transition can create its animation, it must first capture each shared element's start and end state&mdash;namely its position, size, and appearance. To ensure the shared element transition captures this state, the framework directly modifies each shared element's view properties so that at the beginning of the transition it appears exactly as it did in `A` and at the end of the transition it appears exactly as it should in `B`.
 
-1. Activity `A` calls `startActivity()` and Activity `B` is started with its window initially translucent. The framework searches `B`'s view hierarchy for the shared elements to be animated and initializes them in `B` to match their starting position and state in `A`.
-2. `B`'s shared element enter transition captures start state for all of the shared elements in `B`.
-3. The shared elements in `B` are re-initialized to match their end position and state.
-4. On the next display frame, `B`'s shared element enter transition captures end state for all of the shared elements in `B`.
-5. `B`'s shared element enter transition compares the start and end state of its shared element views and creates an `Animator` based on the differences. The `Animator` is run and the shared elements animate into place. As the animation takes place, the window's background is gradually animated from translucent to opaque. The shared element views in `A` are hidden as well to make it look as if the shared elements are being physically transferred from `A` to `B`.
+As an example, let's walk through the sequence of events that occurs when Activity `A` starts Activity `B`, causing `B`'s enter shared element transition to be performed:<sup><a href="#footnote?" id="ref?">?</a></sup>
+
+1. Activity `B` is started with a translucent window and transparent background, completely invisible to the user.
+2. The framework repositons each shared element in `B` to match its exact size and location in `A`.
+3. `B`'s shared element enter transition captures the start state of all the shared elements in `B`.
+4. The framework repositons each shared element in `B` to match its desired final size and location in `B`.
+5. On the next display frame, `B`'s shared element enter transition captures the end state of all the shared elements in `B`.
+6. `B`'s shared element enter transition compares the start and end state of its shared element views and creates an `Animator` based on the differences. The `Animator` is run and the shared elements animate into place. As the animation takes place, the window's background gradually fades in and when the transition completes the window is made opaque.
+7. **TODO:** The framework sends a message to `A` instructing it to hide its shared elements before the transition begins. This is necessary in order to make it look like the views are being physically removed from `A` and transferred to `B` (while in reality, the shared elements are simply drawing in `B`s window the entire time). (Should this be a footnote? We need to incorporate this information somehow into the step-by-step...)
 
 As you can see, whereas content transitions are governed by changes made to each transitioning view's visibility, **shared element transitions analyze and depend on changes made to each shared element view's position and size**. As of API 21, the framework provides support for several different transition types that can be used to animate shared elements: `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, and `ChangeImageTransform`. For many shared element transitions, the default [`@android:transition/move`][Move] transition should work just fine.
 
@@ -103,7 +107,7 @@ Overall, this post presented **(three?)** important points:
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful!
 
 <hr class="footnote-divider"/>
-<sup id="footnote?">?</sup> For Activity Transitions, additional animations may also be specified using the `setSharedElementExitTransition()` and `setSharedElementReenterTransition()` methods. By default, the activity window's exit and reenter shared element transitions are `null`. An example illustrating when it might make sense to specify an exit or reenter shared element transition is given in [this blog post][SharedElementExitReenterBlogPost]. For an explanation of why these two methods are not available for Fragment transitions, see the comments on George Mount's StackOverflow answer [here][StackOverflowExitReenterTransitions]. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
+<sup id="footnote?">?</sup> Exit and reenter shared element transitions can also be specified using the `setSharedElementExitTransition()` and `setSharedElementReenterTransition()` methods, although doing so is rarely necessary. For an example illustrating one possible use case, check out [this blog post][SharedElementExitReenterBlogPost]. Note that exit and reenter shared element transitions are only available in the Activity Transitions API. For an explanation why they are not available for Fragment Transitions, see George Mount's comments in [this StackOverflow post][StackOverflowExitReenterTransitions]. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
 
 <sup id="footnote?">?</sup> **TODO: footnote that talks about the shared element exit transition in-depth... i.e. in between step 1 and 2 the framework will run the exit shared element transition** <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
 
