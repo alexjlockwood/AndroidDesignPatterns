@@ -22,10 +22,10 @@ We begin by summarizing what we learned about shared element transitions in [par
 
 <!--morestart-->
 
-A _shared element transition_ determines how the shared element views&mdash;also called _hero views_&mdash;are animated from one Activity/Fragment to another during a scene transition. For the most part, the resulting animation is determined by the called Activity or Fragment's enter and return shared element transitions,<sup><a href="#footnote?" id="ref?">?</a></sup> each of which can be specified using the following [`Window`][Window] and [`Fragment`][Fragment] methods:
+A _shared element transition_ determines how shared element views&mdash;also called _hero views_&mdash;are animated from one Activity/Fragment to another during a scene transition. For the most part, the resulting animation is determined by the called Activity or Fragment's enter and return shared element transitions,<sup><a href="#footnote?" id="ref?">?</a></sup> each of which can be specified using the following [`Window`][Window] and [`Fragment`][Fragment] methods:
 
-* `setSharedElementEnterTransition()` - `B`'s enter shared element transition animates shared views from their starting positions in `A` to their final positions in `B`.
-* `setSharedElementReturnTransition()` - `B`'s return shared element transition animates shared views from their starting positions in `B` to their final positions in `A`.
+* `setSharedElementEnterTransition()` - `B`'s enter shared element transition animates shared element views from their starting positions in `A` to their final positions in `B`.
+* `setSharedElementReturnTransition()` - `B`'s return shared element transition animates shared element views from their starting positions in `B` to their final positions in `A`.
 
 <!--more-->
 
