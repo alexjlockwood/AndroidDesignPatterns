@@ -39,7 +39,7 @@ A _shared element transition_ determines how the shared element views&mdash;also
   </div>
 </div>
 
-As an example, **Video 3.1** illustrates how shared element transitions are used in the Google Play Music app. The transition consists of two shared elements: an `ImageView` and its parent `CardView`. During the transition, the `ImageView` seamlessly animates between the two activities, while the `CardView` gradually expands/contracts into place.
+**Video 3.1** illustrates how shared element transitions are used in the Google Play Music app. The transition consists of two shared elements: an `ImageView` and its parent `CardView`. During the transition, the `ImageView` seamlessly animates between the two activities, while the `CardView` gradually expands/contracts into place.
 
 Whereas [part 1][part1] only briefly introduced the subject, this blog post aims to give a much more in-depth analysis of shared element transitions. How are shared element transitions triggered under-the-hood? Which types of `Transition` objects can be used? (**TODO: other questions?**) In the next couple sections, we'll tackle these questions one-by-one.
 
@@ -49,7 +49,7 @@ Recall from the previous two posts that a `Transition` has two main responsibili
 
 As an example, let's walk through the sequence of events that occurs when Activity `A` starts Activity `B`, causing `B`'s enter shared element transition to be performed:<sup><a href="#footnote?" id="ref?">?</a></sup>
 
-1. Activity `B` is started with a translucent window and transparent background, overlaid on top of Activity `A` yet completely invisible to the user.
+1. Activity `B` is started with a translucent window and transparent background, on top of Activity `A` yet invisible to the user.
 2. The framework repositions each shared element in `B` to match its exact size and location in `A`.
 3. `B`'s shared element enter transition captures the start state of all the shared elements in `B`.
 4. The framework repositions each shared element in `B` to match its desired final size and location in `B`.
@@ -57,7 +57,14 @@ As an example, let's walk through the sequence of events that occurs when Activi
 6. `B`'s shared element enter transition compares the start and end state of its shared element views and creates an `Animator` based on the differences.
 7. Activity `A` hides the original shared elements in its view hierarchy and the transition begins. As the shared elements in `B`'s view hierarchy animate from their starting positions into place, `B`'s window background gradually fades in on top of `A` until the window is opaque.
 
-(**TODO: first sentence... there are three main take-aways to discuss.**) First, **shared element transitions analyze and depend on changes made to each shared element view's position and size**. As of API 21, the framework provides support for several different transition types that can be used to animate shared elements: `ChangeBounds`, `ChangeTransform`, `ChangeClipBounds`, and `ChangeImageTransform`. For many shared element transitions, the default [`@android:transition/move`][Move] transition should work just fine.
+Whereas content transitions are governed by changes to each transitioning view's visibility, shared element transitions are governed by differences in each shared element view's appearance in both the called and calling Activity/Fragment. There are many ways in which a shared element's appearance could differ, so as of API 21 the framework supports several different transition types that can be used:
+
+* [`ChangeBounds`][ChangeBounds] - Animates differences in a view's layout bounds. This transition is widely used since most shared elements have different positions and sizes in either the calling or called Activity/Fragment.
+* [`ChangeTransform`][ChangeTransform] - Animates differences in a view's scale and/or rotation.
+* [`ChangeClipBounds`][ChangeClipBounds] - Animates differences in a view's clip bounds.
+* [`ChangeImageTransform`][ChangeImageTransform] - Similar to `ChangeBounds`, except able to efficiently animate an `ImageView`'s scale and size throughout the duration of the transition.
+
+As discussed in [part 1][part1], the default shared element transition type set by the framework is [`@android:transition/move`][Move], a `TransitionSet` combining all four transitions above. Unless you plan on creating more complex, custom shared element transition, this default value will cover most cases and will work fine for many use cases.
 
 Second, **shared element views are not actually "shared" across Activity instances**. Instead, the framework relies on a trick that only makes it look that way. When activity `A` starts Activity `B`, the framework collects all of the relevant state about the shared elements in `A` and passes that information along to Activity `B`. Activity `B` then takes this information and initializes its shared element views to match their exact position and size in `A`. Immediately before the shared element transition begins, the shared element views in `A` are hidden, and the setup is complete. The transition begins and the user sees the shared elements animate in `B` from their starting position in `A` to their resting position in `B`. Meanwhile, `B` gradually animates its window background from transparent to fully opaque.
 
@@ -138,6 +145,11 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [GooglePlusSystemUI]: https://plus.google.com/+AlexLockwood/posts/RPtwZ5nNebb
   [PostponeEnterTransitionForFragments]: http://stackoverflow.com/q/26977303/844882
   [PostponeEnterTransitionForFragmentsG+]: https://plus.google.com/+AlexLockwood/posts/3DxHT42rmmY
+
+  [ChangeBounds]: https://developer.android.com/reference/android/transition/ChangeBounds.html
+  [ChangeTransform]: https://developer.android.com/reference/android/transition/ChangeTransform.html
+  [ChangeClipBounds]: https://developer.android.com/reference/android/transition/ChangeClipBounds.html
+  [ChangeImageTransform]: https://developer.android.com/reference/android/transition/ChangeImageTransform.html
 
   [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
