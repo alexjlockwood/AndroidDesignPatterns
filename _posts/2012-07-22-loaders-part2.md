@@ -4,7 +4,7 @@ title: 'Understanding the LoaderManager (part 2)'
 date: 2012-07-22
 permalink: /2012/07/understanding-loadermanager.html
 related: ['/2012/06/content-resolvers-and-content-providers.html',
-          '/2012/05/correctly-managing-your-sqlite-database.html',
+          '/2014/12/activity-fragment-transitions-in-android-lollipop-part1.html',
           '/2013/04/retaining-objects-across-config-changes.html']
 ---
 This post introduces the `LoaderManager` class. This is the second of a series of posts I will
