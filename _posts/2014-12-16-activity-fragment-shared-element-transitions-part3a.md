@@ -70,8 +70,6 @@ As we saw in the example above, it is also important to understand that **shared
 
 ### Using the Shared Element Overlay
 
-Before we can get a complete understanding of how shared element transitions are drawn by the framework, we must discuss the _shared element overlay_. Although not immediately obvious, **shared elements are by default drawn on top of the entire view hierarchy in the scene root's [`ViewOverlay`][ViewOverlay]**. The `ViewOverlay` class was introduced in API 18 as a way to easily draw on top of a `View`. Drawables and views that are added to a view's `ViewOverlay` are guaranteed to be drawn on top of everything else&mdash;even a `ViewGroup`'s children. It makes sense then why the framework would choose to draw shared elements on top of everything else in the view hierarchy by default. Shared elements views should remain the center of attention throughout the entire transition; the possibility of transitioning views accidentally drawing on top of the shared elements would certainly disrupt the effect.<sup><a href="#footnote4" id="ref4">4</a></sup>
-
 <div class="responsive-figure nexus6-figure">
   <div class="framed-nexus6-port">
   <video id="figure32" onclick="playPause('figure32')" poster="/assets/videos/posts/2014/12/16/overlay-opt.png" preload="none">
@@ -85,15 +83,17 @@ Before we can get a complete understanding of how shared element transitions are
   </div>
 </div>
 
-Although shared elements are drawn in the shared element `ViewOverlay` by default, the framework gives us the ability to disable the overlay if necessary by calling the [`Window#setSharedElementsUseOverlay(false)`][setSharedElementsUseOverlay] method. However, doing so is generally not recommended. **Video 3.2** illustrates an example transition with and without the shared element overlay enabled. In the first transition, the shared elements are animated in the decor view's `ViewOverlay` on top of all other views in the hierarchy as expected. However, in the second transition you can clearly see that disabling the `ViewOverlay` has introduced a glitch. As the bottom transitioning view slides up into the screen, the shared element is partially covered and is no longer visible throughout the duration of the transition. While this can potentially be fixed by altering the order in which views are drawn in your layout or by setting `ViewGroup#setClipChildren(false)` on the parent, sometimes making these modifications is more trouble than its worth and may not necessarily behave as expected on older Android versions.
+Before we can get a complete understanding of how shared element transitions are drawn by the framework, we must discuss the _shared element overlay_. Although not immediately obvious, **shared elements are by default drawn on top of the entire view hierarchy in the window's [`ViewOverlay`][ViewOverlay]**. The `ViewOverlay` class was introduced in API 18 as a way to easily draw on top of a `View`. Drawables and views that are added to a view's `ViewOverlay` are guaranteed to be drawn on top of everything else&mdash;even a `ViewGroup`'s children. It makes sense then why the framework would choose to draw shared elements on top of everything else in the view hierarchy by default. Shared elements views should remain the center of attention throughout the entire transition; the possibility of transitioning views accidentally drawing on top of the shared elements would certainly disrupt the effect.<sup><a href="#footnote4" id="ref4">4</a></sup>
+
+Although shared elements are drawn in the shared element `ViewOverlay` by default, the framework gives us the ability to disable the overlay if necessary by calling the [`Window#setSharedElementsUseOverlay(false)`][setSharedElementsUseOverlay] method. However, doing so is generally not recommended. **Video 3.2** illustrates an example transition with and without the shared element overlay enabled. In the first transition, the shared elements are animated in the decor view's `ViewOverlay` on top of all other views in the hierarchy as expected. However, in the second transition you can clearly see that disabling the `ViewOverlay` has introduced a glitch. As the bottom transitioning view slides up into the screen, the shared element is partially covered and is no longer visible throughout the duration of the transition. While this can potentially be fixed by altering the order in which views are drawn in your layout or by setting `setClipChildren(false)` on the parent, sometimes making these modifications is more trouble than its worth and may not necessarily behave as expected on older Android versions.
 
 ### Conclusion
 
-Overall, this post presented **(three?)** important points:
+Overall, this post presented three important points:
 
-1. asdf
-2. asdf
-3. asdf
+1. A shared element transition determines how shared element views&mdash;also called hero views&mdash;are animated from one Activity/Fragment to another during a scene transition.
+2. Shared element transitions are governed by changes to each shared element view's position, size, and appearance.
+3. Shared elements are by default drawn on top of the entire view hierarchy in the window's `ViewOverlay`.
 
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful!
 
