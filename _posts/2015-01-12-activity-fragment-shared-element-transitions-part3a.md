@@ -62,7 +62,7 @@ Whereas content transitions are governed by changes to each transitioning view's
 
 * [`ChangeBounds`][ChangeBounds] - Captures the _layout bounds_ of shared element views and animates the differences. This transition is frequently used, as most shared elements will have different positions and/or sizes inside the called Activity/Fragment.
 * [`ChangeTransform`][ChangeTransform] - Captures the _scale and rotation_ of shared element views and animates the differences.<sup><a href="#footnote3" id="ref3">3</a></sup>
-* [`ChangeClipBounds`][ChangeClipBounds] - Captures the [_clip bounds_][View#setClipBounds()] of shared element views and animates the differences
+* [`ChangeClipBounds`][ChangeClipBounds] - Captures the [_clip bounds_][View#getClipBounds()] of shared element views and animates the differences
 * [`ChangeImageTransform`][ChangeImageTransform] - Captures the _transform matrices_ of shared element `ImageView`s and animates the differences. In combination with `ChangeBounds`, this transition allows `ImageView`s that change in size, shape, and/or [ImageView.ScaleType][ImageView.ScaleType] to animate smoothly and efficiently.
 * [`@android:transition/move`][Move] - A `TransitionSet` that plays all four transition types above in parallel. As discussed in [part 1][part1], if an enter/return shared element transition is not explicitly specified, the framework will run this transition by default.
 
@@ -137,7 +137,6 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [ChangeClipBounds]: https://developer.android.com/reference/android/transition/ChangeClipBounds.html
   [ChangeImageTransform]: https://developer.android.com/reference/android/transition/ChangeImageTransform.html
 
-  [View#setClipBounds()]: https://developer.android.com/reference/android/view/View.html#setClipBounds(android.graphics.Rect)
   [View#getClipBounds()]: https://developer.android.com/reference/android/view/View.html#getClipBounds()
   [ImageView.ScaleType]: https://developer.android.com/reference/android/widget/ImageView.ScaleType.html
 
