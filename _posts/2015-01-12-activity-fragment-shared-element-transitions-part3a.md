@@ -1,8 +1,8 @@
 ---
 layout: post
 title: 'Shared Element Transitions In-Depth (part 3a)'
-date: 2014-12-16
-permalink: /2014/12/activity-fragment-shared-element-transitions-in-depth-part3a.html
+date: 2014-01-12
+permalink: /2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
@@ -31,10 +31,10 @@ A _shared element transition_ determines how shared element views&mdash;also cal
 
 <div class="responsive-figure nexus6-figure">
   <div class="framed-nexus6-port">
-  <video id="figure31" onclick="playPause('figure31')" poster="/assets/videos/posts/2014/12/16/music-opt.png" preload="none">
-    <source src="/assets/videos/posts/2014/12/16/music-opt.mp4" type="video/mp4">
-    <source src="/assets/videos/posts/2014/12/16/music-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2014/12/16/music-opt.ogv" type="video/ogg">
+  <video id="figure31" onclick="playPause('figure31')" poster="/assets/videos/posts/2015/01/12/music-opt.png" preload="none">
+    <source src="/assets/videos/posts/2015/01/12/music-opt.mp4" type="video/mp4">
+    <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -72,10 +72,10 @@ As we saw in the example above, it is also important to understand that **shared
 
 <div class="responsive-figure nexus6-figure">
   <div class="framed-nexus6-port">
-  <video id="figure32" onclick="playPause('figure32')" poster="/assets/videos/posts/2014/12/16/overlay-opt.png" preload="none">
-    <source src="/assets/videos/posts/2014/12/16/overlay-opt.mp4" type="video/mp4">
-    <source src="/assets/videos/posts/2014/12/16/overlay-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2014/12/16/overlay-opt.ogv" type="video/ogg">
+  <video id="figure32" onclick="playPause('figure32')" poster="/assets/videos/posts/2015/01/12/overlay-opt.png" preload="none">
+    <source src="/assets/videos/posts/2015/01/12/overlay-opt.mp4" type="video/mp4">
+    <source src="/assets/videos/posts/2015/01/12/overlay-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2015/01/12/overlay-opt.ogv" type="video/ogg">
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
@@ -148,6 +148,6 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
 
   [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
-  [part3a]: /2014/12/activity-fragment-shared-element-transitions-in-depth-part3a.html
-  [part3b]: /2014/12/activity-fragment-shared-element-transitions-in-practice-part3b.html
+  [part3a]: /2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html
+  [part3b]: /2015/01/activity-fragment-shared-element-transitions-in-practice-part3b.html
 
