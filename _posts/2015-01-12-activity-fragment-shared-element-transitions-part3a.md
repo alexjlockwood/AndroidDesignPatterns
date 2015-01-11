@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Shared Element Transitions In-Depth (part 3a)'
-date: 2014-01-12
+date: 2015-01-12
 permalink: /2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
