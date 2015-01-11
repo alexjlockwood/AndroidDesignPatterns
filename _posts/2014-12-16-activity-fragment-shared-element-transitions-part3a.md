@@ -42,7 +42,7 @@ A _shared element transition_ determines how shared element views&mdash;also cal
 
 **Video 3.1** illustrates how shared element transitions are used in the Google Play Music app. The transition consists of two shared elements: an `ImageView` and its parent `CardView`. During the transition, the `ImageView` seamlessly animates between the two activities, while the `CardView` gradually expands/contracts into place.
 
-Whereas [part 1][part1] only briefly introduced the subject, this blog post aims to give a much more in-depth analysis of shared element transitions. How are shared element transitions triggered under-the-hood? Which types of `Transition` objects can be used? (**TODO: other questions?**) In the next couple sections, we'll tackle these questions one-by-one.
+Whereas [part 1][part1] only briefly introduced the subject, this blog post aims to give a much more in-depth analysis of shared element transitions. How are shared element transitions triggered under-the-hood? Which types of `Transition` objects can be used? How and where are shared element views drawn when switching between Activities/Fragments? In the next couple sections, we'll tackle these questions one-by-one.
 
 ### Shared Element Transitions Under-The-Hood
 
@@ -58,14 +58,13 @@ Similar to how [content transitions operate under-the-hood][part2], the framewor
 
 Whereas content transitions are governed by changes to each transitioning view's visibility, **shared element transitions are governed by changes to each shared element view's position, size, and appearance**. As of API 21, the framework provides several different `Transition` types that can be used to customize how shared elements are animated:
 
-* [`ChangeBounds`][ChangeBounds] - Animates differences in a view's layout bounds. This transition is widely used since most shared elements have different positions and sizes in either the calling or called Activity/Fragment.
-* [`ChangeTransform`][ChangeTransform] - Animates differences in a view's scale and/or rotation.
-* [`ChangeClipBounds`][ChangeClipBounds] - Animates differences in a view's clip bounds.
-* [`ChangeImageTransform`][ChangeImageTransform] - Similar to `ChangeBounds`, except able to efficiently animate an `ImageView`'s scale and size throughout the duration of the transition.
+* [`ChangeBounds`][ChangeBounds] - Captures the _layout bounds_ of shared element views and animates the differences. This transition is frequently used, as most shared elements will have different positions and/or sizes inside the called Activity/Fragment.
+* [`ChangeTransform`][ChangeTransform] - Captures the _scale and rotation_ of shared element views and animates the differences.<sup><a href="#footnote?" id="ref?">?</a></sup>
+* [`ChangeClipBounds`][ChangeClipBounds] - Captures the [_clip bounds_][View#setClipBounds()] of shared element views and animates the differences
+* [`ChangeImageTransform`][ChangeImageTransform] - Captures the _transform matrices_ of shared element `ImageView`s and animates the differences. In combination with `ChangeBounds`, this transition allows `ImageView`s that change in size, shape, and/or [ImageView.ScaleType][ImageView.ScaleType] to animate smoothly and efficiently.
+* [`@android:transition/move`][Move] - A `TransitionSet` that plays all four transition types above in parallel. As discussed in [part 1][part1], if an enter/return shared element transition is not explicitly specified, the framework will run this transition by default.
 
-As discussed in [part 1][part1], the default shared element transition type set by the framework is [`@android:transition/move`][Move], a `TransitionSet` combining all four transitions above. Unless you plan on creating more complex, custom shared element transition, this default value will cover most cases and will work fine in most cases.
-
-It is also important to understand from the short example above that **shared element view instances are not actually "shared" across Activities/Fragments**. Although it might look like `A`'s original shared element view is being animated throughout the duration of the transition, most of what you see is a brand new view instance being animated in `B`. When activity `A` starts Activity `B`, the framework collects all of the relevant state about the shared elements in `A` and passes that information along to Activity `B`. Activity `B` then takes this information and uses it to initialize its shared elements views to match their exact position, size, and state in `A`. The framework utilizes a couple of tricks to get the transition to appear properly. First, it hides `A`'s shared elements so that the remnants of the old shared elements do not still show once the new shared elements in `B` begin to animate into place. Second, other than its animating shared elements, `B` is initially invisible to the user and is only gradually faded into sight throughout the duration of the transition.
+It is also important to understand that **shared element view instances are not actually "shared" across Activities/Fragments**: as we saw in the example above, almost everything the user sees during the transition is being drawn in Activity `B`. Instead of actually transferring the shared element instance from `A` to `B` (which would be difficult, if not impossible, during an Activity Transition... especially if the two Activities in question lived in separate application processes), the framework uses a different means of achieving the same visual effect. When `A` starts `B`, the framework collects all of the relevant state information about the shared elements in `A` and passes it to `B`. `B` takes this state information and uses it to initialize the start state of its shared elements views, each of which will initially match the exact position, size, and appearance they had in `A`. When the transition begins, everything in `B` (including its window decorations and background) is initially invisible to the user. As the transition progresses, however, the framework gradually fades in `B`'s Activity window until the shared elements finish their animation and `A` is no longer visible behind `B`.
 
 ### Using the Shared Element Overlay
 
@@ -93,9 +92,11 @@ Overall, this post presented **(three?)** important points:
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful!
 
 <hr class="footnote-divider"/>
-<sup id="footnote?">?</sup> Exit and reenter shared element transitions can also be specified using the `setSharedElementExitTransition()` and `setSharedElementReenterTransition()` methods, although doing so is rarely necessary. For an example illustrating one possible use case, check out [this blog post][SharedElementExitReenterBlogPost]. Note that exit and reenter shared element transitions are only available in the Activity Transitions API. For an explanation why they are not available for Fragment Transitions, see George Mount's comments in [this StackOverflow post][StackOverflowExitReenterTransitions]. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
+<sup id="footnote?">?</sup> Exit and reenter shared element transitions can also be specified using the `setSharedElementExitTransition()` and `setSharedElementReenterTransition()` methods, although doing so is rarely necessary. For an example illustrating one possible use case, check out [this blog post][SharedElementExitReenterBlogPost]. Note that exit and reenter shared element transitions are only available in the Activity Transitions API. For an explanation why they are not available for Fragment Transitions, see George Mount's answer and comments in [this StackOverflow post][StackOverflowExitReenterTransitions]. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
 
-<sup id="footnote?">?</sup> **TODO: footnote that talks about the shared element exit transition in-depth... i.e. in between step 1 and 2 the framework will run the exit shared element transition. Also say that the example covers the enter shared element transition and that return shared element transitions behave similarly except in reverse.** <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
+<sup id="footnote?">?</sup> A similar sequence of events occurs during the exit/return/reenter transitions for both Activities and Fragments. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
+
+<sup id="footnote?">?</sup> One other subtle feature of `ChangeTransform` is that it can detect and handle changes made to a shared element view's parent during a transition. This comes in handy when, for example, the shared element's parent has an opaque background and is therefore selected to be a transitioning view during the scene change. In this case, the `ChangeTransform` will detect that the shared element's parent is being modified by a content transition, will pull out the shared element from its parent, and will animate it separately. See George Mount's [StackOverflow answer][ChangeTransformParentIssue] for more information. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
 
   [setSharedElementExitTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementExitTransition(android.transition.Transition)
   [setSharedElementEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementEnterTransition(android.transition.Transition)
@@ -127,6 +128,12 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [ChangeTransform]: https://developer.android.com/reference/android/transition/ChangeTransform.html
   [ChangeClipBounds]: https://developer.android.com/reference/android/transition/ChangeClipBounds.html
   [ChangeImageTransform]: https://developer.android.com/reference/android/transition/ChangeImageTransform.html
+
+  [View#setClipBounds()]: https://developer.android.com/reference/android/view/View.html#setClipBounds(android.graphics.Rect)
+  [View#getClipBounds()]: https://developer.android.com/reference/android/view/View.html#getClipBounds()
+  [ImageView.ScaleType]: https://developer.android.com/reference/android/widget/ImageView.ScaleType.html
+
+  [ChangeTransformParentIssue]: http://stackoverflow.com/q/26899779/844882
 
   [ViewOverlay]: https://developer.android.com/reference/android/view/ViewOverlay.html
   [ViewOverlayBlogPost]: http://graphics-geek.blogspot.com/2013/07/new-in-android-43-viewoverlay.html
