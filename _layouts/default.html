@@ -48,6 +48,20 @@
       ga('require', 'linkid', 'linkid.js');
       ga('send', 'pageview');
     </script>{% endif %}
+    <script>
+      /**
+       * Function that tracks a click on an outbound link in Google Analytics.
+       * This function takes a valid URL string as an argument, and uses that URL string
+       * as the event label.
+       */
+      var trackOutboundLink = function(url) {
+        ga('send', 'event', 'Outbound links', 'Click', url, {'hitCallback':
+          function () {
+            document.location = url;
+          }
+        });
+      }
+    </script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
     <style>
@@ -127,10 +141,16 @@
           <h3>Apps by me</h3>
 	      <!-- TODO: put this stuff in CSS -->
 	      <!-- TODO: adjust the css so that this is displayed in ALL screen layout modes -->
-	      <a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight">
+	      <a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
+                 onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight'); return false;">
 		<img style="float: left; margin-right: 0.5em; margin-bottom: 1em;" src="{{ site.baseurl }}/assets/images/2048_icon_72x72.png"/>
 	      </a>
-	      <span><a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight">2048++</a> is hands down the cleanest, sleekest, most responsive 2048 app for Android! <a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight">Play Store</a></span>
+	      <span><a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
+                 onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight'); return false;">
+                  2048++</a> is hands down the cleanest, sleekest, most responsive 2048 app for Android! 
+                <a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
+                   onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight'); return false;">
+                  Play Store</a></span>
 	      <div style="clear: both"></div>
 	</div>
 	<div class="box gbadge">
