@@ -166,7 +166,7 @@ public class TaskFragment extends Fragment {
    * Callback interface through which the fragment will report the
    * task's progress and results back to the Activity.
    */
-  static interface TaskCallbacks {
+  interface TaskCallbacks {
     void onPreExecute();
     void onProgressUpdate(int percent);
     void onCancelled();
