@@ -6,7 +6,6 @@ permalink: /2015/01/activity-fragment-shared-element-transitions-in-practice-par
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
-published: false
 ---
 
 This post will give an in-depth analysis of _shared element transitions_ and their role in the Activity and Fragment Transitions API. This is the fourth of a series of posts I will be writing on the topic:
