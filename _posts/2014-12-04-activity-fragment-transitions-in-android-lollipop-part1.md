@@ -14,7 +14,7 @@ This post gives a brief overview of `Transition`s and introduces the new [Activi
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** [Content Transitions In-Depth][part2]
 * **Part 3a:** [Shared Element Transitions In-Depth][part3a]
-* **Part 3b:** Shared Element Transitions In Practice (_coming soon!_)
+* **Part 3b:** [Postponed Transitions & Shared Element Callbacks][part3b]
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
 We begin by answering the following question: what is a `Transition`?
@@ -217,7 +217,7 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
   [part3a]: /2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html
-  [part3b]: /2015/01/activity-fragment-shared-element-transitions-in-practice-part3b.html
+  [part3b]: /2015/03/activity-fragment-postponed-transitions-shared-element-callbacks-part3b.html
 
   [customizeActivityTransitions]: https://developer.android.com/training/material/animations.html#Transitions
   [startActivity]: http://developer.android.com/reference/android/app/Activity.html#startActivity%28android.content.Intent,%20android.os.Bundle%29
