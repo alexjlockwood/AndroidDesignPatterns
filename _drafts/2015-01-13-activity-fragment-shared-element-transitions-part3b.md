@@ -8,13 +8,15 @@ related: ['/2012/08/implementing-loaders.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
 ---
 
-This post continues our in-depth analysis of _shared element transitions_ by discussing two key features of Lollipop's transition API: the ability to postpone shared element transitions and the `SharedElementCallback` interface. It is the fourth of a series of posts I will be writing on the topic:
+This post continues our in-depth analysis of _shared element transitions_ by discussing two key features of Lollipop's transition API: postponed shared element transitions and the `SharedElementCallback` interface. It is the fourth of a series of posts I will be writing on the topic:
 
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** [Content Transitions In-Depth][part2]
 * **Part 3a:** [Shared Element Transitions In-Depth][part3a]
 * **Part 3b:** [Postponed Transitions & Shared Element Callbacks][part3b]
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
+
+We begin by discussing the need to postpone certain shared element transitions through a few real-world examples.
 
 ### Postponing Shared Element Transitions
 
