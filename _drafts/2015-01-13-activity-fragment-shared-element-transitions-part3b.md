@@ -1,22 +1,20 @@
 ---
 layout: post
-title: 'Shared Element Transitions In Practice (part 3b)'
+title: 'Postponed Transitions & Shared Element Callbacks (part 3b)'
 date: 2015-01-13
-permalink: /2015/01/activity-fragment-shared-element-transitions-in-practice-part3b.html
+permalink: /2015/03/activity-fragment-postponed-transitions-shared-element-callbacks-part3b.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
 ---
 
-This post will give an in-depth analysis of _shared element transitions_ and their role in the Activity and Fragment Transitions API. This is the fourth of a series of posts I will be writing on the topic:
+This post continues our in-depth analysis of _shared element transitions_ by discussing two key features of Lollipop's transition API: the ability to postpone shared element transitions and the `SharedElementCallback` interface. It is the fourth of a series of posts I will be writing on the topic:
 
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** [Content Transitions In-Depth][part2]
 * **Part 3a:** [Shared Element Transitions In-Depth][part3a]
-* **Part 3b:** Shared Element Transitions In Practice (_coming soon!_)
+* **Part 3b:** [Postponed Transitions & Shared Element Callbacks][part3b]
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
-
-**TODO: We begin by...**
 
 ### Postponing Shared Element Transitions
 
@@ -105,5 +103,5 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
   [part3a]: /2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html
-  [part3b]: /2015/01/activity-fragment-shared-element-transitions-in-practice-part3b.html
+  [part3b]: /2015/03/activity-fragment-postponed-transitions-shared-element-callbacks-part3b.html
 
