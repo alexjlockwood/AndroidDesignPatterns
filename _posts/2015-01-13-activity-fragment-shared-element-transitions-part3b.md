@@ -16,9 +16,9 @@ This post continues our in-depth analysis of _shared element transitions_ by dis
 * **Part 3b:** [Postponed Transitions & Shared Element Callbacks][part3b]
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
-We begin by discussing the need to postpone certain shared element transitions through some real-world examples.
+We begin by discussing the need to postpone certain shared element transitions through some specific examples.
 
-### Postponing Shared Element Transitions
+### Understanding Postponed Shared Element Transitions
 
 <!--morestart-->
 
@@ -28,31 +28,66 @@ Whether or not the shared elements' end values will be calculated before the tra
 
 <!--more-->
 
-* **The shared element lives in a `Fragment` hosted by the called activity.** As you might already know, [`FragmentTransaction`s are not executed immediately after they are committed][FragmentTransaction#commit]&mdash;they are scheduled as work on the main thread to be done at a later time. If the shared element lives inside the `Fragment`'s view hierarchy and the `FragmentTransaction` is not executed in time, the shared element transition will begin before the shared element is properly measured and laid out within the called Activity.<sup><a href="#footnote?" id="ref?">?</a></sup>
+* **The shared element lives in a `Fragment` hosted by the called activity.** [`FragmentTransaction`s are not executed immediately after they are committed][FragmentTransaction#commit]; they are scheduled as work on the main thread to be done at a later time. Thus, if the shared element lives inside the `Fragment`'s view hierarchy and the `FragmentTransaction` is not executed quickly enough, it is possible that the framework will start the shared element transition before the shared element is properly measured and laid out within the called Activity.<sup><a href="#footnote?" id="ref?">?</a></sup>
 
-* **The shared element is a high-resolution image.** If the high resolution image exceeds the `ImageView`s initial bounds, an additional layout pass on the `ImageView` will be triggered. Especially if you are using an image loading library such as Picasso or you are scaling bitmap images asynchronously yourself, the framework will likely begin the shared element transition before the `ImageView` has finished being properly laid out.
+* **The shared element is a high-resolution image.** Setting a high resolution image that exceeds the `ImageView`'s initial bounds might end up triggering [an additional layout pass][ImageViewRequestLayout] on the view hierarchy, making it more likely that the transition will begin before the shared element is ready. The asynchronous nature of popular bitmap loading/scaling libraries, such as [Volley][Volley] and [Picasso][Picasso], will not reliably fix this problem: the framework has no prior knowledge that the images are being downloaded, scaled, or fetched from disk on a background thread.
 
-* **The shared element depends on asynchronously loaded data.** If the shared element views depend on asynchronously loaded data (from a `Loader`, for example), the framework will likely initiate the shared element transition before the data is delivered and applied to the views in the activity.
+* **The shared element depends on asynchronously loaded data.** If the shared element views depends on data loaded by an `AsyncTask`, an `AsyncQueryHandler`, a `Loader`, or something similar, it is possible that the framework will start the transition before those results are delivered back to the activity.
 
-At this point you might be thinking "if only there was a way to temporarily pause the transition until we know for sure that the shared elements' end values have been determined."
-
-Fortunately, we can get around these issues by postponing the activity's shared element transition using the Activity's [`postponeEnterTransition()`][postponeEnterTransition] and [`startPostponedEnterTransition()`][startPostponedEnterTransition] methods.<sup><a href="#footnote?" id="ref?">?</a></sup> The first method tells the framework to pause the shared element transition until all data has been loaded and all views have been laid out. Since the framework cannot automatically know when this is, we must also call the second method to tell the framework that it is OK to start the transition. Clearly we must wait for the views to finish their layout before the shared element transition can begin. Thus, a common pattern is to start the postponed transition in an `OnPreDrawListener`, which is guaranteed to be called after the view is properly measured and laid out:
+At this point you might be thinking, _"If only there was a way to temporarily pause the transition until we know for sure that the shared elements have been properly measured and laid out."_ Well, you're in luck! The Activity Transitions API<sup><a href="#footnote?" id="ref?">?</a></sup> gives us a way to do just that. To temporarily pause the shared element transition from beginning, call [`postponeEnterTransition()`][postponeEnterTransition] in your activity's `onCreate()` method. Later, when you know for certain that all of your shared elements have been properly positioned and sized, call [`startPostponedEnterTransition()`][startPostponedEnterTransition] to let the framework know that it should resume the transition. A common pattern you'll find useful is to start the postponed transition in an [`OnPreDrawListener`][OnPreDrawListener], which is guaranteed to be called after your shared element has finished its measurement and layout phases:
 
 ```java
-activity.postponeEnterTransition();
-view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-    @Override
-    public boolean onPreDraw() {
-        view.getViewTreeObserver().removeOnPreDrawListener(this);
-        activity.startPostponedEnterTransition();
-        return true;
-    }
-});
+private View mSharedElement;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  setContentView(R.layout.activity_main);
+  mSharedElement = findViewById(R.id.shared_element);
+
+  // Postpone the shared element enter transition.
+  postponeEnterTransition();
+
+  // Start the shared element enter transition when we know
+  // the shared element is ready.
+  scheduleStartPostponedTransition();
+}
+
+/**
+ * Schedules the shared element transition to be resumed immediately
+ * after the shared element has been measured and laid out within the
+ * activity's view hierarchy.
+ */
+private void scheduleStartPostponedTransition() {  
+  mSharedElement.getViewTreeObserver().addOnPreDrawListener(
+      new ViewTreeObserver.OnPreDrawListener() {
+        @Override
+        public boolean onPreDraw() {
+          mSharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
+          startPostponedEnterTransition();
+          return true;
+        }
+      });
+}
 ```
 
-Despite their names, these two methods can be used to postpone both enter and return shared element transitions. If `A` starts `B` then the enter shared element transition can be postponed by calling `postponeEnterTransition()` in `B`'s `onCreate()` method. If `B` is returning to `A`, then the return shared element transition can be postponed by calling `postponeEnterTransition()` in `A`'s `onActivityReenter()` method.
+Despite their names, these two methods can be used to postpone return transitions as well. Simply postpone the return transition within the calling Activity's [onActivityReenter()][Activity#onActivityReenter] method instead:
 
-### Creating Advanced Transitions Using a `SharedElementCallback`
+```java
+@Override
+public void onActivityReenter(int resultCode, Intent data) {
+  super.onActivityReenter(resultCode, data);
+
+  // Postpone the shared element return transition.
+  postponeEnterTransition();
+
+  // Start the shared element return transition when we know
+  // the shared element is ready.
+  scheduleStartPostponedTransition();
+}
+```
+
+### Creating Advanced Transitions Using `SharedElementCallback`s
 
 You can further customize your shared element transitions by setting a [`SharedElementCallback`][SharedElementCallback]. Understanding the SharedElementCallback class will be important if you want to implement custom Transitions that are more complicated than simply moving an image from one location to another. In particular, the following three callback methods are very important to understand when writing more complex shared element transitions:
 
@@ -70,28 +105,12 @@ Overall, this post presented **(three?)** important points:
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful!
 
 <hr class="footnote-divider"/>
-<sup id="footnote?">?</sup> Of course, applications can usually workaround this issue entirely by calling [`FragmentManager#executePendingTransactions()`][FragmentManager#executePendingTransactions], which will force any pending `FragmentTransaction` to execute immediately instead of asynchronously. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
+<sup id="footnote?">?</sup> Of course, most applications can usually workaround this issue by calling [`FragmentManager#executePendingTransactions()`][FragmentManager#executePendingTransactions], which will force any pending `FragmentTransaction` to execute immediately instead of asynchronously. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
 <sup id="footnote?">?</sup> Note that `postponeEnterTransition()` and `startPostponedEnterTransition()` methods only work for Activity Transitions and not for Fragment Transitions. For an explanation and possible workaround, see [this StackOverflow answer][PostponeEnterTransitionForFragments] and [this Google+ post][PostponeEnterTransitionForFragmentsG+]. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
 
-  [setSharedElementExitTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementExitTransition(android.transition.Transition)
-  [setSharedElementEnterTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementEnterTransition(android.transition.Transition)
-  [setSharedElementReturnTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReturnTransition(android.transition.Transition)
-  [setSharedElementReenterTransition]: https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)
-  [Fragment#setSharedElementExitTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementExitTransition(android.transition.Transition)
-  [Fragment#setSharedElementEnterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementEnterTransition(android.transition.Transition)
-  [Fragment#setSharedElementReturnTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementReturnTransition(android.transition.Transition)
-  [Fragment#setSharedElementReenterTransition]: https://developer.android.com/reference/android/app/Fragment.html#setSharedElementReenterTransition(android.transition.Transition)
-  [Move]: https://github.com/android/platform_frameworks_base/blob/lollipop-release/core/res/res/transition/move.xml
   [postponeEnterTransition]: https://developer.android.com/reference/android/app/Activity.html#postponeEnterTransition()
   [startPostponedEnterTransition]: https://developer.android.com/reference/android/app/Activity.html#startPostponedEnterTransition()
-  [setSharedElementsUseOverlay]: https://developer.android.com/reference/android/view/Window.html#setSharedElementsUseOverlay(boolean)
   [SharedElementCallback]: https://developer.android.com/reference/android/app/SharedElementCallback.html
-
-  [Window]: http://developer.android.com/reference/android/view/Window.html
-  [Fragment]: http://developer.android.com/reference/android/app/Fragment.html
-  [MaterialDesignMeaningfulTransitions]: http://www.google.com/design/spec/animation/meaningful-transitions.html
-  [SharedElementExitReenterBlogPost]: https://halfthought.wordpress.com/2014/12/08/what-are-all-these-dang-transitions/
-  [StackOverflowExitReenterTransitions]: http://stackoverflow.com/q/27346020/844882
 
   [FragmentTransaction#commit]: https://developer.android.com/reference/android/app/FragmentTransaction.html#commit()
   [FragmentManager#executePendingTransactions]: https://developer.android.com/reference/android/app/FragmentManager.html#executePendingTransactions()
@@ -99,14 +118,12 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [GooglePlusSystemUI]: https://plus.google.com/+AlexLockwood/posts/RPtwZ5nNebb
   [PostponeEnterTransitionForFragments]: http://stackoverflow.com/q/26977303/844882
   [PostponeEnterTransitionForFragmentsG+]: https://plus.google.com/+AlexLockwood/posts/3DxHT42rmmY
+  [Activity#onActivityReenter]: https://developer.android.com/reference/android/app/Activity.html#onActivityReenter(int,%20android.content.Intent)
+  [OnPreDrawListener]: http://developer.android.com/reference/android/view/ViewTreeObserver.OnPreDrawListener.html
 
-  [ChangeBounds]: https://developer.android.com/reference/android/transition/ChangeBounds.html
-  [ChangeTransform]: https://developer.android.com/reference/android/transition/ChangeTransform.html
-  [ChangeClipBounds]: https://developer.android.com/reference/android/transition/ChangeClipBounds.html
-  [ChangeImageTransform]: https://developer.android.com/reference/android/transition/ChangeImageTransform.html
-
-  [ViewOverlay]: https://developer.android.com/reference/android/view/ViewOverlay.html
-  [ViewOverlayBlogPost]: http://graphics-geek.blogspot.com/2013/07/new-in-android-43-viewoverlay.html
+  [ImageViewRequestLayout]: https://github.com/android/platform_frameworks_base/blob/lollipop-release/core/java/android/widget/ImageView.java#L453-L455
+  [Volley]: https://android.googlesource.com/platform/frameworks/volley
+  [Picasso]: http://square.github.io/picasso/
 
   [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
