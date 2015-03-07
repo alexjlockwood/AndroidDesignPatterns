@@ -16,21 +16,25 @@ This post continues our in-depth analysis of _shared element transitions_ by dis
 * **Part 3b:** [Postponed Transitions & Shared Element Callbacks][part3b]
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
-We begin by discussing the need to postpone certain shared element transitions through a few real-world examples.
+We begin by discussing the need to postpone certain shared element transitions through some real-world examples.
 
 ### Postponing Shared Element Transitions
 
 <!--morestart-->
 
-A common source of problems when dealing with shared element transitions stems from the fact that they are initiated by the framework early in the Activity lifecycle. Recall that `Transition`s require both the start and end state of its target views in order to function properly. Thus, if the shared element transition is started before its final position and size has been determined, the transition will fail to create an `Animator` that will animate the shared views between the two states. Unfortunately, it is not uncommon that one of your shared elements will not have finished its final layout by the time the shared element transition begins. Some common examples are,
+A common source of problems when dealing with shared element transitions stems from the fact that they are initiated by the framework very early in the Activity lifecycle. Recall that `Transition`s require both the start and end state of its target views in order to function properly. Thus, if a shared element transition starts before its shared element views are assigned their final size and position and size within the called Activity, the transition will capture incorrect end values for its shared elements and the behavior of the resulting animation will be undefined.
+
+There are a number of ways in which this undesirable behavior might occur, but whether or not the correct end values will be captured ultimately comes down to the complexity of the called activity's layout and data-loading model. As an example, consider a typical shared element Activity transition under each of the following scenarios:
 
 <!--more-->
 
-* **The shared element lives inside a `Fragment`.** `FragmentTransaction`s are not executed immediately by default, so if your shared element exists as part of the `Fragment`'s view hierarchy, there is a chance that the framework will accidentally start the shared element transition before the `Fragment`'s view hierarchy has been properly measured and laid out. Forcing the `FragmentTransaction`s to execute immediately by calling [`FragmentManager#executePendingTransactions()`][FragmentManager#executePendingTransactions] may help, but may also introduce unintended side effects depending on the situation.
+* **The shared element lives inside a `Fragment` in the called activity.** `FragmentTransaction`s are not executed immediately by default, so if your shared element exists as part of the `Fragment`'s view hierarchy, there is a chance that the framework will accidentally start the shared element transition before the `Fragment`'s view hierarchy has been properly measured and laid out. Forcing the `FragmentTransaction`s to execute immediately by calling [`FragmentManager#executePendingTransactions()`][FragmentManager#executePendingTransactions] may help, but may also introduce unintended side effects depending on the situation.
 
 * **The shared element is a high-resolution image.** If the high resolution image exceeds the `ImageView`s initial bounds, an additional layout pass on the `ImageView` will be triggered. Especially if you are using an image loading library such as Picasso or you are scaling bitmap images asynchronously yourself, the framework will likely begin the shared element transition before the `ImageView` has finished being properly laid out.
 
 * **The shared element depends on asynchronously loaded data.** If the shared element views depend on asynchronously loaded data (from a `Loader`, for example), the framework will likely initiate the shared element transition before the data is delivered and applied to the views in the activity.
+
+At this point you might be thinking "if only there was a way to temporarily pause the transition until we know for sure that the shared elements' end values have been determined."
 
 Fortunately, we can get around these issues by postponing the activity's shared element transition using the Activity's [`postponeEnterTransition()`][postponeEnterTransition] and [`startPostponedEnterTransition()`][startPostponedEnterTransition] methods.<sup><a href="#footnote?" id="ref?">?</a></sup> The first method tells the framework to pause the shared element transition until all data has been loaded and all views have been laid out. Since the framework cannot automatically know when this is, we must also call the second method to tell the framework that it is OK to start the transition. Clearly we must wait for the views to finish their layout before the shared element transition can begin. Thus, a common pattern is to start the postponed transition in an `onPreDraw` listener, which is guaranteed to be called after the view is properly measured and laid out:
 
