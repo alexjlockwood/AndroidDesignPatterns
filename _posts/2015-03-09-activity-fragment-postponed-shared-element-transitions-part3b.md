@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Postponed Shared Element Transitions (part 3b)'
-date: 2015-01-13
+date: 2015-03-09
 permalink: /2015/03/activity-fragment-postponed-transitions-shared-element-callbacks-part3b.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
@@ -75,13 +75,13 @@ protected void onCreate(Bundle savedInstanceState) {
  * sense to call this method are:
  * 
  * (1) Inside a Fragment's onCreateView() method (if the shared element
- * lives inside a Fragment hosted by the called Activity).
+ *     lives inside a Fragment hosted by the called Activity).
  *
- * (2) Inside a Picasso Callback object (if you need to wait for Picasso
- * to asynchronously load/scale a bitmap before the transition can begin).
+ * (2) Inside a Picasso Callback object (if you need to wait for Picasso to
+ *     asynchronously load/scale a bitmap before the transition can begin).
  *
  * (3) Inside a LoaderCallback's onLoadFinished() method (if the shared
- * element depends on data queried by a Loader).
+ *     element depends on data queried by a Loader).
  */
 void scheduleStartPostponedTransition(final View sharedElement) {  
     sharedElement.getViewTreeObserver().addOnPreDrawListener(
@@ -125,7 +125,7 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
 <hr class="footnote-divider"/>
 <sup id="footnote?">1</sup> Of course, most applications can usually workaround this issue by calling [`FragmentManager#executePendingTransactions()`][FragmentManager#executePendingTransactions], which will force any pending `FragmentTransaction` to execute immediately instead of asynchronously. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
-<sup id="footnote?">2</sup> Note that `postponeEnterTransition()` and `startPostponedEnterTransition()` methods only work for Activity Transitions and not for Fragment Transitions. For an explanation and possible workaround, see [this StackOverflow answer][PostponeEnterTransitionForFragments] and [this Google+ post][PostponeEnterTransitionForFragmentsG+]. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
+<sup id="footnote?">2</sup> Note that `postponeEnterTransition()` and `startPostponedEnterTransition()` methods only work for Activity Transitions and not for Fragment Transitions. For an explanation and possible workaround, see [this StackOverflow answer][PostponeEnterTransitionForFragments] or [this Google+ post][PostponeEnterTransitionForFragmentsG+]. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
   [postponeEnterTransition]: https://developer.android.com/reference/android/app/Activity.html#postponeEnterTransition()
   [startPostponedEnterTransition]: https://developer.android.com/reference/android/app/Activity.html#startPostponedEnterTransition()
