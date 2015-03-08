@@ -25,9 +25,22 @@ We begin by discussing the need to postpone certain shared element transitions b
 
 A common source of problems when dealing with shared element transitions stems from the fact that they are initiated by the framework very early in the Activity lifecycle. Recall that `Transition`s require both the start and end state of its target views in order to function properly. Thus, if a shared element transition starts before its shared element views are assigned their final size and position and size within the called Activity, the transition will capture incorrect end values for its shared elements and the behavior of the resulting animation will fail completely.
 
-Whether or not the shared elements' end values will be calculated before the transition begins depends mostly on two factors: the complexity/depth of the called activity's layout and the amount of time it takes for the called activity to load the required data. The more complex the layout, the longer it will take to determine the shared elements position and size on the screen. Similarly, if the shared elements' appearance within the UI depends on data loaded asynchronously on a background thread, the greater the chance that the framework will start the transition without it. Listed below are some of the common scenarios in which you might encounter these issues:
-
 <!--more-->
+
+<div class="responsive-figure nexus6-figure">
+  <div class="framed-nexus6-port">
+  <video id="figure33" onclick="playPause('figure33')" poster="/assets/videos/posts/2015/03/09/postpone-bug-opt.png" preload="none">
+    <source src="/assets/videos/posts/2015/03/09/postpone-bug-opt.mp4" type="video/mp4">
+    <source src="/assets/videos/posts/2015/03/09/postpone-bug-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2015/03/09/postpone-bug-opt.ogv" type="video/ogg">
+  </video>
+  </div>
+  <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Video 3.3</strong> - Postponed shared element transitions bug. Click to play.</p>
+  </div>
+</div>
+
+Whether or not the shared elements' end values will be calculated before the transition begins depends mostly on two factors: the complexity/depth of the called activity's layout and the amount of time it takes for the called activity to load the required data. The more complex the layout, the longer it will take to determine the shared elements position and size on the screen. Similarly, if the shared elements' appearance within the UI depends on data loaded asynchronously on a background thread, the greater the chance that the framework will start the transition without it. Listed below are some of the common scenarios in which you might encounter these issues:
 
 * **The shared element lives in a `Fragment` hosted by the called activity.** [`FragmentTransaction`s are not executed immediately after they are committed][FragmentTransaction#commit]; they are scheduled as work on the main thread to be done at a later time. Thus, if the shared element lives inside the `Fragment`'s view hierarchy and the `FragmentTransaction` is not executed quickly enough, it is possible that the framework will start the shared element transition before the shared element is properly measured and laid out within the called Activity.<sup><a href="#footnote?" id="ref?">?</a></sup>
 
