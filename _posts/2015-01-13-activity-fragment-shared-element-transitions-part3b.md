@@ -105,8 +105,6 @@ public void onActivityReenter(int resultCode, Intent data) {
 
 * Be aware of how long you might end up delaying the called Activity. Don't delay the Activity for too long or else your app might be perceived as being "laggy".
 
-* Android does not disable user interaction in the calling Activity during the time the Activity is being postponed, so be careful of that.
-
 ### Conclusion
 
 Overall, this post presented **(three?)** important points:
