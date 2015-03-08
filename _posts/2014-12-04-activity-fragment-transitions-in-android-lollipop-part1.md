@@ -14,7 +14,8 @@ This post gives a brief overview of `Transition`s and introduces the new [Activi
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** [Content Transitions In-Depth][part2]
 * **Part 3a:** [Shared Element Transitions In-Depth][part3a]
-* **Part 3b:** [Postponed Transitions & Shared Element Callbacks][part3b]
+* **Part 3b:** [Postponed Shared Element Transitions][part3b]
+* **Part 3c:** Implementing Shared Element Callbacks (_coming soon!_)
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
 We begin by answering the following question: what is a `Transition`?

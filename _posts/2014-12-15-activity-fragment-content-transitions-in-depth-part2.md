@@ -13,7 +13,8 @@ This post will give an in-depth analysis of _content transitions_ and their role
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** [Content Transitions In-Depth][part2]
 * **Part 3a:** [Shared Element Transitions In-Depth][part3a]
-* **Part 3b:** [Postponed Transitions & Shared Element Callbacks][part3b]
+* **Part 3b:** [Postponed Shared Element Transitions][part3b]
+* **Part 3c:** Implementing Shared Element Callbacks (_coming soon!_)
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
 We begin by summarizing what we learned about content transitions in [part 1][part1] and illustrating how they can be used to achieve smooth, seamless animations in Android Lollipop.
@@ -171,4 +172,3 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [part2]: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
   [part3a]: /2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html
   [part3b]: /2015/03/activity-fragment-postponed-transitions-shared-element-callbacks-part3b.html
-

@@ -13,7 +13,8 @@ This post will give an in-depth analysis of _shared element transitions_ and the
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** [Content Transitions In-Depth][part2]
 * **Part 3a:** [Shared Element Transitions In-Depth][part3a]
-* **Part 3b:** [Postponed Transitions & Shared Element Callbacks][part3b]
+* **Part 3b:** [Postponed Shared Element Transitions][part3b]
+* **Part 3c:** Implementing Shared Element Callbacks (_coming soon!_)
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
 Part 3 of this series will be broken up into two parts: part 3a will focus on how shared elements operate under-the-hood and part 3b will focus more on the implementation-specific details of the API, such as the importance of postponing certain shared element transitions and implementing `SharedElementCallback`s.

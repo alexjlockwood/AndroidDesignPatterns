@@ -23,7 +23,7 @@ We begin by discussing the need to postpone certain shared element transitions b
 
 <!--morestart-->
 
-A common source of problems when dealing with shared element transitions stems from the fact that they are initiated by the framework very early in the Activity lifecycle. Recall that `Transition`s require both the start and end state of its target views in order to function properly. Thus, if a shared element transition starts before its shared element views are assigned their final size and position and size within the called Activity, the transition will capture incorrect end values for its shared elements and the behavior of the resulting animation will fail completely.
+A common source of problems when dealing with shared element transitions stems from the fact that they are initiated by the framework very early in the Activity lifecycle. Recall that `Transition`s require both the start and end state of its target views in order to function properly. Thus, if a shared element transition starts before its shared element views are assigned their final size and position and size within the called Activity, the transition will capture incorrect end values for its shared elements and the behavior of the resulting animation will fail completely (see **Video 3.3** for an example of what a failed shared element enter transition might look like). 
 
 <!--more-->
 
@@ -36,13 +36,13 @@ A common source of problems when dealing with shared element transitions stems f
   </video>
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
-    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Video 3.3</strong> - Postponed shared element transitions bug. Click to play.</p>
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;"><strong>Video 3.3</strong> - Fixing a broken shared element enter animation by postponing the transition. Click to play.</p>
   </div>
 </div>
 
 Whether or not the shared elements' end values will be calculated before the transition begins depends mostly on two factors: the complexity/depth of the called activity's layout and the amount of time it takes for the called activity to load the required data. The more complex the layout, the longer it will take to determine the shared elements position and size on the screen. Similarly, if the shared elements' appearance within the UI depends on data loaded asynchronously on a background thread, the greater the chance that the framework will start the transition without it. Listed below are some of the common scenarios in which you might encounter these issues:
 
-* **The shared element lives in a `Fragment` hosted by the called activity.** [`FragmentTransaction`s are not executed immediately after they are committed][FragmentTransaction#commit]; they are scheduled as work on the main thread to be done at a later time. Thus, if the shared element lives inside the `Fragment`'s view hierarchy and the `FragmentTransaction` is not executed quickly enough, it is possible that the framework will start the shared element transition before the shared element is properly measured and laid out within the called Activity.<sup><a href="#footnote?" id="ref?">?</a></sup>
+* **The shared element lives in a `Fragment` hosted by the called activity.** [`FragmentTransaction`s are not executed immediately after they are committed][FragmentTransaction#commit]; they are scheduled as work on the main thread to be done at a later time. Thus, if the shared element lives inside the `Fragment`'s view hierarchy and the `FragmentTransaction` is not executed quickly enough, it is possible that the framework will start the shared element transition before the shared element is properly measured and laid out within the called Activity.<sup><a href="#footnote1" id="ref1">1</a></sup>
 
 * **The shared element is a high-resolution image.** Setting a high resolution image that exceeds the `ImageView`'s initial bounds might end up triggering [an additional layout pass][ImageViewRequestLayout] on the view hierarchy, making it more likely that the transition will begin before the shared element is ready. The asynchronous nature of popular bitmap loading/scaling libraries, such as [Volley][Volley] and [Picasso][Picasso], will not reliably fix this problem: the framework has no prior knowledge that the images are being downloaded, scaled, or fetched from disk on a background thread.
 
@@ -50,7 +50,7 @@ Whether or not the shared elements' end values will be calculated before the tra
 
 ### Understanding `postponeEnterTransition()` and `startPostponedEnterTransition()`
 
-At this point you might be thinking, _"If only there was a way to temporarily pause the transition until we know for sure that the shared elements have been properly measured and laid out."_ Well, you're in luck, because the Activity Transitions API<sup><a href="#footnote?" id="ref?">?</a></sup> gives us a way to do just that!
+At this point you might be thinking, _"If only there was a way to temporarily pause the transition until we know for sure that the shared elements have been properly measured and laid out."_ Well, you're in luck, because the Activity Transitions API<sup><a href="#footnote2" id="ref2">2</a></sup> gives us a way to do just that!
 
 To temporarily pause the shared element transition from beginning, call [`postponeEnterTransition()`][postponeEnterTransition] in your activity's `onCreate()` method. Later, when you know for certain that all of your shared elements have been properly positioned and sized, call [`startPostponedEnterTransition()`][startPostponedEnterTransition] to let the framework know that it should resume the transition. A common pattern you'll find useful is to start the postponed transition in an [`OnPreDrawListener`][OnPreDrawListener], which is guaranteed to be called after your shared element has finished its measurement and layout phases:
 
@@ -96,7 +96,7 @@ void scheduleStartPostponedTransition(final View sharedElement) {
 }
 ```
 
-Despite their names, these two methods can be used to postpone return transitions as well. Simply postpone the return transition within the calling Activity's [onActivityReenter()][Activity#onActivityReenter] method instead:
+Despite their slightly misleading names, these two methods can be used to postpone return transitions as well. Simply postpone the return transition within the calling Activity's [onActivityReenter()][Activity#onActivityReenter] method instead: 
 
 ```java
 @Override
@@ -112,26 +112,20 @@ public void onActivityReenter(int resultCode, Intent data) {
 }
 ```
 
-### A Few Final Warnings...
-
-* Don't forget to call `startPostponedEnterTransition()` or your activity could deadlock!
-
-* Be aware of how long you might end up delaying the called Activity. Don't delay the Activity for too long or else your app might be perceived as being "laggy".
-
 ### Conclusion
 
-Overall, this post presented **(three?)** important points:
+Before we end our discussion on postponed shared element transitions, we must bring attention to some of the potentially harmful side-effects:
 
-1. asdf
-2. asdf
-3. asdf
+* **Never forget to call `startPostponedEnterTransition()` after calling `postponeEnterTransition`.** Forgetting to do so will leave your application in a state of deadlock, preventing the user from ever being able to reach the next Activity screen.
+
+* **Never postpone a transition for longer than a fraction of a second.** Postponing a transition for even a fraction of a second could introduce unwanted lag into your application, annoying the user and slowing down the user experience.
 
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful!
 
 <hr class="footnote-divider"/>
-<sup id="footnote?">?</sup> Of course, most applications can usually workaround this issue by calling [`FragmentManager#executePendingTransactions()`][FragmentManager#executePendingTransactions], which will force any pending `FragmentTransaction` to execute immediately instead of asynchronously. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
+<sup id="footnote?">1</sup> Of course, most applications can usually workaround this issue by calling [`FragmentManager#executePendingTransactions()`][FragmentManager#executePendingTransactions], which will force any pending `FragmentTransaction` to execute immediately instead of asynchronously. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
-<sup id="footnote?">?</sup> Note that `postponeEnterTransition()` and `startPostponedEnterTransition()` methods only work for Activity Transitions and not for Fragment Transitions. For an explanation and possible workaround, see [this StackOverflow answer][PostponeEnterTransitionForFragments] and [this Google+ post][PostponeEnterTransitionForFragmentsG+]. <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
+<sup id="footnote?">2</sup> Note that `postponeEnterTransition()` and `startPostponedEnterTransition()` methods only work for Activity Transitions and not for Fragment Transitions. For an explanation and possible workaround, see [this StackOverflow answer][PostponeEnterTransitionForFragments] and [this Google+ post][PostponeEnterTransitionForFragmentsG+]. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
   [postponeEnterTransition]: https://developer.android.com/reference/android/app/Activity.html#postponeEnterTransition()
   [startPostponedEnterTransition]: https://developer.android.com/reference/android/app/Activity.html#startPostponedEnterTransition()
