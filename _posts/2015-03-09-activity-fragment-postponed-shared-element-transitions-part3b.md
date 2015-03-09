@@ -83,7 +83,7 @@ protected void onCreate(Bundle savedInstanceState) {
  * (3) Inside a LoaderCallback's onLoadFinished() method (if the shared
  *     element depends on data queried by a Loader).
  */
-void scheduleStartPostponedTransition(final View sharedElement) {  
+private void scheduleStartPostponedTransition(final View sharedElement) {  
     sharedElement.getViewTreeObserver().addOnPreDrawListener(
         new ViewTreeObserver.OnPreDrawListener() {
             @Override
