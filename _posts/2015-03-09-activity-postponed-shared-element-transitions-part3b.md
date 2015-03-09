@@ -150,5 +150,5 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [part1]: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
   [part2]: /2014/12/activity-fragment-content-transitions-in-depth-part2.html
   [part3a]: /2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html
-  [part3b]: /2015/03/activity-fragment-postponed-transitions-shared-element-callbacks-part3b.html
+  [part3b]: /2015/03/activity-postponed-shared-element-transitions-part3b.html
 
