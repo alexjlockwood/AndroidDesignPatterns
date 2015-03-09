@@ -2,7 +2,7 @@
 layout: post
 title: 'Postponed Shared Element Transitions (part 3b)'
 date: 2015-03-09
-permalink: /2015/03/activity-fragment-postponed-transitions-shared-element-callbacks-part3b.html
+permalink: /2015/03/activity-postponed-shared-element-transitions-part3b.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
