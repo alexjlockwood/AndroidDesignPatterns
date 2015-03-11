@@ -125,7 +125,7 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
 
 <sup id="footnote2">2</sup> Note that the `postponeEnterTransition()` and `startPostponedEnterTransition()` methods only work for Activity Transitions and not for Fragment Transitions. For an explanation and possible workaround, see [this StackOverflow answer][PostponeEnterTransitionForFragments] and [this Google+ post][PostponeEnterTransitionForFragmentsG+]. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
-<sup id="footnote3">3</sup> Pro tip: you can verify whether or not allocating the `OnPreDrawListener` is needed by calling [`View#isLayoutRequested()`][View#isLayoutRequested] beforehand, if necessary. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
+<sup id="footnote3">3</sup> Pro tip: you can verify whether or not allocating the `OnPreDrawListener` is needed by calling [`View#isLayoutRequested()`][View#isLayoutRequested] beforehand, if necessary. [`View#isLaidOut()`][View#isLaidOut] may come in handy in some cases as well. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
 
 <sup id="footnote3">4</sup> A good way to test the behavior of your shared element return/reenter transitions is by going into the Developer Options and enabling the "Don't keep activities" setting. This will help test the worst case scenario in which the calling activity will need to recreate its layout, requery any necessary data, etc. before the return transition begins. <a href="#ref4" title="Jump to footnote 4.">&#8617;</a>
 
@@ -142,6 +142,7 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [Activity#onActivityReenter]: https://developer.android.com/reference/android/app/Activity.html#onActivityReenter(int,%20android.content.Intent)
   [OnPreDrawListener]: http://developer.android.com/reference/android/view/ViewTreeObserver.OnPreDrawListener.html
   [View#isLayoutRequested]: http://developer.android.com/reference/android/view/View.html#isLayoutRequested()
+  [View#isLaidOut]: http://developer.android.com/reference/android/view/View.html#isLaidOut()
 
   [ImageViewRequestLayout]: https://github.com/android/platform_frameworks_base/blob/lollipop-release/core/java/android/widget/ImageView.java#L453-L455
   [Volley]: https://android.googlesource.com/platform/frameworks/volley
