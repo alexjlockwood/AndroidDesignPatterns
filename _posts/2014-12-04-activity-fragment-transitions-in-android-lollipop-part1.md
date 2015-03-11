@@ -6,7 +6,7 @@ permalink: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
     '/2012/07/loaders-and-loadermanager-background.html']
-updated: '2014-12-11'
+updated: '2014-03-11'
 ---
 
 This post gives a brief overview of `Transition`s and introduces the new [Activity & Fragment transition APIs][customizeActivityTransitions] that were added in Android 5.0 Lollipop. This is the first of a series of posts I will be writing on the topic:
@@ -142,7 +142,7 @@ You've probably also noticed the cool circular reveal animation that plays under
 
 Creating a basic Activity transition is relatively easy using the new Lollipop APIs. Summarized below are the steps you must take in order to implement one in your application. In the posts that follow, we will go through much more advanced use-cases and examples, but for now the next two sections will serve as a good introduction:
 
-* Enable the new transition APIs by requesting the [`Window.FEATURE_ACTIVITY_TRANSITIONS`][FEATURE_ACTIVITY_TRANSITIONS] [`Window.FEATURE_CONTENT_TRANSITIONS`][FEATURE_CONTENT_TRANSITIONS] window features in your called and calling Activities, either programatically or in your theme's XML.
+* Enable the new transition APIs by requesting the [`Window.FEATURE_ACTIVITY_TRANSITIONS`][FEATURE_ACTIVITY_TRANSITIONS] window feature in your called and calling Activities, either programatically or in your theme's XML.<sup><a href="#footnote3" id="ref3">3</a></sup> Material-themed applications have this flag enabled by default.
 * Set [exit][setExitTransition] and [enter][setEnterTransition] content transitions for your calling and called activities respectively. Material-themed applications have their exit and enter content transitions set to `null` and [`Fade`][Fade] respectively by default. If the [reenter][setReenterTransition] or [return][setReturnTransition] transitions are not explicitly set, the activity's exit and enter content transitions respectively will be used in their place instead.
 * Set [exit][setSharedElementExitTransition] and [enter][setSharedElementEnterTransition] shared element transitions for your calling and called activities respectively. Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. If the [reenter][setSharedElementReenterTransition] or [return][setSharedElementReturnTransition] transitions are not explicitly set, the activity's exit and enter shared element transitions respectively will be used in their place instead.
 * To start an Activity transition with content transitions and shared elements, call the [`startActivity(Context, Bundle)`][startActivity] method and pass the following `Bundle` as the second argument:
@@ -151,7 +151,7 @@ Creating a basic Activity transition is relatively easy using the new Lollipop A
     ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
     ```
 
-    where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities.<sup><a href="#footnote3" id="ref3">3</a></sup> Don't forget to give your shared elements unique transition names, either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will not work properly!
+    where `pairs` is an array of `Pair<View, String>` objects listing the shared element views and names that you'd like to share between activities.<sup><a href="#footnote4" id="ref4">4</a></sup> Don't forget to give your shared elements unique transition names, either [programatically][setTransitionName] or in [XML][transitionName]. Otherwise, the transition will not work properly!
 * To programatically trigger a return transition, call [`finishAfterTransition()`][finishAfterTransition] instead of `finish()`.
 * By default, material-themed applications have their enter/return content transitions started a tiny bit before their exit/reenter content transitions complete, creating a small overlap that makes the overall effect more seamless and dramatic. If you wish to explicitly disable this behavior, you can do so by calling the [`setWindowAllowEnterTransitionOverlap()`][setWindowAllowEnterTransitionOverlap] and [`setWindowAllowReturnTransitionOverlap()`][setWindowAllowReturnTransitionOverlap] methods or by setting the corresponding attributes in your theme's XML.
 
@@ -175,7 +175,9 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
 
 <sup id="footnote2">2</sup> It might look like the views in `A` are fading in/out of the screen at first, but what you are really seeing is activity `B` fading in/out of the screen _on top of activity `A`_. The views in activity `A` are not actually animating during this time. You can adjust the duration of the background fade by calling [`setTransitionBackgroundFadeDuration()`][setTransitionBackgroundFadeDuration] on the called activity's `Window`. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
-<sup id="footnote3">3</sup> To start an Activity transition with content transitions _but no shared elements_, you can create the `Bundle` by calling `ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()`. To disable content transitions and shared element transitions entirely, don't create a `Bundle` object at all&mdash;just pass `null` instead. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
+<sup id="footnote3">3</sup> For an explanation describing the differences between the `FEATURE_ACTIVITY_TRANSITIONS` and `FEATURE_CONTENT_TRANSITIONS` window feature flags, see [this StackOverflow post][ACTIVITY_TRANSITIONS_vs_CONTENT_TRANSITIONS]. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
+
+<sup id="footnote4">4</sup> To start an Activity transition with content transitions _but no shared elements_, you can create the `Bundle` by calling `ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()`. To disable content transitions and shared element transitions entirely, don't create a `Bundle` object at all&mdash;just pass `null` instead. <a href="#ref4" title="Jump to footnote 4.">&#8617;</a>
 
   [exampleXmlLayoutGist]: https://gist.github.com/alexjlockwood/a96781b876138c37e88e
   [setExitTransition]: https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)
@@ -224,3 +226,4 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [startActivity]: http://developer.android.com/reference/android/app/Activity.html#startActivity%28android.content.Intent,%20android.os.Bundle%29
 
   [setTransitionBackgroundFadeDuration]: http://developer.android.com/reference/android/view/Window.html#setTransitionBackgroundFadeDuration(long)
+  [ACTIVITY_TRANSITIONS_vs_CONTENT_TRANSITIONS]: http://stackoverflow.com/q/28975840/844882
