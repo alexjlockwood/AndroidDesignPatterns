@@ -1,7 +1,7 @@
 ---
 layout: post
-title: 'Implementing Shared Element Callbacks: onMapSharedElements() (part 3c)'
-date: 2015-03-09
+title: 'onMapSharedElements() (part 3c)'
+date: 2015-03-16
 permalink: /2015/03/activity-fragment-on-map-shared-element-callback-part3c.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
@@ -14,14 +14,18 @@ This post continues our in-depth analysis of _shared element transitions_ by dis
 * **Part 2:** [Content Transitions In-Depth][part2]
 * **Part 3a:** [Shared Element Transitions In-Depth][part3a]
 * **Part 3b:** [Postponed Shared Element Transitions][part3b]
-* **Part 3c:** [Implementing Shared Element Callbacks: `onMapSharedElements()`][part3c]
+* **Part 3c:** [`onMapSharedElements()`][part3c]
 * **Part 4:** ????? (_coming soon!_)
 
 Both the Activity and Fragment Transition API provide a [`SharedElementCallback`][SharedElementCallback] class that developers can use to customize their shared element transitions. The class provides six methods total. In this blog post we will focus on the `onMapSharedElements()` callback method.
 
 ### How the framework finds shared elements
 
+<!--morestart-->
+
 One of the first things the framework does before a shared element transition begins is determine the set of shared element views that will need to be animated. For example, when `A` starts `B`, the framework will need to go through the following steps (a similar process is followed when `B` returns to `A` as well):
+
+<!--more-->
 
 1. Find the set of shared elements in `A`'s view hierarchy based on the transition names specified in [`makeSceneTransitionAnimation()`][makeSceneTransitionAnimation] for Activities or [`addSharedElement()`][addSharedElement] for Fragments.
 
@@ -45,7 +49,105 @@ When overriding `onMapSharedElements()`, the developer must modify these two dat
 
 ### Implementing a simple example
 
+```java
+public class MainActivity extends Activity implements View.OnClickListener {
 
+    static String TOP_LEFT_TRANSITION_NAME = "top_left";
+    static String BOTTOM_RIGHT_TRANSITION_NAME = "bottom_right";
+
+    private View mTopLeftView;
+    private View mBottomRightView;
+    private boolean mIsExiting = true;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        findViewById(R.id.content).setOnClickListener(this);
+
+        mTopLeftView = findViewById(R.id.shared_element1);
+        mBottomRightView = findViewById(R.id.shared_element2);
+
+        setExitSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                names.clear();
+                sharedElements.clear();
+
+                if (mIsExiting) {
+                    // If we are exiting, then send mTopLeftView to the next activity.
+                    names.add(TOP_LEFT_TRANSITION_NAME);
+                    sharedElements.put(TOP_LEFT_TRANSITION_NAME, mTopLeftView);
+                } else {
+                    names.add(BOTTOM_RIGHT_TRANSITION_NAME);
+                    sharedElements.put(BOTTOM_RIGHT_TRANSITION_NAME, mBottomRightView);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
+        mIsExiting = false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        mIsExiting = true;
+        startActivity(new Intent(this, DetailsActivity.class),
+                ActivityOptions.makeSceneTransitionAnimation(
+                        this, mTopLeftView, TOP_LEFT_TRANSITION_NAME).toBundle());
+    }
+}
+```
+
+and
+
+```java
+public class DetailsActivity extends Activity {
+
+    private View mCenterView;
+    private boolean mIsEntering = true;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_details);
+        
+        mCenterView = findViewById(R.id.shared_element);
+        
+        setEnterSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                names.clear();
+                sharedElements.clear();
+
+                if (mIsEntering) {
+                    // If we are entering, then the main activity has just exited
+                    // and we need to map the top left view to mCenterView.
+                    names.add(TOP_LEFT_TRANSITION_NAME);
+                    sharedElements.put(TOP_LEFT_TRANSITION_NAME, mCenterView);
+                } else {
+                    // If we are returning, then the main activity is about to reenter
+                    // and we need to map the bottom right view to mCenterView.
+                    names.add(BOTTOM_RIGHT_TRANSITION_NAME);
+                    sharedElements.put(BOTTOM_RIGHT_TRANSITION_NAME, mCenterView);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void finishAfterTransition() {
+        // Setting the result to RESULT_OK ensures that onActivityReenter()
+        // will be called in the main activity.
+        setResult(RESULT_OK);
+        mIsEntering = false;
+        super.finishAfterTransition();
+    }
+}
+```
 
 <hr class="footnote-divider"/>
 <sup id="footnote?">?</sup> ????? <a href="#ref?" title="Jump to footnote ?.">&#8617;</a>
