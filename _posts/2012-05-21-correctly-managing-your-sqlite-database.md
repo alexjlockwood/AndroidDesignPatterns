@@ -51,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
   private static final String DATABASE_TABLE = "table_name";
   private static final int DATABASE_VERSION = 1;
 
-  public static DatabaseHelper getInstance(Context context) {
+  public static synchronized DatabaseHelper getInstance(Context context) {
      
     // Use the application context, which will ensure that you 
     // don't accidentally leak an Activity's context.
