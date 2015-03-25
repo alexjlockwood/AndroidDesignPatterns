@@ -99,6 +99,10 @@ private void scheduleStartPostponedTransition(final View sharedElement) {
 Despite their names, these two methods can also be used to postpone shared element return transitions as well. Simply postpone the return transition within the calling Activity's [onActivityReenter()][Activity#onActivityReenter] method instead:<sup><a href="#footnote4" id="ref4">4</a></sup>
 
 ```java
+/**
+ * Don't forget to call setResult(Activity.RESULT_OK) in the returning
+ * activity or else this method won't be called!
+ */
 @Override
 public void onActivityReenter(int resultCode, Intent data) {
     super.onActivityReenter(resultCode, data);
