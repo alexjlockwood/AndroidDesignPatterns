@@ -4,6 +4,9 @@ title: 'Google Play Services: Setup & Verification'
 date: 2013-01-08
 permalink: /2013/01/google-play-services-setup.html
 ---
+**WARNING: Many of the APIs used in this code have been deprecated since I initially wrote this post. 
+Check out [the official documentation](https://developer.android.com/google/play-services/index.html) for the latest instructions.**
+
 One of the trickiest aspects of writing a robust web-based Android application
 is authentication, simply due to its asynchronous nature and the many edge cases
 that one must cover. Thankfully, the recently released Google Play Services API
