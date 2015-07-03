@@ -17,6 +17,8 @@ This post continues our in-depth analysis of _shared element transitions_ by dis
 * **Part 3c:** Implementing Shared Element Callbacks (_coming soon!_)
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
+Until I write part 4, an example application demonstrating some advanced activity transitions is available [here](https://github.com/alexjlockwood/activity-transitions).
+
 We begin by discussing the need to postpone certain shared element transitions due to a common problem.
 
 ### Understanding the Problem

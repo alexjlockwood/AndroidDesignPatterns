@@ -18,6 +18,8 @@ This post gives a brief overview of `Transition`s and introduces the new [Activi
 * **Part 3c:** Implementing Shared Element Callbacks (_coming soon!_)
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
+Until I write part 4, an example application demonstrating some advanced activity transitions is available [here](https://github.com/alexjlockwood/activity-transitions).
+
 We begin by answering the following question: what is a `Transition`?
 
 ### What is a `Transition`?

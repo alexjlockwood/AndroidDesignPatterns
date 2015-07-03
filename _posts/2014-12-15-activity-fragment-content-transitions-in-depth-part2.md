@@ -17,6 +17,8 @@ This post will give an in-depth analysis of _content transitions_ and their role
 * **Part 3c:** Implementing Shared Element Callbacks (_coming soon!_)
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
+Until I write part 4, an example application demonstrating some advanced activity transitions is available [here](https://github.com/alexjlockwood/activity-transitions).
+
 We begin by summarizing what we learned about content transitions in [part 1][part1] and illustrating how they can be used to achieve smooth, seamless animations in Android Lollipop.
 
 ### What is a Content Transition?

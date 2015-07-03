@@ -17,6 +17,8 @@ This post will give an in-depth analysis of _shared element transitions_ and the
 * **Part 3c:** Implementing Shared Element Callbacks (_coming soon!_)
 * **Part 4:** Activity & Fragment Transition Examples (_coming soon!_)
 
+Until I write part 4, an example application demonstrating some advanced activity transitions is available [here](https://github.com/alexjlockwood/activity-transitions).
+
 Part 3 of this series will be broken up into three parts: part 3a will focus on how shared elements operate under-the-hood and part 3b and part 3c will focus more on the implementation-specific details of the API, such as the importance of postponing certain shared element transitions and implementing `SharedElementCallback`s.
 
 We begin by summarizing what we learned about shared element transitions in [part 1][part1] and illustrating how they can be used to achieve smooth, seamless animations in Android Lollipop.
