@@ -15,8 +15,7 @@ be writing on Loaders and the LoaderManager:
   + **Part 3:** <a href="/2012/08/implementing-loaders.html">Implementing Loaders</a>
   + **Part 4:** <a href="/2012/09/tutorial-loader-loadermanager.html">Tutorial: AppListLoader</a>
 
-**Note:** Understanding the `LoaderManager` requires some general knowledge about how `Loader`s
-are work. Their implementation will be covered extensively in my
+**Note:** Understanding the `LoaderManager` requires some general knowledge about how `Loader`s work. Their implementation will be covered extensively in my
 <a href="/2012/08/implementing-loaders.html">next post</a>. For now, you should think
 of Loaders as simple, self-contained objects that (1) load data on a separate thread, and (2) monitor the underlying data
 source for updates, re-querying when changes are detected. This is more than enough to get you through the contents
