@@ -169,7 +169,7 @@ public class SampleActivity extends Activity {
    * on the device's SDK version number).
    */
   private File getAlbumDir(String albumName) {
-    return mAlbumStorageDirFactory.getAlbumStorageDir(albumName);
+    return mAlbumFactory.getAlbumStorageDir(albumName);
   }
 }
 ```
