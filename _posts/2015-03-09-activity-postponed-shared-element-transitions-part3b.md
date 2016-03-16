@@ -8,7 +8,7 @@ related: ['/2012/08/implementing-loaders.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
 ---
 
-This post continues our in-depth analysis of _shared element transitions_ by discussing an important feature of the Lollipop Transition API: postponed shared element transitions. It is the fourth of a series of posts I will be writing on the topic:
+This post continues our in-depth analysis of _shared element transitions_ by discussing an important feature of the Lollipop Transition API: postponed shared element transitions. It's the fourth of a series of posts I will be writing on the topic:
 
 * **Part 1:** [Getting Started with Activity & Fragment Transitions][part1]
 * **Part 2:** [Content Transitions In-Depth][part2]
