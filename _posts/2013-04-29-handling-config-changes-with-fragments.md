@@ -102,8 +102,7 @@ back to the currently displayed Activity instance and ensures that
 we never accidentally leak an `AsyncTask` during a configuration change.
 The design consists of two classes, a `MainActivity`...
 
-<div class="scrollable">
-{% highlight java linenos=table %}
+```java
 /**
  * This Activity displays the screen's UI, creates a TaskFragment
  * to manage the task, and receives progress updates and results 
@@ -149,13 +148,12 @@ public class MainActivity extends Activity implements TaskFragment.TaskCallbacks
   @Override
   public void onPostExecute() { ... }
 }
-{% endhighlight %}
-</div>
+```
+
 
 ...and a `TaskFragment`...
 
-<div class="scrollable">
-{% highlight java linenos=table %}
+```java
 /**
  * This Fragment manages a single background task and retains 
  * itself across configuration changes.
@@ -267,8 +265,8 @@ public class TaskFragment extends Fragment {
     }
   }
 }
-{% endhighlight %}
-</div>
+```
+
 
 ### Flow of Events
 

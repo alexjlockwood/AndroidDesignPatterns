@@ -16,8 +16,7 @@ over the Activity lifecycle and avoiding the subtle memory leaks which might
 result. Consider the Activity code below, which starts and loops a new thread
 upon its creation:
 
-<div class="scrollable">
-{% highlight java linenos=table %}
+```java
 /**
  * Example illustrating how threads persist across configuration
  * changes (which cause the underlying Activity instance to be
@@ -45,8 +44,8 @@ public class MainActivity extends Activity {
     }.start();
   }
 }
-{% endhighlight %}
-</div>
+```
+
 
 <!--more-->
 
@@ -90,8 +89,7 @@ reclaimed.
 The fix is easy once we've identified the source of the problem: declare the
 thread as a private static inner class as shown below.
 
-<div class="scrollable">
-{% highlight java linenos=table %}
+```java
 /**
  * This example avoids leaking an Activity context by declaring the 
  * thread as a private static inner class, but the threads still 
@@ -122,8 +120,7 @@ public class MainActivity extends Activity {
     }
   }
 }
-{% endhighlight %}
-</div>
+```
 
 The new thread no longer holds an implicit reference to the Activity, and the
 Activity will be eligible for garbage collection after the configuration change.
@@ -138,8 +135,7 @@ never be eligible for garbage collection. For this reason, you must remember
 to implement cancellation policies for your background threads! One example
 of how this might be done is shown below:
 
-<div class="scrollable">
-{% highlight java linenos=table %}
+```java
 /**
  * Same as example two, except for this time we have implemented a
  * cancellation policy for our thread, ensuring that it is never 
@@ -187,8 +183,8 @@ public class MainActivity extends Activity {
     mThread.close();
   }
 }
-{% endhighlight %}
-</div>
+```
+
 
 In the code above, closing the thread in `onDestroy()` ensures that
 you never accidentally leak the thread. If you want to persist the same thread

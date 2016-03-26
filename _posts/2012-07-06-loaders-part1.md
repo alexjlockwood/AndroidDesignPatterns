@@ -63,8 +63,7 @@ to the `ContentProvider` and begins management of the returned cursor. The resul
 a `SimpleCursorAdapter`, and are displayed on the screen in a `ListView`. The code has
 been condensed for simplicity.
 
-<div class="scrollable">
-{% highlight java linenos=table %}
+```java
 public class SampleListActivity extends ListActivity {
 
   private static final String[] PROJECTION = new String[] {"_id", "text_column"};
@@ -108,8 +107,7 @@ public class SampleListActivity extends ListActivity {
     setListAdapter(adapter);
   }
 }
-{% endhighlight %}
-</div>
+```
 
 There are three problems with the code above. If you have understood this post so far, the first two
 shouldn't be difficult to spot:
@@ -126,7 +124,7 @@ shouldn't be difficult to spot:
      <a href="http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/1.5_r4/android/app/Activity.java#3503">each time the activity returns from a stopped state</a>,
      and therefore puts the UI thread at risk. This cost significantly outweighs the convenience of having the activity deactivate/close the cursor for us.
 
-  3. The `SimpleCursorAdapter` constructor (line 32) is deprecated and should not be used. The
+  3. The `SimpleCursorAdapter` constructor is deprecated and should not be used. The
      problem with this constructor is that it will have the `SimpleCursorAdapter` auto-requery
      its data when changes are made. More specifically, the CursorAdapter will register a ContentObserver
      that monitors the underlying data source for changes, calling `requery()` on its bound
