@@ -71,7 +71,6 @@ Blah blah blah.
  * top of the {@link MainActivity}'s card view or FAB.
  */
 class TouchBlockingBehavior extends CoordinatorLayout.Behavior<View> {
-  private boolean mShouldBlockTouch;
 
   public TouchBlockingBehavior(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -81,20 +80,20 @@ class TouchBlockingBehavior extends CoordinatorLayout.Behavior<View> {
   public boolean onInterceptTouchEvent(
       CoordinatorLayout parent, View child, MotionEvent ev) {
     if (ev.getActionMasked() == MotionEvent.ACTION_DOWN) {
-      mShouldBlockTouch = isTouchInChildBounds(parent, child, ev)
-          && !isTouchInChildBounds(parent, parent.findViewById(R.id.cardview), ev)
-          && !isTouchInChildBounds(parent, parent.findViewById(R.id.fab), ev);
-      if (mShouldBlockTouch) {
+      // Block all touch events that originate within the bounds of our
+      // NestedScrollView but are *not* within the bounds of its inner
+      // CardView and FloatingActionButton views.
+      final boolean shouldBlockTouch = isTouchInChildBounds(parent, child, ev)
+          && !isTouchInChildBounds(parent, child.findViewById(R.id.cardview), ev)
+          && !isTouchInChildBounds(parent, child.findViewById(R.id.fab), ev);
+      if (shouldBlockTouch) {
+        // Intercept the touch event. All future events associated with the
+        // current gesture will be sent to this behavior's onTouchEvent() method
+        // and will be immediately ignored.
         return true;
       }
     }
     return super.onInterceptTouchEvent(parent, child, ev);
-  }
-
-  @Override
-  public boolean onTouchEvent(
-      CoordinatorLayout parent, View child, MotionEvent ev) {
-    return !mShouldBlockTouch && super.onTouchEvent(parent, child, ev);
   }
 
   private static boolean isTouchInChildBounds(
@@ -103,6 +102,7 @@ class TouchBlockingBehavior extends CoordinatorLayout.Behavior<View> {
         parent, child, (int) ev.getX(), (int) ev.getY());
   }
 }
+
 {% endhighlight %}
 
 ### Nested scrolling
