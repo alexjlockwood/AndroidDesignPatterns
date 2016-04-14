@@ -5,6 +5,14 @@ This is the source code for www.androiddesignpatterns.com. Android Design Patter
 
 If you wish to fork this repository to use as the basis of your own blogging template, please make sure you review the [license and copyright](#license-and-copyright) information below.
 
+## Building locally
+
+Use the following command:
+
+```
+$ jekyll serve --baseurl=
+```
+
 ## Find a typo?
 
 If you find a typo, please feel free to suggest a correction yourself by submitting a pull request! All published posts are written in standard markdown format and can be found in the [`_posts/`](/_posts) directory. If you are unfamiliar with GitHub, the easiest way to suggest a fix is to:
