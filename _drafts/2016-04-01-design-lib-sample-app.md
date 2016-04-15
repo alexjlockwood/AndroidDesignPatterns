@@ -1,24 +1,65 @@
 ---
 layout: post
 title: 'Design lib sample app'
-date: 2016-04-01 00:00:00 +0100
+date: 2016-04-01
 permalink: /2016/04/design-lib-sample-app.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
 ---
 
-Introduction
-
-### Max height recycler view
-
 <!--morestart-->
 
-Blah blah blah.
+Introduction to the blog post and stuff, explain the goal of the sample app, blah blah blah.
 
 <!--more-->
 
-{% highlight java %}
+A brief summary of my initial layout is given below:
+
+```xml
+<CoordinatorLayout>
+
+  <ImageView/>
+
+  <FrameLayout>
+    <Toolbar/>
+  </FrameLayout>
+
+  <NestedScrollView>
+    <FrameLayout>
+      
+      <CardView>
+        <LinearLayout>
+          <TextView android:text="Title"/>
+          <TextView android:text="Subtitle"/>
+          <RecyclerView/>
+        </LinearLayout>
+      </CardView>
+      
+      <FloatingActionButton/>
+
+    </FrameLayout>
+  </NestedScrollView>
+
+</CoordinatorLayout>
+```
+
+### Max height recycler view
+
+The first issue I encountered was an edge case that occurred when the RecyclerView
+had a small number of items. **TODO: show an example video/illustration.**
+
+Version 23.2 of the support library release brought an exciting new feature to the 
+LayoutManager API: auto-measurement! This allows a RecyclerView to size itself
+based on the size of its contents. This means that previously unavailable scenarios, 
+such as using `WRAP_CONTENT` for a dimension of the RecyclerView, are now possible. 
+You’ll find all built in LayoutManagers now support auto-measurement.
+
+The new built-in auto-measurement API allowed me to replace my inner `RecyclerView`
+with a custom, subclassed `MaxHeightRecyclerView` that supports the ability to 
+specify a maximum height:
+
+```java
 /**
  * A {@link RecyclerView} with an optional maximum height.
  */
@@ -59,18 +100,21 @@ class MaxHeightRecyclerView extends RecyclerView {
     }
   }
 }
-{% endhighlight %}
+```
 
 ### Touch blocking behavior
 
-Blah blah blah.
+The second issue I encountered was that I only wanted the user to be able to scroll
+the visible part of the card. To do this I created a custom `CoordinatorLayout.Behavior`,
+which allowed me to intercept and ignore all touch events that originated on top of the
+undesired areas:
 
-{% highlight java %}
+```java
 /**
  * A custom {@link Behavior} used to block touch events that do not originate on
  * top of the {@link MainActivity}'s card view or FAB.
  */
-class TouchBlockingBehavior extends CoordinatorLayout.Behavior<View> {
+class TouchBlockingBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 
   public TouchBlockingBehavior(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -78,7 +122,7 @@ class TouchBlockingBehavior extends CoordinatorLayout.Behavior<View> {
 
   @Override
   public boolean onInterceptTouchEvent(
-      CoordinatorLayout parent, View child, MotionEvent ev) {
+      CoordinatorLayout parent, NestedScrollView child, MotionEvent ev) {
     if (ev.getActionMasked() == MotionEvent.ACTION_DOWN) {
       // Block all touch events that originate within the bounds of our
       // NestedScrollView but are *not* within the bounds of its inner
@@ -102,14 +146,16 @@ class TouchBlockingBehavior extends CoordinatorLayout.Behavior<View> {
         parent, child, (int) ev.getX(), (int) ev.getY());
   }
 }
+```
 
-{% endhighlight %}
+For more information on `CoordinatorLayout` behaviors, check out Ian Lake's 
+[great blog post][IanLakeCoordinatorLayoutBlogPost] on the topic.
 
 ### Nested scrolling
 
 Blah blah blah.
 
-{% highlight java %}
+```java
 /**
  * An extended {@link NestedScrollView} that customizes our sample app's
  * nested scrolling behavior.
@@ -160,13 +206,15 @@ class ExtendedNestedScrollView extends NestedScrollView {
   }
 
   /**
-   * Returns true iff the vertical {@link RecyclerView} is scrolled to the 
+   * Returns true iff the vertical {@link RecyclerView} is scrolled to the
    * top (i.e. its first item is completely visible).
    */
   private static boolean isScrolledToTop(RecyclerView rv) {
-    return ((LinearLayoutManager) rv.getLayoutManager())
-        .findFirstCompletelyVisibleItemPosition() == 0;
+    final LinearLayoutManager lm = (LinearLayoutManager) rv.getLayoutManager();
+    return lm.findFirstVisibleItemPosition() == 0
+        && lm.findViewByPosition(0).getTop() == 0;
   }
 }
-{% endhighlight %}
+```
 
+  [IanLakeCoordinatorLayoutBlogPost]: https://medium.com/google-developers/intercepting-everything-with-coordinatorlayout-behaviors-8c6adc140c26#.qcr10khph
