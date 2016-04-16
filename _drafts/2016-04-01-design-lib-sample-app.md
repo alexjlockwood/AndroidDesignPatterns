@@ -14,7 +14,9 @@ Introduction to the blog post and stuff, explain the goal of the sample app, bla
 
 <!--more-->
 
-I began with an XML layout for my activity roughly as follows:
+I began with an XML layout for my activity roughly as follows 
+(we will see how the custom [`MaxHeightRecyclerView`][MaxHeightRecyclerView]
+class is used in a bit):
 
 ```xml
 <CoordinatorLayout>
@@ -32,7 +34,7 @@ I began with an XML layout for my activity roughly as follows:
         <LinearLayout>
           <TextView android:id="@+id/card_title"/>
           <TextView android:id="@+id/card_subtitle"/>
-          <RecyclerView android:id="@+id/card_recyclerview"/>
+          <MaxHeightRecyclerView android:id="@+id/card_recyclerview"/>
         </LinearLayout>
       </CardView>
       
@@ -42,52 +44,6 @@ I began with an XML layout for my activity roughly as follows:
   </NestedScrollView>
 
 </CoordinatorLayout>
-```
-
-### Max height recycler view
-
-The first issue I encountered was an edge case that occurred when the RecyclerView
-had a small number of items. **TODO: show an example video/illustration.**
-
-Version 23.2 of the support library release brought an exciting new feature to the 
-LayoutManager API: auto-measurement! This allows a RecyclerView to size itself
-based on the size of its contents. This means that previously unavailable scenarios, 
-such as using `WRAP_CONTENT` for a dimension of the RecyclerView, are now possible. 
-You’ll find all built in LayoutManagers now support auto-measurement.
-
-The new built-in auto-measurement API allowed me to replace my inner `RecyclerView`
-with a custom, subclassed `MaxHeightRecyclerView` that supports the ability to 
-specify a maximum height:
-
-```java
-/**
- * A {@link RecyclerView} with an optional maximum height.
- */
-class MaxHeightRecyclerView extends RecyclerView {
-  private int mMaxHeight = -1;
-
-  public MaxHeightRecyclerView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-  }
-
-  @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    final int mode = MeasureSpec.getMode(heightMeasureSpec);
-    final int height = MeasureSpec.getSize(heightMeasureSpec);
-    if (mMaxHeight >= 0 && (mode == MeasureSpec.UNSPECIFIED || height > mMaxHeight)) {
-      heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.AT_MOST);
-    }
-    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-  }
-
-  /** Sets the maximum height for this recycler view. */
-  public void setMaxHeight(int maxHeight) {
-    if (mMaxHeight != maxHeight) {
-      mMaxHeight = maxHeight;
-      requestLayout();
-    }
-  }
-}
 ```
 
 ### Custom behavior
@@ -103,7 +59,7 @@ undesired areas:
  * top of the {@link MainActivity}'s card view or FAB. It also is used to
  * adjust the layout so that the UI is displayed properly.
  */
-class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
+class CustomBehavior extends CoordinatorLayout.Behavior<View> {
 
   public CustomBehavior(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -111,13 +67,16 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 
   @Override
   public boolean layoutDependsOn(
-      CoordinatorLayout parent, NestedScrollView child, View dependency) {
+      CoordinatorLayout parent, View child, View dependency) {
+    // List the toolbar container as a dependency to ensure that it will
+    // always be laid out before the child (which depends on the toolbar
+    // container's height in onLayoutChild() below).
     return dependency.getId() == R.id.toolbar_container;
   }
 
   @Override
   public boolean onLayoutChild(
-      CoordinatorLayout parent, NestedScrollView child, int layoutDirection) {
+      CoordinatorLayout parent, View child, int layoutDirection) {
     // First layout the child as normal.
     parent.onLayoutChild(child, layoutDirection);
 
@@ -126,20 +85,23 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
         child.findViewById(R.id.card_fab).getHeight() / 2;
     setMarginTop(child.findViewById(R.id.cardview), cardViewTopMargin);
 
-    // Give the card container some top padding so that the card initially
-    // appears at the bottom of the screen. The total padding will be the
-    // distance from the top of the screen to the FAB's top edge.
+    // Give the card container top padding so that the tip of the card
+    // initially appears at the bottom of the screen. The total padding will
+    // be the distance from the top of the screen to the FAB's top edge.
     final int cardContainerTopPadding = child.getHeight() - cardViewTopMargin
         - child.findViewById(R.id.card_title).getHeight()
         - child.findViewById(R.id.card_subtitle).getHeight();
     setPaddingTop(child.findViewById(R.id.card_container), cardContainerTopPadding);
 
-    // Give the RecyclerView a maximum height to ensure the card and the
-    // toolbar never overlap.
+    // Give the RecyclerView a maximum height to ensure the card will never
+    // overlap the toolbar as it scrolls.
     final View toolbarContainer = parent.getDependencies(child).get(0);
     ((MaxHeightRecyclerView) child.findViewById(R.id.card_recyclerview))
         .setMaxHeight(cardContainerTopPadding - toolbarContainer.getHeight());
 
+    // Return true so that the parent doesn't waste time laying out the
+    // child again (any modifications made above will have triggered a second
+    // layout pass anyway).
     return true;
   }
 
@@ -159,7 +121,7 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 
   @Override
   public boolean onInterceptTouchEvent(
-      CoordinatorLayout parent, NestedScrollView child, MotionEvent ev) {
+      CoordinatorLayout parent, View child, MotionEvent ev) {
     // Block all touch events that originate within the bounds of our
     // NestedScrollView but do *not* originate within the bounds of its
     // inner CardView and FloatingActionButton views.
@@ -178,7 +140,7 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 ```
 
 For more information on `CoordinatorLayout` behaviors, check out Ian Lake's 
-[great blog post][IanLakeCoordinatorLayoutBlogPost] on the topic.
+[great blog post][IanLakeBlogPost] on the topic.
 
 ### Nested scrolling
 
@@ -249,4 +211,7 @@ class ExtendedNestedScrollView extends NestedScrollView {
 
 ```
 
-  [IanLakeCoordinatorLayoutBlogPost]: https://medium.com/google-developers/intercepting-everything-with-coordinatorlayout-behaviors-8c6adc140c26#.qcr10khph
+  [IanLakeBlogPost]: https://medium.com/google-developers/intercepting-everything-with-coordinatorlayout-behaviors-8c6adc140c26#.qcr10khph
+  [SampleAppSourceCode]: https://github.com/alexjlockwood/sample-design-lib-app
+  [MaxHeightRecyclerView]: https://github.com/alexjlockwood/sample-design-lib-app/blob/master/app/src/main/java/com/alexjlockwood/example/designlib/MaxHeightRecyclerView.java
+  [CustomBehavior]: https://github.com/alexjlockwood/sample-design-lib-app/blob/master/app/src/main/java/com/alexjlockwood/example/designlib/CustomBehavior.java
