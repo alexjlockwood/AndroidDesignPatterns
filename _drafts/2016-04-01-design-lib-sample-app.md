@@ -80,9 +80,10 @@ class MaxHeightRecyclerView extends RecyclerView {
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
   }
 
-  public void setMaxHeight(int minHeight) {
-    if (mMaxHeight != minHeight) {
-      mMaxHeight = minHeight;
+  /** Sets the maximum height for this recycler view. */
+  public void setMaxHeight(int maxHeight) {
+    if (mMaxHeight != maxHeight) {
+      mMaxHeight = maxHeight;
       requestLayout();
     }
   }
@@ -99,32 +100,50 @@ undesired areas:
 ```java
 /**
  * A custom {@link Behavior} used to block touch events that do not originate on
- * top of the {@link MainActivity}'s card view or FAB.
+ * top of the {@link MainActivity}'s card view or FAB. It also is used to
+ * adjust the layout so that the UI is displayed properly.
  */
-class TouchBlockingBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
+class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 
-  public TouchBlockingBehavior(Context context, AttributeSet attrs) {
+  public CustomBehavior(Context context, AttributeSet attrs) {
     super(context, attrs);
+  }
+
+  @Override
+  public boolean layoutDependsOn(
+      CoordinatorLayout parent, NestedScrollView child, View dependency) {
+    return dependency.getId() == R.id.toolbar_container;
+  }
+
+  @Override
+  public boolean onLayoutChild(
+      CoordinatorLayout parent, NestedScrollView child, int layoutDirection) {
+    parent.onLayoutChild(child, layoutDirection);
+
+    final View cardView = child.findViewById(R.id.cardview);
+    final int cardTopPadding = child.getHeight()
+        - child.findViewById(R.id.card_title).getHeight()
+        - child.findViewById(R.id.card_subtitle).getHeight()
+        - ((MarginLayoutParams) cardView.getLayoutParams()).topMargin;
+    child.findViewById(R.id.card_container).setPadding(0, cardTopPadding, 0, 0);
+
+    final View toolbarContainer = parent.getDependencies(child).get(0);
+    ((MaxHeightRecyclerView) child.findViewById(R.id.recyclerview))
+        .setMaxHeight(cardTopPadding - toolbarContainer.getHeight());
+
+    return true;
   }
 
   @Override
   public boolean onInterceptTouchEvent(
       CoordinatorLayout parent, NestedScrollView child, MotionEvent ev) {
-    if (ev.getActionMasked() == MotionEvent.ACTION_DOWN) {
-      // Block all touch events that originate within the bounds of our
-      // NestedScrollView but are *not* within the bounds of its inner
-      // CardView and FloatingActionButton views.
-      final boolean shouldBlockTouch = isTouchInChildBounds(parent, child, ev)
-          && !isTouchInChildBounds(parent, child.findViewById(R.id.cardview), ev)
-          && !isTouchInChildBounds(parent, child.findViewById(R.id.fab), ev);
-      if (shouldBlockTouch) {
-        // Intercept the touch event. All future events associated with the
-        // current gesture will be sent to this behavior's onTouchEvent() method
-        // and will be immediately ignored.
-        return true;
-      }
-    }
-    return super.onInterceptTouchEvent(parent, child, ev);
+    // Block all touch events that originate within the bounds of our
+    // NestedScrollView but do *not* originate within the bounds of its
+    // inner CardView and FloatingActionButton views.
+    return ev.getActionMasked() == MotionEvent.ACTION_DOWN
+        && isTouchInChildBounds(parent, child, ev)
+        && !isTouchInChildBounds(parent, child.findViewById(R.id.cardview), ev)
+        && !isTouchInChildBounds(parent, child.findViewById(R.id.fab), ev);
   }
 
   private static boolean isTouchInChildBounds(
