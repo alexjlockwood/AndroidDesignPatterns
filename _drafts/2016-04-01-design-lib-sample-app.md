@@ -14,29 +14,29 @@ Introduction to the blog post and stuff, explain the goal of the sample app, bla
 
 <!--more-->
 
-A brief summary of my initial layout is given below:
+I began with an XML layout for my activity roughly as follows:
 
 ```xml
 <CoordinatorLayout>
 
   <ImageView/>
 
-  <FrameLayout>
+  <FrameLayout android:id="@+id/toolbar_container">
     <Toolbar/>
   </FrameLayout>
 
   <NestedScrollView>
-    <FrameLayout>
+    <FrameLayout android:id="@+id/card_container">
       
       <CardView>
         <LinearLayout>
-          <TextView android:text="Title"/>
-          <TextView android:text="Subtitle"/>
-          <RecyclerView/>
+          <TextView android:id="@+id/card_title"/>
+          <TextView android:id="@+id/card_subtitle"/>
+          <RecyclerView android:id="@+id/card_recyclerview"/>
         </LinearLayout>
       </CardView>
       
-      <FloatingActionButton/>
+      <FloatingActionButton android:id="@+id/card_fab"/>
 
     </FrameLayout>
   </NestedScrollView>
@@ -118,24 +118,43 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
   @Override
   public boolean onLayoutChild(
       CoordinatorLayout parent, NestedScrollView child, int layoutDirection) {
+    // First layout the child as normal.
     parent.onLayoutChild(child, layoutDirection);
 
+    // Center the FAB vertically along the top edge of the card.
+    final int cardViewTopMargin =
+        child.findViewById(R.id.card_fab).getHeight() / 2;
+    setMarginTop(child.findViewById(R.id.cardview), cardViewTopMargin);
+
     // Give the card container some top padding so that the card initially
-    // appears at the bottom of the screen.
-    final View cardView = child.findViewById(R.id.cardview);
-    final int cardTopPadding = child.getHeight()
+    // appears at the bottom of the screen. The total padding will be the
+    // distance from the top of the screen to the FAB's top edge.
+    final int cardContainerTopPadding = child.getHeight() - cardViewTopMargin
         - child.findViewById(R.id.card_title).getHeight()
-        - child.findViewById(R.id.card_subtitle).getHeight()
-        - ((MarginLayoutParams) cardView.getLayoutParams()).topMargin;
-    child.findViewById(R.id.card_container).setPadding(0, cardTopPadding, 0, 0);
+        - child.findViewById(R.id.card_subtitle).getHeight();
+    setPaddingTop(child.findViewById(R.id.card_container), cardContainerTopPadding);
 
     // Give the RecyclerView a maximum height to ensure the card and the
     // toolbar never overlap.
     final View toolbarContainer = parent.getDependencies(child).get(0);
-    ((MaxHeightRecyclerView) child.findViewById(R.id.recyclerview))
-        .setMaxHeight(cardTopPadding - toolbarContainer.getHeight());
+    ((MaxHeightRecyclerView) child.findViewById(R.id.card_recyclerview))
+        .setMaxHeight(cardContainerTopPadding - toolbarContainer.getHeight());
 
     return true;
+  }
+
+  private static void setMarginTop(View view, int topMargin) {
+    final MarginLayoutParams lp = (MarginLayoutParams) view.getLayoutParams();
+    if (lp.topMargin != topMargin) {
+      lp.topMargin = topMargin;
+      view.setLayoutParams(lp);
+    }
+  }
+
+  private static void setPaddingTop(View view, int paddingTop) {
+    if (view.getPaddingTop() != paddingTop) {
+      view.setPadding(0, paddingTop, 0, 0);
+    }
   }
 
   @Override
@@ -147,7 +166,7 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
     return ev.getActionMasked() == MotionEvent.ACTION_DOWN
         && isTouchInChildBounds(parent, child, ev)
         && !isTouchInChildBounds(parent, child.findViewById(R.id.cardview), ev)
-        && !isTouchInChildBounds(parent, child.findViewById(R.id.fab), ev);
+        && !isTouchInChildBounds(parent, child.findViewById(R.id.card_fab), ev);
   }
 
   private static boolean isTouchInChildBounds(
@@ -182,9 +201,10 @@ class ExtendedNestedScrollView extends NestedScrollView {
     if ((dy < 0 && isScrolledToTop(recyclerView))
         || (dy > 0 && !isScrolledToBottom(this))) {
       // The NestedScrollView should steal the scroll event away from the
-      // RecyclerView in one of two cases: (1) if the user is scrolling down
-      // and the RecyclerView is scrolled to the top, or (2) if the user is
-      // scrolling up and the NestedScrollView is not scrolled to the bottom.
+      // RecyclerView in one of two cases: (1) if the user is scrolling their
+      // finger down and the RecyclerView is scrolled to the top, or (2) if
+      // the user is scrolling their finger up and the NestedScrollView is
+      // not scrolled to the bottom.
       scrollBy(0, dy);
       consumed[1] = dy;
       return;
@@ -198,9 +218,10 @@ class ExtendedNestedScrollView extends NestedScrollView {
     if ((velY < 0 && isScrolledToTop(recyclerView))
         || (velY > 0 && !isScrolledToBottom(this))) {
       // The NestedScrollView should steal the fling event away from the
-      // RecyclerView in one of two cases: (1) if the user is flinging down
-      // and the RecyclerView is scrolled to the top, or (2) if the user is
-      // flinging up and the NestedScrollView is not scrolled to the bottom.
+      // RecyclerView in one of two cases: (1) if the user is flinging their
+      // finger down and the RecyclerView is scrolled to the top, or (2) if
+      // the user is flinging their finger up and the NestedScrollView is
+      // not scrolled to the bottom.
       fling((int) velY);
       return true;
     }
