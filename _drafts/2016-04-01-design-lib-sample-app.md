@@ -72,23 +72,10 @@ class MaxHeightRecyclerView extends RecyclerView {
 
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    if (mMaxHeight >= 0) {
-      switch (MeasureSpec.getMode(heightMeasureSpec)) {
-        case MeasureSpec.AT_MOST:
-          heightMeasureSpec = MeasureSpec.makeMeasureSpec(
-              Math.min(MeasureSpec.getSize(heightMeasureSpec), mMaxHeight),
-              MeasureSpec.AT_MOST);
-          break;
-        case MeasureSpec.EXACTLY:
-          heightMeasureSpec = MeasureSpec.makeMeasureSpec(
-              Math.min(MeasureSpec.getSize(heightMeasureSpec), mMaxHeight),
-              MeasureSpec.EXACTLY);
-          break;
-        case MeasureSpec.UNSPECIFIED:
-          heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight,
-              MeasureSpec.AT_MOST);
-          break;
-      }
+    final int mode = MeasureSpec.getMode(heightMeasureSpec);
+    final int height = MeasureSpec.getSize(heightMeasureSpec);
+    if (mMaxHeight >= 0 && (mode == MeasureSpec.UNSPECIFIED || height > mMaxHeight)) {
+      heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.AT_MOST);
     }
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
   }
