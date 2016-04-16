@@ -208,7 +208,6 @@ class ExtendedNestedScrollView extends NestedScrollView {
         && lm.findViewByPosition(0).getTop() == 0;
   }
 }
-
 ```
 
   [IanLakeBlogPost]: https://medium.com/google-developers/intercepting-everything-with-coordinatorlayout-behaviors-8c6adc140c26#.qcr10khph
