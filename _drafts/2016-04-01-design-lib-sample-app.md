@@ -90,7 +90,7 @@ class MaxHeightRecyclerView extends RecyclerView {
 }
 ```
 
-### Touch blocking behavior
+### Custom behavior
 
 The second issue I encountered was that I only wanted the user to be able to scroll
 the visible part of the card. To do this I created a custom `CoordinatorLayout.Behavior`,
@@ -120,6 +120,8 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
       CoordinatorLayout parent, NestedScrollView child, int layoutDirection) {
     parent.onLayoutChild(child, layoutDirection);
 
+    // Give the card container some top padding so that the card initially
+    // appears at the bottom of the screen.
     final View cardView = child.findViewById(R.id.cardview);
     final int cardTopPadding = child.getHeight()
         - child.findViewById(R.id.card_title).getHeight()
@@ -127,6 +129,8 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
         - ((MarginLayoutParams) cardView.getLayoutParams()).topMargin;
     child.findViewById(R.id.card_container).setPadding(0, cardTopPadding, 0, 0);
 
+    // Give the RecyclerView a maximum height to ensure the card and the
+    // toolbar never overlap.
     final View toolbarContainer = parent.getDependencies(child).get(0);
     ((MaxHeightRecyclerView) child.findViewById(R.id.recyclerview))
         .setMaxHeight(cardTopPadding - toolbarContainer.getHeight());
