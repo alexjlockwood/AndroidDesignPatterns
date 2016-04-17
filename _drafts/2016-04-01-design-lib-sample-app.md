@@ -91,7 +91,7 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 
     // Offset the child's height so that its bounds don't overlap the toolbar container.
     final int toolbarContainerHeight = parent.getDependencies(child).get(0).getHeight();
-    child.offsetTopAndBottom(toolbarContainerHeight);
+    ViewCompat.offsetTopAndBottom(child, toolbarContainerHeight);
 
     // Center the FAB vertically along the top edge of the card.
     final int fabHalfHeight = child.findViewById(R.id.fab).getHeight() / 2;
