@@ -16,7 +16,7 @@ Introduction to the blog post and stuff, explain the goal of the sample app, bla
 
 I began with an XML layout for my activity roughly as follows 
 (we will see how the custom [`MaxHeightRecyclerView`][MaxHeightRecyclerView]
-class is used in a bit):
+class is used in a bit). The full source code is located [here][activity_main.xml]:
 
 ```xml
 <CoordinatorLayout>
@@ -27,7 +27,9 @@ class is used in a bit):
     <Toolbar/>
   </FrameLayout>
 
-  <NestedScrollView>
+  <NestedScrollView
+    app:layout_behavior="com.alexjlockwood.example.CustomBehavior">
+
     <FrameLayout android:id="@+id/card_container">
       
       <CardView>
@@ -201,15 +203,45 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 Note that the [ViewGroupUtils][ViewGroupUtils] class contains code that I copied
 from the design support library [source code][ViewGroupUtilsSource] itself.
 
-### Nested scrolling
+### Polishing up nested scrolling using an `ExtendedNestedScrollView`
 
-Blah blah blah.
+The last bit of polish has nothing to do with `CoordinatorLayout`s 
+or `Behavior`s but has to do with the nested scrolling APIs that were
+introduced in API 21 (with backwards compatibile APIs provided in the
+v4 support library).
+
+Nested scrolling takes place between a [`NestedScrollingParent`][NestedScrollingParent]
+and a [`NestedScrollingChild`][NestedScrollingChild]. In this case, the outer
+`NestedScrollView` is the parent and the inner `RecyclerView` is the child.
+When the user scrolls the `RecyclerView`, the following sequence of events
+takes place:
+
+1. The `RecyclerView` receives an `ACTION_DOWN` touch event and calls
+   `RecyclerView#startNestedScroll()`. `NestedScrollView#onStartNestedScroll()`
+   is called, which returns true, followed by `NestedScrollView#onNestedScrollAccepted()`. 
+
+2. The `RecyclerView` receives an `ACTION_MOVE` touch event and
+   calls `RecyclerView#dispatchNestedPreScroll()`, which then calls
+   `NestedScrollView#onNestedPreScroll()`. If the scroll wasn't entirely
+   consumed by the parent, `RecyclerView#dispatchNestedScroll()` is called,
+   which calls `NestedScrollView#onNestedScroll()`.
+
+3. The `RecyclerView` receives an `ACTION_UP` touch event and
+   calls `RecyclerView#dispatchNestedPreFling()`, which then calls
+   `NestedScrollView#onNestedPreFling()`. If the fling wasn't
+   consumed by the parent, `RecyclerView#dispatchNestedFling()` is called,
+   which calls `NestedScrollView#onNestedFling()`.
+
+4. The `RecyclerView` calls `RecyclerView#stopNestedScroll()` and then 
+   notifies the parent that the nested scroll is over by calling 
+   `NestedScrollView#onStopNestedScroll()`.
+
+The two methods we care about here are the `NestedScrollingParent`'s
+`onNestedPreScroll()` and `onNestedPreFling()` methods, which give
+the parent the opportunity to react to a nested scroll and/or fling
+before the child. As a result, we override these two methods as follows: 
 
 ```java
-/**
- * An extended {@link NestedScrollView} that customizes our sample app's
- * nested scrolling behavior.
- */
 class ExtendedNestedScrollView extends NestedScrollView {
 
   public ExtendedNestedScrollView(Context context, AttributeSet attrs) {
@@ -283,4 +315,7 @@ For more information on
   [ViewGroupUtils]: https://github.com/alexjlockwood/sample-design-lib-app/blob/master/app/src/main/java/com/alexjlockwood/example/designlib/ViewGroupUtils.java
   [ViewGroupUtilsSource]: https://android.googlesource.com/platform/frameworks/support/+/marshmallow-mr2-release/design/honeycomb/android/support/design/widget/ViewGroupUtilsHoneycomb.java
   [activity_main.xml]: https://github.com/alexjlockwood/sample-design-lib-app/blob/master/app/src/main/res/layout/activity_main.xml
+  [NestedScrollingParent]: https://developer.android.com/reference/android/support/v4/view/NestedScrollingParent.html
+  [NestedScrollingChild]: https://developer.android.com/reference/android/support/v4/view/NestedScrollingChild.html
+
 
