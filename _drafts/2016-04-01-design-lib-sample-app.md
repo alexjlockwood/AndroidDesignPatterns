@@ -46,58 +46,70 @@ class is used in a bit):
 </CoordinatorLayout>
 ```
 
-### Custom behavior
+There were three things that needed to get done: (1) adjusting the initial
+layout, (2) blocking touch events that don't originate on top of the card,
+and (3) polishing the nested scrolling between the outer `NestedScrollView`
+and its inner `RecyclerView`.
 
-The second issue I encountered was that I only wanted the user to be able to scroll
-the visible part of the card. To do this I created a custom `CoordinatorLayout.Behavior`,
-which allowed me to intercept and ignore all touch events that originated on top of the
-undesired areas:
+### Intercepting layout using a `CustomBehavior`
+
+My first task was to dynamically setup the activity's layout so that it appeared
+properly to the user. A few things would have to be adjusted after the activity's
+initial layout:
+
+1. Give the `CardView` a top margin so that the `FloatingActionButton` appears
+   vertically centered with the card's top edge.
+
+2. Give the card container `FrameLayout` top padding so that only the card's
+   `FloatingActionButton` and two `TextView`s are initially visible at the
+   bottom of the screen.
+
+3. Give the inner `RecyclerView` a maximum height to ensure that the outer
+   `NestedScrollView` will stop scrolling once the top edge of the card's 
+   `FloatingActionButton` reaches the toolbar's bottom edge.
+
+To achieve this, I decided to implement a custom `CoordinatorLayout.Behavior`.
+In this case, my `CoordinatorLayout` has three direct children views but 
+only the `NestedScrollView` will use my `CustomBehavior`.
+`CoordinatorLayout` provides a powerful framework for intercepting events
+and reacting to them before they are propogated to its children views.
+For example, `Behavior`s get the first shot at layout via the `onLayoutChild()`
+callback, which gives us an opportunity to adjust the layout if needed:
 
 ```java
-/**
- * A custom {@link Behavior} used to block touch events that do not originate on
- * top of the {@link MainActivity}'s card view or FAB. It also is used to
- * adjust the layout so that the UI is displayed properly.
- */
-class CustomBehavior extends CoordinatorLayout.Behavior<View> {
+class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 
   public CustomBehavior(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
   @Override
-  public boolean layoutDependsOn(
-      CoordinatorLayout parent, View child, View dependency) {
-    // List the toolbar container as a dependency to ensure that it will
-    // always be laid out before the child (which depends on the toolbar
-    // container's height in onLayoutChild() below).
-    return dependency.getId() == R.id.toolbar_container;
-  }
-
-  @Override
   public boolean onLayoutChild(
-      CoordinatorLayout parent, View child, int layoutDirection) {
+      CoordinatorLayout parent, NestedScrollView child, int layoutDirection) {
     // First layout the child as normal.
     parent.onLayoutChild(child, layoutDirection);
 
-    // Center the FAB vertically along the top edge of the card.
-    final int cardViewTopMargin =
-        child.findViewById(R.id.card_fab).getHeight() / 2;
-    setMarginTop(child.findViewById(R.id.cardview), cardViewTopMargin);
+    // Offset the child's height so that its bounds don't overlap the toolbar container.
+    final int toolbarContainerHeight = parent.getDependencies(child).get(0).getHeight();
+    child.offsetTopAndBottom(toolbarContainerHeight);
 
-    // Give the card container top padding so that the tip of the card
-    // initially appears at the bottom of the screen. The total padding will
-    // be the distance from the top of the screen to the FAB's top edge.
-    final int cardContainerTopPadding = child.getHeight() - cardViewTopMargin
-        - child.findViewById(R.id.card_title).getHeight()
-        - child.findViewById(R.id.card_subtitle).getHeight();
-    setPaddingTop(child.findViewById(R.id.card_container), cardContainerTopPadding);
+    // Center the FAB vertically along the top edge of the card.
+    final int fabHalfHeight = child.findViewById(R.id.fab).getHeight() / 2;
+    setMarginTop(child.findViewById(R.id.cardview), fabHalfHeight);
 
     // Give the RecyclerView a maximum height to ensure the card will never
     // overlap the toolbar as it scrolls.
-    final View toolbarContainer = parent.getDependencies(child).get(0);
+    final int recyclerViewMaxHeight = child.getHeight() - fabHalfHeight
+        - child.findViewById(R.id.card_title).getHeight()
+        - child.findViewById(R.id.card_subtitle).getHeight();
     ((MaxHeightRecyclerView) child.findViewById(R.id.card_recyclerview))
-        .setMaxHeight(cardContainerTopPadding - toolbarContainer.getHeight());
+        .setMaxHeight(recyclerViewMaxHeight);
+
+    // Give the card container top padding so that only the top edge of the card
+    // initially appears at the bottom of the screen. The total padding will
+    // be the distance from the top of the screen to the FAB's top edge.
+    setPaddingTop(child.findViewById(R.id.card_container),
+        recyclerViewMaxHeight - toolbarContainerHeight);
 
     // Return true so that the parent doesn't waste time laying out the
     // child again (any modifications made above will have triggered a second
@@ -119,16 +131,63 @@ class CustomBehavior extends CoordinatorLayout.Behavior<View> {
     }
   }
 
+  /* ... */
+}
+```
+
+Note that in the above code, the `RecyclerView`'s maximum height is
+calculated using the toolbar container's height. As a result, we must
+list the toolbar container as a dependency to ensure that it is measured
+and laid out before the `CustonBehavior`'s `onLayoutChild()` method is called:
+
+```java
+class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
+
+  /* ... */
+
+  @Override
+  public boolean layoutDependsOn(
+      CoordinatorLayout parent, NestedScrollView child, View dependency) {
+    // List the toolbar container as a dependency to ensure that it will
+    // always be laid out before the child (which depends on the toolbar
+    // container's height in onLayoutChild() above).
+    return dependency.getId() == R.id.toolbar_container;
+  }
+
+  /* ... */
+}
+```
+
+### Intercepting touch events using a `CustomBehavior`
+
+`CoordinatorLayout` also provides a framework for intercepting and reacting
+to touch events before they are dispatched to children views. When
+`CoordinatorLayout` receives a touch event, it goes through its list of
+children views and passes the event to their `Behavior`s. If the `Behavior`
+chooses to intercept the touch event, all future touch events will be sent
+directly to that `Behavior`'s `onTouchEvent()` method. Otherwise,
+`CoordinatorLayout` will process the touch events as normal via the
+traditional dispatch method.
+
+In my case, I want `CoordinatorLayout` to simply ignore any touch events
+that originate on top of the `NestedScrollView` bounds but do _not_ originate
+within the bounds of its inner `CardView` and `FloatingActionButton`:
+
+```java
+class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
+
+  /* ... */
+
   @Override
   public boolean onInterceptTouchEvent(
-      CoordinatorLayout parent, View child, MotionEvent ev) {
+      CoordinatorLayout parent, NestedScrollView child, MotionEvent ev) {
     // Block all touch events that originate within the bounds of our
     // NestedScrollView but do *not* originate within the bounds of its
-    // inner CardView and FloatingActionButton views.
+    // inner CardView and FloatingActionButton.
     return ev.getActionMasked() == MotionEvent.ACTION_DOWN
         && isTouchInChildBounds(parent, child, ev)
         && !isTouchInChildBounds(parent, child.findViewById(R.id.cardview), ev)
-        && !isTouchInChildBounds(parent, child.findViewById(R.id.card_fab), ev);
+        && !isTouchInChildBounds(parent, child.findViewById(R.id.fab), ev);
   }
 
   private static boolean isTouchInChildBounds(
@@ -139,8 +198,8 @@ class CustomBehavior extends CoordinatorLayout.Behavior<View> {
 }
 ```
 
-For more information on `CoordinatorLayout` behaviors, check out Ian Lake's 
-[great blog post][IanLakeBlogPost] on the topic.
+Note that the [ViewGroupUtils][ViewGroupUtils] class contains code that I copied
+from the design support library [source code][ViewGroupUtilsSource] itself.
 
 ### Nested scrolling
 
@@ -210,7 +269,18 @@ class ExtendedNestedScrollView extends NestedScrollView {
 }
 ```
 
+### Closing remarks
+
+For more information on 
+`CoordinatorLayout` behaviors, check out Ian Lake's 
+[great blog post][IanLakeBlogPost] on the topic.
+
   [IanLakeBlogPost]: https://medium.com/google-developers/intercepting-everything-with-coordinatorlayout-behaviors-8c6adc140c26#.qcr10khph
   [SampleAppSourceCode]: https://github.com/alexjlockwood/sample-design-lib-app
   [MaxHeightRecyclerView]: https://github.com/alexjlockwood/sample-design-lib-app/blob/master/app/src/main/java/com/alexjlockwood/example/designlib/MaxHeightRecyclerView.java
   [CustomBehavior]: https://github.com/alexjlockwood/sample-design-lib-app/blob/master/app/src/main/java/com/alexjlockwood/example/designlib/CustomBehavior.java
+  [ExtendedNestedScrollView]: https://github.com/alexjlockwood/sample-design-lib-app/blob/master/app/src/main/java/com/alexjlockwood/example/designlib/ExtendedNestedScrollView.java
+  [ViewGroupUtils]: https://github.com/alexjlockwood/sample-design-lib-app/blob/master/app/src/main/java/com/alexjlockwood/example/designlib/ViewGroupUtils.java
+  [ViewGroupUtilsSource]: https://android.googlesource.com/platform/frameworks/support/+/marshmallow-mr2-release/design/honeycomb/android/support/design/widget/ViewGroupUtilsHoneycomb.java
+  [activity_main.xml]: https://github.com/alexjlockwood/sample-design-lib-app/blob/master/app/src/main/res/layout/activity_main.xml
+
