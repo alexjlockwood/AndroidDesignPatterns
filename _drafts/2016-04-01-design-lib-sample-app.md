@@ -91,10 +91,6 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
     // First layout the child as normal.
     parent.onLayoutChild(child, layoutDirection);
 
-    // Offset the child's height so that its bounds don't overlap the toolbar container.
-    final int toolbarContainerHeight = parent.getDependencies(child).get(0).getHeight();
-    ViewCompat.offsetTopAndBottom(child, toolbarContainerHeight);
-
     // Center the FAB vertically along the top edge of the card.
     final int fabHalfHeight = child.findViewById(R.id.fab).getHeight() / 2;
     setMarginTop(child.findViewById(R.id.cardview), fabHalfHeight);
@@ -110,8 +106,12 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
     // Give the card container top padding so that only the top edge of the card
     // initially appears at the bottom of the screen. The total padding will
     // be the distance from the top of the screen to the FAB's top edge.
+    final int toolbarContainerHeight = parent.getDependencies(child).get(0).getHeight();
     setPaddingTop(child.findViewById(R.id.card_container),
         recyclerViewMaxHeight - toolbarContainerHeight);
+
+    // Offset the child's height so that its bounds don't overlap the toolbar container.
+    ViewCompat.offsetTopAndBottom(child, toolbarContainerHeight);
 
     // Return true so that the parent doesn't waste time laying out the
     // child again (any modifications made above will have triggered a second
