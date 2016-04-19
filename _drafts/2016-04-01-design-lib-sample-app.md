@@ -213,28 +213,33 @@ v4 support library).
 Nested scrolling takes place between a [`NestedScrollingParent`][NestedScrollingParent]
 and a [`NestedScrollingChild`][NestedScrollingChild]. In this case, the outer
 `NestedScrollView` is the parent and the inner `RecyclerView` is the child.
+
 When the user scrolls the `RecyclerView`, the following sequence of events
 takes place:
 
-1. The `RecyclerView` receives an `ACTION_DOWN` touch event and calls
-   `RecyclerView#startNestedScroll()`. `NestedScrollView#onStartNestedScroll()`
-   is called, which returns true, followed by `NestedScrollView#onNestedScrollAccepted()`. 
+1. The `RecyclerView` receives an `ACTION_MOVE` touch event.
 
-2. The `RecyclerView` receives an `ACTION_MOVE` touch event and
-   calls `RecyclerView#dispatchNestedPreScroll()`, which then calls
-   `NestedScrollView#onNestedPreScroll()`. If the scroll wasn't entirely
-   consumed by the parent, `RecyclerView#dispatchNestedScroll()` is called,
-   which calls `NestedScrollView#onNestedScroll()`.
+2. `RecyclerView#dispatchNestedPreScroll()` is called.
 
-3. The `RecyclerView` receives an `ACTION_UP` touch event and
-   calls `RecyclerView#dispatchNestedPreFling()`, which then calls
-   `NestedScrollView#onNestedPreFling()`. If the fling wasn't
-   consumed by the parent, `RecyclerView#dispatchNestedFling()` is called,
-   which calls `NestedScrollView#onNestedFling()`.
+3. `NestedScrollView#onNestedPreScroll()` is called. 
 
-4. The `RecyclerView` calls `RecyclerView#stopNestedScroll()` and then 
-   notifies the parent that the nested scroll is over by calling 
-   `NestedScrollView#onStopNestedScroll()`.
+4. `RecyclerView#dispatchNestedScroll()` is called.
+
+5. `NestedScrollView#onNestedScroll()` is called.
+
+Similarly, when the user flings the `RecyclerView`, the following sequence
+of events takes place:
+
+1. The `RecyclerView` receives an `ACTION_UP` touch event and
+   a fling is detected.
+
+2. `RecyclerView#dispatchNestedPreFling()` is called.
+
+3. `NestedScrollView#onNestedPreFling()` is called. 
+
+4. `RecyclerView#dispatchNestedFling()` is called.
+
+5. `NestedScrollView#onNestedFling()` is called.
 
 The two methods we care about here are the `NestedScrollingParent`'s
 `onNestedPreScroll()` and `onNestedPreFling()` methods, which give
