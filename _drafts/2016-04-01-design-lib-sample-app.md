@@ -214,17 +214,21 @@ Nested scrolling takes place between a [`NestedScrollingParent`][NestedScrolling
 and a [`NestedScrollingChild`][NestedScrollingChild]. In this case, the outer
 `NestedScrollView` is the parent and the inner `RecyclerView` is the child.
 
-* `dispatchNestedPreScroll()` - Child dispatches one step of a nested scroll
+* `NestedScrollingChild#dispatchNestedPre{Scroll,Fling}()` - Child 
+  dispatches one step of a nested scroll/fling
   to the parent (before the child consumes any portion of it).
 
-* `onNestedPreScroll()` - Parent is given opportunity to react to a nested
-  scroll before the child consumes it.
+* `NestedScrollingParent#onNestedPre{Scroll,Fling}()` - Parent 
+  is given opportunity to react to a nested
+  scroll/fling before the child consumes it.
 
-* `dispatchNestedScroll()` - Child dispatches one step of a nested scroll
-  to the parent (after the child has consumed a portion of it).
+* `NestedScrollingChild#dispatchNested{Scroll,Fling}()` - Child 
+  dispatches one step of a nested scroll/fling
+  to the parent (after the child has consumed it).
 
-* `onNestedScroll()` - Parent is given opportunity to consume the remainder
-  of a nested scroll that has not been completely consumed.
+* `NestedScrollingParent#onNested{Scroll,Fling}()` - Parent 
+  is given opportunity to consume the remainder
+  of a nested scroll/fling that has not been consumed.
 
 When the user scrolls the `RecyclerView`, the following sequence of events
 takes place:
