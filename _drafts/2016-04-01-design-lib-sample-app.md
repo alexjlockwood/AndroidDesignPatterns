@@ -215,10 +215,10 @@ and a [`NestedScrollingChild`][NestedScrollingChild]. In this case, the outer
 `NestedScrollView` is the parent and the inner `RecyclerView` is the child.
 
 * `dispatchNestedPreScroll()` - Child dispatches one step of a nested scroll
-  to the parent (before the child consumes any portion of it). 
+  to the parent (before the child consumes any portion of it).
 
 * `onNestedPreScroll()` - Parent is given opportunity to react to a nested
-  scroll before the child consumes it. The parent 
+  scroll before the child consumes it.
 
 * `dispatchNestedScroll()` - Child dispatches one step of a nested scroll
   to the parent (after the child has consumed a portion of it).
