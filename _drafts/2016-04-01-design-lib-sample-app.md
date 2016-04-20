@@ -217,7 +217,7 @@ and a [`NestedScrollingChild`][NestedScrollingChild]. In this case, the outer
 When a touch event triggers a scroll or fling on the `RecyclerView`,
 the following sequence of events takes place:
 
-<div class="responsive-figure nexus6-figure">
+<div class="nexus6-figure-responsive">
   <div class="framed-nexus6-port">
   <!-- TODO: add poster? -->
   <video id="figure1a" onclick="playPause('figure1a')" preload="none">
@@ -229,6 +229,21 @@ the following sequence of events takes place:
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
     <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;">
     <strong>Video 1a</strong> - Bad nested scrolling. Click to play.</p>
+  </div>
+</div>
+
+<div class="nexus6-figure-responsive">
+  <div class="framed-nexus6-port">
+  <!-- TODO: add poster? -->
+  <video id="figure1b" onclick="playPause('figure1b')" preload="none">
+    <!-- TODO: add mp4? -->
+    <source src="/assets/videos/posts/2016/04/01/nested-scrolling-good-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2016/04/01/nested-scrolling-good-opt.ogv" type="video/ogg">
+  </video>
+  </div>
+  <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;">
+    <strong>Video 1b</strong> - Good nested scrolling. Click to play.</p>
   </div>
 </div>
 
@@ -311,21 +326,6 @@ class ExtendedNestedScrollView extends NestedScrollView {
   }
 }
 ```
-
-<div class="responsive-figure nexus6-figure">
-  <div class="framed-nexus6-port">
-  <!-- TODO: add poster? -->
-  <video id="figure1b" onclick="playPause('figure1b')" preload="none">
-    <!-- TODO: add mp4? -->
-    <source src="/assets/videos/posts/2016/04/01/nested-scrolling-good-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2016/04/01/nested-scrolling-good-opt.ogv" type="video/ogg">
-  </video>
-  </div>
-  <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
-    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;">
-    <strong>Video 1b</strong> - Good nested scrolling. Click to play.</p>
-  </div>
-</div>
 
 ### Closing remarks
 
