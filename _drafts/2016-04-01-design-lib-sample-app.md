@@ -214,48 +214,24 @@ Nested scrolling takes place between a [`NestedScrollingParent`][NestedScrolling
 and a [`NestedScrollingChild`][NestedScrollingChild]. In this case, the outer
 `NestedScrollView` is the parent and the inner `RecyclerView` is the child.
 
-* `NestedScrollingChild#dispatchNestedPre{Scroll,Fling}()` - Child 
-  dispatches one step of a nested scroll/fling
-  to the parent (before the child consumes any portion of it).
+When a touch event triggers a scroll or fling on the `RecyclerView`,
+the following sequence of events takes place:
 
-* `NestedScrollingParent#onNestedPre{Scroll,Fling}()` - Parent 
-  is given opportunity to react to a nested
-  scroll/fling before the child consumes it.
+1. `NestedScrollingChild#dispatchNestedPre{Scroll,Fling}()` - Child 
+   dispatches one step of a nested scroll/fling
+   to the parent before the child consumes it.
 
-* `NestedScrollingChild#dispatchNested{Scroll,Fling}()` - Child 
-  dispatches one step of a nested scroll/fling
-  to the parent (after the child has consumed it).
+2. `NestedScrollingParent#onNestedPre{Scroll,Fling}()` - Parent 
+   is given opportunity to react to a nested
+   scroll/fling before the child consumes it.
 
-* `NestedScrollingParent#onNested{Scroll,Fling}()` - Parent 
-  is given opportunity to consume the remainder
-  of a nested scroll/fling that has not been consumed.
+3. `NestedScrollingChild#dispatchNested{Scroll,Fling}()` - Child 
+   dispatches one step of a nested scroll/fling
+   to the parent after the child has consumed it.
 
-When the user scrolls the `RecyclerView`, the following sequence of events
-takes place:
-
-1. The `RecyclerView` receives an `ACTION_MOVE` touch event.
-
-2. `RecyclerView#dispatchNestedPreScroll()` is called.
-
-3. `NestedScrollView#onNestedPreScroll()` is called. 
-
-4. `RecyclerView#dispatchNestedScroll()` is called.
-
-5. `NestedScrollView#onNestedScroll()` is called.
-
-Similarly, when the user flings the `RecyclerView`, the following sequence
-of events takes place:
-
-1. The `RecyclerView` receives an `ACTION_UP` touch event and
-   a fling is detected.
-
-2. `RecyclerView#dispatchNestedPreFling()` is called.
-
-3. `NestedScrollView#onNestedPreFling()` is called. 
-
-4. `RecyclerView#dispatchNestedFling()` is called.
-
-5. `NestedScrollView#onNestedFling()` is called.
+4. `NestedScrollingParent#onNested{Scroll,Fling}()` - Parent 
+   is given opportunity to consume the remainder
+   of a nested scroll/fling that has not been consumed.
 
 The two methods we care about here are the `NestedScrollingParent`'s
 `onNestedPreScroll()` and `onNestedPreFling()` methods, which give
