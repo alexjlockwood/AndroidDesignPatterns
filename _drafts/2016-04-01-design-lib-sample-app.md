@@ -20,7 +20,7 @@ related: ['/2012/08/implementing-loaders.html',
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
     <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;">
-    <strong>Video 1</strong> - Sample app video. Click to play.</p>
+    <strong>Video 1</strong> - Video of the sample app. Click to play.</p>
   </div>
 </div>
 
@@ -212,18 +212,24 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 
 ### Intercepting touch events using a `CustomBehavior`
 
-`CoordinatorLayout` also provides a framework for intercepting and reacting
-to touch events before they are dispatched to children views. When
-`CoordinatorLayout` receives a touch event, it goes through its list of
-children views and passes the event to their `Behavior`s. If the `Behavior`
-chooses to intercept the touch event, all future touch events will be sent
-directly to that `Behavior`'s `onTouchEvent()` method. Otherwise,
-`CoordinatorLayout` will process the touch events as normal via the
-traditional dispatch method.
+My second task was to block vertical scroll events that did not originate 
+on top of the card or its floating action button. The outer `NestedScrollView`
+that wraps around the `CardView` fills the entire activity's height. However,
+we want it to only react to scroll events if the gesture's initial touch
+event started within the `CardView` or `FloatingActionButton`'s bounds.
 
-In my case, I want `CoordinatorLayout` to simply ignore any touch events
-that originate on top of the `NestedScrollView` bounds but do _not_ originate
-within the bounds of its inner `CardView` and `FloatingActionButton`:
+Fortunately, `CoordinatorLayout` gives us a way to intercept and react
+to touch events before they are dispatched to its immediate children views.
+Whenever `CoordinatorLayout` receives a touch event, it goes through its list of
+immediate children views and passes the event to their `Behavior`s
+(if they have one). If the `Behavior` chooses to intercept the touch event,
+all future touch events will be sent directly to that `Behavior`'s 
+`onTouchEvent()` method. Otherwise, `CoordinatorLayout` will process the
+touch events as normal via the traditional dispatch method.
+
+In this case, I want to simply ignore any touch events that originate on
+top of the `NestedScrollView` bounds and **do not** originate within the
+bounds of its inner `CardView` and `FloatingActionButton`:
 
 ```java
 class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
@@ -250,8 +256,8 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 }
 ```
 
-Note that the [ViewGroupUtils][ViewGroupUtils] class contains code that I copied
-from the design support library [source code][ViewGroupUtilsSource] itself.
+The source code for the `ViewGroupUtils` class mentioned above
+can be viewed [here][ViewGroupUtilsSource].
 
 ### Polishing up nested scrolling using an `ExtendedNestedScrollView`
 
@@ -264,6 +270,7 @@ Nested scrolling takes place between a [`NestedScrollingParent`][NestedScrolling
 and a [`NestedScrollingChild`][NestedScrollingChild]. In this case, the outer
 `NestedScrollView` is the parent and the inner `RecyclerView` is the child.
 
+<div style="display: inline-block;">
 <div class="nexus6-figure-responsive">
   <div class="framed-nexus6-port">
   <!-- TODO: add poster? -->
@@ -293,22 +300,21 @@ and a [`NestedScrollingChild`][NestedScrollingChild]. In this case, the outer
     <strong>Video 3</strong> - Good nested scrolling. Click to play.</p>
   </div>
 </div>
+</div>
 
 When a touch event triggers a scroll or fling on the `RecyclerView`,
 the following sequence of events takes place:
 
 1. `NestedScrollingChild#dispatchNestedPre{Scroll,Fling}()` - Child 
    dispatches one step of a nested scroll/fling
-   to the parent before the child consumes it.
-
-2. `NestedScrollingParent#onNestedPre{Scroll,Fling}()` - Parent 
+   to the parent before the child consumes it. 
+   **`NestedScrollingParent#onNestedPre{Scroll,Fling}()`** - Parent 
    is given opportunity to react to a nested scroll.
 
-3. `NestedScrollingChild#dispatchNested{Scroll,Fling}()` - Child 
+2. `NestedScrollingChild#dispatchNested{Scroll,Fling}()` - Child 
    dispatches one step of a nested scroll/fling
    to the parent after the child has consumed it.
-
-4. `NestedScrollingParent#onNested{Scroll,Fling}()` - Parent 
+   **`NestedScrollingParent#onNested{Scroll,Fling}()`** - Parent 
    is given opportunity to consume the remainder
    of a nested scroll/fling that has not been consumed.
 
