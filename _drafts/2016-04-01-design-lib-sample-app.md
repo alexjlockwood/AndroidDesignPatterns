@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Design lib sample app'
+title: 'Custom CoordinatorLayout Behaviors & Nested Scrolling'
 date: 2016-04-01
 permalink: /2016/04/design-lib-sample-app.html
 related: ['/2012/08/implementing-loaders.html',
@@ -8,15 +8,60 @@ related: ['/2012/08/implementing-loaders.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
 ---
 
+<!-- TODO: make a real video of the app -->
+<div class="responsive-figure nexus6-figure">
+  <div class="framed-nexus6-port">
+  <!-- TODO: add poster? -->
+  <video id="figure1" onclick="playPause('figure1')" preload="none">
+    <!-- TODO: add mp4? -->
+    <source src="/assets/videos/posts/2016/04/01/nested-scrolling-bad-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2016/04/01/nested-scrolling-bad-opt.ogv" type="video/ogg">
+  </video>
+  </div>
+  <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
+    <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;">
+    <strong>Video 1</strong> - Sample app video. Click to play.</p>
+  </div>
+</div>
+
 <!--morestart-->
 
-Introduction to the blog post and stuff, explain the goal of the sample app, blah blah blah.
+This blog post will give a brief introduction to custom `CoordinatorLayout.Behavior`s
+and Android's new nested scrolling APIs by creating a simple example app. 
+My goal was to write a [simple example app][SampleAppSourceCode] with the 
+following features (see **Video 1**):
+
+* A transparent toolbar and a fullscreen background image.
+
+* A card that is initially positioned at the bottom of the screen
+  but can be vertically scrolled upwards until it reaches the toolbar's
+  bottom edge.
+
+* A floating action button that is right-aligned and vertically-centered 
+  on the card's top edge.
+
+* An inner recycler view contained within the card that can hold any
+  number of items and that can only be scrolled when the card is scrolled
+  all the way to the top of the activity's content view.
 
 <!--more-->
 
-I began with an XML layout for my activity roughly as follows 
-(we will see how the custom [`MaxHeightRecyclerView`][MaxHeightRecyclerView]
-class is used in a bit). The full source code is located [here][activity_main.xml]:
+Once I began, it became apparent that there were three main tasks that would
+need to be done:
+
+1. Dynamically adjusting the activity's initial layout so that the UI
+   is properly setup when the app is launched.
+
+2. Blocking vertical scroll events that don't originate on top of the card
+   or its floating action button.
+
+3. Polishing up the nested scrolling interactions between the card and its
+   inner recycler view.
+
+I'll address each of these tasks in the following sections. A summary of
+the sample app's final layout XML which you can use as a reference as you
+read through the post is given below (with the complete source code
+located [here][activity_main.xml]):
 
 ```xml
 <CoordinatorLayout>
@@ -27,7 +72,7 @@ class is used in a bit). The full source code is located [here][activity_main.xm
     <Toolbar/>
   </FrameLayout>
 
-  <NestedScrollView
+  <ExtendedNestedScrollView
     app:layout_behavior="com.alexjlockwood.example.CustomBehavior">
 
     <FrameLayout android:id="@+id/card_container">
@@ -43,40 +88,43 @@ class is used in a bit). The full source code is located [here][activity_main.xm
       <FloatingActionButton android:id="@+id/card_fab"/>
 
     </FrameLayout>
-  </NestedScrollView>
+  </ExtendedNestedScrollView>
 
 </CoordinatorLayout>
 ```
 
-There were three things that needed to get done: (1) adjusting the initial
-layout, (2) blocking touch events that don't originate on top of the card,
-and (3) polishing the nested scrolling between the outer `NestedScrollView`
-and its inner `RecyclerView`.
-
 ### Intercepting layout using a `CustomBehavior`
 
-My first task was to dynamically setup the activity's layout so that it appeared
-properly to the user. A few things would have to be adjusted after the activity's
-initial layout:
+My first task was to dynamically setup the activity's initial
+layout so that the UI appeared properly on startup. As already 
+mentioned above, a few main aspects of the layout would need
+to be tweaked:
 
 1. Give the `CardView` a top margin so that the `FloatingActionButton` appears
    vertically centered with the card's top edge.
 
-2. Give the card container `FrameLayout` top padding so that only the card's
-   `FloatingActionButton` and two `TextView`s are initially visible at the
-   bottom of the screen.
+2. Give the [`MaxHeightRecyclerView`][MaxHeightRecyclerView] a maximum height
+   equal to the distance between the toolbar's bottom edge and the
+   `FloatingActionButton`s top edge (to ensure that the outer `NestedScrollView`
+   stops vertically scrolling when the FAB meets the toolbar). 
+   **(TODO: I think this distance calculation is wrong?)**
 
-3. Give the inner `RecyclerView` a maximum height to ensure that the outer
-   `NestedScrollView` will stop scrolling once the top edge of the card's 
-   `FloatingActionButton` reaches the toolbar's bottom edge.
+3. Give the `FrameLayout` card container enough top padding so that only the
+   top edge of the card and its `FloatingActionButton` are initially visible
+   at the bottom of the screen.
+
+4. Vertically offset the `NestedScrollView` child so that its bounds don't
+   overlap the toolbar container.
 
 To achieve this, I decided to implement a custom `CoordinatorLayout.Behavior`.
-In this case, my `CoordinatorLayout` has three direct children views but 
-only the `NestedScrollView` will use my `CustomBehavior`.
 `CoordinatorLayout` provides a powerful framework for intercepting events
 and reacting to them before they are propogated to its children views.
 For example, `Behavior`s get the first shot at layout via the `onLayoutChild()`
-callback, which gives us an opportunity to adjust the layout if needed:
+callback, which gives us an opportunity to adjust the layout if needed.
+In this case, the `CoordinatorLayout` has three direct children views but 
+I only care about intercepting the `NestedScrollView`'s layout. So I attached
+my behavior to the `NestedScrollView` child in my layout XML and began
+implementing my `CustomBehavior` as follows:
 
 ```java
 class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
@@ -84,6 +132,8 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
   public CustomBehavior(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
+
+  // TODO(alockwood): double check that these comments are correct!
 
   @Override
   public boolean onLayoutChild(
@@ -93,7 +143,7 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 
     // Center the FAB vertically along the top edge of the card.
     final int fabHalfHeight = child.findViewById(R.id.fab).getHeight() / 2;
-    setMarginTop(child.findViewById(R.id.cardview), fabHalfHeight);
+    setTopMargin(child.findViewById(R.id.cardview), fabHalfHeight);
 
     // Give the RecyclerView a maximum height to ensure the card will never
     // overlap the toolbar as it scrolls.
@@ -137,10 +187,10 @@ class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
 }
 ```
 
-Note that in the above code, the `RecyclerView`'s maximum height is
-calculated using the toolbar container's height. As a result, we must
-list the toolbar container as a dependency to ensure that it is measured
-and laid out before the `CustonBehavior`'s `onLayoutChild()` method is called:
+Note that in the above code we depend on the toolbar container's height.
+As a result, we must list the toolbar container as a dependency to ensure
+that it is measured and laid out before the `CustonBehavior`'s 
+`onLayoutChild()` method is called:
 
 ```java
 class CustomBehavior extends CoordinatorLayout.Behavior<NestedScrollView> {
@@ -214,13 +264,10 @@ Nested scrolling takes place between a [`NestedScrollingParent`][NestedScrolling
 and a [`NestedScrollingChild`][NestedScrollingChild]. In this case, the outer
 `NestedScrollView` is the parent and the inner `RecyclerView` is the child.
 
-When a touch event triggers a scroll or fling on the `RecyclerView`,
-the following sequence of events takes place:
-
 <div class="nexus6-figure-responsive">
   <div class="framed-nexus6-port">
   <!-- TODO: add poster? -->
-  <video id="figure1a" onclick="playPause('figure1a')" preload="none">
+  <video id="figure2" onclick="playPause('figure2')" preload="none">
     <!-- TODO: add mp4? -->
     <source src="/assets/videos/posts/2016/04/01/nested-scrolling-bad-opt.webm" type="video/webm">
     <source src="/assets/videos/posts/2016/04/01/nested-scrolling-bad-opt.ogv" type="video/ogg">
@@ -228,14 +275,14 @@ the following sequence of events takes place:
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
     <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;">
-    <strong>Video 1a</strong> - Bad nested scrolling. Click to play.</p>
+    <strong>Video 2</strong> - Bad nested scrolling. Click to play.</p>
   </div>
 </div>
 
 <div class="nexus6-figure-responsive">
   <div class="framed-nexus6-port">
   <!-- TODO: add poster? -->
-  <video id="figure1b" onclick="playPause('figure1b')" preload="none">
+  <video id="figure3" onclick="playPause('figure3')" preload="none">
     <!-- TODO: add mp4? -->
     <source src="/assets/videos/posts/2016/04/01/nested-scrolling-good-opt.webm" type="video/webm">
     <source src="/assets/videos/posts/2016/04/01/nested-scrolling-good-opt.ogv" type="video/ogg">
@@ -243,9 +290,12 @@ the following sequence of events takes place:
   </div>
   <div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
     <p class="img-caption" style="margin-top:3px;margin-bottom:10px;text-align: center;">
-    <strong>Video 1b</strong> - Good nested scrolling. Click to play.</p>
+    <strong>Video 3</strong> - Good nested scrolling. Click to play.</p>
   </div>
 </div>
+
+When a touch event triggers a scroll or fling on the `RecyclerView`,
+the following sequence of events takes place:
 
 1. `NestedScrollingChild#dispatchNestedPre{Scroll,Fling}()` - Child 
    dispatches one step of a nested scroll/fling
