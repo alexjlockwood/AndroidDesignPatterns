@@ -193,7 +193,6 @@ What will the following XML look like in the application?
 
 ```xml
 <LinearLayout
-    android:id="@+id/linearlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -201,39 +200,39 @@ What will the following XML look like in the application?
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Light themed default button"/>
+        android:text="..."/>
 
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Light themed accent button"/>
+        android:text="..."/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Light themed custom red button"
+        android:text="..."
         android:theme="@style/LightCustomRedButtonTheme"/>
 
     <Button
-        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dark themed default button"
+        android:text="..."
         android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 
     <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dark themed accent button"
+        android:text="..."
         android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Dark themed custom red button"
+        android:text="..."
         android:theme="@style/DarkCustomRedButtonTheme"/>
 </LinearLayout>
 ```

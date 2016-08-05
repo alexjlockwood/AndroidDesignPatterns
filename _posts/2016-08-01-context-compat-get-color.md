@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Understanding ContextCompat, getDrawable(), & getColor()'
+title: 'Understanding ContextCompat#getColor()'
 date: 2016-08-01
 permalink: /2016/08/context-compat-get-color.html
 related: ['/2012/08/implementing-loaders.html',
@@ -13,16 +13,17 @@ related: ['/2012/08/implementing-loaders.html',
 You've probably noticed at some point that when you write something like:
 
 ```java
-resources.getColor(R.color.some_random_color_resource);
+resources.getColor(R.color.some_color_resource_id);
 ```
 
 Android Studio will give you a lint message warning that the
-`Resources#getColor(int)` method has been deprecated as of API 23. You also
-probably know by now that the correct alternative to this method these days is
-to call:
+`Resources#getColor(int)` method was deprecated in Marshmallow in favor of the
+new, `Theme`-aware `Resources#getColor(int, Theme)` method. You also
+probably know by now that the easy alternative to avoiding this lint warning
+these days is to call:
 
 ```java
-ContextCompat.getColor(context, R.color.some_random_color_resource);
+ContextCompat.getColor(context, R.color.some_color_resource_id);
 ```
 
 which under-the-hood is essentially just a shorthand way of writing:
@@ -41,66 +42,65 @@ offer that didn't exist before?
 
 <!--more-->
 
-### `Resources#getColor(int)` & `Resources#getColorStateList(int)`
+### The problem with `Resources#getColor(int)` & `Resources#getColorStateList(int)`
 
-First, let's be clear on what these two methods actually do:
+First, let's be clear on what these old, deprecated methods actually do:
+
+*   [`Resources#getColor(int)`](http://developer.android.com/reference/android/content/res/Resources.html#getColorStateList\(int\))
+    returns the color associated with the passed in color resource ID. If the resource
+    ID points to a `ColorStateList`, the method will return the `ColorStateList`'s
+    [default color](http://developer.android.com/reference/android/content/res/ColorStateList.html#getDefaultColor\(\)).
 
 *   [`Resources#getColorStateList(int)`](http://developer.android.com/reference/android/content/res/Resources.html#getColor\(int\))
     returns the `ColorStateList` associated with the passed in resource ID.
 
-*   [`Resources#getColor(int)`](http://developer.android.com/reference/android/content/res/Resources.html#getColorStateList\(int\))
-    returns the color associated with the passed in resource ID. If the resource
-    ID is a `ColorStateList`, the `ColorStateList`'s [default color]
-    (http://developer.android.com/reference/android/content/res/ColorStateList.html#getDefaultColor\(\))
-    is returned.
+#### "When will these two methods break my code?"
 
-#### When & why will these methods break my code?
-
-To understand why these two methods were deprecated, consider the
-`ColorStateList` declared in `res/colors/text_color_state_list.xml` below:
+To understand why these methods were deprecated in the first place, consider the 
+`ColorStateList` declared in XML below:
 
 ```xml
+<!-- res/colors/button_text_csl.xml -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="?attr/colorAccent" android:state_enabled="false"/>
     <item android:color="?attr/colorPrimary"/>
 </selector>
 ```
 
-When this `ColorStateList` is applied to a disabled and enabled button, its
+When this `ColorStateList` is applied to a `TextView`, its
 disabled and enabled text colors should take on the colors pointed to by the
 `R.attr.colorAccent` and `R.attr.colorPrimary` theme attributes respectively.
 
-Now let's say you try to obtain an instance of this `ColorStateList`
-programatically using the following code:
+Now let's say you want to obtain an instance of this `ColorStateList` programatically:
 
 ```java
-ColorStateList textColorStateList =
-    resources.getColorStateList(R.color.text_color_state_list);
+ColorStateList csl = resources.getColorStateList(R.color.button_text_csl);
 ```
 
-The result of the above call will be undefined, and you'll get a stack trace
-looking something like the one below in your logcat output:
+**Surprise! The result of the above call will be undefined!**
+You'll see a stack trace in your logcat output similar to the one below:
 
 ```
-W/Resources: ColorStateList color/text_color_state_list has unresolved theme attributes!
+W/Resources: ColorStateList color/button_text_csl has unresolved theme attributes!
              Consider using Resources.getColorStateList(int, Theme)
-             or Context.getColorStateList(int).
-    java.lang.RuntimeException
+             or Context.getColorStateList(int)
         at android.content.res.Resources.getColorStateList(Resources.java:1011)
+        ...
 ```
 
-The problem is that the `Resources` object has no way of knowing which theme
-it needs to use in order to resolve the values pointed to by the
-`R.attr.colorAccent` and `R.attr.colorPrimary` theme attributes. In fact,
-specifying theme attributes in any `ColorStateList` XML files **was not possible
-until API 23**, which introduced two new methods for extracting
-`ColorStateList`s from XML:
+#### "What went wrong?"
+
+The problem is that `Resources` objects are not intrinsically linked to a specific
+`Theme` in your app, and therefore don't know how to resolve the values pointed to by
+theme attributes such as `R.attr.colorAccent` and `R.attr.colorPrimary` on their own. In fact,
+specifying theme attributes in any `ColorStateList` XML files **was not possible until API 23*,
+which introduced two new methods for extracting `ColorStateList`s from XML:
 
 *   [`Resources#getColor(int, Theme)`](https://developer.android.com/reference/android/content/res/Resources.html#getColor\(int, android.content.res.Resources.Theme\))
     returns the color associated with the passed in resource ID. If the resource
-    ID is a `ColorStateList`, the `ColorStateList`'s [default color]
-    (http://developer.android.com/reference/android/content/res/ColorStateList.html#getDefaultColor\(\))
-    is returned. Any theme attributes specified in the `ColorStateList` will be
+    ID points to a `ColorStateList`, the method will return the `ColorStateList`'s
+    [default color](http://developer.android.com/reference/android/content/res/ColorStateList.html#getDefaultColor\(\)).
+    Any theme attributes specified in the `ColorStateList` will be
     resolved using the passed in `Theme` argument.
 
 *   [`Resources#getColorStateList(int, Theme)`](https://developer.android.com/reference/android/content/res/Resources.html#getColorStateList\(int, android.content.res.Resources.Theme\))
@@ -109,7 +109,8 @@ until API 23**, which introduced two new methods for extracting
     the passed in `Theme` argument.
 
 Additional convenience methods were also added to `Context` and to the support
-libraries `ContextCompat` classes as well:
+libraries `ContextCompat` classes as well, each operating on the `Theme` associated
+with the calling `Context` instead:
 
 *   [`Context#getColor(int)`](http://developer.android.com/reference/android/content/Context.html#getColor\(int\))
 
@@ -119,7 +120,7 @@ libraries `ContextCompat` classes as well:
 
 *   [`ContextCompat#getColorStateList(Context, int)`](https://developer.android.com/reference/android/support/v4/content/ContextCompat.html#getColor\(android.content.Context, int\))
 
-#### So... which methods should I use instead?
+#### "How can I workaround these problems?"
 
 Apps that support a `minSdkVersion` less than API 23 should prefer to use the
 static `ContextCompat` helper methods in the support library, as Android lint
@@ -127,39 +128,53 @@ suggests. However, note that no matter which methods you use, attempting to
 resolve theme attributes in a `ColorStateList` XML file **WILL NEVER WORK on
 pre-Marshmallow devices**!
 
-But that stinks! What if you really need to use a theme attribute in your
-`ColorStateList`? Well, just because you can't do it in XML, doesn't mean you
+But that stinks! What if you really want to use a theme attribute in your `ColorStateList`?
+Well, just because you can't do it in XML, doesn't mean you
 can't do it in Java. :) Try resolving the theme attributes programatically, and
 then use them to construct the `ColorStateList` using a few extra lines of code
-instead. Check out the code in the section below for some examples!
+instead. Check out the sample code below for some examples!
 
-#### Does this apply to `Resources#getDrawable(int)` as well?
+### The problem with `Resources#getDrawable(int)`
 
-Yup! `Resources#getDrawable(int)` has pretty much the exact same problem as
-`Resources#getColor(int)`, which is why you've probably seen
-`ContextCompat#getDrawable()` calls littered throughout the codebase as well.
-Before API 21, theme attributes specified in drawable XML files would not
-resolve properly, so either avoid them entirely or resolve the theme attributes
-in Java code and construct the `Drawable` programatically instead.
+You guessed it! The recently deprecated `Resources#getDrawable(int)` method shares
+pretty much the exact same problem as the `Resources#getColor(int)` and
+`Resources#getColorStateList(int)` methods discussed above.
+As a result, theme attributes in
+drawable XML files will not resolve properly prior to API 21, so if you
+your app supports pre-Lollipop devices, either avoid theme attributes entirely
+or resolve them in your Java code and construct the `Drawable`
+programatically instead.
 
-##### Are there any exceptions?
+#### "I don't believe you! Are there really no exceptions?"
 
-Of course, aren't there always? :D
+Of course, aren't there always? :)
 
 It turns out the `VectorDrawableCompat` support library was able to workaround
-this undesirable behavior and is actually smart enough to resolve the theme
-attributes it detects in XML *across all platform versions*. See my email thread
-with Tenghui Zhu (who/ztenghui, aka the main guy behind `VectorDrawable`s) for
-more info about the exact implementation details here:
-https://paste.googleplex.com/5946743283777536.
+these issues and is actually smart enough to resolve the theme
+attributes it detects in XML *across all platform versions*. For example,
+if you want to tint your `VectorDrawableCompat`, just use:
 
-It's also worth noting that go/icons will soon be taking advantage of this
-hidden feature as well: all vector drawables will soon be tinted using the
-`?attr/colorControlNormal` theme attribute, allowing clients to color the icons
-however they want with custom themes. See the feature request at b/30282090 and
-the pending CL at cl/129262001.
+```xml
+<vector 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0"
+    ndroid:tint="?attr/colorControlNormal">
 
-### Examples
+    <path
+        android:pathData="..."
+        android:fillColor="@android:color/white"/>
+</vector>
+```
+
+(If you're curious how this is implemented under-the-hood, the short answer is that
+the `VectorDrawableCompat` support library does their own custom XML parsing and uses the
+[`Theme#obtainStyledAttributes(AttributeSet, int[], int, int)`](https://developer.android.com/reference/android/content/res/Resources.Theme.html#obtainStyledAttributes\(android.util.AttributeSet, int[], int, int\))
+method to resolve the theme attributes it encounters. Pretty cool!)
+
+### Pop quiz!
 
 Consider the `ColorStateList` declared in `res/color/button_text_csl.xml`:
 
@@ -186,7 +201,7 @@ And assume you're writing an app that declares the following themes:
 ```
 
 And finally, assume that you have the following helper methods to resolve theme
-attributes and to construct `ColorStateList`s programatically:
+attributes and construct `ColorStateList`s programatically:
 
 ```java
 @ColorInt
@@ -211,8 +226,6 @@ private static ColorStateList createColorStateList(Context context) {
       });
 }
 ```
-
-#### Pop quiz!
 
 Try to see if you can predict the enabled and disabled appearance of a button on
 both an API 19 and API 23 device in each of the following scenarios (for
@@ -260,20 +273,25 @@ button8.setTextColor(textCslJavaWithCustomTheme);
 
 #### Solutions
 
-Here is a screenshot of what the buttons look like on an API 19 device (enabled
-buttons on the left, disabled buttons on the right):
+Here is a screenshot of what the buttons look like on API 19 vs. API 23 devices:
 
-[![API 19]
-(/java/com/google/android/apps/classroom/g3doc/resources/rants-by-alex/rants/rant7-contextcompat-examples-19-resized.png)]
-(/java/com/google/android/apps/classroom/g3doc/resources/rants-by-alex/rants/rant7-contextcompat-examples-19.png)
-
-And on an API 23 device:
-
-[![API 23]
-(/java/com/google/android/apps/classroom/g3doc/resources/rants-by-alex/rants/rant7-contextcompat-examples-23-resized.png)]
-(/java/com/google/android/apps/classroom/g3doc/resources/rants-by-alex/rants/rant7-contextcompat-examples-19.png)
+<div>
+  <div style="float:left; margin-right:16px;">
+    <a href="/assets/images/posts/2016/08/05/rant7-contextcompat-examples-19.png">
+      <img alt="Example code solutions, API 19" src="/assets/images/posts/2016/08/05/rant7-contextcompat-examples-19-resized.png"/>
+    </a>
+  </div>
+  <div style="float:left;">
+    <a href="/assets/images/posts/2016/08/05/rant7-contextcompat-examples-23.png">
+      <img alt="Example code solutions, API 23" src="/assets/images/posts/2016/08/05/rant7-contextcompat-examples-23-resized.png"/>
+    </a>
+  </div>
+</div>
 
 Note that there isn't anything special about the weird pink color in the two
 screenshots. That's just the "undefined behavior" that results when you try to
 resolve a theme attribute without a corresponding `Theme`. :)
 
+As always, thanks for reading! Feel free to check out 
+[source code for these examples on GitHub](https://github.com/alexjlockwood/adp-contextcompat-getcolor)
+as well!
