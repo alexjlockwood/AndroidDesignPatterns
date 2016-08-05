@@ -1,8 +1,8 @@
 ---
 layout: post
 title: 'Understanding ContextCompat#getColor()'
-date: 2016-08-01
-permalink: /2016/08/context-compat-get-color.html
+date: 2016-08-05
+permalink: /2016/08/understanding-contextcompat-getcolor.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
