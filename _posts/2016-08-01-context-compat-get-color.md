@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Understanding ContextCompat, getDrawable(), & getColor()'
-date: 2015-03-09
+date: 2016-08-01
 permalink: /2016/08/context-compat-get-color.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
