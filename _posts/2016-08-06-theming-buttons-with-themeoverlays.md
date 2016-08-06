@@ -3,9 +3,9 @@ layout: post
 title: 'Theming Buttons with ThemeOverlays'
 date: 2016-08-06
 permalink: /2016/08/theming-buttons-with-themeoverlays.html
-related: ['/2012/08/implementing-loaders.html',
-    '/2013/08/fragment-transaction-commit-state-loss.html',
-    '/2012/06/app-force-close-honeycomb-ics.html']
+related: ['/2013/08/fragment-transaction-commit-state-loss.html',
+    '/2013/04/retaining-objects-across-config-changes.html',
+    '/2012/07/loaders-and-loadermanager-background.html']
 ---
 
 <!--morestart-->
@@ -22,11 +22,11 @@ themes vs. dark themes. How are these requirements met under-the-hood?
 
 ### Understanding `R.attr.colorButtonNormal`
 
-So you probably know that AppCompat injects its own widgets in place of many framework
+You probably know that AppCompat injects its own widgets in place of many framework
 widgets, giving AppCompat greater control over tinting widgets according to the material design
 spec even on pre-Lollipop devices. At runtime, `Button`s will become [`AppCompatButton`][AppCompatButton]s,
-so with that in mind let's do a bit of source code digging to determine how the button's background color
-is actually chosen:
+so with that in mind let's do a bit of source code digging to figure out how the button's background color
+is actually determined:
 
 1.  The default style applied to `AppCompatButton`s is the style pointed to by
     the [`R.attr.buttonStyle`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/widget/AppCompatButton.java#L60)
@@ -43,9 +43,9 @@ is actually chosen:
     as the view's default background drawable.
 
 6.  Now, let's take a look at AppCompat's internal [`TintManager`][TintManager] class,
-    which contains most of the logic that determines how most of these widgets are tinted at runtime.
-    According to the source code, `AppCompatButton` backgrounds are tinted using one of two
-    predefined default `ColorStateList`s, which you can see by analyzing the
+    which contains most of the logic that determines how these widgets are tinted at runtime.
+    `AppCompatButton` backgrounds are tinted using one of two
+    predefined default `ColorStateList`s, which we can see by analyzing the
     source code [here](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java#L296-L299):<sup><a href="#footnote1" id="ref1">1</a></sup>
 
     ```java
@@ -118,16 +118,13 @@ understand from the code above can be summed up with the following:
 > by theme attribute `R.attr.colorAccent`.
 
 Got all that? Good! Because unfortunately there isn't a great deal of documentation
-on this at the moment<sup><a href="#footnote2" id="ref2">2</a></sup>...
-so don't forget! (No, but seriously... don't forget).
-
-In any case, hopefully this in-depth source code digging demonstration was at least
-somewhat useful... now let's get back to the issue we started out trying to solve
-in the first place. :)
+on this at the moment<sup><a href="#footnote2" id="ref2">2</a></sup>... so don't forget!
+In any case, hopefully this in-depth source code digging demonstration has been useful...
+now let's get back to the issue we started out trying to solve in the first place. :)
 
 ### Understanding `ThemeOverlay`s
 
-So now we know that button backgrounds are themed using the color resource
+So now we know that button backgrounds are tinted using the color resource
 pointed to by the `R.attr.colorButtonNormal` theme attribute. One way we could
 update the value specified by this theme attribute is by modifying the
 application's theme directly. This is rarely desired however, since most of the
@@ -137,7 +134,7 @@ background color of *all buttons in the entire application*.
 
 Instead, a much better solution is to assign the button its own custom theme in
 XML using `android:theme`. Let's say we want to change the button's background
-color to Google Red 500 and its text color to white instead of 87% black. To
+color to Google Red 500 and its text color to 100% white instead of 87% black. To
 achieve this, we can define the following theme:
 
 ```xml
@@ -158,7 +155,7 @@ and set it on the button in the layout XML:
     android:theme="@style/LightCustomRedButtonTheme"/>
 ```
 
-And that's it, you're done!
+And that's it, you're done!<sup><a href="#footnote3" id="ref3">3</a></sup>
 
 You're probably still wondering what's up with that weird
 `ThemeOverlay` though. Unlike the themes we use in our `AndroidManifest.xml`
@@ -170,15 +167,14 @@ As a result, they are very useful in cases where you only want to modify one or
 two properties of a particular view: just extend the `ThemeOverlay`, update the
 attributes you want to modify with their new values, and you can be sure that
 your view will still inherit all of the correct light/dark themed values that
-would have otherwise been used by default.
+would have otherwise been used by default. If you want to read more about
+`ThemeOverlay`s, check out [this Medium post][ThemeOverlayBlogPost] and this
+[Google+ pro tip][ThemeOverlayProTip] by [Ian Lake](http://google.com/+IanLake)!
 
 ### Pop quiz!
 
-Hopefully things are a bit clearer now than they used to be (styles/themes are
-hard... and it's a lot to take in). I'll give an extra example just in case.
-
-Let's say you are writing a sample app that uses the following theme in the
-`AndroidManifest.xml`:
+Let's test our knowledge of how this all works with a simple example.
+Consider a sample app that sets the following theme in its `AndroidManifest.xml`:
 
 ```xml
 <!-- res/values/themes.xml -->
@@ -269,21 +265,30 @@ enabled and disabled states:
 </div>
 
 <div style="display: inline-block;">
+<p>
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful! And check out the 
 <a href="https://github.com/alexjlockwood/adp-theming-buttons-with-themeoverlays">source code for these examples on GitHub</a> as well!
+</p>
 </div>
 
 <hr class="footnote-divider"/>
-<sup id="footnote1">1</sup> Note that `R.drawable.abc_btn_borderless_material` and `R.drawable.abc_btn_colored_material`
-are the background drawable resources that are used when you apply the 
+<sup id="footnote1">1</sup> In case you were wondering, `R.drawable.abc_btn_borderless_material` and `R.drawable.abc_btn_colored_material`
+are the background drawable resources that AppCompat uses when you apply the 
 [`@style/Widget.AppCompat.Button.Colored`][Base.Widget.AppCompat.Button.Colored] and [`@style/Widget.AppCompat.Button.Borderless`][Base.Widget.AppCompat.Button.Borderless]
 styles to your `AppCompatButton` respectively. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
 <sup id="footnote2">2</sup> If you have any links/blogs/documentation on AppCompat in mind that you've found useful in the past,
 please feel free to leave a link in the comments below! I'd love to check it out. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
+<sup id="footnote3">3</sup> An alternative (and arguably more correct) way to theme this button
+would be to set [`@style/TextAppearance.AppCompat.Widget.Button.Inverse`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base_text.xml#L101-L103)
+as the style's `android:textAppearance` value instead. For simplicity, I decided to just alter the text color directly. :)<a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
+
   [AppCompatButton]: https://developer.android.com/reference/android/support/v7/widget/AppCompatButton.html
   [TintManager]: (https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java)
   [Base.Widget.AppCompat.Button.Colored]: https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L417
   [Base.Widget.AppCompat.Button.Borderless]: https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L423
+
+  [ThemeOverlayBlogPost]: https://medium.com/google-developers/theming-with-appcompat-1a292b754b35#.ebo3ua3bu
+  [ThemeOverlayProTip]: https://plus.google.com/+AndroidDevelopers/posts/JXHKyhsWHAH
 

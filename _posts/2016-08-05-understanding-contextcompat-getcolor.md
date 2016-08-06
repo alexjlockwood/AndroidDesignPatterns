@@ -294,12 +294,15 @@ Here is a screenshot of what the buttons look like on API 19 vs. API 23 devices:
 </div>
 
 <div style="display: inline-block;">
+<p>
 Note that there isn't anything special about the weird pink color in the two
 screenshots. That's just the "undefined behavior" that results when you try to
 resolve a theme attribute without a corresponding <code>Theme</code>. :)
-</div>
+</p>
 
+<p>
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to 
 +1 and/or share this blog post if you found it helpful! And check out the 
-[source code for these examples on GitHub](https://github.com/alexjlockwood/adp-contextcompat-getcolor)
-as well!
+<a href="https://github.com/alexjlockwood/adp-contextcompat-getcolor">source code for these examples on GitHub</a> as well!
+</p>
+</div>
