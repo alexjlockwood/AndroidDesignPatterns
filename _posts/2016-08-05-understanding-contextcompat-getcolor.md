@@ -109,8 +109,7 @@ which introduced two new methods for extracting `ColorStateList`s from XML:
     the passed in `Theme` argument.
 
 Additional convenience methods were also added to `Context` and to the support
-libraries `ContextCompat` classes as well, each operating on the `Theme` associated
-with the calling `Context` instead:
+library's `ResourcesCompat` and `ContextCompat` classes as well:
 
 *   [`Context#getColor(int)`](http://developer.android.com/reference/android/content/Context.html#getColor\(int\))
 
@@ -120,10 +119,14 @@ with the calling `Context` instead:
 
 *   [`ContextCompat#getColorStateList(Context, int)`](https://developer.android.com/reference/android/support/v4/content/ContextCompat.html#getColor\(android.content.Context, int\))
 
+*   [`ResourcesCompat#getColor(Resources, int, Theme)`](https://developer.android.com/reference/android/support/v4/content/res/ResourcesCompat.html#getColor\(android.content.res.Resources, int, android.content.res.Resources.Theme\))
+
+*   [`ResourcesCompat#getColorStateList(Resources, int, Theme)`](https://developer.android.com/reference/android/support/v4/content/res/ResourcesCompat.html#getColorStateList\(android.content.res.Resources, int, android.content.res.Resources.Theme\))
+
 #### "How can I workaround these problems?"
 
 Apps that support a `minSdkVersion` less than API 23 should prefer to use the
-static `ContextCompat` helper methods in the support library, as Android lint
+static `ContextCompat` and `ResourcesCompat` helper methods in the support library, as Android lint
 suggests. However, note that no matter which methods you use, attempting to
 resolve theme attributes in a `ColorStateList` XML file **WILL NEVER WORK on
 pre-Marshmallow devices**!
@@ -191,14 +194,14 @@ And assume you're writing an app that declares the following themes:
 
 ```xml
 <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-    <item name="colorPrimary">@color/quantum_vanillared500</item>
-    <item name="colorPrimaryDark">@color/quantum_vanillared700</item>
-    <item name="colorAccent">@color/quantum_googgreen500</item>
+    <item name="colorPrimary">@color/vanillared500</item>
+    <item name="colorPrimaryDark">@color/vanillared700</item>
+    <item name="colorAccent">@color/googgreen500</item>
 </style>
 
 <style name="CustomButtonTheme" parent="ThemeOverlay.AppCompat.Light">
-    <item name="colorPrimary">@color/quantum_brown500</item>
-    <item name="colorAccent">@color/quantum_yellow900</item>
+    <item name="colorPrimary">@color/brown500</item>
+    <item name="colorAccent">@color/yellow900</item>
 </style>
 ```
 
@@ -277,7 +280,7 @@ button8.setTextColor(textCslJavaWithCustomTheme);
 
 Here is a screenshot of what the buttons look like on API 19 vs. API 23 devices:
 
-<div>
+<div style="display: block;">
   <div style="float:left; margin-right:16px;">
     <a href="/assets/images/posts/2016/08/05/rant7-contextcompat-examples-19.png">
       <img alt="Example code solutions, API 19" src="/assets/images/posts/2016/08/05/rant7-contextcompat-examples-19-resized.png"/>
@@ -290,9 +293,11 @@ Here is a screenshot of what the buttons look like on API 19 vs. API 23 devices:
   </div>
 </div>
 
+<div style="display: inline-block;">
 Note that there isn't anything special about the weird pink color in the two
 screenshots. That's just the "undefined behavior" that results when you try to
-resolve a theme attribute without a corresponding `Theme`. :)
+resolve a theme attribute without a corresponding <code>Theme</code>. :)
+</div>
 
 As always, thanks for reading! Feel free to check out 
 [source code for these examples on GitHub](https://github.com/alexjlockwood/adp-contextcompat-getcolor)
