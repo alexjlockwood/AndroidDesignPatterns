@@ -166,7 +166,7 @@ while still maintaining backwards compatibility with older platform versions:
     android:height="24dp"
     android:viewportWidth="24.0"
     android:viewportHeight="24.0"
-    ndroid:tint="?attr/colorControlNormal">
+    android:tint="?attr/colorControlNormal">
 
     <path
         android:pathData="..."
