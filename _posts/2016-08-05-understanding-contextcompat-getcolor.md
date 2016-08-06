@@ -2,7 +2,7 @@
 layout: post
 title: 'Understanding ContextCompat#getColor()'
 date: 2016-08-05
-permalink: /2016/08/understanding-contextcompat-getcolor.html
+permalink: /2016/08/contextcompat-getcolor-getdrawable.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
@@ -10,13 +10,13 @@ related: ['/2012/08/implementing-loaders.html',
 
 <!--morestart-->
 
-You've probably noticed at some point that when you write something like:
+You've probably noticed that when you write something like:
 
 ```java
 resources.getColor(R.color.some_color_resource_id);
 ```
 
-Android Studio will give you a lint message warning that the
+Android Studio will give you a lint message warning you that the
 `Resources#getColor(int)` method was deprecated in Marshmallow in favor of the
 new, `Theme`-aware `Resources#getColor(int, Theme)` method. You also
 probably know by now that the easy alternative to avoiding this lint warning
@@ -77,7 +77,7 @@ Now let's say you want to obtain an instance of this `ColorStateList` programati
 ColorStateList csl = resources.getColorStateList(R.color.button_text_csl);
 ```
 
-**Surprise! The result of the above call will be undefined!**
+**Surprisingly, the result of the above call is undefined!**
 You'll see a stack trace in your logcat output similar to the one below:
 
 ```
@@ -91,7 +91,7 @@ W/Resources: ColorStateList color/button_text_csl has unresolved theme attribute
 #### "What went wrong?"
 
 The problem is that `Resources` objects are not intrinsically linked to a specific
-`Theme` in your app, and therefore don't know how to resolve the values pointed to by
+`Theme` in your app, and as a result, they will be unable to resolve the values pointed to by
 theme attributes such as `R.attr.colorAccent` and `R.attr.colorPrimary` on their own. In fact,
 specifying theme attributes in any `ColorStateList` XML files **was not possible until API 23*,
 which introduced two new methods for extracting `ColorStateList`s from XML:
@@ -152,7 +152,9 @@ Of course, aren't there always? :)
 It turns out the `VectorDrawableCompat` support library was able to workaround
 these issues and is actually smart enough to resolve the theme
 attributes it detects in XML *across all platform versions*. For example,
-if you want to tint your `VectorDrawableCompat`, just use:
+if you want to color your `VectorDrawableCompat` the standard shade of grey,
+you can reliably tint the drawable with `?attr/colorControlNormal`
+while still maintaining backwards compatibility with older platform versions:
 
 ```xml
 <vector 
