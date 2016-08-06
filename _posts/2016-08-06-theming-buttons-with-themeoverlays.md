@@ -39,7 +39,7 @@ is actually determined:
 4.  ...which extends [`@style/Base.Widget.AppCompat.Button`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L399).
 
 5.  ...which uses
-    [`@drawable/abc_btn_default_mtrl_shape`]((https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L400))
+    [`@drawable/abc_btn_default_mtrl_shape`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L400)
     as the view's default background drawable.
 
 6.  Now, let's take a look at AppCompat's internal [`TintManager`][TintManager] class,
@@ -285,7 +285,7 @@ would be to set [`@style/TextAppearance.AppCompat.Widget.Button.Inverse`](https:
 as the style's `android:textAppearance` value instead. For simplicity, I decided to just alter the text color directly. :)<a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
 
   [AppCompatButton]: https://developer.android.com/reference/android/support/v7/widget/AppCompatButton.html
-  [TintManager]: (https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java)
+  [TintManager]: https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java
   [Base.Widget.AppCompat.Button.Colored]: https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L417
   [Base.Widget.AppCompat.Button.Borderless]: https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L423
 
