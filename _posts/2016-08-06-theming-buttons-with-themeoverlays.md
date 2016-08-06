@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Theming Buttons with ThemeOverlays'
-date: 2016-08-01
+date: 2016-08-06
 permalink: /2016/08/theming-buttons-with-themeoverlays.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
@@ -22,20 +22,21 @@ themes vs. dark themes. How are these set under-the-hood?
 ### Understanding `R.attr.colorButtonNormal`
 
 1.  The default style applied to `AppCompatButton`s is the style pointed to by
-    the `R.attr.buttonStyle` theme attribute ([link](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/widget/AppCompatButton.java#L60)).
+    the [`R.attr.buttonStyle` theme attribute](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/widget/AppCompatButton.java#L60)).
 
 2.  ...which is declared [here](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/themes_base.xml#L234).
 
-3.  ...which points to `@style/Widget.AppCompat.Button` ([link](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles.xml#L205)).
+3.  ...which points to [`@style/Widget.AppCompat.Button`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles.xml#L205)).
 
-4.  ...which extends `@style/Base.Widget.AppCompat.Button` ([link](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L399)).
+4.  ...which extends [`@style/Base.Widget.AppCompat.Button`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L399)).
 
-5.  ...which uses `@drawable/abc_btn_default_mtrl_shape` as the button's default
-    background drawable ([link](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L400)).
+5.  ...which uses
+    [`@drawable/abc_btn_default_mtrl_shape`]((https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L400))
+    as the button's default background drawable. The drawable XML itself is declared [here](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/drawable/abc_btn_default_mtrl_shape.xml).
 
-6.  At runtime, `AppCompatButton` backgrounds are tinted using one of two
+6.  Now, at runtime `AppCompatButton` backgrounds are tinted using one of two
     predefined default `ColorStateList`s, which you can see by analyzing the
-    source code [here](https://github.com/android/platform_frameworks_support/blob/62eb3105e51335cf9074a5506d8d2b220aeb95dc/v7/appcompat/src/android/support/v7/widget/AppCompatDrawableManager.java#L311):
+    source code [here](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java#L296-L299):
 
     ```java
     ...
@@ -47,7 +48,7 @@ themes vs. dark themes. How are these set under-the-hood?
     ...
     ```
 
-    and [here](https://github.com/android/platform_frameworks_support/blob/62eb3105e51335cf9074a5506d8d2b220aeb95dc/v7/appcompat/src/android/support/v7/widget/AppCompatDrawableManager.java#L513-L548):
+    and [here](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java#L486-L521):
 
     ````java
      private ColorStateList createDefaultButtonColorStateList(Context context) {
