@@ -13,7 +13,7 @@ related: ['/2012/08/implementing-loaders.html',
 You've probably noticed that when you write something like:
 
 ```java
-resources.getColor(R.color.some_color_resource_id);
+context.getResources().getColor(R.color.some_color_resource_id);
 ```
 
 Android Studio will give you a lint message warning you that the
@@ -77,7 +77,7 @@ Now let's say you want to obtain an instance of this `ColorStateList` programati
 ColorStateList csl = resources.getColorStateList(R.color.button_text_csl);
 ```
 
-**Surprisingly, the result of the above call is undefined!**
+Perhaps surprisingly, **the result of the above call is undefined!**
 You'll see a stack trace in your logcat output similar to the one below:
 
 ```
