@@ -299,6 +299,7 @@ screenshots. That's just the "undefined behavior" that results when you try to
 resolve a theme attribute without a corresponding <code>Theme</code>. :)
 </div>
 
-As always, thanks for reading! Feel free to check out 
+As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to 
++1 and/or share this blog post if you found it helpful! And check out the 
 [source code for these examples on GitHub](https://github.com/alexjlockwood/adp-contextcompat-getcolor)
 as well!
