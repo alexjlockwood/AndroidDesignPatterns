@@ -126,7 +126,7 @@ library's `ResourcesCompat` and `ContextCompat` classes as well:
 #### "How can I workaround these problems?"
 
 Apps that support a `minSdkVersion` less than API 23 should prefer to use the
-static `ContextCompat` helper methods in the support library, as Android lint
+static `ContextCompat` and `ResourcesCompat` helper methods in the support library, as Android lint
 suggests. However, note that no matter which methods you use, attempting to
 resolve theme attributes in a `ColorStateList` XML file **WILL NEVER WORK on
 pre-Marshmallow devices**!
