@@ -150,7 +150,7 @@ programatically instead.
 
 #### "I don't believe you! Are there really no exceptions?"
 
-Of course, aren't there always? :)
+Of course there is an exception, isn't there always? :)
 
 It turns out the `VectorDrawableCompat` support library was able to workaround
 these issues and is actually smart enough to resolve the theme
