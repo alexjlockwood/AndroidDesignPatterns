@@ -109,8 +109,7 @@ which introduced two new methods for extracting `ColorStateList`s from XML:
     the passed in `Theme` argument.
 
 Additional convenience methods were also added to `Context` and to the support
-libraries `ContextCompat` classes as well, each operating on the `Theme` associated
-with the calling `Context` instead:
+library's `ResourcesCompat` and `ContextCompat` classes as well:
 
 *   [`Context#getColor(int)`](http://developer.android.com/reference/android/content/Context.html#getColor\(int\))
 
@@ -120,10 +119,14 @@ with the calling `Context` instead:
 
 *   [`ContextCompat#getColorStateList(Context, int)`](https://developer.android.com/reference/android/support/v4/content/ContextCompat.html#getColor\(android.content.Context, int\))
 
+*   [`ResourcesCompat#getColor(Resources, int, Theme)`](https://developer.android.com/reference/android/support/v4/content/res/ResourcesCompat.html#getColor\(android.content.res.Resources, int, android.content.res.Resources.Theme\))
+
+*   [`ResourcesCompat#getColorStateList(Resources, int, Theme)`](https://developer.android.com/reference/android/support/v4/content/res/ResourcesCompat.html#getColorStateList\(android.content.res.Resources, int, android.content.res.Resources.Theme\))
+
 #### "How can I workaround these problems?"
 
 Apps that support a `minSdkVersion` less than API 23 should prefer to use the
-static `ContextCompat` helper methods in the support library, as Android lint
+static `ContextCompat` and `ResourcesCompat` helper methods in the support library, as Android lint
 suggests. However, note that no matter which methods you use, attempting to
 resolve theme attributes in a `ColorStateList` XML file **WILL NEVER WORK on
 pre-Marshmallow devices**!
