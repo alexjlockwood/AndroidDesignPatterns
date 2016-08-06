@@ -29,7 +29,8 @@ so with that in mind let's do a bit of source code digging to determine how the 
 is actually chosen:
 
 1.  The default style applied to `AppCompatButton`s is the style pointed to by
-    the [`R.attr.buttonStyle` theme attribute](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/widget/AppCompatButton.java#L60).
+    the [`R.attr.buttonStyle`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/widget/AppCompatButton.java#L60)
+    theme attribute.
 
 2.  ...which is declared in [`Base.V7.Theme.AppCompat`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/themes_base.xml#L234).
 
@@ -45,7 +46,7 @@ is actually chosen:
     which contains most of the logic that determines how most of these widgets are tinted at runtime.
     According to the source code, `AppCompatButton` backgrounds are tinted using one of two
     predefined default `ColorStateList`s, which you can see by analyzing the
-    source code [here](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java#L296-L299)<a href="#ref1" title="Jump to footnote 1.">&#8617;</a>:
+    source code [here](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java#L296-L299):<sup><a href="#footnote1" id="ref1">1</a></sup>
 
     ```java
     ...
@@ -61,43 +62,43 @@ is actually chosen:
     and [here](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java#L486-L521):
 
     ```java
-     private ColorStateList createDefaultButtonColorStateList(Context context) {
-         return createButtonColorStateList(context, R.attr.colorButtonNormal);
-     }
+    private ColorStateList createDefaultButtonColorStateList(Context context) {
+        return createButtonColorStateList(context, R.attr.colorButtonNormal);
+    }
 
-     private ColorStateList createColoredButtonColorStateList(Context context) {
-         return createButtonColorStateList(context, R.attr.colorAccent);
-     }
+    private ColorStateList createColoredButtonColorStateList(Context context) {
+        return createButtonColorStateList(context, R.attr.colorAccent);
+    }
 
-     private ColorStateList createButtonColorStateList(Context context, int baseColorAttr) {
-         final int[][] states = new int[4][];
-         final int[] colors = new int[4];
-         int i = 0;
+    private ColorStateList createButtonColorStateList(Context context, int baseColorAttr) {
+        final int[][] states = new int[4][];
+        final int[] colors = new int[4];
+        int i = 0;
 
-         final int baseColor = getThemeAttrColor(context, baseColorAttr);
-         final int colorControlHighlight = getThemeAttrColor(context, R.attr.colorControlHighlight);
+        final int baseColor = getThemeAttrColor(context, baseColorAttr);
+        final int colorControlHighlight = getThemeAttrColor(context, R.attr.colorControlHighlight);
 
-         // Disabled state
-         states[i] = ThemeUtils.DISABLED_STATE_SET;
-         colors[i] = getDisabledThemeAttrColor(context, R.attr.colorButtonNormal);
-         i++;
+        // Disabled state
+        states[i] = ThemeUtils.DISABLED_STATE_SET;
+        colors[i] = getDisabledThemeAttrColor(context, R.attr.colorButtonNormal);
+        i++;
 
-         states[i] = ThemeUtils.PRESSED_STATE_SET;
-         colors[i] = ColorUtils.compositeColors(colorControlHighlight, baseColor);
-         i++;
+        states[i] = ThemeUtils.PRESSED_STATE_SET;
+        colors[i] = ColorUtils.compositeColors(colorControlHighlight, baseColor);
+        i++;
 
-         states[i] = ThemeUtils.FOCUSED_STATE_SET;
-         colors[i] = ColorUtils.compositeColors(colorControlHighlight, baseColor);
-         i++;
+        states[i] = ThemeUtils.FOCUSED_STATE_SET;
+        colors[i] = ColorUtils.compositeColors(colorControlHighlight, baseColor);
+        i++;
 
-         // Default enabled state
-         states[i] = ThemeUtils.EMPTY_STATE_SET;
-         colors[i] = baseColor;
-         i++;
+        // Default enabled state
+        states[i] = ThemeUtils.EMPTY_STATE_SET;
+        colors[i] = baseColor;
+        i++;
 
-         return new ColorStateList(states, colors);
-     }
-     ```
+        return new ColorStateList(states, colors);
+    }
+    ```
 
 That's a lot of information to take in! To summarize, the important thing to 
 understand from the code above can be summed up with the following:
@@ -117,8 +118,12 @@ understand from the code above can be summed up with the following:
 > by theme attribute `R.attr.colorAccent`.
 
 Got all that? Good! Because unfortunately there isn't a great deal of documentation
-on this at the moment<a href="#ref2" title="Jump to footnote 2.">&#8617;</a>...
+on this at the moment<sup><a href="#footnote2" id="ref2">2</a></sup>...
 so don't forget! (No, but seriously... don't forget).
+
+In any case, hopefully this in-depth source code digging demonstration was at least
+somewhat useful... now let's get back to the issue we started out trying to solve
+in the first place. :)
 
 ### Understanding `ThemeOverlay`s
 
@@ -265,7 +270,7 @@ enabled and disabled states:
 
 <div style="display: inline-block;">
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to +1 and/or share this blog post if you found it helpful! And check out the 
-<a href="">source code for these examples on GitHub</a> as well!
+<a href="https://github.com/alexjlockwood/adp-theming-buttons-with-themeoverlays">source code for these examples on GitHub</a> as well!
 </div>
 
 <hr class="footnote-divider"/>
