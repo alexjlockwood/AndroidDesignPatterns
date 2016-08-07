@@ -3,7 +3,7 @@ layout: post
 title: 'Colors, Drawables, & Theme Attributes'
 date: 2016-08-07
 permalink: /2016/08/contextcompat-getcolor-getdrawable.html
-related: ['/2012/08/implementing-loaders.html',
+related: ['/2014/12/activity-fragment-transitions-in-android-lollipop-part1.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
 ---
