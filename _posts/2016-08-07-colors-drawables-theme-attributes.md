@@ -57,7 +57,10 @@ First, let's be clear on what these old, deprecated methods actually do:
 #### "When will these two methods break my code?"
 
 To understand why these methods were deprecated in the first place, consider the 
-`ColorStateList` declared in XML below:
+`ColorStateList` declared in XML below. When this `ColorStateList` is applied to a
+`TextView`, its disabled and enabled text colors should take on the colors pointed to by the
+`R.attr.colorAccent` and `R.attr.colorPrimary` theme attributes respectively:
+
 
 ```xml
 <!-- res/colors/button_text_csl.xml -->
@@ -66,10 +69,6 @@ To understand why these methods were deprecated in the first place, consider the
     <item android:color="?attr/colorPrimary"/>
 </selector>
 ```
-
-When this `ColorStateList` is applied to a `TextView`, its
-disabled and enabled text colors should take on the colors pointed to by the
-`R.attr.colorAccent` and `R.attr.colorPrimary` theme attributes respectively.
 
 Now let's say you want to obtain an instance of this `ColorStateList` programatically:
 
