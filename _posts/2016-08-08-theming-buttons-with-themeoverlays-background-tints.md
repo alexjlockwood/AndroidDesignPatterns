@@ -26,7 +26,7 @@ Before we get too far ahead of ourselves, we should first understand how the
 background color of a button is actually
 determined. The [material design spec](https://material.google.com/components/buttons.html)
 has very specific requirements about what a button should look like in light
-themes vs. dark themes. How are these requirements met under-the-hood?
+and dark themes. How are these requirements met under-the-hood?
 
 #### Understanding `R.attr.colorButtonNormal`
 
