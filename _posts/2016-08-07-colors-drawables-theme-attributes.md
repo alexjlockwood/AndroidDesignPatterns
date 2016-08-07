@@ -46,12 +46,12 @@ offer that didn't exist before?
 
 First, let's be clear on what these old, deprecated methods actually do:
 
-*   [`Resources#getColor(int)`](http://developer.android.com/reference/android/content/res/Resources.html#getColorStateList\(int\))
+*   [`Resources#getColor(int)`][Resources#getColor(int)]
     returns the color associated with the passed in color resource ID. If the resource
     ID points to a `ColorStateList`, the method will return the `ColorStateList`'s
-    [default color](http://developer.android.com/reference/android/content/res/ColorStateList.html#getDefaultColor\(\)).
+    [default color].
 
-*   [`Resources#getColorStateList(int)`](http://developer.android.com/reference/android/content/res/Resources.html#getColor\(int\))
+*   [`Resources#getColorStateList(int)`][Resources#getColorStateList(int)]
     returns the `ColorStateList` associated with the passed in resource ID.
 
 #### "When will these two methods break my code?"
@@ -74,7 +74,7 @@ disabled and enabled text colors should take on the colors pointed to by the
 Now let's say you want to obtain an instance of this `ColorStateList` programatically:
 
 ```java
-ColorStateList csl = resources.getColorStateList(R.color.button_text_csl);
+ColorStateList csl = context.getResources().getColorStateList(R.color.button_text_csl);
 ```
 
 Perhaps surprisingly, **the result of the above call is undefined!**
@@ -93,40 +93,28 @@ W/Resources: ColorStateList color/button_text_csl has unresolved theme attribute
 The problem is that `Resources` objects are not intrinsically linked to a specific
 `Theme` in your app, and as a result, they will be unable to resolve the values pointed to by
 theme attributes such as `R.attr.colorAccent` and `R.attr.colorPrimary` on their own. In fact,
-specifying theme attributes in any `ColorStateList` XML files *was not possible until API 23*,
+specifying theme attributes in `ColorStateList` XML files *was not supported until API 23*,
 which introduced two new methods for extracting `ColorStateList`s from XML:
 
-*   [`Resources#getColor(int, Theme)`](https://developer.android.com/reference/android/content/res/Resources.html#getColor\(int, android.content.res.Resources.Theme\))
+*   [`Resources#getColor(int, Theme)`][Resources#getColor(int, Theme)]
     returns the color associated with the passed in resource ID. If the resource
     ID points to a `ColorStateList`, the method will return the `ColorStateList`'s
-    [default color](http://developer.android.com/reference/android/content/res/ColorStateList.html#getDefaultColor\(\)).
+    [default color][ColorStateList#getDefaultColor()].
     Any theme attributes specified in the `ColorStateList` will be
     resolved using the passed in `Theme` argument.
 
-*   [`Resources#getColorStateList(int, Theme)`](https://developer.android.com/reference/android/content/res/Resources.html#getColorStateList\(int, android.content.res.Resources.Theme\))
+*   [`Resources#getColorStateList(int, Theme)`][Resources#getColorStateList(int, Theme)]
     returns the `ColorStateList` associated with the passed in resource ID. Any
     theme attributes specified in the `ColorStateList` will be resolved using
     the passed in `Theme` argument.
 
-Additional convenience methods were also added to `Context` and to the support
-library's `ResourcesCompat` and `ContextCompat` classes as well:
+Additional convenience methods were also added to [`Context`][Context] and to the support
+library's [`ResourcesCompat`][ResourcesCompat] and [`ContextCompat`][ContextCompat] classes as well.
 
-*   [`Context#getColor(int)`](http://developer.android.com/reference/android/content/Context.html#getColor\(int\))
-
-*   [`Context#getColorStateList(int)`](http://developer.android.com/reference/android/content/Context.html#getColorStateList\(int\))
-
-*   [`ContextCompat#getColor(Context, int)`](https://developer.android.com/reference/android/support/v4/content/ContextCompat.html#getColor\(android.content.Context, int\))
-
-*   [`ContextCompat#getColorStateList(Context, int)`](https://developer.android.com/reference/android/support/v4/content/ContextCompat.html#getColor\(android.content.Context, int\))
-
-*   [`ResourcesCompat#getColor(Resources, int, Theme)`](https://developer.android.com/reference/android/support/v4/content/res/ResourcesCompat.html#getColor\(android.content.res.Resources, int, android.content.res.Resources.Theme\))
-
-*   [`ResourcesCompat#getColorStateList(Resources, int, Theme)`](https://developer.android.com/reference/android/support/v4/content/res/ResourcesCompat.html#getColorStateList\(android.content.res.Resources, int, android.content.res.Resources.Theme\))
-
-#### "How can I workaround these problems?"
+#### "That stinks! How can I workaround these problems?"
 
 **EDIT:** As of v24.0 of the AppCompat support library, you can now workaround all of these
-problems using the new [`AppCompatResources`](https://developer.android.com/reference/android/support/v7/content/res/AppCompatResources.html)
+problems using the new [`AppCompatResources`][AppCompatResources]
 class! To extract a themed `ColorStateList` from XML, just use:
 
 ```java
@@ -137,7 +125,7 @@ On API 23+, AppCompat will delegate the call to the corresponding framework meth
 and on earlier platforms it will manually parse the XML itself, resolving any
 theme attributes it encounters along the way. If that isn't enough, it also
 backports the `ColorStateList`'s new
-[`android:alpha`](https://developer.android.com/reference/android/content/res/ColorStateList.html#attr_android:alpha)
+[`android:alpha`][ColorStateList#attr_android:alpha]
 attribute as well (which was previously only available to devices running API 23 and above)!
 
 ~~Apps that support a `minSdkVersion` less than API 23 should prefer to use the
@@ -154,7 +142,7 @@ instead. Check out the sample code below for some examples!~~
 
 ### The problem with `Resources#getDrawable(int)`
 
-You guessed it! The recently deprecated `Resources#getDrawable(int)` method shares
+You guessed it! The recently deprecated [`Resources#getDrawable(int)`][Resources#getDrawable(int)] method shares
 pretty much the exact same problem as the `Resources#getColor(int)` and
 `Resources#getColorStateList(int)` methods discussed above.
 As a result, theme attributes in
@@ -167,11 +155,11 @@ programatically instead.
 
 Of course there is an exception, isn't there always? :)
 
-It turns out the [`VectorDrawableCompat`](https://developer.android.com/reference/android/support/graphics/drawable/VectorDrawableCompat.html)
-and [`AnimatedVectorDrawableCompat`](https://developer.android.com/reference/android/support/graphics/drawable/AnimatedVectorDrawableCompat.html)
+It turns out that similar to the `AppCompatResources` class, the [`VectorDrawableCompat`][VectorDrawableCompat]
+and [`AnimatedVectorDrawableCompat`][AnimatedVectorDrawableCompat]
 classes were able to workaround
 these issues and are actually smart enough to resolve the theme
-attributes it detects in XML *across all platform versions*. For example,
+attributes it detects in XML *across all platform versions* as well. For example,
 if you want to color your `VectorDrawableCompat` the standard shade of grey,
 you can reliably tint the drawable with `?attr/colorControlNormal`
 while still maintaining backwards compatibility with older platform versions:
@@ -193,14 +181,15 @@ while still maintaining backwards compatibility with older platform versions:
 
 (If you're curious how this is implemented under-the-hood, the short answer is that
 the support library does their own custom XML parsing and uses the
-[`Theme#obtainStyledAttributes(AttributeSet, int[], int, int)`](https://developer.android.com/reference/android/content/res/Resources.Theme.html#obtainStyledAttributes\(android.util.AttributeSet, int[], int, int\))
+[`Theme#obtainStyledAttributes(AttributeSet, int[], int, int)`][Theme#obtainStyledAttributes()]
 method to resolve the theme attributes it encounters. Pretty cool!)
 
 ### Pop quiz!
 
-Consider the `ColorStateList` declared in `res/color/button_text_csl.xml`:
+Let's test our knowledge with a short example. Consider the following `ColorStateList`:
 
 ```xml
+<!-- res/colors/button_text_csl.xml -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="?attr/colorAccent" android:state_enabled="false"/>
     <item android:color="?attr/colorPrimary"/>
@@ -210,6 +199,7 @@ Consider the `ColorStateList` declared in `res/color/button_text_csl.xml`:
 And assume you're writing an app that declares the following themes:
 
 ```xml
+<!-- res/values/themes.xml -->
 <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
     <item name="colorPrimary">@color/vanillared500</item>
     <item name="colorPrimaryDark">@color/vanillared700</item>
@@ -324,3 +314,19 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
 <a href="https://github.com/alexjlockwood/adp-contextcompat-getcolor">source code for these examples on GitHub</a> as well!
 </p>
 </div>
+
+  [Context]: http://developer.android.com/reference/android/content/Context.html
+  [ContextCompat]: http://developer.android.com/reference/android/support/v4/content/ContextCompat.html
+  [ResourcesCompat]: http://developer.android.com/reference/android/support/v4/content/res/ResourcesCompat.html
+  [ColorStateList#getDefaultColor()]: (http://developer.android.com/reference/android/content/res/ColorStateList.html#getDefaultColor())
+  [Resources#getColor(int)]: http://developer.android.com/reference/android/content/res/Resources.html#getColor(int)
+  [Resources#getColorStateList(int)]: http://developer.android.com/reference/android/content/res/Resources.html#getColorStateList(int)
+  [Resources#getColor(int, Theme)]: http://developer.android.com/reference/android/content/res/Resources.html#getColor(int, android.content.res.Resources.Theme)
+  [Resources#getColorStateList(int, Theme)]: http://developer.android.com/reference/android/content/res/Resources.html#getColorStateList(int, android.content.res.Resources.Theme)
+  [AppCompatResources]: http://developer.android.com/reference/android/support/v7/content/res/AppCompatResources.html
+  [VectorDrawableCompat]: http://developer.android.com/reference/android/support/graphics/drawable/VectorDrawableCompat.html
+  [AnimatedVectorDrawableCompat]: http://developer.android.com/reference/android/support/graphics/drawable/AnimatedVectorDrawableCompat.html
+  [Theme#obtainStyledAttributes()]: http://developer.android.com/reference/android/content/res/Resources.Theme.html#obtainStyledAttributes(android.util.AttributeSet, int[], int, int)
+  [ColorStateList#attr_android:alpha]: http://developer.android.com/reference/android/content/res/ColorStateList.html#attr_android:alpha
+  [Resources#getDrawable(int)]: http://developer.android.com/reference/android/content/res/Resources.html#getDrawable(int)
+
