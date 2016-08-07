@@ -93,7 +93,7 @@ W/Resources: ColorStateList color/button_text_csl has unresolved theme attribute
 The problem is that `Resources` objects are not intrinsically linked to a specific
 `Theme` in your app, and as a result, they will be unable to resolve the values pointed to by
 theme attributes such as `R.attr.colorAccent` and `R.attr.colorPrimary` on their own. In fact,
-specifying theme attributes in any `ColorStateList` XML files **was not possible until API 23*,
+specifying theme attributes in any `ColorStateList` XML files *was not possible until API 23*,
 which introduced two new methods for extracting `ColorStateList`s from XML:
 
 *   [`Resources#getColor(int, Theme)`](https://developer.android.com/reference/android/content/res/Resources.html#getColor\(int, android.content.res.Resources.Theme\))
