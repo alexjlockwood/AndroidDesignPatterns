@@ -163,7 +163,7 @@ and set it on the button in the layout XML:
     android:theme="@style/LightCustomRedButtonTheme"/>
 ```
 
-And that's it, you're done!<sup><a href="#footnote3" id="ref3">3</a></sup>
+And that's it!<sup><a href="#footnote3" id="ref3">3</a></sup>
 
 You're probably still wondering what's up with that weird
 `ThemeOverlay` though. Unlike the themes we use in our `AndroidManifest.xml`
@@ -179,7 +179,7 @@ would have otherwise been used by default. If you want to read more about
 `ThemeOverlay`s, check out [this Medium post][ThemeOverlayBlogPost] and this
 [Google+ pro tip][ThemeOverlayProTip] by [Ian Lake](http://google.com/+IanLake)!
 
-### Understanding AppCompat background tints
+### Approach #2: Setting the `AppCompatButton`'s background tint
 
 ### Pop quiz!
 
@@ -235,6 +235,13 @@ What will the following XML look like in the application?
         android:text="..."
         android:theme="@style/LightCustomRedButtonTheme"/>
 
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:textColor="?android:textColorPrimaryInverse"
+        app:backgroundTint="@color/quantum_googred500"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -253,6 +260,13 @@ What will the following XML look like in the application?
         android:layout_height="wrap_content"
         android:text="..."
         android:theme="@style/DarkCustomRedButtonTheme"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:textColor="?android:textColorPrimary"
+        app:backgroundTint="@color/quantum_googred500"/>
 </LinearLayout>
 ```
 
