@@ -143,7 +143,7 @@ You guessed it! The recently deprecated `Resources#getDrawable(int)` method shar
 pretty much the exact same problem as the `Resources#getColor(int)` and
 `Resources#getColorStateList(int)` methods discussed above.
 As a result, theme attributes in
-drawable XML files will not resolve properly prior to API 21, so if you
+drawable XML files will not resolve properly prior to API 21, so if
 your app supports pre-Lollipop devices, either avoid theme attributes entirely
 or resolve them in your Java code and construct the `Drawable`
 programatically instead.
