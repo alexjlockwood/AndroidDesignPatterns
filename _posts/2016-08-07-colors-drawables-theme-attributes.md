@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Styling Colors & Drawables using Theme Attributes'
+title: 'Styling Colors & Drawables w/ Theme Attributes'
 date: 2016-08-07
 permalink: /2016/08/contextcompat-getcolor-getdrawable.html
 related: ['/2012/08/implementing-loaders.html',
