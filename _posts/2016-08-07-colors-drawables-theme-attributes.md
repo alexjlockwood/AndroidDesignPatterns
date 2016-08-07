@@ -266,7 +266,8 @@ ColorStateList deprecatedTextCsl = res.getColorStateList(R.color.button_text_csl
 button2.setTextColor(deprecatedTextCsl);
 
 // (3)
-int textColorXml = AppCompatResources.getColorStateList(ctx, R.color.button_text_csl);
+int textColorXml = 
+    AppCompatResources.getColorStateList(ctx, R.color.button_text_csl).getDefaultColor();
 button3.setTextColor(textColorXml);
 
 // (4)
