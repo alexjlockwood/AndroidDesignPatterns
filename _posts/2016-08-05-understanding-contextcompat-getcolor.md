@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Understanding ContextCompat#getColor()'
+title: 'Colors, Drawables, & Theme Attributes'
 date: 2016-08-05
 permalink: /2016/08/contextcompat-getcolor-getdrawable.html
 related: ['/2012/08/implementing-loaders.html',
