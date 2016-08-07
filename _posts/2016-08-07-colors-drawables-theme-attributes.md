@@ -282,13 +282,13 @@ Here is a screenshot of what the buttons look like on API 19 vs. API 23 devices:
 
 <div style="display: block;">
   <div style="float:left; margin-right:16px;">
-    <a href="/assets/images/posts/2016/08/05/rant7-contextcompat-examples-19.png">
-      <img alt="Example code solutions, API 19" src="/assets/images/posts/2016/08/05/rant7-contextcompat-examples-19-resized.png"/>
+    <a href="/assets/images/posts/2016/08/07/rant7-contextcompat-examples-19.png">
+      <img alt="Example code solutions, API 19" src="/assets/images/posts/2016/08/07/rant7-contextcompat-examples-19-resized.png"/>
     </a>
   </div>
   <div style="float:left;">
-    <a href="/assets/images/posts/2016/08/05/rant7-contextcompat-examples-23.png">
-      <img alt="Example code solutions, API 23" src="/assets/images/posts/2016/08/05/rant7-contextcompat-examples-23-resized.png"/>
+    <a href="/assets/images/posts/2016/08/07/rant7-contextcompat-examples-23.png">
+      <img alt="Example code solutions, API 23" src="/assets/images/posts/2016/08/07/rant7-contextcompat-examples-23-resized.png"/>
     </a>
   </div>
 </div>
