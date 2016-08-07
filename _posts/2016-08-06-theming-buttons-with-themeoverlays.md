@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Theming Buttons with ThemeOverlays'
+title: 'Coloring Buttons w/ ThemeOverlays & Background Tints'
 date: 2016-08-06
 permalink: /2016/08/theming-buttons-with-themeoverlays.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
@@ -11,16 +11,24 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
 <!--morestart-->
 
 Let's say you want to change the background color of a regular old `Button`.
-How should this be done?
+How should this be done? 
 
-First, we must understand how the background color of a button is actually
-determined. The [material design spec on "Buttons"](https://material.google.com/components/buttons.html)
-has very specific requirements about what a button should look like in light
-themes vs. dark themes. How are these requirements met under-the-hood?
+This blog post covers two different approaches. In the first approach,
+we'll override the `R.attr.colorButtonNormal` attribute directly using a custom theme,
+and in the second, we'll make use of AppCompat's built-in background tinting support
+to achieve an identical effect.
 
 <!--more-->
 
-### Understanding `R.attr.colorButtonNormal`
+### Approach #1: Modifying `R.attr.colorButtonNormal` using a custom theme
+
+Before we get too far ahead of ourselves, we should first understand how the
+background color of a button is actually
+determined. The [material design spec](https://material.google.com/components/buttons.html)
+has very specific requirements about what a button should look like in light
+themes vs. dark themes. How are these requirements met under-the-hood?
+
+#### Understanding `R.attr.colorButtonNormal`
 
 You probably know that AppCompat injects its own widgets in place of many framework
 widgets, giving AppCompat greater control over tinting widgets according to the material design
@@ -122,7 +130,7 @@ on this at the moment<sup><a href="#footnote2" id="ref2">2</a></sup>... so don't
 In any case, hopefully this in-depth source code digging demonstration has been useful...
 now let's get back to the issue we started out trying to solve in the first place. :)
 
-### Understanding `ThemeOverlay`s
+#### Understanding `android:theme` & `ThemeOverlay`s
 
 So now we know that button backgrounds are tinted using the color resource
 pointed to by the `R.attr.colorButtonNormal` theme attribute. One way we could
@@ -170,6 +178,8 @@ your view will still inherit all of the correct light/dark themed values that
 would have otherwise been used by default. If you want to read more about
 `ThemeOverlay`s, check out [this Medium post][ThemeOverlayBlogPost] and this
 [Google+ pro tip][ThemeOverlayProTip] by [Ian Lake](http://google.com/+IanLake)!
+
+### Understanding AppCompat background tints
 
 ### Pop quiz!
 
