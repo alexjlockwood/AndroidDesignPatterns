@@ -24,7 +24,7 @@ to achieve an identical effect.
 
 Before we get too far ahead of ourselves, we should first understand how the
 background color of a button is actually
-determined. The [material design spec](https://material.google.com/components/buttons.html)
+determined. The [material design spec](http://material.google.com/components/buttons.html)
 has very specific requirements about what a button should look like in light
 and dark themes. How are these requirements met under-the-hood?
 
@@ -37,24 +37,22 @@ so with that in mind let's do a bit of source code digging to figure out how the
 is actually determined:
 
 1.  The default style applied to `AppCompatButton`s is the style pointed to by
-    the [`R.attr.buttonStyle`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/widget/AppCompatButton.java#L60)
-    theme attribute.
+    the [`R.attr.buttonStyle`][R.attr.buttonStyle] theme attribute.
 
-2.  ...which is declared in [`Base.V7.Theme.AppCompat`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/themes_base.xml#L234).
+2.  ...which is declared in [`Base.V7.Theme.AppCompat`][Base.V7.Theme.AppCompat].
 
-3.  ...which points to [`@style/Widget.AppCompat.Button`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles.xml#L205).
+3.  ...which points to [`@style/Widget.AppCompat.Button`][Widget.AppCompat.Button].
 
-4.  ...which extends [`@style/Base.Widget.AppCompat.Button`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L399).
+4.  ...which extends [`@style/Base.Widget.AppCompat.Button`][Base.Widget.AppCompat.Button].
 
-5.  ...which uses
-    [`@drawable/abc_btn_default_mtrl_shape`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L400)
+5.  ...which uses [`@drawable/abc_btn_default_mtrl_shape`][@drawable/abc_btn_default_mtrl_shape]
     as the view's default background drawable.
 
-6.  Now, let's take a look at AppCompat's internal [`TintManager`][TintManager] class,
+6.  Now, let's take a look at AppCompat's internal [`AppCompatDrawableManager`][AppCompatDrawableManager] class,
     which contains most of the logic that determines how these widgets are tinted at runtime.
     `AppCompatButton` backgrounds are tinted using one of two
     predefined default `ColorStateList`s, which we can see by analyzing the
-    source code [here](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java#L296-L299):<sup><a href="#footnote1" id="ref1">1</a></sup>
+    source code [here][AppCompatDrawableManagerSource1]:<sup><a href="#footnote1" id="ref1">1</a></sup>
 
     ```java
     ...
@@ -67,7 +65,7 @@ is actually determined:
     ...
     ```
 
-    and [here](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java#L486-L521):
+    and [here][AppCompatDrawableManagerSource2]:
 
     ```java
     private ColorStateList createDefaultButtonColorStateList(Context context) {
@@ -108,8 +106,8 @@ is actually determined:
     }
     ```
 
-That's a lot of information to take in! To summarize, the important thing to 
-understand from the code above can be summed up with the following:
+That's a lot to take in! To summarize, the important parts to 
+understand from this code can be summed up with the following:
 
 > Let `S` be the style resource that is assigned to button `B`. Note that if no
 > style is provided in the client's XML code, AppCompat uses the style resource
@@ -170,7 +168,7 @@ You're probably still wondering what's up with that weird
 files (i.e. `Theme.AppCompat.Light`, `Theme.AppCompat.Dark`, etc.),
 `ThemeOverlay`s define only a small set of material-styled theme attributes that
 are most often used when theming each view's appearance (see the
-[source code for a complete list of these attributes](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/themes_base.xml#L551-L604)).
+[source code for a complete list of these attributes][ThemeOverlayAttributes].
 As a result, they are very useful in cases where you only want to modify one or
 two properties of a particular view: just extend the `ThemeOverlay`, update the
 attributes you want to modify with their new values, and you can be sure that
@@ -181,10 +179,9 @@ would have otherwise been used by default. If you want to read more about
 
 ### Approach #2: Setting the `AppCompatButton`'s background tint
 
-If you've read this far, you'll be happy to know that there is an *even easier*
+If you've made it this far, you'll be happy to know that there is an *even easier and more powerful*
 way to color a button's background using a feature in AppCompat known as
-background tints. Any view that implements the
-[`TintableBackgroundView`](https://developer.android.com/reference/android/support/v4/view/TintableBackgroundView.html)
+background tints. Any AppCompat widget that implements the [`TintableBackgroundView`][TintableBackgroundView]
 interface (i.e. `AppCompatButton`, `AppCompatImageView`, etc.) can have its
 background tint color changed either via XML:
 
@@ -196,7 +193,7 @@ background tint color changed either via XML:
 ```
 
 or programatically via the [`ViewCompat#setBackgroundTintList(View, ColorStateList)`][ViewCompat#setBackgroundTintList()]
-method:
+method:<sup><a href="#footnote4" id="ref4">4</a></sup>
 
 ```java
 int googRed500 = ContextCompat.getColor(context, R.color.googred500);
@@ -330,16 +327,31 @@ styles to your `AppCompatButton` respectively. <a href="#ref1" title="Jump to fo
 please feel free to leave a link in the comments below! I'd love to check it out. <a href="#ref2" title="Jump to footnote 2.">&#8617;</a>
 
 <sup id="footnote3">3</sup> An alternative (and arguably more correct) way to theme this button
-would be to set [`@style/TextAppearance.AppCompat.Widget.Button.Inverse`](https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base_text.xml#L101-L103)
-as the style's `android:textAppearance` value instead. For simplicity, I decided to just alter the text color directly. :)<a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
+would be to set [`@style/TextAppearance.AppCompat.Widget.Button.Inverse`][TextAppearance.AppCompat.Widget.Button.Inverse]
+as the style's `android:textAppearance` value instead. For simplicity, I decided to just alter the text color directly. :) <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
+
+<sup id="footnote4">4</sup> Note that AppCompat widgets do not expose a `setBackgroundTintList()` methods as part of their public API.
+Clients *must* use the `ViewCompat#setBackgroundTintList()` static helper methods to modify these properties programatically. <a href="#ref4" title="Jump to footnote 4.">&#8617;</a>
 
   [AppCompatButton]: https://developer.android.com/reference/android/support/v7/widget/AppCompatButton.html
-  [TintManager]: https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/src/android/support/v7/internal/widget/TintManager.java
-  [Base.Widget.AppCompat.Button.Colored]: https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L417
-  [Base.Widget.AppCompat.Button.Borderless]: https://github.com/android/platform_frameworks_support/blob/marshmallow-mr2-release/v7/appcompat/res/values/styles_base.xml#L423
+  [AppCompatDrawableManager]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/src/android/support/v7/widget/AppCompatDrawableManager.java
+  [Base.Widget.AppCompat.Button.Colored]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles_base.xml#L417
+  [Base.Widget.AppCompat.Button.Borderless]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles_base.xml#L423
 
   [ThemeOverlayBlogPost]: https://medium.com/google-developers/theming-with-appcompat-1a292b754b35#.ebo3ua3bu
   [ThemeOverlayProTip]: https://plus.google.com/+AndroidDevelopers/posts/JXHKyhsWHAH
 
-  [ViewCompat#setBackgroundTintList()]: https://developer.android.com/reference/android/support/v4/view/ViewCompat.html#setBackgroundTintList\(android.view.View, android.content.res.ColorStateList\) 
+  [ViewCompat#setBackgroundTintList()]: https://developer.android.com/reference/android/support/v4/view/ViewCompat.html#setBackgroundTintList(android.view.View, android.content.res.ColorStateList)
+  [TextAppearance.AppCompat.Widget.Button.Inverse]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles_base_text.xml#L101-L103
+  [TintableBackgroundView]: https://developer.android.com/reference/android/support/v4/view/TintableBackgroundView.html
+  [ThemeOverlayAttributes]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/themes_base.xml#L551-L604)
+
+  [R.attr.buttonStyle]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/src/android/support/v7/widget/AppCompatButton.java#L58
+  [Base.V7.Theme.AppCompat]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/themes_base.xml#L237
+  [Widget.AppCompat.Button]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles.xml#L204
+  [Base.Widget.AppCompat.Button]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles_base.xml#L409
+  [@drawable/abc_btn_default_mtrl_shape]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles_base.xml#L410
+
+  [AppCompatDrawableManagerSource1]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/src/android/support/v7/widget/AppCompatDrawableManager.java#L309-L314
+  [AppCompatDrawableManagerSource2]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/src/android/support/v7/widget/AppCompatDrawableManager.java#L513-L548
 
