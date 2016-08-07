@@ -277,13 +277,13 @@ enabled and disabled states:
 
 <div style="display: block;">
   <div style="float:left; margin-right:16px;">
-    <a href="/assets/images/posts/2016/08/06/rant6-buttons-enabled.png">
-      <img alt="Example code solutions, buttons enabled" src="/assets/images/posts/2016/08/06/rant6-buttons-enabled-resized.png"/>
+    <a href="/assets/images/posts/2016/08/08/rant6-buttons-enabled.png">
+      <img alt="Example code solutions, buttons enabled" src="/assets/images/posts/2016/08/08/rant6-buttons-enabled-resized.png"/>
     </a>
   </div>
   <div style="float:left;">
-    <a href="/assets/images/posts/2016/08/06/rant6-buttons-disabled.png">
-      <img alt="Example code solutions, buttons disabled" src="/assets/images/posts/2016/08/06/rant6-buttons-disabled-resized.png"/>
+    <a href="/assets/images/posts/2016/08/08/rant6-buttons-disabled.png">
+      <img alt="Example code solutions, buttons disabled" src="/assets/images/posts/2016/08/08/rant6-buttons-disabled-resized.png"/>
     </a>
   </div>
 </div>
