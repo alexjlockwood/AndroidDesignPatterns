@@ -2,7 +2,7 @@
 layout: post
 title: 'Coloring Buttons w/ ThemeOverlays & Background Tints'
 date: 2016-08-06
-permalink: /2016/08/theming-buttons-with-themeoverlays.html
+permalink: /2016/08/coloring-buttons-with-themeoverlays-background-tints.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
     '/2012/07/loaders-and-loadermanager-background.html']
@@ -181,6 +181,31 @@ would have otherwise been used by default. If you want to read more about
 
 ### Approach #2: Setting the `AppCompatButton`'s background tint
 
+If you've read this far, you'll be happy to know that there is an *even easier*
+way to color a button's background using a feature in AppCompat known as
+background tints. Any view that implements the
+[`TintableBackgroundView`](https://developer.android.com/reference/android/support/v4/view/TintableBackgroundView.html)
+interface (i.e. `AppCompatButton`, `AppCompatImageView`, etc.) can have its
+background tint color changed either via XML:
+
+```xml
+<android.support.v7.widget.AppCompatButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:backgroundTint="@color/googred500"/>
+```
+
+or programatically via the [`ViewCompat#setBackgroundTintList(View, ColorStateList)`][ViewCompat#setBackgroundTintList()]
+method:
+
+```java
+int googRed500 = ContextCompat.getColor(context, R.color.googred500);
+ViewCompat.setBackgroundTintList(button, ColorStateList.valueOf(googRed500));
+```
+
+**TODO(alockwood): FINISH OFF BLOG POST WITH EXPLANATION ABOUT WHEN EACH APPROACH IS USEFUL!
+(example: using a theme overlay to modify `android:colorEdgeEffect`)**
+
 ### Pop quiz!
 
 Let's test our knowledge of how this all works with a simple example.
@@ -315,4 +340,6 @@ as the style's `android:textAppearance` value instead. For simplicity, I decided
 
   [ThemeOverlayBlogPost]: https://medium.com/google-developers/theming-with-appcompat-1a292b754b35#.ebo3ua3bu
   [ThemeOverlayProTip]: https://plus.google.com/+AndroidDevelopers/posts/JXHKyhsWHAH
+
+  [ViewCompat#setBackgroundTintList()]: https://developer.android.com/reference/android/support/v4/view/ViewCompat.html#setBackgroundTintList\(android.view.View, android.content.res.ColorStateList\) 
 
