@@ -93,7 +93,7 @@ W/Resources: ColorStateList color/button_text_csl has unresolved theme attribute
 The problem is that `Resources` objects are not intrinsically linked to a specific
 `Theme` in your app, and as a result, they will be unable to resolve the values pointed to by
 theme attributes such as `R.attr.colorAccent` and `R.attr.colorPrimary` on their own. In fact,
-specifying theme attributes in any `ColorStateList` XML files **was not possible until API 23*,
+specifying theme attributes in any `ColorStateList` XML files *was not possible until API 23*,
 which introduced two new methods for extracting `ColorStateList`s from XML:
 
 *   [`Resources#getColor(int, Theme)`](https://developer.android.com/reference/android/content/res/Resources.html#getColor\(int, android.content.res.Resources.Theme\))
@@ -125,18 +125,6 @@ library's `ResourcesCompat` and `ContextCompat` classes as well:
 
 #### "How can I workaround these problems?"
 
-~~Apps that support a `minSdkVersion` less than API 23 should prefer to use the
-static `ContextCompat` and `ResourcesCompat` helper methods in the support library, as Android lint
-suggests. However, note that no matter which methods you use, attempting to
-resolve theme attributes in a `ColorStateList` XML file *WILL NEVER WORK on
-pre-Marshmallow devices**!~~
-
-~~But that stinks! What if you really want to use a theme attribute in your `ColorStateList`?
-Well, just because you can't do it in XML, doesn't mean you
-can't do it in Java. :) Try resolving the theme attributes programatically, and
-then use them to construct the `ColorStateList` using a few extra lines of code
-instead. Check out the sample code below for some examples!~~
-
 **EDIT:** As of v24.0 of the AppCompat support library, you can now workaround all of these
 problems using the new [`AppCompatResources`](https://developer.android.com/reference/android/support/v7/content/res/AppCompatResources.html)
 class! To extract a themed `ColorStateList` from XML, just use:
@@ -145,12 +133,24 @@ class! To extract a themed `ColorStateList` from XML, just use:
 ColorStateList csl = AppCompatResources.getColorStateList(context, R.color.button_text_csl);
 ```
 
-On API 23+, AppCompat will delegate the call to the relevant framework methods,
+On API 23+, AppCompat will delegate the call to the corresponding framework method,
 and on earlier platforms it will manually parse the XML itself, resolving any
 theme attributes it encounters along the way. If that isn't enough, it also
 backports the `ColorStateList`'s new
 [`android:alpha`](https://developer.android.com/reference/android/content/res/ColorStateList.html#attr_android:alpha)
-attribute as well (which previously was only available on API 23+)!
+attribute as well (which was previously only available to devices running API 23 and above)!
+
+~~Apps that support a `minSdkVersion` less than API 23 should prefer to use the
+static `ContextCompat` and `ResourcesCompat` helper methods in the support library, as Android lint
+suggests. However, note that no matter which methods you use, attempting to
+resolve theme attributes in a `ColorStateList` XML file **WILL NEVER WORK on
+pre-Marshmallow devices**!~~
+
+~~But that stinks! What if you really want to use a theme attribute in your `ColorStateList`?
+Well, just because you can't do it in XML, doesn't mean you
+can't do it in Java. :) Try resolving the theme attributes programatically, and
+then use them to construct the `ColorStateList` using a few extra lines of code
+instead. Check out the sample code below for some examples!~~
 
 ### The problem with `Resources#getDrawable(int)`
 
