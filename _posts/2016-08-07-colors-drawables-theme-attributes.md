@@ -167,8 +167,10 @@ programatically instead.
 
 Of course there is an exception, isn't there always? :)
 
-It turns out the `VectorDrawableCompat` support library was able to workaround
-these issues and is actually smart enough to resolve the theme
+It turns out the [`VectorDrawableCompat`](https://developer.android.com/reference/android/support/graphics/drawable/VectorDrawableCompat.html)
+and [`AnimatedVectorDrawableCompat`](https://developer.android.com/reference/android/support/graphics/drawable/AnimatedVectorDrawableCompat.html)
+classes were able to workaround
+these issues and are actually smart enough to resolve the theme
 attributes it detects in XML *across all platform versions*. For example,
 if you want to color your `VectorDrawableCompat` the standard shade of grey,
 you can reliably tint the drawable with `?attr/colorControlNormal`
@@ -190,7 +192,7 @@ while still maintaining backwards compatibility with older platform versions:
 ```
 
 (If you're curious how this is implemented under-the-hood, the short answer is that
-the `VectorDrawableCompat` support library does their own custom XML parsing and uses the
+the support library does their own custom XML parsing and uses the
 [`Theme#obtainStyledAttributes(AttributeSet, int[], int, int)`](https://developer.android.com/reference/android/content/res/Resources.Theme.html#obtainStyledAttributes\(android.util.AttributeSet, int[], int, int\))
 method to resolve the theme attributes it encounters. Pretty cool!)
 
