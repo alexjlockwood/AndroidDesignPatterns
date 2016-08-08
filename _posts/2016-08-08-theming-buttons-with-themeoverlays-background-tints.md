@@ -14,13 +14,13 @@ Let's say you want to change the background color of a regular old `Button`.
 How should this be done? 
 
 This blog post covers two different approaches. In the first approach,
-we'll override the `R.attr.colorButtonNormal` attribute directly using a custom theme,
-and in the second, we'll make use of AppCompat's built-in background tinting support
+we'll modify the `R.attr.colorButtonNormal` and `R.attr.colorAccent` attributes directly
+using a custom theme, and in the second, we'll make use of AppCompat's built-in background tinting support
 to achieve an identical effect.
 
 <!--more-->
 
-### Approach #1: Modifying `R.attr.colorButtonNormal` using a custom theme
+### Approach #1: Modifying the button's background color using a custom theme
 
 Before we get too far ahead of ourselves, we should first understand how the
 background color of a button is actually
@@ -28,13 +28,13 @@ determined. The [material design spec](http://material.google.com/components/but
 has very specific requirements about what a button should look like in light
 and dark themes. How are these requirements met under-the-hood?
 
-#### Understanding `R.attr.colorButtonNormal`
+#### Understanding `R.attr.colorButtonNormal` & `R.attr.colorAccent`
 
 You probably know that AppCompat injects its own widgets in place of many framework
 widgets, giving AppCompat greater control over tinting widgets according to the material design
 spec even on pre-Lollipop devices. At runtime, `Button`s will become [`AppCompatButton`][AppCompatButton]s,
 so with that in mind let's do a bit of source code digging to figure out how the button's background color
-is actually determined:
+is actually determined on pre-Lollipop devices:
 
 1.  The default style applied to `AppCompatButton`s is the style pointed to by
     the [`R.attr.buttonStyle`][R.attr.buttonStyle] theme attribute.
@@ -106,8 +106,11 @@ is actually determined:
     }
     ```
 
+We can follow a similar rabbit hole to determine how buttons are colored on
+Lollipop and above... **TODO(alockwood): explain API 21+???**
+
 That's a lot to take in! To summarize, the important parts to 
-understand from this code can be summed up with the following:
+understand from all of this can be summed up with the following:
 
 > Let `S` be the style resource that is assigned to button `B`. Note that if no
 > style is provided in the client's XML code, AppCompat uses the style resource
@@ -355,3 +358,15 @@ Clients *must* use the `ViewCompat#setBackgroundTintList()` static helper method
   [AppCompatDrawableManagerSource1]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/src/android/support/v7/widget/AppCompatDrawableManager.java#L309-L314
   [AppCompatDrawableManagerSource2]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/src/android/support/v7/widget/AppCompatDrawableManager.java#L513-L548
 
+  [R.attr.buttonStyle_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/themes_material.xml#L98
+  [Widget.Material.Button_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/styles_material.xml#L459
+  [R.drawable.btn_default_material_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/drawable/btn_default_material.xml
+  [R.drawable.btn_default_mtrl_shape_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/drawable/btn_default_mtrl_shape.xml  
+  [R.attr.colorButtonNormal_dark_21]: https://github.com/android/platform_frameworks_base/blob/4535e11fb7010f2b104d3f8b3954407b9f330e0f/core/res/res/values/themes_material.xml#L393
+  [R.color.btn_default_material_dark_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/color/btn_default_material_dark.xml
+  [R.color.btn_material_dark_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/colors_material.xml#L36
+  [R.attr.colorButtonNormal_light_21]: https://github.com/android/platform_frameworks_base/blob/4535e11fb7010f2b104d3f8b3954407b9f330e0f/core/res/res/values/themes_material.xml#L749
+  [R.color.btn_default_material_light_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/color/btn_default_material_light.xml
+  [R.color.btn_material_light_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/colors_material.xml#L37
+  [Widget.Material.Button.Colored_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/styles_material.xml#L471
+  [R.color.btn_colored_material]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/color/btn_colored_material.xml
