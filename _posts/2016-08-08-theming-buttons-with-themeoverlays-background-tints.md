@@ -361,7 +361,7 @@ Clients *must* use the `ViewCompat#setBackgroundTintList()` static helper method
   [R.attr.buttonStyle_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/themes_material.xml#L98
   [Widget.Material.Button_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/styles_material.xml#L459
   [R.drawable.btn_default_material_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/drawable/btn_default_material.xml
-  [R.drawable.btn_default_mtrl_shape_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/drawable/btn_default_mtrl_shape.xml  
+  [R.drawable.btn_default_mtrl_shape_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/drawable/btn_default_mtrl_shape.xml
   [R.attr.colorButtonNormal_dark_21]: https://github.com/android/platform_frameworks_base/blob/4535e11fb7010f2b104d3f8b3954407b9f330e0f/core/res/res/values/themes_material.xml#L393
   [R.color.btn_default_material_dark_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/color/btn_default_material_dark.xml
   [R.color.btn_material_dark_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/colors_material.xml#L36
