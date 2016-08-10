@@ -29,6 +29,7 @@ and dark themes. How are these requirements met under-the-hood?
 
 #### The `Widget.AppCompat.Button` button styles
 
+Ass you probably guessed, the answer to most of these questions begins with styles and themes.
 AppCompat provides a number of different styles that can be used to alter
 the appearance of a typical button, each extending the base
 [`Widget.AppCompat.Button`][@style/Widget.AppCompat.Button] style that is applied to all AppCompat-themed
@@ -41,25 +42,25 @@ and thus encourages a more consistent user experience. Specifically, the default
 
 * All buttons share the same default minimum width and minimum height
   (`88dp` and `48dp` respectively).
-* All buttons share the same default `TextAppearance` (i.e. the same default font family,
-  font color, font size, displaying strings in all capital letters by default, etc.).
+* All buttons share the same default `TextAppearance` (i.e. displaying text in all capital
+  letters, the same default font family, font color, font size, etc.).
 * All buttons share the same default button background (i.e. same background
-  color, same rounded-rectangular shape, same amount of insets and padding,
+  color, same rounded-rectangular shape, same insets and padding,
   etc.).<sup><a href="#footnote??????????" id="ref??????????">??????????</a></sup>
 
 Great, so the default `Widget.AppCompat.Button` style helps ensure that all buttons
 look roughly the same by default. But how are things like the button's background
-color actually determined in light and dark themes (not only in its normal state, but
-in its disabled, pressed, and focused states as well)? It turns out that the framework
+color actually chosen in light and dark themes, not only in its normal state, but
+in its disabled, pressed, and focused states as well? It turns out that the framework
 depends mostly on three different theme attributes:
 
-* **`R.attr.colorButtonNormal`**: The color applied to a button's default background color in 
+* [**`R.attr.colorButtonNormal`**][R.attr.colorButtonNormal]: The color used as a button's background color in 
   its normal state. Resolves to and `#ffd6d7d7` for light themes and `#ff5a595b` for dark themes.
-* **`android.R.attr.disabledAlpha`**: A floating point value that determines the
+* [**`android.R.attr.disabledAlpha`**][android.R.attr.disabledAlpha]: A floating point value that determines the
   alpha values to use for disabled framework widgets. Resolves to `0.26f` for light themes
   and `0.30f` for dark themes.
-* **`R.attr.colorControlHighlight`**: The translucent overlay color drawn on top of widgets
-  when they are pressed and/or focused (used by things like ripples on post-Lollipop devices, 
+* [**`R.attr.colorControlHighlight`**][R.attr.colorControlHighlight]: The translucent overlay color drawn on top of widgets
+  when they are pressed and/or focused (used by ripples on post-Lollipop devices 
   and foreground list selectors on pre-Lollipop devices). Resolves to 12% black for light themes
   and 20% white for dark themes (`#1f000000` and `#33ffffff` respectively).
 
@@ -110,16 +111,15 @@ You're probably still wondering what's up with that weird
 files (i.e. `Theme.AppCompat.Light`, `Theme.AppCompat.Dark`, etc.),
 `ThemeOverlay`s define only a small set of material-styled theme attributes that
 are most often used when theming each view's appearance (see the
-[source code for a complete list of these attributes][ThemeOverlayAttributes].
+[source code for a complete list of these attributes][ThemeOverlayAttributes]).
 As a result, they are very useful in cases where you only want to modify one or
 two properties of a particular view: just extend the `ThemeOverlay`, update the
 attributes you want to modify with their new values, and you can be sure that
 your view will still inherit all of the correct light/dark themed values that
-would have otherwise been used by default. If you want to read more about
+would have otherwise been used by default.<sup><a href="#footnote??????????" id="ref??????????">??????????</a></sup>
+If you want to read more about
 `ThemeOverlay`s, check out [this Medium post][ThemeOverlayBlogPost] and this
 [Google+ pro tip][ThemeOverlayProTip] by [Ian Lake](http://google.com/+IanLake)!
-
-**TODO(alockwood): TALK ABOUT OTHER WAYS THIS APPROACH IS USEFUL! (example: using a ThemeOverlay to modify `android:colorEdgeEffect`)**
 
 ### Approach #2: Setting the `AppCompatButton`'s background tint
 
@@ -127,10 +127,10 @@ If you've made it this far, you'll be happy to know that there is an *even more 
 way to color a button's background using a feature in AppCompat known as
 background tints. You probably know that AppCompat injects its own widgets in place of many framework
 widgets, giving AppCompat greater control over tinting widgets according to the material design
-spec even on pre-Lollipop devices. What you may not know is that any
+spec even on pre-Lollipop devices. At runtime, `Button`s become `AppCompatButton`s,
+`ImageView`s become `AppCompatImageView`s, etc. What you may not know is that any
 AppCompat widget that implements the [`TintableBackgroundView`][TintableBackgroundView]
-interface (i.e. `AppCompatButton`, `AppCompatImageView`, etc.) can have its
-background tint color changed either via XML:
+interface can have its background tint color changed either via XML:
 
 ```xml
 <android.support.v7.widget.AppCompatButton
@@ -152,15 +152,13 @@ In other words we can achieve an identical effect as the approach above. On API 
 we can use a simple `ColorStateList` declared in XML:
 
 ```xml
-<!-- res/color/btn_colored_background_tint -->
-<selector 
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- res/color/btn_colored_background_tint.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Disabled state. -->
-    <item 
-        android:state_enabled="false"
-        android:color="?attr/colorButtonNormal"
-        android:alpha="?android:attr/disabledAlpha"/>
+    <item android:state_enabled="false"
+          android:color="?attr/colorButtonNormal"
+          android:alpha="?android:attr/disabledAlpha"/>
 
     <!-- Enabled state. -->
     <item android:color="?attr/colorAccent"/>
@@ -168,85 +166,92 @@ we can use a simple `ColorStateList` declared in XML:
 </selector>
 ```
 
-and apply it in XML with the following:
-
-```xml
-<android.support.v7.widget.AppCompatButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:backgroundTint="@color/btn_colored_background_tint"/>
-```
-
 Prior to Lollipop, we need to do a bit more work, as there's no easy way to generate
-composite colors for the pressed button states in XML. So we use the following code:
+composite colors for the pressed button states in XML. So we'll create a simple
+utility class to generate the desired `ColorStateList` programatically:
 
 ```java
-private static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
-private static final int[] PRESSED_STATE_SET = new int[]{android.R.attr.state_pressed};
-private static final int[] FOCUSED_STATE_SET = new int[]{android.R.attr.state_focused};
-private static final int[] EMPTY_STATE_SET = new int[0];
-
 /**
- * Returns a {@link ColorStateList} that can be used as a colored button's background tint.
+ * Utility class for generating background tint {@link ColorStateList}s.
  */
-public static ColorStateList forColoredButton(Context context) {
-  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-    // On API 21+ we can extract the ColorStateList from XML directly. We
-    // could also construct the ColorStateList programatically similar to below
-    // (as long as we remember not to include the pressed and focused states
-    // on API 21+, as in those cases the `RippleDrawable` will do this work for us).
-    return AppCompatResources.getColorStateList(context, R.color.btn_colored_background_tint);
+public final class BackgroundTints {
+  private static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
+  private static final int[] PRESSED_STATE_SET = new int[]{android.R.attr.state_pressed};
+  private static final int[] FOCUSED_STATE_SET = new int[]{android.R.attr.state_focused};
+  private static final int[] EMPTY_STATE_SET = new int[0];
+
+  /**
+   * Returns a {@link ColorStateList} that can be used as a colored button's background tint.
+   * Note that this code makes use of the {@code android.support.v4.graphics.ColorUtils}
+   * and {@code android.support.v7.content.res.AppCompatResources} utility classes.
+   */
+  public static ColorStateList forColoredButton(Context context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      // On API 21+ we can extract the ColorStateList from XML directly.
+      // We could also construct the ColorStateList programatically similar to below
+      // (as long as we remember not to include the pressed and focused states
+      // on API 21+, since the button's foreground RippleDrawable will animate these
+      // state changes automatically).
+      return AppCompatResources.getColorStateList(context, R.color.btn_colored_background_tint);
+    }
+
+    // On older platform versions, there's no easy way to generate the pressed/focused
+    // state colors in XML, so we have to create the ColorStateList programatically.
+
+    final int[][] states = new int[4][];
+    final int[] colors = new int[4];
+
+    final int accentColor = getThemeAttrColor(context, R.attr.colorAccent);
+    final int colorControlHighlight = getThemeAttrColor(context, R.attr.colorControlHighlight);
+
+    states[0] = DISABLED_STATE_SET;
+    colors[0] = getDisabledButtonBackgroundColor(context);
+
+    states[1] = PRESSED_STATE_SET;
+    colors[1] = ColorUtils.compositeColors(colorControlHighlight, accentColor);
+
+    states[2] = FOCUSED_STATE_SET;
+    colors[2] = ColorUtils.compositeColors(colorControlHighlight, accentColor);
+
+    states[3] = EMPTY_STATE_SET;
+    colors[3] = accentColor;
+
+    return new ColorStateList(states, colors);
   }
 
-  // On older platform versions, we need to construct pressed/focused button
-  // states as well, which must be done programatically.
+  @ColorInt
+  private static int getDisabledButtonBackgroundColor(Context context) {
+    // Extract the disabled alpha to apply to the button using the context's theme.
+    // (0.26f for light themes and 0.30f for dark themes).
+    final TypedValue tv = new TypedValue();
+    context.getTheme().resolveAttribute(android.R.attr.disabledAlpha, tv, true);
+    final float disabledAlpha = tv.getFloat();
 
-  final int[][] states = new int[4][];
-  final int[] colors = new int[4];
-
-  final int accentColor = getThemeAttrColor(context, R.attr.colorAccent);
-  final int colorControlHighlight = getThemeAttrColor(context, R.attr.colorControlHighlight);
-
-  states[0] = DISABLED_STATE_SET;
-  colors[0] = getDisabledButtonBackgroundColor(context);
-
-  states[1] = PRESSED_STATE_SET;
-  colors[1] = ColorUtils.compositeColors(colorControlHighlight, accentColor);
-
-  states[2] = FOCUSED_STATE_SET;
-  colors[2] = ColorUtils.compositeColors(colorControlHighlight, accentColor);
-
-  states[3] = EMPTY_STATE_SET;
-  colors[3] = accentColor;
-
-  return new ColorStateList(states, colors);
-}
-
-@ColorInt
-private static int getDisabledButtonBackgroundColor(Context context) {
-  final TypedValue tv = new TypedValue();
-  context.getTheme().resolveAttribute(android.R.attr.disabledAlpha, tv, true);
-  final float disabledAlpha = tv.getFloat();
-  final int colorButtonNormal = getThemeAttrColor(context, R.attr.colorButtonNormal);
-  final int originalAlpha = Color.alpha(colorButtonNormal);
-  return ColorUtils.setAlphaComponent(colorButtonNormal, Math.round(originalAlpha * disabledAlpha));
-}
-
-@ColorInt
-private static int getThemeAttrColor(Context context, @AttrRes int attr) {
-  final TypedArray array = context.obtainStyledAttributes(null, new int[]{attr});
-  try {
-    return array.getColor(0, 0);
-  } finally {
-    array.recycle();
+    // Use the disabled alpha factor and the button's default normal color
+    // to generate the button's disabled background color.
+    final int colorButtonNormal = getThemeAttrColor(context, R.attr.colorButtonNormal);
+    final int originalAlpha = Color.alpha(colorButtonNormal);
+    return ColorUtils.setAlphaComponent(colorButtonNormal, Math.round(originalAlpha * disabledAlpha));
   }
+
+  @ColorInt
+  private static int getThemeAttrColor(Context context, @AttrRes int attr) {
+    final TypedArray array = context.obtainStyledAttributes(null, new int[]{attr});
+    try {
+      return array.getColor(0, 0);
+    } finally {
+      array.recycle();
+    }
+  }
+
+  private BackgroundTints() {}
 }
 ```
 
 Then, we can simply apply the background tint to the button programatically using:
 
 ```java
-ViewCompat.setBackgroundTintList(button, forColoredButton(button.getContext());
+ViewCompat.setBackgroundTintList(button, BackgroundTints.forColoredButton(button.getContext());
 ```
 
 ### Pop quiz!
@@ -353,10 +358,12 @@ See the below links to view screenshots of the solutions:
 * [API 23, pressed state](/assets/images/posts/2016/08/08/themed-buttons-enabled-pressed-23.png)
 * [API 23, disabled state](/assets/images/posts/2016/08/08/themed-buttons-disabled-unpressed-23.png)
 
-**TODO(alockwood): mention the colored disabled button bug [here][ColoredButtonDisabledTextBug]**
-**TODO(alockwood): add foot note to Dan Lew's blog post about view constructors**
-**TODO(alockwood): footnote about insets/padding for button background drawables?**
-**TODO(alockwood): footnote explaining why/when it is necessary to use `AppCompatResources`?**
+**TODO(alockwood): mention the colored disabled button bug [here][ColoredButtonDisabledTextBug]**<br>
+**TODO(alockwood): add foot note to Dan Lew's blog post about view constructors**<br>
+**TODO(alockwood): footnote about insets/padding for button background drawables?**<br>
+**TODO(alockwood): footnote explaining why/when it is necessary to use `AppCompatResources`? link to previous blog post?**<br>
+**TODO(alockwood): TALK ABOUT OTHER WAYS THIS APPROACH IS USEFUL! (example: using a ThemeOverlay to modify `android:colorEdgeEffect`)**<br>
+**TODO(alockwood): footnote about difference between android.R.attr and R.attr?**<br>
 
 As always, thanks for reading! Feel free to leave a comment if you have any questions,
 and don't forget to +1 and/or share this blog post if you found it helpful! And check out the 
@@ -369,6 +376,10 @@ button styles are determined!** <a href="#ref??????????" title="Jump to footnote
 <sup id="footnote??????????">??????????</sup> Note that AppCompat widgets do not expose a `setBackgroundTintList()` 
 methods as part of their public API. Clients *must* use the `ViewCompat#setBackgroundTintList()`
 static helper methods to modify these properties programatically. <a href="#ref??????????" title="Jump to footnote ??????????.">&#8617;</a>
+
+  [R.attr.colorButtonNormal]: https://developer.android.com/reference/android/support/v7/appcompat/R.attr.html#colorButtonNormal
+  [android.R.attr.disabledAlpha]: https://developer.android.com/reference/android/R.attr.html#disabledAlpha
+  [R.attr.colorControlHighlight]: https://developer.android.com/reference/android/support/v7/appcompat/R.attr.html#colorControlHighlight
 
   [MaterialDesignSpecButtons]: http://material.google.com/components/buttons.html
   [ColoredButtonDisabledTextBug]: https://code.google.com/p/android/issues/detail?id=219276
