@@ -179,11 +179,8 @@ ViewCompat.setBackgroundTintList(button, backgroundTintList);
 While this approach to coloring a button is much more powerful in the sense that it can be
 done entirely programatically (`ThemeOverlay`s must be defined in XML and cannot be constructed at
 runtime), it also requires a bit more work on our end if we want to ensure our button exactly meets
-the material design spec. Let's walk through a short example
-
-Prior to Lollipop, we need to do a bit more work, as there's no easy way to generate
-composite colors for the pressed button states in XML. So we'll create a simple
-utility class to generate the desired `ColorStateList` programatically:
+the material design spec. Let's create a simple `BackgroundTints` utility class that makes
+it quick and easy to construct colored background tint lists:
 
 ```java
 /**
@@ -277,14 +274,14 @@ public final class BackgroundTints {
 }
 ```
 
-Then, we can simply apply the background tint to the button programatically using:
+Using this class, we can then simply apply the background tint to the button programatically using:
 
 ```java
-ViewCompat.setBackgroundTintList(button, 
-    BackgroundTints.forColoredButton(button.getContext(), customAccentColor);
+ViewCompat.setBackgroundTintList(
+    button, BackgroundTints.forColoredButton(button.getContext(), customAccentColor);
 ```
 
-**TODO(alockwood): finish off the blog post with a conclusion paragraph or something like that!**
+**TODO(alockwood): finish off the blog post with a conclusion paragraph or something like that?**
 
 ### Pop quiz!
 
