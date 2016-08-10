@@ -27,7 +27,7 @@ background colors are actually determined. The [material design spec][MaterialDe
 has very specific requirements about what a button should look like in both light
 and dark themes. How are these requirements met under-the-hood?
 
-#### The `Widget.AppCompat.Button` button styles
+#### The `Widget.AppCompat.Button` button style
 
 Perhaps not surprisingly, answering this question requires a basic understanding of how
 AppCompat's internally makes use of default styles and themes.
@@ -197,9 +197,9 @@ public final class BackgroundTints {
    * Note that this code makes use of the {@code android.support.v4.graphics.ColorUtils}
    * and {@code android.support.v7.content.res.AppCompatResources} utility classes.
    */
-  public static ColorStateList forColoredButton(Context context, @ColorInt int accentColor) {
+  public static ColorStateList forColoredButton(Context context, @ColorInt int backgroundColor) {
     // On pre-Lollipop devices, we need 4 states total (disabled, pressed, focused, and default).
-    // On post-Lollipop devices, we only need 2 states total (disabled and default); the button's
+    // On post-Lollipop devices, we need 2 states total (disabled and default); the button's
     // RippleDrawable will animate the pressed and focused state changes for us automatically.
     final int numStates = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 2 : 4;
 
@@ -213,19 +213,19 @@ public final class BackgroundTints {
     i++;
 
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-      final int highlightedAccentColor = getHighlightedAccentColor(context, accentColor);
+      final int highlightedBackgroundColor = getHighlightedBackgroundColor(context, backgroundColor);
 
       states[i] = PRESSED_STATE_SET;
-      colors[i] = highlightedAccentColor;
+      colors[i] = highlightedBackgroundColor;
       i++;
 
       states[i] = FOCUSED_STATE_SET;
-      colors[i] = highlightedAccentColor;
+      colors[i] = highlightedBackgroundColor;
       i++;
     }
 
     states[i] = EMPTY_STATE_SET;
-    colors[i] = accentColor;
+    colors[i] = backgroundColor;
 
     return new ColorStateList(states, colors);
   }
@@ -251,12 +251,12 @@ public final class BackgroundTints {
 
   /**
    * Returns the theme-dependent ARGB color that results when colorControlHighlight is drawn
-   * on top of the provided accent color.
+   * on top of the provided background color.
    */
   @ColorInt
-  private static int getHighlightedAccentColor(Context context, @ColorInt int accentColor) {
+  private static int getHighlightedBackgroundColor(Context context, @ColorInt int backgroundColor) {
     final int colorControlHighlight = getThemeAttrColor(context, R.attr.colorControlHighlight);
-    return ColorUtils.compositeColors(colorControlHighlight, accentColor);
+    return ColorUtils.compositeColors(colorControlHighlight, backgroundColor);
   }
 
   /** Returns the theme-dependent ARGB color associated with the provided theme attribute. */
@@ -278,7 +278,7 @@ Using this class, we can then simply apply the background tint to the button pro
 
 ```java
 ViewCompat.setBackgroundTintList(
-    button, BackgroundTints.forColoredButton(button.getContext(), customAccentColor);
+    button, BackgroundTints.forColoredButton(button.getContext(), backgroundColor);
 ```
 
 **TODO(alockwood): finish off the blog post with a conclusion paragraph or something like that?**
