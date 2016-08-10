@@ -94,7 +94,7 @@ color to Google Red 500. To achieve this, we can define the following theme:
 
 ```xml
 <!-- res/values/themes.xml -->
-<style name="LightAccentRedButtonTheme" parent="ThemeOverlay.AppCompat.Light">
+<style name="RedButtonLightTheme" parent="ThemeOverlay.AppCompat.Light">
     <item name="colorAccent">@color/googred500</item>
 </style>
 ```
@@ -106,7 +106,7 @@ color to Google Red 500. To achieve this, we can define the following theme:
     style="@style/Widget.AppCompat.Button.Colored"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:theme="@style/LightAccentRedButtonTheme"/>
+    android:theme="@style/RedButtonLightTheme"/>
 ```
 
 And that's it! You're probably still wondering what's up with that weird
@@ -292,11 +292,11 @@ In addition to this, the following custom themes are declared as well:
 
 ```xml
 <!-- res/values/themes.xml -->
-<style name="LightAccentRedButtonTheme" parent="ThemeOverlay.AppCompat.Light">
+<style name="RedButtonLightTheme" parent="ThemeOverlay.AppCompat.Light">
     <item name="colorAccent">@color/googred500</item>
 </style>
 
-<style name="DarkAccentRedButtonTheme" parent="ThemeOverlay.AppCompat.Dark">
+<style name="RedButtonDarkTheme" parent="ThemeOverlay.AppCompat.Dark">
     <item name="colorAccent">@color/googred500</item>
 </style>
 ```
@@ -323,10 +323,10 @@ when the buttons are put in default, pressed, and disabled states?
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/LightAccentRedButtonTheme"/>
+        android:theme="@style/RedButtonLightTheme"/>
 
     <Button
-        android:id="@+id/light_themed_bg_tint_button"
+        android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -345,10 +345,10 @@ when the buttons are put in default, pressed, and disabled states?
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/DarkAccentRedButtonTheme"/>
+        android:theme="@style/RedButtonDarkTheme"/>
 
     <Button
-        android:id="@+id/dark_themed_bg_tint_button"
+        android:id="@+id/button8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
@@ -362,13 +362,13 @@ on the 4th and 8th buttons as follows:
 ```java
 final int googRed500 = ContextCompat.getColor(activity, R.color.googred500);
 
-final View lightBtn = activity.findViewById(R.id.light_themed_background_tint_button);
+final View button4 = activity.findViewById(R.id.button4);
 ViewCompat.setBackgroundTintList(
-    lightBtn, BackgroundTints.forColoredButton(lightBtn.getContext(), googRed500));
+    button4, BackgroundTints.forColoredButton(button4.getContext(), googRed500));
 
-final View darkBtn = activity.findViewById(R.id.dark_themed_background_tint_button);
+final View button8 = activity.findViewById(R.id.button8);
 ViewCompat.setBackgroundTintList(
-    darkBtn, BackgroundTints.forColoredButton(darkBtn.getContext(), googRed500));
+    button8, BackgroundTints.forColoredButton(button8.getContext(), googRed500));
 ```
 
 #### Solutions
