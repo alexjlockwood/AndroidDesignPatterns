@@ -386,10 +386,10 @@ See the below links to view screenshots of the solutions:
 
 * [API 19, default state](/assets/images/posts/2016/08/08/themed-buttons-enabled-unpressed-19.png)
 * [API 19, pressed state](/assets/images/posts/2016/08/08/themed-buttons-enabled-pressed-19.png)
-* [API 19, disabled state](/assets/images/posts/2016/08/08/themed-buttons-disabled-unpressed-19.png)
+* [API 19, disabled state](/assets/images/posts/2016/08/08/themed-buttons-disabled-19.png)
 * [API 23, default state](/assets/images/posts/2016/08/08/themed-buttons-enabled-unpressed-23.png)
 * [API 23, pressed state](/assets/images/posts/2016/08/08/themed-buttons-enabled-pressed-23.png)
-* [API 23, disabled state](/assets/images/posts/2016/08/08/themed-buttons-disabled-unpressed-23.png)
+* [API 23, disabled state](/assets/images/posts/2016/08/08/themed-buttons-disabled-23.png)
 
 **TODO(alockwood): mention the colored disabled button bug [here][ColoredButtonDisabledTextBug]**<br>
 **TODO(alockwood): add foot note to Dan Lew's blog post about view constructors**<br>
@@ -397,7 +397,6 @@ See the below links to view screenshots of the solutions:
 **TODO(alockwood): footnote explaining why/when it is necessary to use `AppCompatResources`? link to previous blog post?**<br>
 **TODO(alockwood): TALK ABOUT OTHER WAYS THIS APPROACH IS USEFUL! (example: using a ThemeOverlay to modify `android:colorEdgeEffect`)**<br>
 **TODO(alockwood): footnote about difference between android.R.attr and R.attr?**<br>
-**TODO(alockwood): update the solution screenshots!**
 
 As always, thanks for reading! Feel free to leave a comment if you have any questions,
 and don't forget to +1 and/or share this blog post if you found it helpful! And check out the
