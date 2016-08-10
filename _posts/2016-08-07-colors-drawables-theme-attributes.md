@@ -285,35 +285,20 @@ button8.setTextColor(textCslJavaWithCustomTheme);
 
 #### Solutions
 
-Here is a screenshot of what the buttons look like on API 19 vs. API 23 devices:
+Here are the screenshots of what the buttons look like on API 19 vs. API 23 devices:
 
-<div style="display: block;">
-  <div style="float:left; margin-right:16px;">
-    <a href="/assets/images/posts/2016/08/07/rant7-contextcompat-examples-19.png">
-      <img alt="Example code solutions, API 19" src="/assets/images/posts/2016/08/07/rant7-contextcompat-examples-19-resized.png"/>
-    </a>
-  </div>
-  <div style="float:left;">
-    <a href="/assets/images/posts/2016/08/07/rant7-contextcompat-examples-23.png">
-      <img alt="Example code solutions, API 23" src="/assets/images/posts/2016/08/07/rant7-contextcompat-examples-23-resized.png"/>
-    </a>
-  </div>
-</div>
+* [API 19 solutions](/assets/images/posts/2016/08/07/rant7-contextcompat-examples-19.png)
+* [API 23 solutions](/assets/images/posts/2016/08/07/rant7-contextcompat-examples-23.png)
 
-<div style="display: inline-block;">
-<p>
 Note that there isn't anything special about the weird pink color in the two
 screenshots. That's just the "undefined behavior" that results when you try to
-resolve a theme attribute without a corresponding <code>Theme</code>. :)
-</p>
+resolve a theme attribute without a corresponding `Theme`. :)
 
-<p>
 As always, thanks for reading! Feel free to leave a comment if you have any questions, and don't forget to 
 +1 and/or share this blog post if you found it helpful! And check out the 
-<a href="https://github.com/alexjlockwood/adp-contextcompat-getcolor">source code for these examples on GitHub</a> as well!
-</p>
-</div>
+[source code for these examples on GitHub][SampleAppSourceCode] as well!
 
+  [SampleAppSourceCode]: https://github.com/alexjlockwood/adp-contextcompat-getcolor
   [Context]: http://developer.android.com/reference/android/content/Context.html
   [ContextCompat]: http://developer.android.com/reference/android/support/v4/content/ContextCompat.html
   [ResourcesCompat]: http://developer.android.com/reference/android/support/v4/content/res/ResourcesCompat.html
