@@ -14,9 +14,9 @@ Let's say you want to change the background color of a `Button`.
 How should this be done?
 
 This blog post covers two different approaches. In the first approach,
-we'll use AppCompat's standard `Widget.AppCompat.Button` styles and a custom `ThemeOverlay`
+we'll use AppCompat's `Widget.AppCompat.Button` style and a custom `ThemeOverlay`
 to modify the button's background color directly, and in the second, we'll use
-AppCompat's built-in background tinting features to achieve an identical effect.
+AppCompat's built-in background tinting support to achieve an identical effect.
 
 <!--more-->
 
@@ -29,32 +29,30 @@ and dark themes. How are these requirements met under-the-hood?
 
 #### The `Widget.AppCompat.Button` button style
 
-Perhaps not surprisingly, answering this question requires a basic understanding of how
-AppCompat's internally makes use of default styles and themes.
-AppCompat exposes a number of different styles that developers can use to alter
-the appearance of a standard button, each extending a base
+To answer this question, we'll first need a basic understanding of how
+AppCompat determines the default appearance of a standard button.
+AppCompat defines a number of styles that can be used to alter
+the appearance of a button, each of which extend a base
 [`Widget.AppCompat.Button`][@style/Widget.AppCompat.Button] style that is applied to all
-AppCompat-themed buttons by
-default.<sup><a href="#footnote??????????" id="ref??????????">??????????</a></sup>
-Specifying default styles for all views of a certain type is a popular technique that you'll
-find is used throughout the Android source code; it gives the framework an
-opportunity to apply a set of default values for each widget, thus
-encouraging a more consistent user experience across all applications. Specifically, the default
-`Widget.AppCompat.Button` style helps ensure that:
+buttons by default.<sup><a href="#footnote1" id="ref1">1</a></sup>
+Specifying a default style to be applied to all views of a certain type is a common technique
+used throughout the Android source code. It gives the framework an
+opportunity to apply a set of default values for each widget,
+encouraging a more consistent user experience. For `Button`s, the default
+`Widget.AppCompat.Button` style ensures that:
 
 * All buttons share the same default minimum width and minimum height
   (`88dp` and `48dp` respectively, as specified by the
   [material design spec][MaterialDesignSpecButtons]).
-* All buttons share the same default `TextAppearance` (i.e. displaying text in all capital
-  letters, the same default font family, font color, font size, etc.).
+* All buttons share the same default `TextAppearance` (i.e. text displayed in all capital
+  letters, the same default font family, font size, etc.).
 * All buttons share the same default button background (i.e. same background
-  color, same rounded-rectangular shape, same insets and padding,
-  etc.).<sup><a href="#footnote??????????" id="ref??????????">??????????</a></sup>
+  color, same rounded-rectangular shape, same amount of insets and padding, etc.).
 
 Great, so the `Widget.AppCompat.Button` style helps ensure that all buttons
-look roughly the same in their default state. But how are characteristics such as the button's
+look roughly the same by default. But how are characteristics such as the button's
 background color chosen in light vs. dark themes, not only in its normal state, but
-in its disabled, pressed, and focused states as well? To do this, AppCompat depends heavily on
+in its disabled, pressed, and focused states as well? To achieve this, AppCompat depends mainly on
 three different theme attributes:
 
 * [**`R.attr.colorButtonNormal`**][R.attr.colorButtonNormal]: The color used as a button's
@@ -230,7 +228,7 @@ public final class BackgroundTints {
     return new ColorStateList(states, colors);
   }
 
-  /** 
+  /**
    * Returns the theme-dependent ARGB background color to use for disabled buttons.
    */
   @ColorInt
@@ -392,7 +390,6 @@ See the below links to view screenshots of the solutions:
 * [API 23, disabled state](/assets/images/posts/2016/08/08/themed-buttons-disabled-23.png)
 
 **TODO(alockwood): mention the colored disabled button bug [here][ColoredButtonDisabledTextBug]**<br>
-**TODO(alockwood): add foot note to Dan Lew's blog post about view constructors**<br>
 **TODO(alockwood): footnote about insets/padding for button background drawables?**<br>
 **TODO(alockwood): footnote explaining why/when it is necessary to use `AppCompatResources`? link to previous blog post?**<br>
 **TODO(alockwood): TALK ABOUT OTHER WAYS THIS APPROACH IS USEFUL! (example: using a ThemeOverlay to modify `android:colorEdgeEffect`)**<br>
@@ -403,12 +400,11 @@ and don't forget to +1 and/or share this blog post if you found it helpful! And 
 [source code for these examples on GitHub][ThemedButtonsSourceCode] as well!
 
 <hr class="footnote-divider"/>
-<sup id="footnote??????????">??????????</sup> **TODO(alockwood): add foot note describing how the default
-button styles are determined!** <a href="#ref??????????" title="Jump to footnote ??????????.">&#8617;</a>
+<sup id="footnote1">1</sup> Just in case you don't believe me, the default style applied to an `AppCompatButton`s is the style pointed to by the [`R.attr.buttonStyle`][R.attr.buttonStyle] theme attribute, which points to the `Widget.AppCompat.Button` style [here][Base.V7.Theme.AppCompat]. Check out [Dan Lew's great blog post][DeepDiveAndroidViewConstructors] for more information about default styles in Android. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
 <sup id="footnote??????????">??????????</sup> Note that AppCompat widgets do not expose a `setBackgroundTintList()`
 methods as part of their public API. Clients *must* use the `ViewCompat#setBackgroundTintList()`
-static helper methods to modify these properties programatically. <a href="#ref??????????" title="Jump to footnote ??????????.">&#8617;</a>
+static helper methods to modify background tints programatically. <a href="#ref??????????" title="Jump to footnote ??????????.">&#8617;</a>
 
   [R.attr.colorButtonNormal]: https://developer.android.com/reference/android/support/v7/appcompat/R.attr.html#colorButtonNormal
   [android.R.attr.disabledAlpha]: https://developer.android.com/reference/android/R.attr.html#disabledAlpha
@@ -427,50 +423,17 @@ static helper methods to modify these properties programatically. <a href="#ref?
   [@style/Widget.AppCompat.Button.Colored]: https://github.com/android/platform_frameworks_support/blob/3bc41c8f3870bca72a6c52f39a7e66fe967d5e9c/v7/appcompat/res/values/styles_base.xml#L426-L429
   [@style/Widget.AppCompat.Button.Borderless]: https://github.com/android/platform_frameworks_support/blob/3bc41c8f3870bca72a6c52f39a7e66fe967d5e9c/v7/appcompat/res/values/styles_base.xml#L432-L434
 
-  [@drawable/btn_default_mtrl_shape]: https://github.com/android/platform_frameworks_base/blob/fb61bb50281de909336c912c5a4b554b11de16cb/core/res/res/drawable/btn_default_mtrl_shape.xml
-  [@drawable/btn_default_material]: https://github.com/android/platform_frameworks_base/blob/fb61bb50281de909336c912c5a4b554b11de16cb/core/res/res/drawable/btn_default_material.xml
-  [@drawable/btn_colored_material]: https://github.com/android/platform_frameworks_base/blob/fb61bb50281de909336c912c5a4b554b11de16cb/core/res/res/drawable/btn_colored_material.xml
-  [@drawable/btn_borderless_material]: https://github.com/android/platform_frameworks_base/blob/fb61bb50281de909336c912c5a4b554b11de16cb/core/res/res/drawable/btn_borderless_material.xml
-  [@drawable/abc_btn_default_mtrl_shape]: https://github.com/android/platform_frameworks_support/blob/3bc41c8f3870bca72a6c52f39a7e66fe967d5e9c/v7/appcompat/res/drawable/abc_btn_default_mtrl_shape.xml
-  [@drawable/abc_btn_colored_material]: https://github.com/android/platform_frameworks_support/blob/3bc41c8f3870bca72a6c52f39a7e66fe967d5e9c/v7/appcompat/res/drawable/abc_btn_colored_material.xml
-  [@drawable/abc_btn_borderless_material]: https://github.com/android/platform_frameworks_support/blob/3bc41c8f3870bca72a6c52f39a7e66fe967d5e9c/v7/appcompat/res/drawable/abc_btn_borderless_material.xml
-
-  [@color/btn_default_material_light]: https://github.com/android/platform_frameworks_base/blob/fb61bb50281de909336c912c5a4b554b11de16cb/core/res/res/color/btn_default_material_light.xml
-  [@color/btn_default_material_dark]: https://github.com/android/platform_frameworks_base/blob/fb61bb50281de909336c912c5a4b554b11de16cb/core/res/res/color/btn_default_material_dark.xml
-  [@color/btn_colored_material]: https://github.com/android/platform_frameworks_base/blob/fb61bb50281de909336c912c5a4b554b11de16cb/core/res/res/color/btn_colored_material.xml
-
   [Button]: https://developer.android.com/reference/android/widget/Button.html
-  [AppCompatButton]: https://developer.android.com/reference/android/support/v7/widget/AppCompatButton.html
-  [AppCompatDrawableManager]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/src/android/support/v7/widget/AppCompatDrawableManager.java
   [Base.Widget.AppCompat.Button.Colored]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles_base.xml#L417
-  [Base.Widget.AppCompat.Button.Borderless]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles_base.xml#L423
 
   [ThemeOverlayBlogPost]: https://medium.com/google-developers/theming-with-appcompat-1a292b754b35#.ebo3ua3bu
   [ThemeOverlayProTip]: https://plus.google.com/+AndroidDevelopers/posts/JXHKyhsWHAH
 
   [ViewCompat#setBackgroundTintList()]: https://developer.android.com/reference/android/support/v4/view/ViewCompat.html#setBackgroundTintList(android.view.View, android.content.res.ColorStateList)
-  [TextAppearance.AppCompat.Widget.Button.Inverse]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles_base_text.xml#L101-L103
   [TintableBackgroundView]: https://developer.android.com/reference/android/support/v4/view/TintableBackgroundView.html
   [ThemeOverlayAttributes]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/themes_base.xml#L551-L604)
 
-  [R.attr.buttonStyle]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/src/android/support/v7/widget/AppCompatButton.java#L58
-  [Base.V7.Theme.AppCompat]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/themes_base.xml#L237
+  [R.attr.buttonStyle]: https://github.com/android/platform_frameworks_support/blob/c1e65b3f856d8c559e04857949a79ab2fac7095b/v7/appcompat/src/android/support/v7/widget/AppCompatButton.java#L60
+  [Base.V7.Theme.AppCompat]:   https://github.com/android/platform_frameworks_support/blob/c1e65b3f856d8c559e04857949a79ab2fac7095b/v7/appcompat/res/values/themes_base.xml#L237
   [Widget.AppCompat.Button]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles.xml#L204
   [Base.Widget.AppCompat.Button]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles_base.xml#L409
-  [@drawable/abc_btn_default_mtrl_shape]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/res/values/styles_base.xml#L410
-
-  [AppCompatDrawableManagerSource1]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/src/android/support/v7/widget/AppCompatDrawableManager.java#L309-L314
-  [AppCompatDrawableManagerSource2]: https://github.com/android/platform_frameworks_support/blob/d57359e205b2c04a4f0f0ecf9dcb8d6086e75663/v7/appcompat/src/android/support/v7/widget/AppCompatDrawableManager.java#L513-L548
-
-  [R.attr.buttonStyle_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/themes_material.xml#L98
-  [Widget.Material.Button_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/styles_material.xml#L459
-  [R.drawable.btn_default_material_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/drawable/btn_default_material.xml
-  [R.drawable.btn_default_mtrl_shape_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/drawable/btn_default_mtrl_shape.xml
-  [R.attr.colorButtonNormal_dark_21]: https://github.com/android/platform_frameworks_base/blob/4535e11fb7010f2b104d3f8b3954407b9f330e0f/core/res/res/values/themes_material.xml#L393
-  [R.color.btn_default_material_dark_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/color/btn_default_material_dark.xml
-  [R.color.btn_material_dark_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/colors_material.xml#L36
-  [R.attr.colorButtonNormal_light_21]: https://github.com/android/platform_frameworks_base/blob/4535e11fb7010f2b104d3f8b3954407b9f330e0f/core/res/res/values/themes_material.xml#L749
-  [R.color.btn_default_material_light_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/color/btn_default_material_light.xml
-  [R.color.btn_material_light_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/colors_material.xml#L37
-  [Widget.Material.Button.Colored_21]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/values/styles_material.xml#L471
-  [R.color.btn_colored_material]: https://github.com/android/platform_frameworks_base/blob/a294dacefff98a6328cda4200e64583a72ab8b36/core/res/res/color/btn_colored_material.xml
