@@ -390,7 +390,6 @@ See the below links to view screenshots of the solutions:
 * [API 23, disabled state](/assets/images/posts/2016/08/08/themed-buttons-disabled-23.png)
 
 **TODO(alockwood): mention the colored disabled button bug [here][ColoredButtonDisabledTextBug]**<br>
-**TODO(alockwood): footnote about insets/padding for button background drawables?**<br>
 **TODO(alockwood): footnote explaining why/when it is necessary to use `AppCompatResources`? link to previous blog post?**<br>
 **TODO(alockwood): TALK ABOUT OTHER WAYS THIS APPROACH IS USEFUL! (example: using a ThemeOverlay to modify `android:colorEdgeEffect`)**<br>
 **TODO(alockwood): footnote about difference between android.R.attr and R.attr?**<br>
