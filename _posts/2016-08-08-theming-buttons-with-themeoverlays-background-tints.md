@@ -369,7 +369,7 @@ You should assume that background tints are set programatically
 on the 4th and 8th buttons as follows:
 
 ```java
-final int googRed500 = ContextCompat.getColor(activity, R.color.quantum_googred500);
+final int googRed500 = ContextCompat.getColor(activity, R.color.googred500);
 
 final View lightBtn = activity.findViewById(R.id.light_themed_background_tint_button);
 ViewCompat.setBackgroundTintList(
