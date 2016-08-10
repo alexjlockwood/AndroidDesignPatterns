@@ -187,7 +187,7 @@ utility class to generate the desired `ColorStateList` programatically:
 
 ```java
 /**
- * Utility class for generating background tint {@link ColorStateList}s.
+ * Utility class for creating background tint {@link ColorStateList}s.
  */
 public final class BackgroundTints {
   private static final int[] DISABLED_STATE_SET = new int[]{-android.R.attr.state_enabled};
@@ -200,40 +200,42 @@ public final class BackgroundTints {
    * Note that this code makes use of the {@code android.support.v4.graphics.ColorUtils}
    * and {@code android.support.v7.content.res.AppCompatResources} utility classes.
    */
-  public static ColorStateList forColoredButton(Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      // On API 21+ we can extract the ColorStateList from XML directly.
-      // We could also construct the ColorStateList programatically similar to below
-      // (as long as we remember not to include the pressed and focused states
-      // on API 21+, since the button's foreground RippleDrawable will animate these
-      // state changes automatically).
-      return AppCompatResources.getColorStateList(context, R.color.btn_colored_background_tint);
+  public static ColorStateList forColoredButton(Context context, @ColorInt int accentColor) {
+    // On pre-Lollipop devices, we need 4 states total (disabled, pressed, focused, and default).
+    // On post-Lollipop devices, we only need 2 states total (disabled and default); the button's
+    // RippleDrawable will animate the pressed and focused state changes for us automatically.
+    final int numStates = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 2 : 4;
+
+    final int[][] states = new int[numStates][];
+    final int[] colors = new int[numStates];
+
+    int i = 0;
+
+    states[i] = DISABLED_STATE_SET;
+    colors[i] = getDisabledButtonBackgroundColor(context);
+    i++;
+
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+      final int highlightedAccentColor = getHighlightedAccentColor(context, accentColor);
+
+      states[i] = PRESSED_STATE_SET;
+      colors[i] = highlightedAccentColor;
+      i++;
+
+      states[i] = FOCUSED_STATE_SET;
+      colors[i] = highlightedAccentColor;
+      i++;
     }
 
-    // On older platform versions, there's no easy way to generate the pressed/focused
-    // state colors in XML, so we have to create the ColorStateList programatically.
-
-    final int[][] states = new int[4][];
-    final int[] colors = new int[4];
-
-    final int accentColor = getThemeAttrColor(context, R.attr.colorAccent);
-    final int colorControlHighlight = getThemeAttrColor(context, R.attr.colorControlHighlight);
-
-    states[0] = DISABLED_STATE_SET;
-    colors[0] = getDisabledButtonBackgroundColor(context);
-
-    states[1] = PRESSED_STATE_SET;
-    colors[1] = ColorUtils.compositeColors(colorControlHighlight, accentColor);
-
-    states[2] = FOCUSED_STATE_SET;
-    colors[2] = ColorUtils.compositeColors(colorControlHighlight, accentColor);
-
-    states[3] = EMPTY_STATE_SET;
-    colors[3] = accentColor;
+    states[i] = EMPTY_STATE_SET;
+    colors[i] = accentColor;
 
     return new ColorStateList(states, colors);
   }
 
+  /** 
+   * Returns the theme-dependent ARGB background color to use for disabled buttons.
+   */
   @ColorInt
   private static int getDisabledButtonBackgroundColor(Context context) {
     // Extract the disabled alpha to apply to the button using the context's theme.
@@ -246,9 +248,21 @@ public final class BackgroundTints {
     // to generate the button's disabled background color.
     final int colorButtonNormal = getThemeAttrColor(context, R.attr.colorButtonNormal);
     final int originalAlpha = Color.alpha(colorButtonNormal);
-    return ColorUtils.setAlphaComponent(colorButtonNormal, Math.round(originalAlpha * disabledAlpha));
+    return ColorUtils.setAlphaComponent(
+        colorButtonNormal, Math.round(originalAlpha * disabledAlpha));
   }
 
+  /**
+   * Returns the theme-dependent ARGB color that results when colorControlHighlight is drawn
+   * on top of the provided accent color.
+   */
+  @ColorInt
+  private static int getHighlightedAccentColor(Context context, @ColorInt int accentColor) {
+    final int colorControlHighlight = getThemeAttrColor(context, R.attr.colorControlHighlight);
+    return ColorUtils.compositeColors(colorControlHighlight, accentColor);
+  }
+
+  /** Returns the theme-dependent ARGB color associated with the provided theme attribute. */
   @ColorInt
   private static int getThemeAttrColor(Context context, @AttrRes int attr) {
     final TypedArray array = context.obtainStyledAttributes(null, new int[]{attr});
@@ -266,8 +280,11 @@ public final class BackgroundTints {
 Then, we can simply apply the background tint to the button programatically using:
 
 ```java
-ViewCompat.setBackgroundTintList(button, BackgroundTints.forColoredButton(button.getContext());
+ViewCompat.setBackgroundTintList(button, 
+    BackgroundTints.forColoredButton(button.getContext(), customAccentColor);
 ```
+
+**TODO(alockwood): finish off the blog post with a conclusion paragraph or something like that!**
 
 ### Pop quiz!
 
@@ -355,11 +372,15 @@ You should assume that background tints are set programatically
 on the 4th and 8th buttons as follows:
 
 ```java
-View lightBtn = findViewById(R.id.light_themed_bg_tint_button);
-ViewCompat.setBackgroundTintList(lightBtn, forColoredButton(lightBtn.getContext()));
+final int googRed500 = ContextCompat.getColor(activity, R.color.quantum_googred500);
 
-final View darkBtn = findViewById(R.id.dark_themed_bg_tint_button);
-ViewCompat.setBackgroundTintList(darkBtn, forColoredButton(darkBtn.getContext()));
+final View lightBtn = activity.findViewById(R.id.light_themed_background_tint_button);
+ViewCompat.setBackgroundTintList(
+    lightBtn, BackgroundTints.forColoredButton(lightBtn.getContext(), googRed500));
+
+final View darkBtn = activity.findViewById(R.id.dark_themed_background_tint_button);
+ViewCompat.setBackgroundTintList(
+    darkBtn, BackgroundTints.forColoredButton(darkBtn.getContext(), googRed500));
 ```
 
 #### Solutions
@@ -379,6 +400,7 @@ See the below links to view screenshots of the solutions:
 **TODO(alockwood): footnote explaining why/when it is necessary to use `AppCompatResources`? link to previous blog post?**<br>
 **TODO(alockwood): TALK ABOUT OTHER WAYS THIS APPROACH IS USEFUL! (example: using a ThemeOverlay to modify `android:colorEdgeEffect`)**<br>
 **TODO(alockwood): footnote about difference between android.R.attr and R.attr?**<br>
+**TODO(alockwood): update the solution screenshots!**
 
 As always, thanks for reading! Feel free to leave a comment if you have any questions,
 and don't forget to +1 and/or share this blog post if you found it helpful! And check out the
