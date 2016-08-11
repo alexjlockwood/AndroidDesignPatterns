@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Coloring Buttons w/ ThemeOverlays & Background Tints'
-date: 2016-08-11
+date: 2016-08-10
 permalink: /2016/08/coloring-buttons-with-themeoverlays-background-tints.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
@@ -11,10 +11,10 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
 <!--morestart-->
 
 Let's say you want to change the background color of a `Button`.
-How should this be done?
+How can this be done?
 
 This blog post covers two different approaches. In the first approach,
-we'll use AppCompat's `Widget.AppCompat.Button` style and a custom `ThemeOverlay`
+we'll use AppCompat's `Widget.AppCompat.Button.Colored` style and a custom `ThemeOverlay`
 to modify the button's background color directly, and in the second, we'll use
 AppCompat's built-in background tinting support to achieve an identical effect.
 
@@ -27,7 +27,7 @@ background colors are actually determined. The [material design spec][MaterialDe
 has very specific requirements about what a button should look like in both light
 and dark themes. How are these requirements met under-the-hood?
 
-#### The `Widget.AppCompat.Button` button style
+#### The `Widget.AppCompat.Button` button styles
 
 To answer this question, we'll first need a basic understanding of how
 AppCompat determines the default appearance of a standard button.
@@ -194,7 +194,7 @@ public final class BackgroundTints {
     // On pre-Lollipop devices, we need 4 states total (disabled, pressed, focused, and default).
     // On post-Lollipop devices, we need 2 states total (disabled and default). The button's
     // RippleDrawable will animate the pressed and focused state changes for us automatically.
-    final int numStates = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 2 : 4;
+    final int numStates = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? 4 : 2;
 
     final int[][] states = new int[numStates][];
     final int[] colors = new int[numStates];
@@ -356,7 +356,7 @@ when the buttons are put in default, pressed, and disabled states?
 </LinearLayout>
 ```
 
-You should assume that background tints are set programatically
+Assume that background tints are set programatically
 on the 4th and 8th buttons as follows:
 
 ```java
