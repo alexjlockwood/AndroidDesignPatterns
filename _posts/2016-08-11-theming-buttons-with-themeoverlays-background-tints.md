@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Coloring Buttons w/ ThemeOverlays & Background Tints'
-date: 2016-08-10
+date: 2016-08-11
 permalink: /2016/08/coloring-buttons-with-themeoverlays-background-tints.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
