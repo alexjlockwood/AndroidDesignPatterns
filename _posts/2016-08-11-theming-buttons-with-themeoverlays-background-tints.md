@@ -10,7 +10,7 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
 
 <!--morestart-->
 
-Let's say you want to change the background color of a `Button`.
+Say you want to change the background color of a `Button`.
 How can this be done?
 
 This blog post covers two different approaches. In the first approach,
