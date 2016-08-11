@@ -114,7 +114,7 @@ And that's it! You're probably still wondering what's up with that weird
 files (i.e. `Theme.AppCompat.Light`, `Theme.AppCompat.Dark`, etc.),
 `ThemeOverlay`s define only a small set of material-styled theme attributes that
 are most often used when theming each view's appearance (see the
-[source code for a complete list of these attributes][ThemeOverlayAttributes]).
+[source code][ThemeOverlayAttributes] for a complete list of these attributes).
 As a result, they are very useful in cases where you only want to modify one or
 two properties of a particular view: just extend the `ThemeOverlay`, update the
 attributes you want to modify with their new values, and you can be sure that
@@ -170,7 +170,8 @@ ViewCompat.setBackgroundTintList(button, backgroundTintList);
 ```
 
 While this approach to coloring a button is much more powerful in the sense that it can be
-done entirely programatically (whereas `ThemeOverlay`s must be defined in XML and cannot be constructed at
+done entirely programatically (whereas `ThemeOverlay`s must be defined in XML and cannot
+be constructed at
 runtime), it also requires a bit more work on our end if we want to ensure our button exactly meets
 the material design spec. Let's create a simple `BackgroundTints` utility class that makes
 it quick and easy to construct colored background tint lists:
@@ -396,19 +397,20 @@ is the style pointed to by the [`R.attr.buttonStyle`][R.attr.buttonStyle] theme 
 [Dan Lew's great blog post][DeepDiveAndroidViewConstructors] for more information about default styles in
 Android. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
-<sup id="footnote2">2</sup> `ThemeOverlay`s aren't only useful for changing the background color of a button.
-They can be used to alter any theme attribute you want! For example, you could use one to customize the
+<sup id="footnote2">2</sup> `ThemeOverlay`s aren't only useful for changing your
+theme's accent color. They can be used to alter any theme attribute you want!
+For example, you could use one to customize the
 color of an `RecyclerView`'s overscroll ripple by modifying the color of the
 `android.R.attr.colorEdgeEffect` theme
 attribute. Check out [this Medium post][ThemeOverlayBlogPost] and this
 [Google+ pro tip][ThemeOverlayProTip] for more information
-about `ThemeOverlay`s.<a href="#ref2" title="Jump to footnote 2">&#8617;</a>
+about `ThemeOverlay`s. <a href="#ref2" title="Jump to footnote 2">&#8617;</a>
 
 <sup id="footnote3">3</sup> Note that AppCompat widgets do not expose a `setBackgroundTintList()`
 methods as part of their public API. Clients *must* use the `ViewCompat#setBackgroundTintList()`
 static helper methods to modify background tints programatically. Also note that using the
 [`AppCompatResources`][AppCompatResources]
-class to inflate the `ColorStateList` is important here. Check out my previous blog post
+class to inflate the `ColorStateList` is important here. Check out [my previous blog post](/2016/08/contextcompat-getcolor-getdrawable.html)
 for more detailed information on that
 topic. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
 
@@ -430,4 +432,3 @@ topic. <a href="#ref3" title="Jump to footnote 3.">&#8617;</a>
   [R.attr.buttonStyle]: https://github.com/android/platform_frameworks_support/blob/c1e65b3f856d8c559e04857949a79ab2fac7095b/v7/appcompat/src/android/support/v7/widget/AppCompatButton.java#L60
   [Base.V7.Theme.AppCompat]: https://github.com/android/platform_frameworks_support/blob/c1e65b3f856d8c559e04857949a79ab2fac7095b/v7/appcompat/res/values/themes_base.xml#L237
   [AppCompatResources]: https://developer.android.com/reference/android/support/v7/content/res/AppCompatResources.html
-
