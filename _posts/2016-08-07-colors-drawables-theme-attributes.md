@@ -49,7 +49,7 @@ First, let's be clear on what these old, deprecated methods actually do:
 *   [`Resources#getColor(int)`][Resources#getColor(int)]
     returns the color associated with the passed in color resource ID. If the resource
     ID points to a `ColorStateList`, the method will return the `ColorStateList`'s
-    [default color].
+    [default color][ColorStateList#getDefaultColor()].
 
 *   [`Resources#getColorStateList(int)`][Resources#getColorStateList(int)]
     returns the `ColorStateList` associated with the passed in resource ID.
