@@ -25,12 +25,12 @@ Create a `res/values/paths.xml` file to store the paths to draw:
 ```xml
 <resources>
 
-  <string name="path_play_left">M9,5 L9,5 L9,13 L4,13 Z</string>
-  <string name="path_play_right">M9,5 L9,5 L14,13 L9,13 Z</string>
-  <string name="path_pause_left">M6,5 L8,5 L8,13 L6,13 Z</string>
-  <string name="path_pause_right">M10,5 L12,5 L12,13 L10,13 Z</string>
-  <string name="path_stop_left">M5,5 L9,5 L9,13 L5,13 Z</string>
-  <string name="path_stop_right">M9,5 L13,5 L13,13 L9,13 Z</string>
+  <string name="path_play_left">M9,5 L9,5 L9,13 L4,13 L9,5</string>
+  <string name="path_play_right">M9,5 L9,5 L14,13 L9,13 L9,5</string>
+  <string name="path_pause_left">M6,5 L8,5 L8,13 L6,13 L6,5</string>
+  <string name="path_pause_right">M10,5 L12,5 L12,13 L10,13 L10,5</string>
+  <string name="path_stop_left">M5,5 L9,5 L9,13 L5,13 L5,5</string>
+  <string name="path_stop_right">M9,5 L13,5 L13,13 L9,13 L9,5</string>
 
 </resources>
 ```
@@ -65,6 +65,7 @@ Create the `VectorDrawable`s in three separate XML files:
       android:pathData="@string/path_{play,pause,stop}_right"/>
 
   </group>
+
 </vector>
 ```
 
@@ -73,60 +74,60 @@ Now we need to create the `AnimatedVectorDrawable`s that describe how to animate
 ```xml
 <!-- res/drawable/avd_play_to_pause.xml-->
 <animated-vector
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
-    android:drawable="@drawable/ic_play">
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:aapt="http://schemas.android.com/aapt"
+  android:drawable="@drawable/ic_play">
 
-    <target android:name="iconGroup">
-        <aapt:attr name="android:animation">
-            <set>
-                <objectAnimator
-                    android:duration="@android:integer/config_shortAnimTime"
-                    android:interpolator="@android:interpolator/decelerate_quad"
-                    android:propertyName="rotation"
-                    android:valueFrom="90"
-                    android:valueTo="180"/>
-                <objectAnimator
-                    android:duration="@android:integer/config_shortAnimTime"
-                    android:interpolator="@android:interpolator/decelerate_quad"
-                    android:propertyName="translateX"
-                    android:valueFrom="0.75"
-                    android:valueTo="0"/>
-            </set>
-        </aapt:attr>
-    </target>
+  <target android:name="iconGroup">
+    <aapt:attr name="android:animation">
+      <set>
+        <objectAnimator
+          android:duration="@android:integer/config_shortAnimTime"
+          android:interpolator="@android:interpolator/decelerate_quad"
+          android:propertyName="rotation"
+          android:valueFrom="90"
+          android:valueTo="180"/>
+        <objectAnimator
+          android:duration="@integer/animation_duration"
+          android:interpolator="@android:interpolator/decelerate_quad"
+          android:propertyName="translateX"
+          android:valueFrom="0.75"
+          android:valueTo="0"/>
+      </set>
+    </aapt:attr>
+  </target>
 
 
-    <target android:name="leftPath">
-        <aapt:attr name="android:animation">
-            <objectAnimator
-                android:duration="@android:integer/config_shortAnimTime"
-                android:interpolator="@android:interpolator/decelerate_quad"
-                android:propertyName="pathData"
-                android:valueFrom="@string/path_play_left"
-                android:valueTo="@string/path_pause_left"
-                android:valueType="pathType"/>
-        </aapt:attr>
-    </target>
+  <target android:name="leftPath">
+    <aapt:attr name="android:animation">
+      <objectAnimator
+        android:duration="@android:integer/config_shortAnimTime"
+        android:interpolator="@android:interpolator/decelerate_quad"
+        android:propertyName="pathData"
+        android:valueFrom="@string/path_play_left"
+        android:valueTo="@string/path_pause_left"
+        android:valueType="pathType"/>
+    </aapt:attr>
+  </target>
 
-    <target android:name="rightPath">
-        <aapt:attr name="android:animation">
-            <objectAnimator
-                android:duration="@android:integer/config_shortAnimTime"
-                android:interpolator="@android:interpolator/decelerate_quad"
-                android:propertyName="pathData"
-                android:valueFrom="@string/path_play_right"
-                android:valueTo="@string/path_pause_right"
-                android:valueType="pathType"/>
-        </aapt:attr>
-    </target>
+  <target android:name="rightPath">
+    <aapt:attr name="android:animation">
+      <objectAnimator
+        android:duration="@android:integer/config_shortAnimTime"
+        android:interpolator="@android:interpolator/decelerate_quad"
+        android:propertyName="pathData"
+        android:valueFrom="@string/path_play_right"
+        android:valueTo="@string/path_pause_right"
+        android:valueType="pathType"/>
+    </aapt:attr>
+  </target>
 
 </animated-vector>
 ```
 
 The animated icon w/o rotation or translation:
 
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="50%" height="50%" viewBox="0 0 18 18">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18" style="border-width: 1px; border-style: solid; display: inline; max-width:240px;">
 
   <path id="icon_without_rotation" fill="#000" fill-opacity=".54"/>
 
@@ -152,7 +153,7 @@ The animated icon w/o rotation or translation:
 
 The final result:
 
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="50%" height="50%" viewBox="0 0 18 18">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18" style="border-width: 1px; border-style: solid; display: inline; max-width:240px;">
 
   <path id="icon_with_rotation" fill="#000" fill-opacity=".54"/>
 
@@ -205,107 +206,61 @@ The final result:
 
 </svg>
 
-The `CheckableImageButton`:
-
-```java
-/** An extension of {@link ImageButton} that implements the {@link Checkable} interface. */
-public class CheckableImageButton extends ImageButton implements Checkable {
-  private static final int[] CHECKED_STATE_SET = {android.R.attr.state_checked};
-
-  private boolean isChecked;
-
-  public CheckableImageButton(Context context, AttributeSet attrs) {
-    super(context, attrs);
-  }
-
-  @Override
-  public boolean isChecked() {
-    return isChecked;
-  }
-
-  @Override
-  public void setChecked(boolean isChecked) {
-    if (this.isChecked != isChecked) {
-      this.isChecked = isChecked;
-      refreshDrawableState();
-    }
-  }
-
-  @Override
-  public void toggle() {
-    setChecked(!isChecked);
-  }
-
-  @Override
-  public boolean performClick() {
-    // Code copied from CompoundButton#performClick().
-    toggle();
-
-    final boolean handled = super.performClick();
-    if (!handled) {
-      // View only makes a sound effect if the onClickListener was
-      // called, so we'll need to make one here instead.
-      playSoundEffect(SoundEffectConstants.CLICK);
-    }
-
-    return handled;
-  }
-
-  @Override
-  public int[] onCreateDrawableState(int extraSpace) {
-    final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-    if (isChecked()) {
-      mergeDrawableStates(drawableState, CHECKED_STATE_SET);
-    }
-    return drawableState;
-  }
-}
-```
-
 And the `AnimatedStateListDrawable`:
 
 ```xml
 <!-- res/drawable/asl_play_pause.xml-->
 <animated-selector
-    xmlns:android="http://schemas.android.com/apk/res/android">
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/pause"
-        android:drawable="@drawable/ic_pause"
-        android:state_checked="true"/>
+  <item
+    android:id="@+id/pause"
+    android:drawable="@drawable/ic_pause"
+    app:state_pause="true"/>
 
-    <item
-        android:id="@+id/play"
-        android:drawable="@drawable/ic_play"/>
+  <item
+    android:id="@+id/stop"
+    android:drawable="@drawable/ic_stop"
+    app:state_stop="true"/>
 
-    <transition
-        android:drawable="@drawable/avd_pause_to_play"
-        android:fromId="@id/pause"
-        android:toId="@id/play"/>
+  <item
+    android:id="@+id/play"
+    android:drawable="@drawable/ic_play"/>
 
-    <transition
-        android:drawable="@drawable/avd_play_to_pause"
-        android:fromId="@id/play"
-        android:toId="@id/pause"/>
+  <transition
+    android:drawable="@drawable/avd_pause_to_play"
+    android:fromId="@id/pause"
+    android:toId="@id/play"/>
+
+  <transition
+    android:drawable="@drawable/avd_play_to_pause"
+    android:fromId="@id/play"
+    android:toId="@id/pause"/>
+
+  <transition
+    android:drawable="@drawable/avd_stop_to_play"
+    android:fromId="@id/stop"
+    android:toId="@id/play"/>
+
+  <transition
+    android:drawable="@drawable/avd_play_to_stop"
+    android:fromId="@id/play"
+    android:toId="@id/stop"/>
+
+  <transition
+    android:drawable="@drawable/avd_pause_to_stop"
+    android:fromId="@id/pause"
+    android:toId="@id/stop"/>
+
+  <transition
+    android:drawable="@drawable/avd_stop_to_pause"
+    android:fromId="@id/stop"
+    android:toId="@id/pause"/>
 
 </animated-selector>
 ```
 
 On API 21+, you can set the drawable in XML by referencing `@drawable/asl_play_pause`.
 
-On API 19 and below, you'll need to manually set and start the animated vector drawables
-in your activity yourself:
-
-```java
-final CheckableImageButton icon = (CheckableImageButton) findViewById(R.id.icon);
-final AnimatedVectorDrawableCompat pauseToPlay =
-    AnimatedVectorDrawableCompat.create(this, R.drawable.avd_pause_to_play);
-final AnimatedVectorDrawableCompat playToPause =
-    AnimatedVectorDrawableCompat.create(this, R.drawable.avd_play_to_pause);
-icon.setImageDrawable(playToPause);
-icon.setOnClickListener(view -> {
-    final AnimatedVectorDrawableCompat avd = icon.isChecked() ? pauseToPlay : playToPause;
-    icon.setImageDrawable(avd);
-    avd.start();
-});
-```
+On API 19 and below, you'll need to...
