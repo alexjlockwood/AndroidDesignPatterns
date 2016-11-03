@@ -64,6 +64,12 @@
     </script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
+    {% if page.style %}
+    <style type="text/css">
+       {{ page.style }}
+    </style>
+    {% endif %}
+
     <style>
       .framed-nexus6-port {
         background: transparent url(/assets/images/nexus6_frame.png) no-repeat

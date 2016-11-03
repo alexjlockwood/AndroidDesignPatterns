@@ -127,7 +127,7 @@ The Activity transition APIs are built around the idea of _exit, enter, return, 
 
 Lastly, the framework provides APIs for two types of Activity transitions&mdash;_content transitions_ and _shared element transitions_&mdash;each of which allow us to customize the animations between Activities in unique ways:
 
-> A _content transition_ determines how an activity's non-shared views&mdash;called _transitioning views_&mdash;enter or exit the activity scene.
+> A _content transition_ determines how an activity's non-shared views (also called _transitioning views_) enter or exit the activity scene.
 >
 > A _shared element transition_ determines how an activity's _shared elements_ (also called _hero views_) are animated between two activities.
 
@@ -149,7 +149,7 @@ Creating a basic Activity transition is relatively easy using the new Lollipop A
 * Set [exit][setSharedElementExitTransition] and [enter][setSharedElementEnterTransition] shared element transitions for your calling and called activities respectively. Material-themed applications have their shared element exit and enter transitions set to [`@android:transition/move`][Move] by default. If the [reenter][setSharedElementReenterTransition] or [return][setSharedElementReturnTransition] transitions are not explicitly set, the activity's exit and enter shared element transitions respectively will be used in their place instead.
 * To start an Activity transition with content transitions and shared elements, call the [`startActivity(Context, Bundle)`][startActivity] method and pass the following `Bundle` as the second argument:
 
-    ```java
+    ```
     ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
     ```
 

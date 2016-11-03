@@ -49,7 +49,7 @@ First, let's be clear on what these old, deprecated methods actually do:
 *   [`Resources#getColor(int)`][Resources#getColor(int)]
     returns the color associated with the passed in color resource ID. If the resource
     ID points to a `ColorStateList`, the method will return the `ColorStateList`'s
-    [default color].
+    [default color][ColorStateList#getDefaultColor()].
 
 *   [`Resources#getColorStateList(int)`][Resources#getColorStateList(int)]
     returns the `ColorStateList` associated with the passed in resource ID.
@@ -302,7 +302,7 @@ As always, thanks for reading! Feel free to leave a comment if you have any ques
   [Context]: http://developer.android.com/reference/android/content/Context.html
   [ContextCompat]: http://developer.android.com/reference/android/support/v4/content/ContextCompat.html
   [ResourcesCompat]: http://developer.android.com/reference/android/support/v4/content/res/ResourcesCompat.html
-  [ColorStateList#getDefaultColor()]: (http://developer.android.com/reference/android/content/res/ColorStateList.html#getDefaultColor())
+  [ColorStateList#getDefaultColor()]: http://developer.android.com/reference/android/content/res/ColorStateList.html#getDefaultColor()
   [Resources#getColor(int)]: http://developer.android.com/reference/android/content/res/Resources.html#getColor(int)
   [Resources#getColorStateList(int)]: http://developer.android.com/reference/android/content/res/Resources.html#getColorStateList(int)
   [Resources#getColor(int, Theme)]: http://developer.android.com/reference/android/content/res/Resources.html#getColor(int, android.content.res.Resources.Theme)

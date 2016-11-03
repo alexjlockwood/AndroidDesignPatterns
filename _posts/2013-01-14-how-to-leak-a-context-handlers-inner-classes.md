@@ -18,7 +18,7 @@ public class SampleActivity extends Activity {
     public void handleMessage(Message msg) {
       // ... 
     }
-  }
+  };
 }
 ```
 
@@ -61,7 +61,7 @@ public class SampleActivity extends Activity {
     public void handleMessage(Message msg) {
       // ...
     }
-  }
+  };
  
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -57,7 +57,7 @@ three different theme attributes:
 
 * [**`R.attr.colorButtonNormal`**][R.attr.colorButtonNormal]: The color used as a button's
   background color in
-  its normal state. Resolves to and `#ffd6d7d7` for light themes and `#ff5a595b` for dark themes.
+  its normal state. Resolves to `#ffd6d7d7` for light themes and `#ff5a595b` for dark themes.
 * [**`android.R.attr.disabledAlpha`**][android.R.attr.disabledAlpha]: A floating point number that
   determines the
   alpha values to use for disabled framework widgets. Resolves to `0.26f` for light themes
