@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 'Play Pause Icon'
+title: 'Icon morphing'
 date: 2016-10-22
-permalink: /2016/10/play-pause-icon.html
+permalink: /2016/10/icon-morphing.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
@@ -13,6 +13,77 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
 asdf
 
 <!--more-->
+
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1 1" style="border-width: 1px; border-style: solid; display: inline; max-width:240px;">
+
+  <path id="simple-path-morph" stroke="#757575" stroke-width="0.015" fill="none"/>
+  <path id="simple-path-morph-control-points" fill="#212121"/>
+  <path id="simple-path-morph-end-points" fill="#212121"/>
+
+  <animate
+    xlink:href="#simple-path-morph"
+    attributeName="d"
+    dur="3600ms"
+    repeatCount="indefinite"
+    fill="freeze"
+    keyTimes="0; 0.5; 1"
+    calcMode="spline"
+    keySplines="0 0 1 1; 0 0 1 1"
+    values="
+      M 0.05,0.5 C 0.20,0.5 0.35,0.50 0.50,0.50 C 0.65,0.50 0.80,0.5 0.95,0.5;
+      M 0.05,0.5 C 0.05,0.25147186259 0.25147186259,0.05 0.50,0.05 C 0.74852813741,0.05 0.95,0.25147186259 0.95,0.5;
+      M 0.05,0.5 C 0.20,0.5 0.35,0.50 0.50,0.50 C 0.65,0.50 0.80,0.5 0.95,0.5"/>
+
+  <animate
+    xlink:href="#simple-path-morph-control-points"
+    attributeName="d"
+    dur="3600ms"
+    repeatCount="indefinite"
+    fill="freeze"
+    keyTimes="0; 0.5; 1"
+    calcMode="spline"
+    keySplines="0 0 1 1; 0 0 1 1"
+    values="
+      M 0.20,0.5 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+      M 0.35,0.50 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+      M 0.65,0.50 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+      M 0.80,0.5 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0;
+
+      M 0.05,0.25147186259 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+      M 0.25147186259,0.05 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+      M 0.74852813741,0.05 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+      M 0.95,0.25147186259 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0;
+
+      M 0.20,0.5 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+      M 0.35,0.50 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+      M 0.65,0.50 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+      M 0.80,0.5 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+    "/>
+
+  <animate
+    xlink:href="#simple-path-morph-end-points"
+    attributeName="d"
+    dur="3600ms"
+    repeatCount="indefinite"
+    fill="freeze"
+    keyTimes="0; 0.5; 1"
+    calcMode="spline"
+    keySplines="0 0 1 1; 0 0 1 1"
+    values="
+      M 0.05,0.5 m -0.025,0 a 0.025,0.025 0 1,0 0.05,0 a 0.025,0.025 0 1,0 -0.05,0
+      M 0.5,0.5 m -0.025,0 a 0.025,0.025 0 1,0 0.05,0 a 0.025,0.025 0 1,0 -0.05,0
+      M 0.95,0.5 m -0.025,0 a 0.025,0.025 0 1,0 0.05,0 a 0.025,0.025 0 1,0 -0.05,0;
+
+      M 0.05,0.5 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+      M 0.5,0.05 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0
+      M 0.95,0.5 m -0.02,0 a 0.02,0.02 0 1,0 0.04,0 a 0.02,0.02 0 1,0 -0.04,0;
+
+      M 0.05,0.5 m -0.025,0 a 0.025,0.025 0 1,0 0.05,0 a 0.025,0.025 0 1,0 -0.05,0
+      M 0.5,0.5 m -0.025,0 a 0.025,0.025 0 1,0 0.05,0 a 0.025,0.025 0 1,0 -0.05,0
+      M 0.95,0.5 m -0.025,0 a 0.025,0.025 0 1,0 0.05,0 a 0.025,0.025 0 1,0 -0.05,0
+    "/>
+
+</svg>
 
 The coordinates using a 18x18 artboard:
 
