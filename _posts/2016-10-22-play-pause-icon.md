@@ -6,6 +6,30 @@ permalink: /2016/10/icon-morphing.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
+style: |
+  .bordered-image {
+    border-width: 1px; 
+    border-style: solid; 
+    display: inline; 
+    max-width:240px;
+  }
+  
+  .path {
+    animation-delay: 0s;
+    animation-duration: 1.3333s;
+    animation-iteration-count: infinite;
+    animation-name: draw;
+  }
+  
+  @keyframes draw {
+    0% {
+      transform-origin: 100%,100%;
+    }
+    50% {
+      stroke-dashoffset: 40.8407044967;
+      animation-timing-function: cubic-bezier-curve(0.2, 0, 0.1, 1);
+    }
+  }
 ---
 
 <!--morestart-->
@@ -14,7 +38,15 @@ asdf
 
 <!--more-->
 
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1 1" style="border-width: 1px; border-style: solid; display: inline; max-width:240px;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" class="bordered-image">
+  
+  <path class="path" stroke="#4CADC1" stroke-width="1" stroke-linejoin="miter" stroke-linecap="square"  stroke-dasharray="163.362817987" stroke-dashoffset="163.362817987" fill="none" d="M28,2 C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2"/>
+
+</svg>
+
+asdf
+
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1 1" class="bordered-image">
 
   <path id="simple-path-morph" stroke="#757575" stroke-width="0.015" fill="none"/>
   <path id="simple-path-morph-control-points" fill="#212121"/>
@@ -87,9 +119,9 @@ asdf
 
 The coordinates using a 18x18 artboard:
 
-<img src="/assets/images/posts/2016/10/22/play.png" style="border-width: 1px; border-style: solid; display: inline; max-width:240px;"/>
-<img src="/assets/images/posts/2016/10/22/pause.png" style="border-width: 1px; border-style: solid; display: inline; max-width:240px;"/>
-<img src="/assets/images/posts/2016/10/22/stop.png" style="border-width: 1px; border-style: solid; display: inline; max-width:240px;"/>
+<img src="/assets/images/posts/2016/10/22/play.png" class="bordered-image"/>
+<img src="/assets/images/posts/2016/10/22/pause.png" class="bordered-image"/>
+<img src="/assets/images/posts/2016/10/22/stop.png" class="bordered-image"/>
 
 Create a `res/values/paths.xml` file to store the paths to draw:
 
@@ -198,7 +230,7 @@ Now we need to create the `AnimatedVectorDrawable`s that describe how to animate
 
 The animated icon w/o rotation or translation:
 
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18" style="border-width: 1px; border-style: solid; display: inline; max-width:240px;">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18" class="bordered-image">
 
   <path id="icon_without_rotation" fill="#000" fill-opacity=".54"/>
 
@@ -224,7 +256,7 @@ The animated icon w/o rotation or translation:
 
 The final result:
 
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18" style="border-width: 1px; border-style: solid; display: inline; max-width:240px;">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18" class="bordered-image">
 
   <path id="icon_with_rotation" fill="#000" fill-opacity=".54"/>
 
