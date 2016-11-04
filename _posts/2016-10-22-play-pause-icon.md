@@ -46,6 +46,14 @@ asdf
 
 asdf
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" class="bordered-image">
+  
+  <path class="path" stroke-width="1" fill="none" stroke="black" d="M28,39 L26.405,37.5667575 C20.74,32.4713896 17,29.1089918 17,24.9945504 C17,21.6321526 19.6565,19 23.05,19 C24.964,19 26.801,19.8828338 28,21.2724796 C29.199,19.8828338 31.036,19 32.95,19 C36.3435,19 39,21.6321526 39,24.9945504 C39,29.1089918 35.26,32.4713896 29.595,37.5667575 L28,39 L28,39 Z"/>
+
+</svg>
+
+asdf
+
 <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1 1" class="bordered-image">
 
   <path id="simple-path-morph" stroke="#757575" stroke-width="0.015" fill="none"/>
