@@ -8,19 +8,19 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
 style: |
   .bordered-image {
-    border-width: 1px; 
-    border-style: solid; 
-    display: inline; 
+    border-width: 1px;
+    border-style: solid;
+    display: inline;
     max-width:240px;
   }
-  
+
   .path {
     animation-delay: 0s;
     animation-duration: 1.3333s;
     animation-iteration-count: infinite;
     animation-name: draw;
   }
-  
+
   @keyframes draw {
     0% {
       transform-origin: 100%,100%;
@@ -38,8 +38,19 @@ asdf
 
 <!--more-->
 
+<svg id="somesvgid" class="bordered-image"></svg>
+
+asdf
+
+<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" class="bordered-image">
+<path fill="none" stroke="#000" stroke-width="1" d="M 12,15 c 0,-1 0,-5.33333 0,-6"/>
+<path fill="none" stroke="red" stroke-width="1" d="M 12,15 v -6"/>
+</svg>
+
+asdf
+
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" class="bordered-image">
-  
+
   <path class="path" stroke="#4CADC1" stroke-width="1" stroke-linejoin="miter" stroke-linecap="square"  stroke-dasharray="163.362817987" stroke-dashoffset="163.362817987" fill="none" d="M28,2 C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2"/>
 
 </svg>
@@ -47,7 +58,7 @@ asdf
 asdf
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" class="bordered-image">
-  
+
   <path class="path" stroke-width="1" fill="none" stroke="black" d="M28,39 L26.405,37.5667575 C20.74,32.4713896 17,29.1089918 17,24.9945504 C17,21.6321526 19.6565,19 23.05,19 C24.964,19 26.801,19.8828338 28,21.2724796 C29.199,19.8828338 31.036,19 32.95,19 C36.3435,19 39,21.6321526 39,24.9945504 C39,29.1089918 35.26,32.4713896 29.595,37.5667575 L28,39 L28,39 Z"/>
 
 </svg>
@@ -375,3 +386,21 @@ And the `AnimatedStateListDrawable`:
 On API 21+, you can set the drawable in XML by referencing `@drawable/asl_play_pause`.
 
 On API 19 and below, you'll need to...
+
+<script src="/scripts/snap.svg-min.js"></script>
+<script>
+var s = Snap("#somesvgid");
+s.attr({ viewBox: "0 0 24 24" });
+
+var path = s.path("M -1,-4 l 2,0 c 0,0 0,0 0,0 l 0,8 c 0,0 0,0 0,0 l -2,0 c 0,0 0,0 0,0 l 0,-8 c 0,0 0,0 0,0 Z");
+
+path.transform(t0,-3);
+path.transform(r45,12,12);
+path.transform('t-12,-9');
+path.transform('r-90,12,12');
+
+path.click(function () {
+    path.transform('');
+    path.animate({ d: "M -1,-4 l 2,0 c 0,0 0,0 0,0 l 0,8 c 0,0 0,0 0,0 l -2,0 c 0,0 0,0 0,0 l 0,-8 c 0,0 0,0 0,0 Z" }, 1000, mina.bounce);
+});
+</script>
