@@ -70,6 +70,12 @@
     </style>
     {% endif %}
 
+    {% if page.script %}
+    <script>
+       {{ page.script }}
+    </script>
+    {% endif %}
+
     <style>
       .framed-nexus6-port {
         background: transparent url(/assets/images/nexus6_frame.png) no-repeat
@@ -153,7 +159,7 @@
 	      </a>
 	      <span><a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
                  onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight'); return false;">
-                  2048++</a> is hands down the cleanest, sleekest, most responsive 2048 app for Android! 
+                  2048++</a> is hands down the cleanest, sleekest, most responsive 2048 app for Android!
                 <a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
                    onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight'); return false;">
                   Play Store</a></span>
