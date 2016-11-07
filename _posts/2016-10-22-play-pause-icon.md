@@ -33,6 +33,7 @@ asdf
 
 <svg id="plusminussvg" class="bordered-image"></svg>
 <svg id="crossticksvg" class="bordered-image"></svg>
+<svg id="drawerarrowsvg" class="bordered-image"></svg>
 
 ### Trimming stroked paths
 
@@ -98,9 +99,9 @@ var bezier = function(x1, y1, x2, y2, duration){
 };
 
 var expandCollapse = Snap("#expandcollapsesvg").attr({ viewBox: "0 0 24 24" });
-var expandCollapseLeftPath = 
+var expandCollapseLeftPath =
     expandCollapse.path("M 1,-1 L 1,7 L -1,7 L -1,-1 Z");
-var expandCollapseRightPath = 
+var expandCollapseRightPath =
     expandCollapse.path("M 1,-7 L 1,1 L -1,1 L -1,-7 Z");
 var expandCollapseGroup = expandCollapse.group(expandCollapseLeftPath, expandCollapseRightPath);
 
@@ -150,12 +151,12 @@ var shouldReversePlusMinus = false;
 plusMinus.click(function () {
     plusMinusPath.transform("R0,12,12");
     if (shouldReversePlusMinus) {
-      plusMinusPath.animate({ 
+      plusMinusPath.animate({
         d: "M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z",
         transform: 'R-180,12,12',
       }, 300, fastOutSlowInInterpolator);
     } else {
-      plusMinusPath.animate({ 
+      plusMinusPath.animate({
         d: "M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z",
         transform: 'R-180,12,12',
       }, 300, fastOutSlowInInterpolator);
@@ -176,17 +177,39 @@ var shouldReverseCrossTick = false;
 crossTick.click(function () {
     crossTickPath.transform("R0,12,12");
     if (shouldReverseCrossTick) {
-      crossTickPath.animate({ 
+      crossTickPath.animate({
         d: "M4.8,13.4 L9.707106781,18.307106781 M9.69289321881,16.9071067812 L19.6,7",
         transform: 'R-360,12,12',
       }, 300, fastOutSlowInInterpolator);
     } else {
-      crossTickPath.animate({ 
+      crossTickPath.animate({
         d: "M6.4,6.4 L17.6,17.6 M6.4,17.6 L17.6,6.4",
         transform: 'R-360,12,12',
       }, 300, fastOutSlowInInterpolator);
     }
     shouldReverseCrossTick = !shouldReverseCrossTick;
+});
+
+var drawerArrow = Snap("#drawerarrowsvg");
+drawerArrow.attr({ viewBox: "0 0 24 24" });
+var drawerArrowPath = drawerArrow.path("M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z");
+
+var shouldReverseDrawerArrow = false;
+drawerArrow.click(function () {
+    if (shouldReverseDrawerArrow) {
+      drawerArrowPath.transform("R180,12,12");
+      drawerArrowPath.animate({
+        d: "M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z",
+        transform: 'R360,12,12',
+      }, 300, fastOutSlowInInterpolator);
+    } else {
+      drawerArrowPath.transform("R0,12,12");
+      drawerArrowPath.animate({
+        d: "M 12, 4 L 10.59,5.41 L 16.17,11 L 18.99,11 L 12,4 z M 4, 11 L 4, 13 L 18.99, 13 L 20, 12 L 18.99, 11 L 4, 11 z M 12,20 L 10.59, 18.59 L 16.17, 13 L 18.99, 13 L 12, 20 z",
+        transform: 'R180,12,12',
+      }, 300, fastOutSlowInInterpolator);
+    }
+    shouldReverseDrawerArrow = !shouldReverseDrawerArrow;
 });
 </script>
 
