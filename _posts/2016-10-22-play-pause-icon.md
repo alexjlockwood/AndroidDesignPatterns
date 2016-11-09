@@ -21,6 +21,10 @@ In this blog post I will describe different techniques to animate icons using `A
 
 <!--more-->
 
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+
 * I am writing this blog post because I want to see more apps embrace and incorporate motion into their apps. I genuinely think that animated icons make the application better and more usable. They're a great opportunity to make your app feel alive. 
 * TODO: explain the importance of motion in a few sentences
 * In a previous series of blog posts, I wrote about transitions. Transitions can be used to construct elaborate animations between different states in your applications.
@@ -38,7 +42,7 @@ To craft delightful details like these, we'll take a look at the VectorDrawable 
 
 * **`<group>`** - Defines a group of paths or subgroups plus additional transformation information.
 
-* **`<path>`** - Defines the paths to be drawn using [SVG path syntax][svg-path-reference].
+* **`<path>`** - Defines the paths to be drawn using [SVG path syntax][svg-path-reference]. Paths are drawn in the top-down order in which they appear in the XML file.
 
 * **`<clip-path>`** - Defines a portion of the drawable to be clipped.
 
@@ -118,6 +122,10 @@ Examples:
 * Any example illustrating asymettric animations?
 
 <svg id="expandcollapsesvg" class="bordered-image"></svg>
+<label for="expandCollapseCheckBox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+  <input type="checkbox" id="expandCollapseCheckBox" class="mdl-checkbox__input">
+  <span class="mdl-checkbox__label">Slow animation</span>
+</label>
 
 ### Morphing paths
 
@@ -135,6 +143,18 @@ Examples:
 <svg id="plusminussvg" class="bordered-image"></svg>
 <svg id="crossticksvg" class="bordered-image"></svg>
 <svg id="drawerarrowsvg" class="bordered-image"></svg>
+<label for="plusMinusCheckBox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+  <input type="checkbox" id="plusMinusCheckBox" class="mdl-checkbox__input">
+  <span class="mdl-checkbox__label">Slow animation</span>
+</label>
+<label for="crossTickCheckBox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+  <input type="checkbox" id="crossTickCheckBox" class="mdl-checkbox__input">
+  <span class="mdl-checkbox__label">Slow animation</span>
+</label>
+<label for="drawerArrowCheckBox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+  <input type="checkbox" id="drawerArrowCheckBox" class="mdl-checkbox__input">
+  <span class="mdl-checkbox__label">Slow animation</span>
+</label>
 
 ### Trimming stroked paths
 
@@ -216,11 +236,54 @@ var bezier = function(x1, y1, x2, y2, duration){
 	};
 };
 
+var isExpandCollapseChecked = false;
+document.addEventListener("DOMContentLoaded", function (event) {
+    var _selector = document.querySelector('input[id=expandCollapseCheckBox]');
+    _selector.addEventListener('change', function (event) {
+        if (_selector.checked) {
+          isExpandCollapseChecked = true;
+        } else {
+          isExpandCollapseChecked = false;
+        }
+    });
+});
+var isPlusMinusChecked = false;
+document.addEventListener("DOMContentLoaded", function (event) {
+    var _selector = document.querySelector('input[id=plusMinusCheckBox]');
+    _selector.addEventListener('change', function (event) {
+        if (_selector.checked) {
+          isPlusMinusChecked = true;
+        } else {
+          isPlusMinusChecked = false;
+        }
+    });
+});
+var isCrossTickChecked = false;
+document.addEventListener("DOMContentLoaded", function (event) {
+    var _selector = document.querySelector('input[id=crossTickCheckBox]');
+    _selector.addEventListener('change', function (event) {
+        if (_selector.checked) {
+          isCrossTickChecked = true;
+        } else {
+          isCrossTickChecked = false;
+        }
+    });
+});
+var isDrawerArrowChecked = false;
+document.addEventListener("DOMContentLoaded", function (event) {
+    var _selector = document.querySelector('input[id=drawerArrowCheckBox]');
+    _selector.addEventListener('change', function (event) {
+        if (_selector.checked) {
+          isDrawerArrowChecked = true;
+        } else {
+          isDrawerArrowChecked = false;
+        }
+    });
+});
+
 var expandCollapse = Snap("#expandcollapsesvg").attr({ viewBox: "0 0 24 24" });
-var expandCollapseLeftPath =
-    expandCollapse.path("M 1,-1 L 1,7 L -1,7 L -1,-1 Z");
-var expandCollapseRightPath =
-    expandCollapse.path("M 1,-7 L 1,1 L -1,1 L -1,-7 Z");
+var expandCollapseLeftPath = expandCollapse.path("M 1,-1 L 1,7 L -1,7 L -1,-1 Z");
+var expandCollapseRightPath = expandCollapse.path("M 1,-7 L 1,1 L -1,1 L -1,-7 Z");
 var expandCollapseGroup = expandCollapse.group(expandCollapseLeftPath, expandCollapseRightPath);
 
 expandCollapseLeftPath.transform("R135,0,0");
@@ -231,32 +294,36 @@ var fastOutSlowInInterpolator = bezier(0.4, 0, 0.2, 1, 250);
 var expandCollapseInterpolator = bezier(0, 0, 0, 1, 200);
 var shouldReverseExpandCollapse = false;
 expandCollapse.click(function () {
+    var duration = 200;
+    if (isExpandCollapseChecked) {
+      duration = duration * 5;
+    }
     if (shouldReverseExpandCollapse) {
       expandCollapseLeftPath.transform("R45,0,0");
       expandCollapseRightPath.transform("R135,0,0");
       expandCollapseGroup.transform("T12,9");
       expandCollapseLeftPath.animate({
         transform: 'R135,0,0',
-      }, 200, expandCollapseInterpolator);
+      }, duration, expandCollapseInterpolator);
       expandCollapseRightPath.animate({
         transform: 'R45,0,0',
-      }, 200, expandCollapseInterpolator);
+      }, duration, expandCollapseInterpolator);
       expandCollapseGroup.animate({
         transform: 'T12,15',
-      }, 250, fastOutSlowInInterpolator);
+      }, duration * 1.25, fastOutSlowInInterpolator);
     } else {
       expandCollapseLeftPath.transform("R135,0,0");
       expandCollapseRightPath.transform("R45,0,0");
       expandCollapseGroup.transform("T12,15");
       expandCollapseLeftPath.animate({
         transform: 'R45,0,0',
-      }, 200, expandCollapseInterpolator);
+      }, duration, expandCollapseInterpolator);
       expandCollapseRightPath.animate({
         transform: 'R135,0,0',
-      }, 200, expandCollapseInterpolator);
+      }, duration, expandCollapseInterpolator);
       expandCollapseGroup.animate({
         transform: 'T12,9',
-      }, 250, fastOutSlowInInterpolator);
+      }, duration * 1.25, fastOutSlowInInterpolator);
     }
     shouldReverseExpandCollapse = !shouldReverseExpandCollapse;
 });
@@ -266,21 +333,27 @@ plusMinus.attr({ viewBox: "0 0 24 24" });
 var plusMinusPath = plusMinus.path("M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z");
 var shouldReversePlusMinus = false;
 plusMinus.click(function () {
+    var pathMorphDuration = 250;
+    var rotationDuration = 300;
+    if (isPlusMinusChecked) {
+      pathMorphDuration = pathMorphDuration * 5;
+      rotationDuration = rotationDuration * 5;
+    }
     plusMinusPath.transform("R0,12,12");
     if (shouldReversePlusMinus) {
       plusMinusPath.animate({
         d: "M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z",
-      }, 250, fastOutSlowInInterpolator);
+      }, pathMorphDuration, fastOutSlowInInterpolator);
       plusMinusPath.animate({
         transform: 'R180,12,12',
-      }, 300, fastOutSlowInInterpolator);
+      }, rotationDuration, fastOutSlowInInterpolator);
     } else {
       plusMinusPath.animate({
         d: "M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z",
-      }, 250, fastOutSlowInInterpolator);
+      }, pathMorphDuration, fastOutSlowInInterpolator);
       plusMinusPath.animate({
         transform: 'R180,12,12',
-      }, 300, fastOutSlowInInterpolator);
+      }, rotationDuration, fastOutSlowInInterpolator);
     }
     shouldReversePlusMinus = !shouldReversePlusMinus;
 });
@@ -296,17 +369,21 @@ crossTickPath.attr({
 
 var shouldReverseCrossTick = false;
 crossTick.click(function () {
+    var duration = 300;
+    if (isCrossTickChecked) {
+      duration = duration * 5;
+    }
     crossTickPath.transform("R0,12,12");
     if (shouldReverseCrossTick) {
       crossTickPath.animate({
         d: "M4.8,13.4 L9.707106781,18.307106781 M9.69289321881,16.9071067812 L19.6,7",
         transform: 'R360,12,12',
-      }, 300, fastOutSlowInInterpolator);
+      }, duration, fastOutSlowInInterpolator);
     } else {
       crossTickPath.animate({
         d: "M6.4,6.4 L17.6,17.6 M6.4,17.6 L17.6,6.4",
         transform: 'R360,12,12',
-      }, 300, fastOutSlowInInterpolator);
+      }, duration, fastOutSlowInInterpolator);
     }
     shouldReverseCrossTick = !shouldReverseCrossTick;
 });
@@ -317,18 +394,22 @@ var drawerArrowPath = drawerArrow.path("M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11
 
 var shouldReverseDrawerArrow = false;
 drawerArrow.click(function () {
+    var duration = 300;
+    if (isDrawerArrowChecked) {
+      duration = duration * 5;
+    }
     if (shouldReverseDrawerArrow) {
       drawerArrowPath.transform("R180,12,12");
       drawerArrowPath.animate({
         d: "M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z",
         transform: 'R360,12,12',
-      }, 300, fastOutSlowInInterpolator);
+      }, duration, fastOutSlowInInterpolator);
     } else {
       drawerArrowPath.transform("R0,12,12");
       drawerArrowPath.animate({
         d: "M 12, 4 L 10.59,5.41 L 16.17,11 L 18.99,11 L 12,4 z M 4, 11 L 4, 13 L 18.99, 13 L 20, 12 L 18.99, 11 L 4, 11 z M 12,20 L 10.59, 18.59 L 16.17, 13 L 18.99, 13 L 12, 20 z",
         transform: 'R180,12,12',
-      }, 300, fastOutSlowInInterpolator);
+      }, duration, fastOutSlowInInterpolator);
     }
     shouldReverseDrawerArrow = !shouldReverseDrawerArrow;
 });
