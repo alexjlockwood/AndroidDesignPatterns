@@ -7,23 +7,57 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
 style: |
-  .bordered-image {
-    border-width: 1px;
-    border-style: solid;
-    display: inline;
-    max-width:240px;
+  .svgDemoContainer {
+  display: block;
+  background-color: #fafafa;
+  }
+  .svgDemo {
+  display: inline-block;
+  width: 33%;
+  padding: 16ems;
+  height: 240ems;
+  }
+  .svgDemoCheckboxContainer {
+  padding: 16px;
+  }
+  /* Linear progress bar demo. */
+  #progressBarContainer {
+  padding: 16px;
+  }
+  #progressBar {
+  width: 360px;
+  height: 4px;
+  overflow: hidden;
+  position: relative;
+  background-color: rgba(63, 81, 181, 0.26);
+  }
+
+  #progressBarInnerRect1,
+  #progressBarInnerRect2 {
+  background: #3f51b5;
+  }
+
+  #progressBarOuterRect1,
+  #progressBarOuterRect2,
+  #progressBarInnerRect1,
+  #progressBarInnerRect2 {
+  height: 4px;
+  position: absolute;
+  width: 288px;
   }
 ---
+
+<!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
+<!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
+<!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
+<!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
+<!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
 
 <!--morestart-->
 
 In this blog post I will describe different techniques to animate icons using `AnimatedVectorDrawable`s.
 
 <!--more-->
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
 
 * I am writing this blog post because I want to see more apps embrace and incorporate motion into their apps. I genuinely think that animated icons make the application better and more usable. They're a great opportunity to make your app feel alive. 
 * TODO: explain the importance of motion in a few sentences
@@ -34,7 +68,7 @@ As Eames said, the details make the design. Motion can be an opportunity to prov
 
 ## Introduction to `VectorDrawable`s & `AnimatedVectorDrawable`s
 
-To craft delightful details like these, we'll take a look at the VectorDrawable and AnimatedVectorDrawable classes. We'll start by looking at what VectorDrawable allows us to do, to understand what we can animate. VectorDrawable was introduced in Lollipop and lets you create density independent images by defining a series of drawing commands. It's similar in concept to SVG on the web. Here's an example of a VectorDrawable. It defines a path which has a series of space separated drawing commands, which use a subset of the SVG path data spec to draw lines, curves and so on. For example, these commands draw a cross by moving to a point. Drawing a line to another point. Lifting and moving to another point. And drawing another line. Simple. Now vectors aren't appropriate for every kind of image. You wouldn't want to represent a person's face with a vector, for example. But iconography and simple illustrations are great candidates. The vector format provides density independence, meaning that the same image works on any screen density. When vector support reaches enough devices, you won't have to explore assets at multiple different sizes like we covered in Lesson One. It also generally produces a small file size. 
+To craft delightful details like these, we'll take a look at the VectorDrawable and AnimatedVectorDrawable classes. We'll start by looking at what VectorDrawable allows us to do, to understand what we can animate. VectorDrawable was introduced in Lollipop and lets you create density independent images by defining a series of drawing commands. It's similar in concept to SVG on the web. Here's an example of a VectorDrawable. It defines a path which has a series of space separated drawing commands, which use a subset of the SVG path data spec to draw lines, curves and so on. For example, these commands draw a cross by moving to a point. Drawing a line to another point. Lifting and moving to another point. And drawing another line. Simple. Now vectors aren't appropriate for every kind of image. You wouldn't want to represent a person's face with a vector, for example. But iconography and simple illustrations are great candidates. The vector format provides density independence, meaning that the same image works on any screen density. When vector support reaches enough devices, you won't have to explore assets at multiple different sizes like we covered in Lesson One. It also generally produces a small file size.
 
 `VectorDrawable`s are made up of four types of elements:
 
@@ -116,16 +150,118 @@ Transformations include alpha, pivot, rotation, scale, and translate. It is impo
 
 Examples:
 
-* Expand/collapse
-* Radio button
-* Alarm/clock/stopwatch
-* Any example illustrating asymettric animations?
+<div id="svgRotationDemos" class="svgDemoContainer">
+  <svg xmlns="http://www.w3.org/2000/svg" id="ic_expand_collapse" viewBox="0 0 24 24" class="svgDemo">
+    <g id="chevron" transform="translate(12,15)">
+      <g id="leftBar" transform="rotate(135)">
+        <g transform="translate(0,3)">
+          <path id="leftBarPath" d="M1-4v8h-2v-8z" />
+        </g>
+      </g>
+      <g id="rightBar" transform="rotate(45)">
+        <g transform="translate(0,-3)">
+          <path id="rightBarPath" d="M1-4v8h-2v-8z" />
+        </g>
+      </g>
+    </g>
+  </svg>
 
-<svg id="expandcollapsesvg" class="bordered-image"></svg>
-<label for="expandCollapseCheckBox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-  <input type="checkbox" id="expandCollapseCheckBox" class="mdl-checkbox__input">
-  <span class="mdl-checkbox__label">Slow animation</span>
-</label>
+  <svg xmlns="http://www.w3.org/2000/svg" id="ic_radiobutton" class="svgDemo" viewBox="0 0 32 32">
+    <g id="button_position" transform="translate(16,16)">
+      <g id="ring_outer">
+        <path id="ring_outer_path" stroke="#000" fill="none" stroke-width="2" d="M-9 0A9 9 0 1 0 9 0 9 9 0 1 0-9 0" />
+      </g>
+      <g id="dot_group" transform="scale(0,0)">
+        <path id="dot_path" d="M-5 0A5 5 0 1 0 5 0 5 5 0 1 0-5 0" />
+      </g>
+    </g>
+  </svg>
+
+  <svg xmlns="http://www.w3.org/2000/svg" id="ic_alarm" viewBox="0 0 24 24" class="svgDemo">
+    <g id="button_position" transform="translate(12,12)">
+      <g id="button_rotation" transform="rotate(0)">
+        <g id="button_scale_x" transform="scale(1, 1)">
+          <g id="button_scale_y">
+            <g id="button_pivot" transform="translate(-12,-12)">
+              <g id="button">
+                <g id="right_button_transform" transform="translate(19.0722,4.5758)">
+                  <g id="right_button">
+                    <path id="path_1" d="M2.94 1.162l-4.595-3.857L-2.94-1.16l4.595 3.855L2.94 1.162z" />
+                  </g>
+                </g>
+                <g id="left_button_transform" transform="translate(4.9262,4.5729)">
+                  <g id="left_button">
+                    <path id="left_button_path" d="M2.94-1.163L1.656-2.695-2.94 1.16l1.285 1.535L2.94-1.163z" />
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+    <g id="alarm_transform" transform="translate(12,12)">
+      <g id="alarm_pivot" transform="translate(-12,-12)">
+        <g id="alarm">
+          <g id="alarm_hands_transform" transform="translate(13.75,12.4473)">
+            <g id="alarm_hands">
+              <path id="alarm_hands_path" d="M-1.25-4.427h-1.5v6l4.747 2.854.753-1.232-4-2.372v-5.25z" />
+            </g>
+          </g>
+          <g id="alarm_body_transform" transform="translate(12,13.0203)">
+            <g id="alarm_body">
+              <path id="alarm_outline_path_merged" d="M-.005-9C-4.98-9-9-4.97-9 0s4.02 9 8.995 9S9 4.97 9 0 4.97-9-.005-9zM0 7c-3.867 0-7-3.134-7-7s3.133-7 7-7 7 3.134 7 7-3.133 7-7 7z" />
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </svg>
+
+  <div class="svgDemoCheckboxContainer">
+    <label for="basicTransformationSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="basicTransformationSlowAnimationCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Slow animation</span>
+    </label>
+  </div>
+</div>
+
+And here's a linaer indeterminate progress bar example:
+
+<!-- A material horizontal indeterminate progress bar consists of a translucent background and
+     two opaque children rectangles. The two children rectangles are scaled and translated in
+     parallel at different speeds. A unique combination of cubic bezier interpolation curves
+     is used to scale the rectangles at varying degrees. Further, the two rectangles are translated
+     from the left to the right indefinitely (however, you can never actually tell that there are
+     really two rectangles being translated because the two are never entirely visible at once). -->
+
+<div id="svgLinearProgressDemo" class="svgDemoContainer">
+  <div id="progressBarContainer">
+    <div id="progressBar">
+      <div id="progressBarOuterRect1">
+        <div id="progressBarInnerRect1"></div>
+      </div>
+      <div id="progressBarOuterRect2">
+        <div id="progressBarInnerRect2"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="svgDemoCheckboxContainer">
+    <label for="linearProgressScaleCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="linearProgressScaleCheckbox" class="mdl-checkbox__input" checked>
+      <span class="mdl-checkbox__label">Animate <code>android:scaleX</code> property</span>
+    </label>
+    <label for="linearProgressTranslateCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="linearProgressTranslateCheckbox" class="mdl-checkbox__input" checked>
+      <span class="mdl-checkbox__label">Animate <code>android:translateX</code> property</span>
+    </label>
+    <label for="linearProgressSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="linearProgressSlowAnimationCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Slow animation</span>
+    </label>
+  </div>
+</div>
 
 ### Morphing paths
 
@@ -133,40 +269,131 @@ asdf
 
 Examples:
 
-* Plus to minus
-* Cross to tick
-* Menu drawer to back arrow
-* Overflow to back arrow
-* Play/pause/stop
-* Countdown digits
+<!--
+<iframe width="100%" height="400" src="//jsfiddle.net/alexjlockwood/L4kfh0rw/embedded/result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-<svg id="plusminussvg" class="bordered-image"></svg>
-<svg id="crossticksvg" class="bordered-image"></svg>
-<svg id="drawerarrowsvg" class="bordered-image"></svg>
-<label for="plusMinusCheckBox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-  <input type="checkbox" id="plusMinusCheckBox" class="mdl-checkbox__input">
-  <span class="mdl-checkbox__label">Slow animation</span>
-</label>
-<label for="crossTickCheckBox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-  <input type="checkbox" id="crossTickCheckBox" class="mdl-checkbox__input">
-  <span class="mdl-checkbox__label">Slow animation</span>
-</label>
-<label for="drawerArrowCheckBox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-  <input type="checkbox" id="drawerArrowCheckBox" class="mdl-checkbox__input">
-  <span class="mdl-checkbox__label">Slow animation</span>
-</label>
+<iframe width="100%" height="400" src="//jsfiddle.net/alexjlockwood/1ezda0cd/embedded/result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="400" src="//jsfiddle.net/alexjlockwood/8fLeyc6j/embedded/result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="400" src="//jsfiddle.net/alexjlockwood/gwqf0xmb/embedded/result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="500" src="//jsfiddle.net/alexjlockwood/3ka8fugd/embedded/result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="600" src="//jsfiddle.net/alexjlockwood/bdep6pec/embedded/result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+-->
 
 ### Trimming stroked paths
 
-* Progress bars
-* Search to back arrow
-* Handwriting
+<!--
+<iframe width="100%" height="300" src="//jsfiddle.net/alexjlockwood/jvkewo4n/embedded/result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="300" src="//jsfiddle.net/alexjlockwood/jxu1L9ao/embedded/result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="200" src="//jsfiddle.net/alexjlockwood/4sh9tLx7/embedded/result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<iframe width="100%" height="500" src="//jsfiddle.net/alexjlockwood/7em6y3vs/embedded/result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+-->
 
 ### Clipping paths
 
-* Quick setting icons (enable/disable)
-* Timer (hourglass)
-* Heart break
+<div id="svgClipPathDemos" class="svgDemoContainer">
+  <svg xmlns="http://www.w3.org/2000/svg" id="ic_timer" class="svgDemo" viewBox="0 0 24 24">
+    <g id="hourglass_frame_position" transform="translate(12,12)">
+      <g id="hourglass_frame_rotation" transform="rotate(0)">
+        <g id="hourglass_frame_pivot" transform="translate(-12,-12)">
+          <g id="hourglass_frame">
+            <g id="group_1_transform" transform="translate(12,12)">
+              <g id="group_1">
+                <path id="path_3_merged" d="M1 0l6.29-6.29c.63-.63.19-1.71-.7-1.71H-6.59c-.89 0-1.33 1.08-.7 1.71L-1 0l-6.29 6.29c-.63.63-.19 1.71.7 1.71H6.59c.89 0 1.33-1.08.7-1.71L1 0zm-5.17-6h8.34L0-1.83-4.17-6zm0 12L0 1.83 4.17 6h-8.34z" />
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+    <g id="hourglass_fill_position" transform="translate(12,12)">
+      <g id="hourglass_fill_rotation" transform="rotate(0)">
+        <g id="hourglass_fill_pivot" transform="translate(-12,-12)">
+          <g id="hourglass_fill">
+            <clipPath id="mask_1">
+              <path id="mask_1_path" d="M24 13.4H0V24h24V13.4z">
+                <animate id="mask_1_path_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,13.3999938965 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6000061035 c 0,0 24,0 24,0 c 0,0 0,-10.6000061035 0,-10.6000061035 Z;M 24,0.00173950195312 c 0,0 -24,0 -24,0 c 0,0 0,10.6982574463 0,10.6982574463 c 0,0 24,0 24,0 c 0,0 0,-10.6982574463 0,-10.6982574463 Z"
+                />
+              </path>
+            </clipPath>
+            <g id="mask_1_clip_path_group" clip-path="url(#mask_1)">
+              <path id="path_2" d="M13 12l6.293-6.293c.63-.63.184-1.707-.707-1.707H5.416c-.892 0-1.338 1.077-.708 1.707L11 12l-6.292 6.293c-.63.63-.184 1.707.707 1.707h13.17c.892 0 1.338-1.077.708-1.707L13 12z" />
+            </g>
+            <path id="mask_1_path_debug" d="M24 13.4H0V24h24V13.4z" fill="#F44336" fill-opacity=".3" visibility="hidden">
+              <animate id="mask_1_path_debug_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,13.3999938965 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6000061035 c 0,0 24,0 24,0 c 0,0 0,-10.6000061035 0,-10.6000061035 Z;M 24,0.00173950195312 c 0,0 -24,0 -24,0 c 0,0 0,10.6982574463 0,10.6982574463 c 0,0 24,0 24,0 c 0,0 0,-10.6982574463 0,-10.6982574463 Z"
+              />
+            </path>
+          </g>
+        </g>
+      </g>
+    </g>
+  </svg>
+
+  <svg xmlns="http://www.w3.org/2000/svg" id="ic_visibility" class="svgDemo" viewBox="0 0 24 24">
+    <path id="cross_out_path" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="square" d="M3.27 4.27l16.47 16.47" />
+    <clipPath id="eye_mask_clip_path">
+      <path id="eye_mask" d="M2 4.27L19.73 22l2.54-2.54L4.54 1.73V1H23v22H1V4.27z">
+        <animate id="eye_mask_animation" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" />
+      </path>
+    </clipPath>
+    <g id="eye_mask_clip_path_group" clip-path="url(#eye_mask_clip_path)">
+      <path id="eye" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+    </g>
+    <path id="eye_mask_clip_path_debug" d="M2 4.27L19.73 22l2.54-2.54L4.54 1.73V1H23v22H1V4.27z" fill="#F44336" fill-opacity=".3" visibility="hidden">
+      <animate id="eye_mask_debug_animation" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" />
+    </path>
+  </svg>
+
+  <svg xmlns="http://www.w3.org/2000/svg" id="ic_heart" class="svgDemo" viewBox="0 0 56 56">
+    <path id="heart_stroke_left" fill="none" stroke="#000" stroke-width="2" d="M28.72 38.296l-3.05-2.744c-4.05-3.76-7.654-6.66-7.654-10.707 0-3.257 2.615-4.88 5.618-4.88 1.365 0 3.165 1.216 5.01 3.165" />
+    <path id="heart_stroke_right" fill="none" stroke="#000" stroke-width="2" d="M27.23 38.294l3.535-3.094c4.07-3.965 6.987-6.082 7.24-10.116.163-2.625-2.232-5.05-4.626-5.05-2.948 0-3.708 1.013-6.15 3.1" />
+    <clipPath id="clip">
+      <path id="clip_path" d="M18 37h20-20z">
+        <animate id="heart_fill_animation" fill="freeze" attributeName="d" begin="infinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M18 37 L38 37 L38 37 L18 37 Z;M14 14 L42 14 L42 42 L14 42 Z" />
+      </path>
+    </clipPath>
+    <g id="clip_path_group" clip-path="url(#clip)">
+      <path id="heart_full_path" fill="#000000" style="visibility: hidden;" d="M28 39l-1.595-1.433C20.74 32.47 17 29.11 17 24.995 17 21.632 19.657 19 23.05 19c1.914 0 3.75.883 4.95 2.272C29.2 19.882 31.036 19 32.95 19c3.393 0 6.05 2.632 6.05 5.995 0 4.114-3.74 7.476-9.405 12.572L28 39z"
+      />
+    </g>
+    <g id="broken_heart_left_group" transform="translate(28,37.3)">
+      <g id="broken_heart_rotate_left_group" transform="rotate(0)">
+        <g id="broken_heart_translate_left_group" transform="translate(-28,-37.3)">
+          <path id="broken_heart_left_path" fill-opacity="0" d="M28.03 21.054l-.03.036C26.91 19.81 25.24 19 23.5 19c-3.08 0-5.5 2.42-5.5 5.5 0 3.78 3.4 6.86 8.55 11.53L28 37.35l.002-.002-.22-.36.707-.915-.984-1.31 1.276-1.736-1.838-2.02 2.205-2.282-2.033-1.582 2.032-2.125-2.662-2.04 1.543-1.924z"
+          />
+        </g>
+      </g>
+    </g>
+    <g id="broken_heart_right_group" transform="translate(28,37.3)">
+      <g id="broken_heart_rotate_right_group" transform="rotate(0)">
+        <g id="broken_heart_translate_right_group" transform="translate(-28,-37.3)">
+          <path id="broken_heart_right_path" fill-opacity="0" d="M28.03 21.054c.14-.16.286-.31.44-.455l.445-.374C29.925 19.456 31.193 19 32.5 19c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.448 1.308-.22-.36.707-.915-.984-1.31 1.276-1.736-1.838-2.02 2.205-2.282-2.033-1.582 2.032-2.125-2.662-2.04 1.543-1.924z"
+          />
+        </g>
+      </g>
+    </g>
+    <path id="clip_path_debug" style="visibility: hidden;" d="M18 37h20-20z" fill="#F44336" fill-opacity="0.3">
+      <animate id="heart_fill_debug_animation" fill="freeze" attributeName="d" begin="infinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M18 37 L38 37 L38 37 L18 37 Z;M14 14 L42 14 L42 42 L14 42 Z" />
+    </path>
+  </svg>
+
+  <div class="svgDemoCheckboxContainer">
+    <label for="clipPathShowClipMaskCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="clipPathShowClipMaskCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Show clip masks</span>
+    </label>
+    <label for="clipPathSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="clipPathSlowAnimationCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Slow animation</span>
+    </label>
+  </div>
+</div>
 
 ## Further reading
 
@@ -182,238 +409,6 @@ This stuff is probably better suited to go in the sample app `README.md` file.
 * Importance/usefulness of tinting icons.
 * Explain how `android:propertyXName` and `android:propertyYName` can be used.
 * Mention that currently animated vectors can only be constructed in XML (and that this might change in the future).
-
-<script src="/scripts/snap.svg-min.js"></script>
-<script>
-var bezier = function(x1, y1, x2, y2, duration){
-	var epsilon = (1000 / 60 / duration) / 4;
-
-	var curveX = function(t){
-		var v = 1 - t;
-		return 3 * v * v * t * x1 + 3 * v * t * t * x2 + t * t * t;
-	};
-
-	var curveY = function(t){
-		var v = 1 - t;
-		return 3 * v * v * t * y1 + 3 * v * t * t * y2 + t * t * t;
-	};
-
-	var derivativeCurveX = function(t){
-		var v = 1 - t;
-		return 3 * (2 * (t - 1) * t + v * v) * x1 + 3 * (- t * t * t + 2 * v * t) * x2;
-	};
-
-	return function(t){
-
-		var x = t, t0, t1, t2, x2, d2, i;
-
-		// First try a few iterations of Newton's method -- normally very fast.
-		for (t2 = x, i = 0; i < 8; i++){
-			x2 = curveX(t2) - x;
-			if (Math.abs(x2) < epsilon) return curveY(t2);
-			d2 = derivativeCurveX(t2);
-			if (Math.abs(d2) < 1e-6) break;
-			t2 = t2 - x2 / d2;
-		}
-
-		t0 = 0, t1 = 1, t2 = x;
-
-		if (t2 < t0) return curveY(t0);
-		if (t2 > t1) return curveY(t1);
-
-		// Fallback to the bisection method for reliability.
-		while (t0 < t1){
-			x2 = curveX(t2);
-			if (Math.abs(x2 - x) < epsilon) return curveY(t2);
-			if (x > x2) t0 = t2;
-			else t1 = t2;
-			t2 = (t1 - t0) * .5 + t0;
-		}
-
-		// Failure
-		return curveY(t2);
-
-	};
-};
-
-var isExpandCollapseChecked = false;
-document.addEventListener("DOMContentLoaded", function (event) {
-    var _selector = document.querySelector('input[id=expandCollapseCheckBox]');
-    _selector.addEventListener('change', function (event) {
-        if (_selector.checked) {
-          isExpandCollapseChecked = true;
-        } else {
-          isExpandCollapseChecked = false;
-        }
-    });
-});
-var isPlusMinusChecked = false;
-document.addEventListener("DOMContentLoaded", function (event) {
-    var _selector = document.querySelector('input[id=plusMinusCheckBox]');
-    _selector.addEventListener('change', function (event) {
-        if (_selector.checked) {
-          isPlusMinusChecked = true;
-        } else {
-          isPlusMinusChecked = false;
-        }
-    });
-});
-var isCrossTickChecked = false;
-document.addEventListener("DOMContentLoaded", function (event) {
-    var _selector = document.querySelector('input[id=crossTickCheckBox]');
-    _selector.addEventListener('change', function (event) {
-        if (_selector.checked) {
-          isCrossTickChecked = true;
-        } else {
-          isCrossTickChecked = false;
-        }
-    });
-});
-var isDrawerArrowChecked = false;
-document.addEventListener("DOMContentLoaded", function (event) {
-    var _selector = document.querySelector('input[id=drawerArrowCheckBox]');
-    _selector.addEventListener('change', function (event) {
-        if (_selector.checked) {
-          isDrawerArrowChecked = true;
-        } else {
-          isDrawerArrowChecked = false;
-        }
-    });
-});
-
-var expandCollapse = Snap("#expandcollapsesvg").attr({ viewBox: "0 0 24 24" });
-var expandCollapseLeftPath = expandCollapse.path("M 1,-1 L 1,7 L -1,7 L -1,-1 Z");
-var expandCollapseRightPath = expandCollapse.path("M 1,-7 L 1,1 L -1,1 L -1,-7 Z");
-var expandCollapseGroup = expandCollapse.group(expandCollapseLeftPath, expandCollapseRightPath);
-
-expandCollapseLeftPath.transform("R135,0,0");
-expandCollapseRightPath.transform("R45,0,0");
-expandCollapseGroup.transform("T12,15");
-
-var fastOutSlowInInterpolator = bezier(0.4, 0, 0.2, 1, 250);
-var expandCollapseInterpolator = bezier(0, 0, 0, 1, 200);
-var shouldReverseExpandCollapse = false;
-expandCollapse.click(function () {
-    var duration = 200;
-    if (isExpandCollapseChecked) {
-      duration = duration * 5;
-    }
-    if (shouldReverseExpandCollapse) {
-      expandCollapseLeftPath.transform("R45,0,0");
-      expandCollapseRightPath.transform("R135,0,0");
-      expandCollapseGroup.transform("T12,9");
-      expandCollapseLeftPath.animate({
-        transform: 'R135,0,0',
-      }, duration, expandCollapseInterpolator);
-      expandCollapseRightPath.animate({
-        transform: 'R45,0,0',
-      }, duration, expandCollapseInterpolator);
-      expandCollapseGroup.animate({
-        transform: 'T12,15',
-      }, duration * 1.25, fastOutSlowInInterpolator);
-    } else {
-      expandCollapseLeftPath.transform("R135,0,0");
-      expandCollapseRightPath.transform("R45,0,0");
-      expandCollapseGroup.transform("T12,15");
-      expandCollapseLeftPath.animate({
-        transform: 'R45,0,0',
-      }, duration, expandCollapseInterpolator);
-      expandCollapseRightPath.animate({
-        transform: 'R135,0,0',
-      }, duration, expandCollapseInterpolator);
-      expandCollapseGroup.animate({
-        transform: 'T12,9',
-      }, duration * 1.25, fastOutSlowInInterpolator);
-    }
-    shouldReverseExpandCollapse = !shouldReverseExpandCollapse;
-});
-
-var plusMinus = Snap("#plusminussvg");
-plusMinus.attr({ viewBox: "0 0 24 24" });
-var plusMinusPath = plusMinus.path("M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z");
-var shouldReversePlusMinus = false;
-plusMinus.click(function () {
-    var pathMorphDuration = 250;
-    var rotationDuration = 300;
-    if (isPlusMinusChecked) {
-      pathMorphDuration = pathMorphDuration * 5;
-      rotationDuration = rotationDuration * 5;
-    }
-    plusMinusPath.transform("R0,12,12");
-    if (shouldReversePlusMinus) {
-      plusMinusPath.animate({
-        d: "M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z",
-      }, pathMorphDuration, fastOutSlowInInterpolator);
-      plusMinusPath.animate({
-        transform: 'R180,12,12',
-      }, rotationDuration, fastOutSlowInInterpolator);
-    } else {
-      plusMinusPath.animate({
-        d: "M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z",
-      }, pathMorphDuration, fastOutSlowInInterpolator);
-      plusMinusPath.animate({
-        transform: 'R180,12,12',
-      }, rotationDuration, fastOutSlowInInterpolator);
-    }
-    shouldReversePlusMinus = !shouldReversePlusMinus;
-});
-
-var crossTick = Snap("#crossticksvg");
-crossTick.attr({ viewBox: "0 0 24 24" });
-var crossTickPath = crossTick.path("M4.8,13.4 L9.707106781,18.307106781 M9.69289321881,16.9071067812 L19.6,7");
-crossTickPath.attr({
-  stroke: "#000",
-  strokeWidth: "2",
-  strokeLineCap: "square",
-});
-
-var shouldReverseCrossTick = false;
-crossTick.click(function () {
-    var duration = 300;
-    if (isCrossTickChecked) {
-      duration = duration * 5;
-    }
-    crossTickPath.transform("R0,12,12");
-    if (shouldReverseCrossTick) {
-      crossTickPath.animate({
-        d: "M4.8,13.4 L9.707106781,18.307106781 M9.69289321881,16.9071067812 L19.6,7",
-        transform: 'R360,12,12',
-      }, duration, fastOutSlowInInterpolator);
-    } else {
-      crossTickPath.animate({
-        d: "M6.4,6.4 L17.6,17.6 M6.4,17.6 L17.6,6.4",
-        transform: 'R360,12,12',
-      }, duration, fastOutSlowInInterpolator);
-    }
-    shouldReverseCrossTick = !shouldReverseCrossTick;
-});
-
-var drawerArrow = Snap("#drawerarrowsvg");
-drawerArrow.attr({ viewBox: "0 0 24 24" });
-var drawerArrowPath = drawerArrow.path("M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z");
-
-var shouldReverseDrawerArrow = false;
-drawerArrow.click(function () {
-    var duration = 300;
-    if (isDrawerArrowChecked) {
-      duration = duration * 5;
-    }
-    if (shouldReverseDrawerArrow) {
-      drawerArrowPath.transform("R180,12,12");
-      drawerArrowPath.animate({
-        d: "M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z",
-        transform: 'R360,12,12',
-      }, duration, fastOutSlowInInterpolator);
-    } else {
-      drawerArrowPath.transform("R0,12,12");
-      drawerArrowPath.animate({
-        d: "M 12, 4 L 10.59,5.41 L 16.17,11 L 18.99,11 L 12,4 z M 4, 11 L 4, 13 L 18.99, 13 L 20, 12 L 18.99, 11 L 4, 11 z M 12,20 L 10.59, 18.59 L 16.17, 13 L 18.99, 13 L 12, 20 z",
-        transform: 'R180,12,12',
-      }, duration, fastOutSlowInInterpolator);
-    }
-    shouldReverseDrawerArrow = !shouldReverseDrawerArrow;
-});
-</script>
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
