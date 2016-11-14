@@ -9,31 +9,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
   ];
   var ICON_TRANSLATE_X = [0.75, 0, 0];
 
-  var playButton = document.querySelector("button[id=play_button]");
-  var pauseButton = document.querySelector("button[id=pause_button]");
-  var stopButton = document.querySelector("button[id=stop_button]");
-  playButton.addEventListener("click", function() {
-    //playButton.MaterialButton.disable();
-    //pauseButton.MaterialButton.enable();
-    //stopButton.MaterialButton.enable();
-    animateIconStateChange(currentIconIndex, 0);
-    currentIconIndex = 0;
+  document.getElementById("ic_play_pause_stop").addEventListener("click", function() {
+    var previousIconIndex = currentIconIndex;
+    currentIconIndex = (currentIconIndex + 1) % 3;
+    animateIconStateChange(previousIconIndex, currentIconIndex);
   });
-  pauseButton.addEventListener("click", function() {
-    //playButton.MaterialButton.enable();
-    //pauseButton.MaterialButton.disable();
-    //stopButton.MaterialButton.enable();
-    animateIconStateChange(currentIconIndex, 1);
-    currentIconIndex = 1;
-  });
-  stopButton.addEventListener("click", function() {
-    //playButton.MaterialButton.enable();
-    //pauseButton.MaterialButton.enable();
-    //stopButton.MaterialButton.disable();
-    animateIconStateChange(currentIconIndex, 2);
-    currentIconIndex = 2;
-  });
-  var animateRotationSelector = document.querySelector("input[id=playPauseStopAnimateRotationCheckbox]");
+  var animateRotationSelector = document.querySelector("input[id=pathMorphRotateCheckbox]");
   animateRotationSelector.addEventListener("change", function(event) {
     var currentRotation = animateRotationSelector.checked && currentIconIndex == 0 ? 90 : 0;
     document.getElementById("button_rotate").animate([{
@@ -47,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       fill: "forwards"
     });
   });
-  var slowAnimationSelector = document.querySelector("input[id=playPauseStopSlowAnimationCheckbox]");
+  var slowAnimationSelector = document.querySelector("input[id=pathMorphSlowAnimationCheckbox]");
   slowAnimationSelector.addEventListener("change", function(event) {
     currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
   });
@@ -69,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       duration: animationDuration,
       fill: "forwards"
     });
-    if (document.querySelector("input[id=playPauseStopAnimateRotationCheckbox]").checked) {
+    if (document.querySelector("input[id=pathMorphRotateCheckbox]").checked) {
       var startingRotation = 0;
       if (oldIconIndex == 0) {
         startingRotation = 90;

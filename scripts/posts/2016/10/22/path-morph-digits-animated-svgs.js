@@ -57,10 +57,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var countdownDigitsCp1Path = document.getElementById("countdown_digits_cp1");
   var countdownDigitsCp2Path = document.getElementById("countdown_digits_cp2");
   var countdownDigitsEndPath = document.getElementById("countdown_digits_end");
-  if (countdownDigitsPath == null) {
-    // TODO(alockwood): figure out a better way to do this...
-    return;
-  }
 
   countdownDigitsPath.setAttribute("d", DIGIT_PATHS[0]);
 

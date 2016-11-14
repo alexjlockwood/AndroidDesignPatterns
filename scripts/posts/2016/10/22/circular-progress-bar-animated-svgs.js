@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   var circular_progress_outer_rotation = document.getElementById("circular_progress_outer_rotation");
   var circular_progress_inner_rotation = document.getElementById("circular_progress_inner_rotation");
-  var circle_path = document.getElementById("circle_path");
+  var circle_path = document.getElementById("circular_progress_circle_path");
 
   function restartAnimation(animation) {
     animation.cancel();
@@ -57,11 +57,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
   slowAnimationSelector.addEventListener("change", function(event) {
     if (slowAnimationSelector.checked) {
-      currentRotationDuration *= 5;
-      currentTrimPathDuration *= 5;
+      currentRotationDuration = 5;
+      currentTrimPathDuration = 5;
     } else {
-      currentRotationDuration /= 5;
-      currentTrimPathDuration /= 5;
+      currentRotationDuration = 1;
+      currentTrimPathDuration = 1;
     }
     outerRotationAnimation.cancel();
     trimPathOffsetAnimation.cancel();
