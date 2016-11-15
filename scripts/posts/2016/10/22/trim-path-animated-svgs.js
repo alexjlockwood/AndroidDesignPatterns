@@ -126,6 +126,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var currentAnimationDurationFactor = 1;
   var currentAnimations = [];
 
+ var showTrimPathsSelector = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]");
+  showTrimPathsSelector.addEventListener("change", function(event) {
+    var visibility = showTrimPathsSelector.checked ? "visible" : "hidden";
+    document.getElementById("andro_debug").style.visibility = visibility;
+    document.getElementById("id_debug").style.visibility = visibility;
+    document.getElementById("a_debug").style.visibility = visibility;
+    document.getElementById("i1_dot_debug").style.visibility = visibility;
+    document.getElementById("d_debug").style.visibility = visibility;
+    document.getElementById("esig_debug").style.visibility = visibility;
+    document.getElementById("n_debug").style.visibility = visibility;
+    document.getElementById("i2_dot_debug").style.visibility = visibility;
+  });
   var slowAnimationSelector = document.querySelector("input[id=trimPathSlowAnimationCheckbox]");
   slowAnimationSelector.addEventListener("change", function(event) {
     currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;

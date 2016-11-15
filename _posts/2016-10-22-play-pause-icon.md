@@ -78,7 +78,6 @@ style: |
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
-<link rel="stylesheet" href="/css/posts/2016/10/22/animated-svgs.css">
 <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-data-polyfill.js"></script>
 <script defer src="/scripts/posts/2016/10/22/transformation-animated-svgs.js"></script>
@@ -315,13 +314,13 @@ Some examples:
       <g id="plus_minus_container_rotate" transform="rotate(0)">
         <g id="plus_minus_container_translate" transform="translate(-12,-12)">
           <path id="plus_minus_path" d="M5 11h6V5h2v6h6v2h-6v6h-2v-6H5z">
-            <animate id="plus_to_minus_path_animation" class="delight-smil-morph" dur="250ms" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z"
+            <animate id="plus_to_minus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z"
             />
-            <animate id="minus_to_plus_path_animation" class="delight-smil-morph" dur="250ms" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z"
+            <animate id="minus_to_plus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z"
             />
           </path>
           <path id="plus_minus_end_points_path" fill="#64B5F6" style="visibility: hidden;">
-            <animate id="plus_minus_end_points_animation" class="delight-smil-morph" dur="250ms" keyTimes="0;1" keySplines="0.4 0 0.2 1"/>
+            <animate id="plus_minus_end_points_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze"/>
         </path>
         </g>
       </g>
@@ -412,7 +411,7 @@ Some examples:
             <path id="play_pause_stop_path" d="M9 5v8H4l5-8m0 0l5 8H9V5">
               <animate id="play_pause_stop_animation" fill="freeze" attributeName="d" begin="infinite" dur="200ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" />
             </path>
-            <path id="play_pause_stop_end_points_path" fill="#64B5F6">
+            <path id="play_pause_stop_end_points_path" style="visibility: hidden;" fill="#64B5F6">
               <animate id="play_pause_stop_end_points_animation" fill="freeze" attributeName="d" begin="infinite" dur="200ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" />
             </path>
           </g>
@@ -424,11 +423,7 @@ Some examples:
   <svg id="ic_countdown" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1" class="svgDemo">
     <g id="scale_container" transform="scale(0.8,0.8)">
       <g id="countdown_container" transform="translate(0.1,0.1)">
-        <path id="countdown_digits" stroke="#000" stroke-width="0.02" fill="none" d="M 0.24585635359116,0.552486187845304
- C 0.24585635359116,0.331491712707182 0.370165745856354,0.0994475138121547 0.552486187845304,0.0994475138121547
- C 0.734806629834254,0.0994475138121547 0.861878453038674,0.331491712707182 0.861878453038674,0.552486187845304
- C 0.861878453038674,0.773480662983425 0.734806629834254,0.994475138121547 0.552486187845304,0.994475138121547
- C 0.370165745856354,0.994475138121547 0.24585635359116,0.773480662983425 0.24585635359116,0.552486187845304">
+        <path id="countdown_digits" stroke="#000" stroke-width="0.02" fill="none" d="M 0.24585635359116,0.552486187845304 C 0.24585635359116,0.331491712707182 0.370165745856354,0.0994475138121547 0.552486187845304,0.0994475138121547 C 0.734806629834254,0.0994475138121547 0.861878453038674,0.331491712707182 0.861878453038674,0.552486187845304 C 0.861878453038674,0.773480662983425 0.734806629834254,0.994475138121547 0.552486187845304,0.994475138121547 C 0.370165745856354,0.994475138121547 0.24585635359116,0.773480662983425 0.24585635359116,0.552486187845304">
           <animate id="countdown_digits_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
         </path>
         <path id="countdown_digits_cp1" style="visibility: hidden;" fill="#64B5F6">
@@ -515,6 +510,18 @@ Some examples:
   </svg>
 
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_android_design" viewBox="0 0 308 68" class="svgDemo">
+    <path id="andro_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M.342 40.576c10.073 8.093 17.46-26.214 24.843-37.008-2.504 13.87-.942 31.505 5.634 34.256 6.575 2.752 10.747-12.91 13.866-20.387 0 7.477-7.16 19.9-5.436 20.876 3.597-7.226 10.768-15.395 13.076-16.554 2.307-1.16-1.44 14.734.942 14.376 8.927 2.946 8.88-19.38 21.295-12.37-12.416-4.875-12.516 11.16-11.494 12.643C76.07 34.924 86 6.615 81.632.9 72.673-.873 72.18 37.314 76.07 38.14c10.548-.318 14.896-18.363 13.145-22.848-5.363 7.766 2.17 5.983 4.633 9.62 2.506 3.4-3.374 14.54 2.506 13.907 4.856-.844 15.163-23.165 17.118-17.82-5.727-2.37-10.81 16.224-4.143 16.824 8.588.318 9.125-16.823 4.142-17.34"
+    />
+    <path id="id_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M126.046 22.4c-4.284 6.404-2.96 14.827-.092 15.973 4.31 3.24 12.428-18.428 18.5-16.612-13.063 5.738-9.164 14.542-7.253 14.542 15.016-1.847 21.977-34.67 18.283-36.193-9.478 5.223-9.927 36.192-5.008 38.058 6.956 0 10.04-9.364 10.04-9.364"
+    />
+    <path id="a_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M15.513 25.218c4.082 0 15.976-2.228 15.976-2.228" />
+    <path id="i1_dot_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-width="3" d="M127.723 15.887l-.56 1.116" />
+    <path id="d_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M179.8 2.605c-3.668 7.51-5.576 31.462-6.24 35.943 1.646-1.62.974-1.677 2.045-1.677C212.01 27 192.197-.394 172.43 6.563" />
+    <path id="esig_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M204.027 29.02c8.472-4.797 5.46-8.965 4.504-8.965-2.755-1.672-12.485 12.385-3.934 17.473 10.222 3.933 14.088-21.51 18.642-21.51-5.815 11.606 11.867 21.51-7.708 22.23 15.235 5.963 20.42-13.348 22.366-14.66-3.526 11.608-1.76 13.94.806 14.66 4.5 1.27 12.92-24.435 25.972-17.394-13.053-7.04-20.326 14.888-14.98 14.888s9.903-11.52 12.848-11.52c0 10.79-3.065 36.49-13.51 28.437"
+    />
+    <path id="n_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M274.092 17.934c-2.426 3.674-4.002 20.53-4.002 20.53 5.472-13.677 10.573-16.424 12.204-15.88 1.173 5.48-1.21 11.765 1.265 13.526 2.473 1.76 6.36-1.056 9.452-7.205"
+    />
+    <path id="i2_dot_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M239.723 15.887l-.56 1.116" />
     <path id="andro" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M.342 40.576c10.073 8.093 17.46-26.214 24.843-37.008-2.504 13.87-.942 31.505 5.634 34.256 6.575 2.752 10.747-12.91 13.866-20.387 0 7.477-7.16 19.9-5.436 20.876 3.597-7.226 10.768-15.395 13.076-16.554 2.307-1.16-1.44 14.734.942 14.376 8.927 2.946 8.88-19.38 21.295-12.37-12.416-4.875-12.516 11.16-11.494 12.643C76.07 34.924 86 6.615 81.632.9 72.673-.873 72.18 37.314 76.07 38.14c10.548-.318 14.896-18.363 13.145-22.848-5.363 7.766 2.17 5.983 4.633 9.62 2.506 3.4-3.374 14.54 2.506 13.907 4.856-.844 15.163-23.165 17.118-17.82-5.727-2.37-10.81 16.224-4.143 16.824 8.588.318 9.125-16.823 4.142-17.34"
     />
     <path id="id" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M126.046 22.4c-4.284 6.404-2.96 14.827-.092 15.973 4.31 3.24 12.428-18.428 18.5-16.612-13.063 5.738-9.164 14.542-7.253 14.542 15.016-1.847 21.977-34.67 18.283-36.193-9.478 5.223-9.927 36.192-5.008 38.058 6.956 0 10.04-9.364 10.04-9.364"
