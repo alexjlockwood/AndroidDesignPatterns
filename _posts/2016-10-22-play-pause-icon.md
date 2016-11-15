@@ -84,7 +84,6 @@ style: |
 <script defer src="/scripts/posts/2016/10/22/linear-progress-bar-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-morph-digits-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-morph-animated-svgs.js"></script>
-<script defer src="/scripts/posts/2016/10/22/path-morph-play-pause-stop-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/trim-path-interactive-demo.js"></script>
 <script defer src="/scripts/posts/2016/10/22/trim-path-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/clip-path-animated-svgs.js"></script>
@@ -312,7 +311,7 @@ Some examples:
 
 <div id="svgPathMorphDemo" class="svgDemoContainer">
   <svg id="ic_plus_minus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svgDemo">
-    <g id="plus_minus_container" transform="translate(12,12)">
+    <g transform="translate(12,12)">
       <g id="plus_minus_container_rotate" transform="rotate(0)">
         <g id="plus_minus_container_translate" transform="translate(-12,-12)">
           <path id="plus_minus_path" d="M5 11h6V5h2v6h6v2h-6v6h-2v-6H5z">
@@ -321,18 +320,24 @@ Some examples:
             <animate id="minus_to_plus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z"
             />
           </path>
+          <path id="plus_minus_end_points_path" fill="#64B5F6">
+            <animate id="plus_minus_end_points_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze"/>
+        </path>
         </g>
       </g>
     </g>
   </svg>
 
   <svg id="ic_cross_tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svgDemo">
-    <g id="cross_tick_container" transform="translate(12,12)">
+    <g transform="translate(12,12)">
       <g id="cross_tick_container_rotate" transform="rotate(0)">
         <g id="cross_tick_container_translate" transform="translate(-12,-12)">
           <path id="cross_tick_path" stroke="#000" stroke-width="2" stroke-linecap="square" d="M6.4 6.4l11.2 11.2m-11.2 0L17.6 6.4">
             <animate id="cross_to_tick_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M6.4,6.4 L17.6,17.6 M6.4,17.6 L17.6,6.4;M4.8,13.4 L9,17.6 M10.4,16.2 L19.6,7" />
             <animate id="tick_to_cross_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M4.8,13.4 L9,17.6 M10.4,16.2 L19.6,7;M6.4,6.4 L17.6,17.6 M6.4,17.6 L17.6,6.4" />
+          </path>
+          <path id="cross_tick_end_points_path" fill="#64B5F6">
+            <animate id="cross_tick_end_points_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
           </path>
         </g>
       </g>
@@ -340,14 +345,17 @@ Some examples:
   </svg>
 
   <svg id="ic_arrow_drawer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svgDemo">
-    <g id="arrow_drawer_container" transform="translate(12,12)">
+    <g transform="translate(12,12)">
       <g id="arrow_drawer_container_rotate" transform="rotate(0)">
         <g id="arrow_drawer_container_translate" transform="translate(-12,-12)">
-          <path id="arrow_drawer_path" d="M3 6v2h18V6H3zm0 5v2h18v-2H3zm0 7v-2h18v2H3z">
-            <animate id="arrow_to_drawer_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 12, 4 L 10.59,5.41 L 16.17,11 L 18.99,11 L 12,4 z M 4, 11 L 4, 13 L 18.99, 13 L 20, 12 L 18.99, 11 L 4, 11 z M 12,20 L 10.59, 18.59 L 16.17, 13 L 18.99, 13 L 12, 20z;M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z"
-            />
+          <path id="arrow_drawer_path" d="M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z">            
             <animate id="drawer_to_arrow_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z;M 12, 4 L 10.59,5.41 L 16.17,11 L 18.99,11 L 12,4 z M 4, 11 L 4, 13 L 18.99, 13 L 20, 12 L 18.99, 11 L 4, 11 z M 12,20 L 10.59, 18.59 L 16.17, 13 L 18.99, 13 L 12, 20z"
             />
+            <animate id="arrow_to_drawer_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 12, 4 L 10.59,5.41 L 16.17,11 L 18.99,11 L 12,4 z M 4, 11 L 4, 13 L 18.99, 13 L 20, 12 L 18.99, 11 L 4, 11 z M 12,20 L 10.59, 18.59 L 16.17, 13 L 18.99, 13 L 12, 20z;M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z"
+            />
+          </path>
+          <path id="arrow_drawer_end_points_path" fill="#64B5F6">
+            <animate id="drawer_arrow_end_points_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
           </path>
         </g>
       </g>
@@ -355,54 +363,57 @@ Some examples:
   </svg>
 
   <svg id="ic_arrow_overflow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 240px; height: 240px;">
-    <g id="arrow_overflow_container" transform="translate(12,12)">
+    <g transform="translate(12,12)">
       <g id="arrow_overflow_translate_dot3" transform="translate(0,6)">
         <g id="arrow_overflow_rotate_dot3" transform="rotate(0)">
           <g id="arrow_overflow_pivot_dot3">
             <path id="arrow_overflow_path3" fill="#000" d="M 0,-2 l 0,0 c 1.1045694996,0 2,0.8954305004 2,2 l 0,0 c 0,1.1045694996 -0.8954305004,2 -2,2 l 0,0 c -1.1045694996,0 -2,-0.8954305004 -2,-2 l 0,0 c 0,-1.1045694996 0.8954305004,-2 2,-2 Z">
-              <animate id="overflow_to_arrow_path3_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" values="M 0,-2 l 0,0 c 1.1046,0 2,0.8954 2,2 l 0,0 c 0,1.1046 -0.8954,2 -2,2 l 0,0 c -1.1046,0 -2,-0.8954 -2,-2 l 0,0 c 0,-1.1046 0.8954,-2 2,-2 Z;M -4.0951,-1.3095 l 8.1901,0 c 0.1776,0 0.3216,0.1440 0.3216,0.3216 l 0,1.9758 c 0,0.1776 -0.1440,0.3216 -0.3216,0.3216 l -8.1901,0 c -0.1776,0 -0.3216,-0.1440 -0.3216,-0.3216 l 0,-1.9758 c 0,-0.1776 0.1440,-0.3216 0.3216,-0.3216 Z;M -5.1145,-1.1101 l 10.2291,0 c 0,0 0,0 0,0 l 0,2.2203 c 0,0 0,0 0,0 l -10.2291,0 c 0,0 0,0 0,0 l 0,-2.2203 c 0,0 0,0 0,0 Z;M -5.4176,-1.0236 l 10.8351,0 c 0,0 0,0 0,0 l 0,2.0471 c 0,0 0,0 0,0 l -10.8351,0 c 0,0 0,0 0,0 l 0,-2.0471 c 0,0 0,0 0,0 Z;M -5.5000,-1 l 11,0 c 0,0 0,0 0,0 l 0,2 c 0,0 0,0 0,0 l -11,0 c 0,0 0,0 0,0 l 0,-2 c 0,0 0,0 0,0 Z"
-              />
-              <animate id="arrow_to_overflow_path2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze"
-              values="M -5.5000,-1 l 11,0 c 0,0 0,0 0,0 l 0,2 c 0,0 0,0 0,0 l -11,0 c 0,0 0,0 0,0 l 0,-2 c 0,0 0,0 0,0 Z;M -5.3496,-1.0430 l 10.6992,0 c 0,0 0,0 0,0 l 0,2.0859 c 0,0 0,0 0,0 l -10.6992,0 c 0,0 0,0 0,0 l 0,-2.0859 c 0,0 0,0 0,0 Z;M -4.5733,-1.2500 l 9.1465,0 c 0.0286,0 0.0517,0.0232 0.0517,0.0517 l 0,2.3965 c 0,0.0286 -0.0232,0.0517 -0.0517,0.0517 l -9.1465,0 c -0.0286,0 -0.0517,-0.0232 -0.0517,-0.0517 l 0,-2.3965 c 0,-0.0286 0.0232,-0.0517 0.0517,-0.0517 Z;M -3.0414,-1.5596 l 6.0827,0 c 0.2761,0 0.5000,0.2239 0.5000,0.5000 l 0,2.1192 c 0,0.2761 -0.2239,0.5000 -0.5000,0.5000 l -6.0827,0 c -0.2761,0 -0.5000,-0.2239 -0.5000,-0.5000 l 0,-2.1192 c 0,-0.2761 0.2239,-0.5000 0.5000,-0.5000 Z;M -1.5586,-1.7755 l 3.1172,0 c 0.6777,0 1.2271,0.5494 1.2271,1.2271 l 0,1.0969 c 0,0.6777 -0.5494,1.2271 -1.2271,1.2271 l -3.1172,0 c -0.6777,0 -1.2271,-0.5494 -1.2271,-1.2271 l 0,-1.0969 c 0,-0.6777 0.5494,-1.2271 1.2271,-1.2271 Z;M -0.7060,-1.8945 l 1.4120,0 c 0.9186,0 1.6633,0.7447 1.6633,1.6633 l 0,0.4623 c 0,0.9186 -0.7447,1.6633 -1.6633,1.6633 l -1.4120,0 c -0.9186,0 -1.6633,-0.7447 -1.6633,-1.6633 l 0,-0.4623 c 0,-0.9186 0.7447,-1.6633 1.6633,-1.6633 Z;M -0.2657,-1.9594 l 0.5315,0 c 1.0364,0 1.8765,0.8401 1.8765,1.8765 l 0,0.1658 c 0,1.0364 -0.8401,1.8765 -1.8765,1.8765 l -0.5315,0 c -1.0364,0 -1.8765,-0.8401 -1.8765,-1.8765 l 0,-0.1658 c 0,-1.0364 0.8401,-1.8765 1.8765,-1.8765 Z;M -0.0581,-1.9910 l 0.1162,0 c 1.0899,0 1.9734,0.8835 1.9734,1.9734 l 0,0.0351 c 0,1.0899 -0.8835,1.9734 -1.9734,1.9734 l -0.1162,0 c -1.0899,0 -1.9734,-0.8835 -1.9734,-1.9734 l 0,-0.0351 c 0,-1.0899 0.8835,-1.9734 1.9734,-1.9734 Z;M 0,-2 l 0,0 c 1.1046,0 2,0.8954 2,2 l 0,0 c 0,1.1046 -0.8954,2 -2,2 l 0,0 c -1.1046,0 -2,-0.8954 -2,-2 l 0,0 c 0,-1.1046 0.8954,-2 2,-2 Z"
-              />
+              <animate id="overflow_to_arrow_path3_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
+              <animate id="arrow_to_overflow_path3_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
+            </path>
+            <path id="arrow_overflow_end_points_path3" style="visibility: hidden;" fill="#64B5F6">
+              <animate id="arrow_overflow_end_points3_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" fill="freeze" />
             </path>
           </g>
-        </g>
-      </g>
-      <g id="arrow_overflow_translate_dot2">
-        <g id="arrow_overflow_pivot_dot2">
-          <path id="arrow_overflow_path2" fill="#000" d="M 0,-2 l 0,0 c 1.1045694996,0 2,0.8954305004 2,2 l 0,0 c 0,1.1045694996 -0.8954305004,2 -2,2 l 0,0 c -1.1045694996,0 -2,-0.8954305004 -2,-2 l 0,0 c 0,-1.1045694996 0.8954305004,-2 2,-2 Z">
-            <animate id="overflow_to_arrow_path2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.1667;0.3333;0.5;0.6666;0.83333;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" values="M 0,-2 l 0,0 c 1.1046,0 2,0.8954 2,2 l 0,0 c 0,1.1046 -0.8954,2 -2,2 l 0,0 c -1.1046,0 -2,-0.8954 -2,-2 l 0,0 c 0,-1.1046 0.8954,-2 2,-2 Z;M -0.5106,-1.9149 l 1.0213,0 c 1.0576,0 1.9149,0.8573 1.9149,1.9149 l 0,0 c 0,1.0576 -0.8573,1.9149 -1.9149,1.9149 l -1.0213,0 c -1.0576,0 -1.9149,-0.8573 -1.9149,-1.9149 l 0,0 c 0,-1.0576 0.8573,-1.9149 1.9149,-1.9149 Z;M -3.6617,-1.5417 l 7.3234,0 c 0.3479,0 0.6299,0.2820 0.6299,0.6299 l 0,1.8234 c 0,0.3479 -0.2820,0.6299 -0.6299,0.6299 l -7.3234,0 c -0.3479,0 -0.6299,-0.2820 -0.6299,-0.6299 l 0,-1.8234 c 0,-0.3479 0.2820,-0.6299 0.6299,-0.6299 Z;M -5.8061,-1.2245 l 11.6121,0 c 0.0395,0 0.0716,0.0320 0.0716,0.0716 l 0,2.3058 c 0,0.0395 -0.0320,0.0716 -0.0716,0.0716 l -11.6121,0 c -0.0395,0 -0.0716,-0.0320 -0.0716,-0.0716 l 0,-2.3058 c 0,-0.0395 0.0320,-0.0716 0.0716,-0.0716 Z;M -6.6039,-1.0792 l 13.2077,0 c 0,0 0,0 0,0 l 0,2.1585 c 0,0 0,0 0,0 l -13.2077,0 c 0,0 0,0 0,0 l 0,-2.1585 c 0,0 0,0 0,0 Z;M -6.9168,-1.0166 l 13.8336,0 c 0,0 0,0 0,0 l 0,2.0333 c 0,0 0,0 0,0 l -13.8336,0 c 0,0 0,0 0,0 l 0,-2.0333 c 0,0 0,0 0,0 Z;M -7,-1 l 14,0 c 0,0 0,0 0,0 l 0,2 c 0,0 0,0 0,0 l -14,0 c 0,0 0,0 0,0 l 0,-2 c 0,0 0,0 0,0 Z"
-            />
-            <animate id="arrow_to_overflow_path3_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze"
-            values="M -7,-1 l 14,0 c 0,0 0,0 0,0 l 0,2 c 0,0 0,0 0,0 l -14,0 c 0,0 0,0 0,0 l 0,-2 c 0,0 0,0 0,0 Z; M -4.3684,-1.4999 l 8.7369,0 c 0.0729,0 0.1320,0.0591 0.1320,0.1320 l 0,2.7359 c 0,0.0729 -0.0591,0.1320 -0.1320,0.1320 l -8.7369,0 c -0.0729,0 -0.1320,-0.0591 -0.1320,-0.1320 l 0,-2.7359 c 0,-0.0729 0.0591,-0.1320 0.1320,-0.1320 Z;M -2.7976,-1.6905 l 5.5952,0 c 0.4142,0 0.7500,0.3358 0.7500,0.7500 l 0,1.8810 c 0,0.4142 -0.3358,0.7500 -0.7500,0.7500 l -5.5952,0 c -0.4142,0 -0.7500,-0.3358 -0.7500,-0.7500 l 0,-1.8810 c 0,-0.4142 0.3358,-0.7500 0.7500,-0.7500 Z;M -1.5413,-1.8100 l 3.0826,0 c 0.7779,0 1.4085,0.6306 1.4085,1.4085 l 0,0.8031 c 0,0.7779 -0.6306,1.4085 -1.4085,1.4085 l -3.0826,0 c -0.7779,0 -1.4085,-0.6306 -1.4085,-1.4085 l 0,-0.8031 c 0,-0.7779 0.6306,-1.4085 1.4085,-1.4085 Z;M -0.7987,-1.8899 l 1.5974,0 c 0.9676,0 1.7519,0.7844 1.7519,1.7519 l 0,0.2759 c 0,0.9676 -0.7844,1.7519 -1.7519,1.7519 l -1.5974,0 c -0.9676,0 -1.7519,-0.7844 -1.7519,-1.7519 l 0,-0.2759 c 0,-0.9676 0.7844,-1.7519 1.7519,-1.7519 Z;M -0.3662,-1.9430 l 0.7324,0 c 1.0597,0 1.9187,0.8590 1.9187,1.9187 l 0,0.0486 c 0,1.0597 -0.8590,1.9187 -1.9187,1.9187 l -0.7324,0 c -1.0597,0 -1.9187,-0.8590 -1.9187,-1.9187 l 0,-0.0486 c 0,-1.0597 0.8590,-1.9187 1.9187,-1.9187 Z;M -0.1413,-1.9764 l 0.2827,0 c 1.0916,0 1.9764,0.8849 1.9764,1.9764 l 0,0 c 0,1.0916 -0.8849,1.9764 -1.9764,1.9764 l -0.2827,0 c -1.0916,0 -1.9764,-0.8849 -1.9764,-1.9764 l 0,0 c 0,-1.0916 0.8849,-1.9764 1.9764,-1.9764 Z;M -0.0331,-1.9945 l 0.0663,0 c 1.1015,0 1.9945,0.8930 1.9945,1.9945 l 0,0 c 0,1.1015 -0.8930,1.9945 -1.9945,1.9945 l -0.0663,0 c -1.1015,0 -1.9945,-0.8930 -1.9945,-1.9945 l 0,0 c 0,-1.1015 0.8930,-1.9945 1.9945,-1.9945 Z;M 0,-2 l 0,0 c 1.1046,0 2,0.8954 2,2 l 0,0 c 0,1.1046 -0.8954,2 -2,2 l 0,0 c -1.1046,0 -2,-0.8954 -2,-2 l 0,0 c 0,-1.1046 0.8954,-2 2,-2 Z"
-            />
-          </path>
         </g>
       </g>
       <g id="arrow_overflow_translate_dot1" transform="translate(0,-6)">
         <g id="arrow_overflow_rotate_dot1" transform="rotate(0)">
           <g id="arrow_overflow_pivot_dot1">
             <path id="arrow_overflow_path1" fill="#000" d="M 0,-2 l 0,0 c 1.1045694996,0 2,0.8954305004 2,2 l 0,0 c 0,1.1045694996 -0.8954305004,2 -2,2 l 0,0 c -1.1045694996,0 -2,-0.8954305004 -2,-2 l 0,0 c 0,-1.1045694996 0.8954305004,-2 2,-2 Z">
-              <animate id="overflow_to_arrow_path1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" values="M 0,-2 l 0,0 c 1.1046,0 2,0.8954 2,2 l 0,0 c 0,1.1046 -0.8954,2 -2,2 l 0,0 c -1.1046,0 -2,-0.8954 -2,-2 l 0,0 c 0,-1.1046 0.8954,-2 2,-2 Z;M -4.0951,-1.3095 l 8.1901,0 c 0.1776,0 0.3216,0.1440 0.3216,0.3216 l 0,1.9758 c 0,0.1776 -0.1440,0.3216 -0.3216,0.3216 l -8.1901,0 c -0.1776,0 -0.3216,-0.1440 -0.3216,-0.3216 l 0,-1.9758 c 0,-0.1776 0.1440,-0.3216 0.3216,-0.3216 Z;M -5.1145,-1.1101 l 10.2291,0 c 0,0 0,0 0,0 l 0,2.2203 c 0,0 0,0 0,0 l -10.2291,0 c 0,0 0,0 0,0 l 0,-2.2203 c 0,0 0,0 0,0 Z;M -5.4176,-1.0236 l 10.8351,0 c 0,0 0,0 0,0 l 0,2.0471 c 0,0 0,0 0,0 l -10.8351,0 c 0,0 0,0 0,0 l 0,-2.0471 c 0,0 0,0 0,0 Z;M -5.5000,-1 l 11,0 c 0,0 0,0 0,0 l 0,2 c 0,0 0,0 0,0 l -11,0 c 0,0 0,0 0,0 l 0,-2 c 0,0 0,0 0,0 Z"
-              />
-              <animate id="arrow_to_overflow_path1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze"
-              values="M -5.5000,-1 l 11,0 c 0,0 0,0 0,0 l 0,2 c 0,0 0,0 0,0 l -11,0 c 0,0 0,0 0,0 l 0,-2 c 0,0 0,0 0,0 Z;M -5.3496,-1.0430 l 10.6992,0 c 0,0 0,0 0,0 l 0,2.0859 c 0,0 0,0 0,0 l -10.6992,0 c 0,0 0,0 0,0 l 0,-2.0859 c 0,0 0,0 0,0 Z;M -4.5733,-1.2500 l 9.1465,0 c 0.0286,0 0.0517,0.0232 0.0517,0.0517 l 0,2.3965 c 0,0.0286 -0.0232,0.0517 -0.0517,0.0517 l -9.1465,0 c -0.0286,0 -0.0517,-0.0232 -0.0517,-0.0517 l 0,-2.3965 c 0,-0.0286 0.0232,-0.0517 0.0517,-0.0517 Z;M -3.0414,-1.5596 l 6.0827,0 c 0.2761,0 0.5000,0.2239 0.5000,0.5000 l 0,2.1192 c 0,0.2761 -0.2239,0.5000 -0.5000,0.5000 l -6.0827,0 c -0.2761,0 -0.5000,-0.2239 -0.5000,-0.5000 l 0,-2.1192 c 0,-0.2761 0.2239,-0.5000 0.5000,-0.5000 Z;M -1.5586,-1.7755 l 3.1172,0 c 0.6777,0 1.2271,0.5494 1.2271,1.2271 l 0,1.0969 c 0,0.6777 -0.5494,1.2271 -1.2271,1.2271 l -3.1172,0 c -0.6777,0 -1.2271,-0.5494 -1.2271,-1.2271 l 0,-1.0969 c 0,-0.6777 0.5494,-1.2271 1.2271,-1.2271 Z;M -0.7060,-1.8945 l 1.4120,0 c 0.9186,0 1.6633,0.7447 1.6633,1.6633 l 0,0.4623 c 0,0.9186 -0.7447,1.6633 -1.6633,1.6633 l -1.4120,0 c -0.9186,0 -1.6633,-0.7447 -1.6633,-1.6633 l 0,-0.4623 c 0,-0.9186 0.7447,-1.6633 1.6633,-1.6633 Z;M -0.2657,-1.9594 l 0.5315,0 c 1.0364,0 1.8765,0.8401 1.8765,1.8765 l 0,0.1658 c 0,1.0364 -0.8401,1.8765 -1.8765,1.8765 l -0.5315,0 c -1.0364,0 -1.8765,-0.8401 -1.8765,-1.8765 l 0,-0.1658 c 0,-1.0364 0.8401,-1.8765 1.8765,-1.8765 Z;M -0.0581,-1.9910 l 0.1162,0 c 1.0899,0 1.9734,0.8835 1.9734,1.9734 l 0,0.0351 c 0,1.0899 -0.8835,1.9734 -1.9734,1.9734 l -0.1162,0 c -1.0899,0 -1.9734,-0.8835 -1.9734,-1.9734 l 0,-0.0351 c 0,-1.0899 0.8835,-1.9734 1.9734,-1.9734 Z;M 0,-2 l 0,0 c 1.1046,0 2,0.8954 2,2 l 0,0 c 0,1.1046 -0.8954,2 -2,2 l 0,0 c -1.1046,0 -2,-0.8954 -2,-2 l 0,0 c 0,-1.1046 0.8954,-2 2,-2 Z"
-              />
+              <animate id="overflow_to_arrow_path1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
+              <animate id="arrow_to_overflow_path1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
             </path>
+            <path id="arrow_overflow_end_points_path1" style="visibility: hidden;" fill="#64B5F6">
+              <animate id="arrow_overflow_end_points1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" fill="freeze" />
+          </path>
           </g>
+        </g>
+      </g>
+      <g id="arrow_overflow_translate_dot2">
+        <g id="arrow_overflow_pivot_dot2">
+          <path id="arrow_overflow_path2" fill="#000" d="M 0,-2 l 0,0 c 1.1045694996,0 2,0.8954305004 2,2 l 0,0 c 0,1.1045694996 -0.8954305004,2 -2,2 l 0,0 c -1.1045694996,0 -2,-0.8954305004 -2,-2 l 0,0 c 0,-1.1045694996 0.8954305004,-2 2,-2 Z">
+            <animate id="overflow_to_arrow_path2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.1667;0.3333;0.5;0.6666;0.83333;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
+            <animate id="arrow_to_overflow_path2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
+          </path>
+          <path id="arrow_overflow_end_points_path2" style="visibility: hidden;" fill="#64B5F6">
+              <animate id="arrow_overflow_end_points2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" fill="freeze" />
+          </path>
         </g>
       </g>
     </g>
   </svg>
 
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_play_pause_stop" viewBox="0 0 18 18" class="svgDemo">
-    <g id="button_translateX" transform="translate(0.75,0)">
-      <g id="button_position" transform="translate(9,9)">
-        <g id="button_rotate" transform="rotate(90)">
-          <g id="button_translate" transform="translate(-9,-9)">
-            <path id="icon_path" d="M9 5v8H4l5-8m0 0l5 8H9V5">
-              <animate id="icon_state_change_animation" fill="freeze" attributeName="d" begin="infinite" dur="200ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" />
+    <g id="play_pause_stop_translateX" transform="translate(0.75,0)">
+      <g transform="translate(9,9)">
+        <g id="play_pause_stop_rotate" transform="rotate(90)">
+          <g transform="translate(-9,-9)">
+            <path id="play_pause_stop_path" d="M9 5v8H4l5-8m0 0l5 8H9V5">
+              <animate id="play_pause_stop_animation" fill="freeze" attributeName="d" begin="infinite" dur="200ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" />
+            </path>
+            <path id="play_pause_stop_end_points_path" fill="#64B5F6">
+              <animate id="play_pause_stop_end_points_animation" fill="freeze" attributeName="d" begin="infinite" dur="200ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" />
             </path>
           </g>
         </g>
@@ -415,6 +426,10 @@ Some examples:
       <input type="checkbox" id="pathMorphRotateCheckbox" class="mdl-checkbox__input" checked>
       <span class="mdl-checkbox__label">Animate <code>android:rotation</code></span>
     </label>
+    <label for="pathMorphShowPathPointsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="pathMorphShowPathPointsCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Show path control/end points</span>
+    </label>
     <label for="pathMorphSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="pathMorphSlowAnimationCheckbox" class="mdl-checkbox__input">
       <span class="mdl-checkbox__label">Slow animation</span>
@@ -424,10 +439,6 @@ Some examples:
 
 And finally a path morph digits demo:
 
-<!-- TODO(alockwood): figure out how to deal with the global variables and stuff. -->
-<!-- TODO(alockwood): figure out how to deal with the global variables and stuff. -->
-<!-- TODO(alockwood): figure out how to deal with the global variables and stuff. -->
-<!-- TODO(alockwood): figure out how to deal with the global variables and stuff. -->
 <div id="svgPathMorphDigitsDemo" class="svgDemoContainer">
   <svg id="ic_countdown" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1" style="width: 400px; height: 400px;">
     <g id="scale_container" transform="scale(0.8,0.8)">
