@@ -101,7 +101,7 @@ In this blog post I will describe different techniques to animate icons using `A
 
 <!--more-->
 
-* I am writing this blog post because I want to see more apps embrace and incorporate motion into their apps. I genuinely think that animated icons make the application better and more usable. They're a great opportunity to make your app feel alive. 
+* I am writing this blog post because I want to see more apps embrace and incorporate motion into their apps. I genuinely think that animated icons make the application better and more usable. They're a great opportunity to make your app feel alive.
 * TODO: explain the importance of motion in a few sentences
 * In a previous series of blog posts, I wrote about transitions. Transitions can be used to construct elaborate animations between different states in your applications.
 * In this blog post, I'm going to focus on something much smaller in scope but just as important: delightful details and creative customization. In this blog post I will describe different techniques to animate icons using `AnimatedVectorDrawable`s.
@@ -549,13 +549,13 @@ And the circular progress bar demo:
 
 <!-- A material circular indeterminate progress bar can be animated by altering
      SVG properties in parallel:
-     
+
      (1) The entire progress bar is rotated indefinitely about the center of
          the canvas from 0° to 720° over the course of 4.444s.
-         
+
      (2) The progress bar's starting stroke position (i.e. trimPathOffset) is animated
          from 0.0 to 0.25 over the course of 1.333s. In this example, it could also be
-         thought of as an additional rotation from 0 to 90 degrees (although trimming 
+         thought of as an additional rotation from 0 to 90 degrees (although trimming
          the path offset in Android is usually more convenient).
 
      (3) Portions of the progress bar's circular path are clipped using the trimPathStart
@@ -563,19 +563,19 @@ And the circular progress bar demo:
          0f and 1f; trimPathStart="x" and trimPathEnd="y" tells us that only the portion
          of the path between [x,y] will be drawn to the display. Over the course of the
          animation, these properties are assigned the following values:
-         
+
          t = 0.0, trimPathStart = 0.75, trimPathEnd = 0.78
          t = 0.5, trimPathStart = 0.00, trimPathEnd = 0.75
          t = 1.0, trimPathStart = 0.00, trimPathEnd = 0.03
-         
+
          At time t = 0 and t = 1, the progress bar is at it's smallest size (only 3% is
          visible). At t = 0.5, the progress bar has stretched to its maximum size (75% is
-         visible). 
-         
+         visible).
+
          Between t = 0 and t = 0.5, the animation uses a standard "fast out slow in" interpolation
          curve to assign floating point values to the trimPathStart property (in other words,
          trimPathStart's rate of change is much faster at t = 0 than it is at t = 0.5). This
-         results in a quick and sudden expansion of the progress bar path. The same thing is done 
+         results in a quick and sudden expansion of the progress bar path. The same thing is done
          to assign values to the trimPathEnd property between t = 0.5 and t = 1.0,
          resulting in a quick and immediate shrinking of the progress bar path.
 -->

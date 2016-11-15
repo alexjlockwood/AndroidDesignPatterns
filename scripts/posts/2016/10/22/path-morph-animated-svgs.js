@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   function getScaledAnimationDuration(durationMillis) {
     var slowAnimationSelector = document.querySelector("input[id=pathMorphSlowAnimationCheckbox]");
     var currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
-    return durationMillis * currentAnimationDurationFactor; 
+    return durationMillis * currentAnimationDurationFactor;
   }
 
   function animateTranslationX(elementId, durationMillis, fromTranslationX, toTranslationX) {
@@ -451,5 +451,3 @@ document.addEventListener("DOMContentLoaded", function(event) {
     animatePoints("play_pause_stop_end_points_animation", 200, oldPathString, newPathString, 0.4);
   }
 });
-
-
