@@ -500,7 +500,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var oldPathString = playPauseStopPaths[oldIconIndex];
     var newPathString = playPauseStopPaths[newIconIndex];
     animatePathMorphWithValues("play_pause_stop_animation", 200, [oldPathString, newPathString]);
-    animateTranslationX("play_pause_stop_translateX", 200);
+    animateTranslationX("play_pause_stop_translateX", 200, playPauseStopTranslationX[oldIconIndex], playPauseStopTranslationX[newIconIndex]);
     animatePoints("play_pause_stop_end_points_animation", 200, oldPathString, newPathString, 0.4);
   }
 
