@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var currentAnimationDurationFactor = 1;
   var currentAnimations = [];
 
- var showTrimPathsSelector = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]");
+  var showTrimPathsSelector = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]");
   showTrimPathsSelector.addEventListener("change", function(event) {
     var visibility = showTrimPathsSelector.checked ? "visible" : "hidden";
     document.getElementById("andro_debug").style.visibility = visibility;
