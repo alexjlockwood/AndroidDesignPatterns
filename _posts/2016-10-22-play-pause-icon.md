@@ -396,7 +396,7 @@ Some examples:
             <animate id="arrow_to_overflow_path2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
           </path>
           <path id="arrow_overflow_end_points_path2" style="visibility: hidden;" fill="#64B5F6">
-              <animate id="arrow_overflow_end_points2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" fill="freeze" />
+            <animate id="arrow_overflow_end_points2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" fill="freeze" />
           </path>
         </g>
       </g>
