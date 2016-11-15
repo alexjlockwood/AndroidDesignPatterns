@@ -8,71 +8,71 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
 style: |
   .svgDemoContainer {
-  display: block;
-  background-color: #fafafa;
+    display: block;
+    background-color: #fafafa;
   }
   .svgDemo {
-  display: inline-block;
-  width: 33%;
-  padding: 16ems;
-  height: 240ems;
+    display: inline-block;
+    width: 33%;
+    padding: 16ems;
+    height: 240ems;
   }
   .svgDemoCheckboxContainer {
-  padding: 16px;
+    padding: 16px;
   }
   /* Linear progress bar demo. */
   #progressBarContainer {
-  padding: 16px;
+    padding: 16px;
   }
   #progressBar {
-  width: 360px;
-  height: 4px;
-  overflow: hidden;
-  position: relative;
-  background-color: rgba(63, 81, 181, 0.26);
+    width: 360px;
+    height: 4px;
+    overflow: hidden;
+    position: relative;
+    background-color: rgba(63, 81, 181, 0.26);
   }
 
   #progressBarInnerRect1,
   #progressBarInnerRect2 {
-  background: #3f51b5;
+    background: #3f51b5;
   }
 
   #progressBarOuterRect1,
   #progressBarOuterRect2,
   #progressBarInnerRect1,
   #progressBarInnerRect2 {
-  height: 4px;
-  position: absolute;
-  width: 288px;
+    height: 4px;
+    position: absolute;
+    width: 288px;
   }
   /* Trim path interactive demo. */
   #ic_line_path {
-  padding-top: 16px;
-  padding-left: 16px;
-  padding-right: 16px;
+    padding-top: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .sliderContainer {
-  padding: 16px;
+    padding: 16px;
   }
 
   .slider {
-  margin-top: 8px;
-  display: inline-block;
+    margin-top: 8px;
+    display: inline-block;
   }
 
   .sliderInput {
-  width: 300px;
+    width: 300px;
   }
 
   .sliderTextContainer {
-  margin-top: 8px;
-  margin-bottom: 8px;
-  display: block;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    display: block;
   }
 
   .sliderText {
-  display: inline-block;
+    display: inline-block;
   }
 ---
 
@@ -191,7 +191,7 @@ Transformations include alpha, pivot, rotation, scale, and translate. It is impo
 
 Some examples:
 
-<div id="svgRotationDemos" class="svgDemoContainer">
+<div class="svgDemoContainer">
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_expand_collapse" viewBox="0 0 24 24" class="svgDemo">
     <g id="chevron" transform="translate(12,15)">
       <g id="leftBar" transform="rotate(135)">
@@ -208,54 +208,34 @@ Some examples:
   </svg>
 
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_radiobutton" class="svgDemo" viewBox="0 0 32 32">
-    <g id="button_position" transform="translate(16,16)">
-      <g id="ring_outer">
-        <path id="ring_outer_path" stroke="#000" fill="none" stroke-width="2" d="M-9 0A9 9 0 1 0 9 0 9 9 0 1 0-9 0" />
+    <g transform="translate(16,16)">
+      <g id="radiobutton_ring_outer">
+        <path id="radiobutton_ring_outer_path" stroke="#000" fill="none" stroke-width="2" d="M-9 0A9 9 0 1 0 9 0 9 9 0 1 0-9 0" />
       </g>
-      <g id="dot_group" transform="scale(0,0)">
-        <path id="dot_path" d="M-5 0A5 5 0 1 0 5 0 5 5 0 1 0-5 0" />
+      <g id="radiobutton_dot_group" transform="scale(0,0)">
+        <path id="radiobutton_dot_path" d="M-5 0A5 5 0 1 0 5 0 5 5 0 1 0-5 0" />
       </g>
     </g>
   </svg>
 
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_alarm" viewBox="0 0 24 24" class="svgDemo">
-    <g id="button_position" transform="translate(12,12)">
-      <g id="button_rotation" transform="rotate(0)">
-        <g id="button_scale_x" transform="scale(1, 1)">
-          <g id="button_scale_y">
-            <g id="button_pivot" transform="translate(-12,-12)">
-              <g id="button">
-                <g id="right_button_transform" transform="translate(19.0722,4.5758)">
-                  <g id="right_button">
-                    <path id="path_1" d="M2.94 1.162l-4.595-3.857L-2.94-1.16l4.595 3.855L2.94 1.162z" />
-                  </g>
-                </g>
-                <g id="left_button_transform" transform="translate(4.9262,4.5729)">
-                  <g id="left_button">
-                    <path id="left_button_path" d="M2.94-1.163L1.656-2.695-2.94 1.16l1.285 1.535L2.94-1.163z" />
-                  </g>
-                </g>
-              </g>
-            </g>
+    <g transform="translate(12,12)">
+      <g id="alarmclock_button_rotation" transform="rotate(0)">
+        <g transform="translate(-12,-12)">
+          <g transform="translate(19.0722,4.5758)">
+            <path d="M2.94 1.162l-4.595-3.857L-2.94-1.16l4.595 3.855L2.94 1.162z" />
+          </g>
+          <g transform="translate(4.9262,4.5729)">
+            <path d="M2.94-1.163L1.656-2.695-2.94 1.16l1.285 1.535L2.94-1.163z" />
           </g>
         </g>
       </g>
     </g>
-    <g id="alarm_transform" transform="translate(12,12)">
-      <g id="alarm_pivot" transform="translate(-12,-12)">
-        <g id="alarm">
-          <g id="alarm_hands_transform" transform="translate(13.75,12.4473)">
-            <g id="alarm_hands">
-              <path id="alarm_hands_path" d="M-1.25-4.427h-1.5v6l4.747 2.854.753-1.232-4-2.372v-5.25z" />
-            </g>
-          </g>
-          <g id="alarm_body_transform" transform="translate(12,13.0203)">
-            <g id="alarm_body">
-              <path id="alarm_outline_path_merged" d="M-.005-9C-4.98-9-9-4.97-9 0s4.02 9 8.995 9S9 4.97 9 0 4.97-9-.005-9zM0 7c-3.867 0-7-3.134-7-7s3.133-7 7-7 7 3.134 7 7-3.133 7-7 7z" />
-            </g>
-          </g>
-        </g>
-      </g>
+    <g transform="translate(13.75,12.4473)">
+      <path d="M-1.25-4.427h-1.5v6l4.747 2.854.753-1.232-4-2.372v-5.25z" />
+    </g>
+    <g transform="translate(12,13.0203)">
+      <path d="M-.005-9C-4.98-9-9-4.97-9 0s4.02 9 8.995 9S9 4.97 9 0 4.97-9-.005-9zM0 7c-3.867 0-7-3.134-7-7s3.133-7 7-7 7 3.134 7 7-3.133 7-7 7z" />
     </g>
   </svg>
 
@@ -314,10 +294,8 @@ Some examples:
       <g id="plus_minus_container_rotate" transform="rotate(0)">
         <g id="plus_minus_container_translate" transform="translate(-12,-12)">
           <path id="plus_minus_path" d="M5 11h6V5h2v6h6v2h-6v6h-2v-6H5z">
-            <animate id="plus_to_minus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z"
-            />
-            <animate id="minus_to_plus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z"
-            />
+            <animate id="plus_to_minus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z" />
+            <animate id="minus_to_plus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z"/>
           </path>
           <path id="plus_minus_end_points_path" fill="#64B5F6" style="visibility: hidden;">
             <animate id="plus_minus_end_points_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze"/>
@@ -361,7 +339,7 @@ Some examples:
     </g>
   </svg>
 
-  <svg id="ic_arrow_overflow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 240px; height: 240px;">
+  <svg id="ic_arrow_overflow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svgDemo">
     <g transform="translate(12,12)">
       <g id="arrow_overflow_translate_dot3" transform="translate(0,6)">
         <g id="arrow_overflow_rotate_dot3" transform="rotate(0)">
@@ -454,7 +432,6 @@ Some examples:
     </label>
   </div>
 </div>
-
 
 ### Trimming stroked paths
 
@@ -622,37 +599,29 @@ Some examples:
 
 <div id="svgClipPathDemos" class="svgDemoContainer">
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_timer" class="svgDemo" viewBox="0 0 24 24">
-    <g id="hourglass_frame_position" transform="translate(12,12)">
+    <g transform="translate(12,12)">
       <g id="hourglass_frame_rotation" transform="rotate(0)">
-        <g id="hourglass_frame_pivot" transform="translate(-12,-12)">
-          <g id="hourglass_frame">
-            <g id="group_1_transform" transform="translate(12,12)">
-              <g id="group_1">
-                <path id="path_3_merged" d="M1 0l6.29-6.29c.63-.63.19-1.71-.7-1.71H-6.59c-.89 0-1.33 1.08-.7 1.71L-1 0l-6.29 6.29c-.63.63-.19 1.71.7 1.71H6.59c.89 0 1.33-1.08.7-1.71L1 0zm-5.17-6h8.34L0-1.83-4.17-6zm0 12L0 1.83 4.17 6h-8.34z" />
-              </g>
-            </g>
+        <g transform="translate(-12,-12)">
+          <g transform="translate(12,12)">
+            <path d="M1 0l6.29-6.29c.63-.63.19-1.71-.7-1.71H-6.59c-.89 0-1.33 1.08-.7 1.71L-1 0l-6.29 6.29c-.63.63-.19 1.71.7 1.71H6.59c.89 0 1.33-1.08.7-1.71L1 0zm-5.17-6h8.34L0-1.83-4.17-6zm0 12L0 1.83 4.17 6h-8.34z" />
           </g>
         </g>
       </g>
     </g>
-    <g id="hourglass_fill_position" transform="translate(12,12)">
+    <g transform="translate(12,12)">
       <g id="hourglass_fill_rotation" transform="rotate(0)">
-        <g id="hourglass_fill_pivot" transform="translate(-12,-12)">
-          <g id="hourglass_fill">
-            <clipPath id="mask_1">
-              <path id="mask_1_path" d="M24 13.4H0V24h24V13.4z">
-                <animate id="mask_1_path_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,13.3999938965 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6000061035 c 0,0 24,0 24,0 c 0,0 0,-10.6000061035 0,-10.6000061035 Z;M 24,0.00173950195312 c 0,0 -24,0 -24,0 c 0,0 0,10.6982574463 0,10.6982574463 c 0,0 24,0 24,0 c 0,0 0,-10.6982574463 0,-10.6982574463 Z"
-                />
-              </path>
-            </clipPath>
-            <g id="mask_1_clip_path_group" clip-path="url(#mask_1)">
-              <path id="path_2" d="M13 12l6.293-6.293c.63-.63.184-1.707-.707-1.707H5.416c-.892 0-1.338 1.077-.708 1.707L11 12l-6.292 6.293c-.63.63-.184 1.707.707 1.707h13.17c.892 0 1.338-1.077.708-1.707L13 12z" />
-            </g>
-            <path id="mask_1_path_debug" d="M24 13.4H0V24h24V13.4z" fill="#F44336" fill-opacity=".3" style="visibility: hidden;">
-              <animate id="mask_1_path_debug_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,13.3999938965 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6000061035 c 0,0 24,0 24,0 c 0,0 0,-10.6000061035 0,-10.6000061035 Z;M 24,0.00173950195312 c 0,0 -24,0 -24,0 c 0,0 0,10.6982574463 0,10.6982574463 c 0,0 24,0 24,0 c 0,0 0,-10.6982574463 0,-10.6982574463 Z"
-              />
+        <g transform="translate(-12,-12)">
+          <clipPath id="hourglass_clip_mask">
+            <path d="M24 13.4H0V24h24V13.4z">
+              <animate id="hourglass_clip_mask_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,13.3999938965 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6000061035 c 0,0 24,0 24,0 c 0,0 0,-10.6000061035 0,-10.6000061035 Z;M 24,0.00173950195312 c 0,0 -24,0 -24,0 c 0,0 0,10.6982574463 0,10.6982574463 c 0,0 24,0 24,0 c 0,0 0,-10.6982574463 0,-10.6982574463 Z" />
             </path>
+          </clipPath>
+           <g clip-path="url(#hourglass_clip_mask)">
+            <path id="path_2" d="M13 12l6.293-6.293c.63-.63.184-1.707-.707-1.707H5.416c-.892 0-1.338 1.077-.708 1.707L11 12l-6.292 6.293c-.63.63-.184 1.707.707 1.707h13.17c.892 0 1.338-1.077.708-1.707L13 12z" />
           </g>
+          <path id="hourglass_clip_mask_debug" d="M24 13.4H0V24h24V13.4z" fill="#F44336" fill-opacity="0.3" style="visibility: hidden;">
+            <animate id="hourglass_clip_mask_debug_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,13.3999938965 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6000061035 c 0,0 24,0 24,0 c 0,0 0,-10.6000061035 0,-10.6000061035 Z;M 24,0.00173950195312 c 0,0 -24,0 -24,0 c 0,0 0,10.6982574463 0,10.6982574463 c 0,0 24,0 24,0 c 0,0 0,-10.6982574463 0,-10.6982574463 Z" />
+          </path>
         </g>
       </g>
     </g>

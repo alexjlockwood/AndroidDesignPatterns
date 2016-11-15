@@ -16,11 +16,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     if (shouldShowDebugClipMasks()) {
       document.getElementById("eye_mask_clip_path_debug").style.visibility = "visible";
       document.getElementById("clip_path_debug").style.visibility = "visible";
-      document.getElementById("mask_1_path_debug").style.visibility = "visible";
+      document.getElementById("hourglass_clip_mask_debug").style.visibility = "visible";
     } else {
       document.getElementById("eye_mask_clip_path_debug").style.visibility = "hidden";
       document.getElementById("clip_path_debug").style.visibility = "hidden";
-      document.getElementById("mask_1_path_debug").style.visibility = "hidden";
+      document.getElementById("hourglass_clip_mask_debug").style.visibility = "hidden";
     }
   });
  
@@ -30,8 +30,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   function animateTimer() {
-    var hourglassFillRotation = document.getElementById("hourglass_fill_rotation");
-    hourglassFillRotation.animate([{
+    document.getElementById("hourglass_fill_rotation").animate([{
       "transform": "rotate(0deg)",
       offset: 0,
       easing: fastOutSlowIn
@@ -42,9 +41,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       duration: getScaledAnimationDuration(333),
       fill: "forwards"
     });
-
-    var hourglassFrameRotation = document.getElementById("hourglass_frame_rotation");
-    hourglassFrameRotation.animate([{
+    document.getElementById("hourglass_frame_rotation").animate([{
       "transform": "rotate(0deg)",
       offset: 0.0,
       easing: fastOutSlowIn
@@ -56,14 +53,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
       fill: "forwards"
     });
 
-    var hourglassClipAnimation = document.getElementById("mask_1_path_animation");
+    var hourglassClipAnimation = document.getElementById("hourglass_clip_mask_animation");
     var startDelay = getScaledAnimationDuration(333);
     var duration = getScaledAnimationDuration(1000);
     hourglassClipAnimation.setAttributeNS(null, "begin", startDelay + "ms");
     hourglassClipAnimation.setAttributeNS(null, "dur", duration + "ms");
     hourglassClipAnimation.beginElement();
 
-    var hourglassClipDebugAnimation = document.getElementById("mask_1_path_debug_animation");
+    var hourglassClipDebugAnimation = document.getElementById("hourglass_clip_mask_debug_animation");
     var startDelay = getScaledAnimationDuration(333);
     var duration = getScaledAnimationDuration(1000);
     hourglassClipDebugAnimation.setAttributeNS(null, "begin", startDelay + "ms");

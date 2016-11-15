@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   function animateToCheck() {
-    document.getElementById("ring_outer").animate([{
+    document.getElementById("radiobutton_ring_outer").animate([{
       "transform": "scale(1,1)",
       offset: 0,
       easing: fastOutSlowIn
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       duration: getScaledAnimationDuration(500),
       fill: "forwards"
     });
-    document.getElementById("ring_outer_path").animate([{
+    document.getElementById("radiobutton_ring_outer_path").animate([{
       "strokeWidth": "2",
       offset: 0,
       easing: "cubic-bezier(0.4, 0, 0.4, 1.0)"
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       duration: getScaledAnimationDuration(500),
       fill: "forwards"
     });
-    document.getElementById("dot_group").animate([{
+    document.getElementById("radiobutton_dot_group").animate([{
       "transform": "scale(0,0)",
       offset: 0,
       easing: fastOutSlowIn
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   function animateToUncheck() {
-    document.getElementById("ring_outer").animate([{
+    document.getElementById("radiobutton_ring_outer").animate([{
       "transform": "scale(1,1)",
       offset: 0,
       easing: fastOutSlowIn
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       duration: getScaledAnimationDuration(500),
       fill: "forwards"
     });
-    document.getElementById("ring_outer_path").animate([{
+    document.getElementById("radiobutton_ring_outer_path").animate([{
       "strokeWidth": "2",
       offset: 0,
       easing: fastOutSlowIn
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       duration: getScaledAnimationDuration(500),
       fill: "forwards"
     });
-    document.getElementById("dot_group").animate([{
+    document.getElementById("radiobutton_dot_group").animate([{
       "transform": "scale(1,1)",
       offset: 0,
       easing: fastOutSlowIn
@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         });
       }
     }
-    document.getElementById("button_rotation").animate(keyFrames, {
+    document.getElementById("alarmclock_button_rotation").animate(keyFrames, {
       duration: getScaledAnimationDuration(1333),
       fill: "forwards"
     });

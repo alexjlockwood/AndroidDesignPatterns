@@ -1,21 +1,37 @@
 document.addEventListener("DOMContentLoaded", function(event) {
-  var currentAnimationDurationFactor = 1;
-  var isBackArrow = false;
+  var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1)";
+  var fastOutLinearIn = "cubic-bezier(0.4, 0, 1, 1)";
+  var linearOutSlowIn = "cubic-bezier(0, 0, 0.2, 1)";
 
-  var showTrimPathsSelector = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]");
-  showTrimPathsSelector.addEventListener("change", function(event) {
-    var visibility = showTrimPathsSelector.checked ? "visible" : "hidden";
+  function getScaledAnimationDuration(durationMillis) {
+    var slowAnimationSelector = document.querySelector("input[id=trimPathSlowAnimationCheckbox]");
+    var currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
+    return durationMillis * currentAnimationDurationFactor;
+  }
+  
+  document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").addEventListener("change", function(event) {
+    var visibility = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").checked ? "visible" : "hidden";
     document.getElementById("stem_debug").style.visibility = visibility;
     document.getElementById("search_circle_debug").style.visibility = visibility;
     document.getElementById("arrow_head_top_debug").style.visibility = visibility;
     document.getElementById("arrow_head_bottom_debug").style.visibility = visibility;
+    document.getElementById("andro_debug").style.visibility = visibility;
+    document.getElementById("id_debug").style.visibility = visibility;
+    document.getElementById("a_debug").style.visibility = visibility;
+    document.getElementById("i1_dot_debug").style.visibility = visibility;
+    document.getElementById("d_debug").style.visibility = visibility;
+    document.getElementById("esig_debug").style.visibility = visibility;
+    document.getElementById("n_debug").style.visibility = visibility;
+    document.getElementById("i2_dot_debug").style.visibility = visibility;
   });
-  var slowAnimationSelector = document.querySelector("input[id=trimPathSlowAnimationCheckbox]");
-  slowAnimationSelector.addEventListener("change", function(event) {
-    currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
-  });
+
+  // =============== Search to back animation.
+  var isBackArrow = false;
   document.getElementById("ic_search_back").addEventListener("click", function() {
-    toggleAnimation();
+    animateArrowHead(!isBackArrow);
+    animateSearchCircle(isBackArrow);
+    animateStem(!isBackArrow);
+    isBackArrow = !isBackArrow;
   });
 
   function animateStem(isAnimatingToBack) {
@@ -25,24 +41,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var arrowDashArray = (0.25 * pathLength) + "," + (0.75 * pathLength);
     stemPath.animate([{
       "strokeDasharray": (isAnimatingToBack ? searchDashArray : arrowDashArray),
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+      easing: fastOutSlowIn,
       offset: 0
     }, {
       "strokeDasharray": (isAnimatingToBack ? arrowDashArray : searchDashArray),
       offset: 1
     }], {
-      duration: 600 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(600),
       fill: "forwards"
     });
     stemPath.animate([{
       "strokeDashoffset": (isAnimatingToBack ? 0 : -0.75 * pathLength),
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+      easing: fastOutSlowIn,
       offset: 0
     }, {
       "strokeDashoffset": (isAnimatingToBack ? -0.75 * pathLength : 0),
       offset: 1
     }], {
-      duration: 450 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(450),
       fill: "forwards"
     });
   }
@@ -53,16 +69,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
     searchCirclePath.animate([{
       "strokeDasharray": pathLength,
       "strokeDashoffset": (isAnimatingIn ? pathLength : 0),
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+      easing: fastOutSlowIn,
       offset: 0
     }, {
       "strokeDasharray": pathLength,
       "strokeDashoffset": (isAnimatingIn ? 0 : pathLength),
       offset: 1
     }], {
-      duration: 250 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(250),
       fill: "forwards",
-      delay: (isAnimatingIn ? 300 * currentAnimationDurationFactor : 0)
+      delay: getScaledAnimationDuration(isAnimatingIn ? 300 : 0)
     });
   }
 
@@ -74,76 +90,62 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var arrowHeadBottomPathLength = arrowHeadBottom.getTotalLength();
     arrowHeadGroup.animate([{
       "transform": (isAnimatingIn ? "translate(8px,0px)" : "translate(0px,0px)"),
-      easing: (isAnimatingIn ? "cubic-bezier(0, 0, 0.2, 1)" : "cubic-bezier(0.4, 0, 1, 1)"),
+      easing: (isAnimatingIn ? linearOutSlowIn : fastOutLinearIn),
       offset: 0
     }, {
       "transform": (isAnimatingIn ? "translate(0px,0px)" : "translate(24px,0px)"),
       offset: 1
     }], {
-      duration: 250 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(250),
       fill: "forwards",
-      delay: ((isAnimatingIn ? 350 : 0) * currentAnimationDurationFactor)
+      delay: getScaledAnimationDuration((isAnimatingIn ? 350 : 0))
     });
     arrowHeadTop.animate([{
       "strokeDasharray": arrowHeadTopPathLength,
       "strokeDashoffset": (isAnimatingIn ? arrowHeadTopPathLength : 0),
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+      easing: fastOutSlowIn,
       offset: 0
     }, {
       "strokeDasharray": arrowHeadTopPathLength,
       "strokeDashoffset": (isAnimatingIn ? 0 : arrowHeadTopPathLength),
       offset: 1
     }], {
-      duration: 250 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(250),
       fill: "forwards",
-      delay: ((isAnimatingIn ? 350 : 0) * currentAnimationDurationFactor)
+      delay: getScaledAnimationDuration((isAnimatingIn ? 350 : 0))
     });
     arrowHeadBottom.animate([{
       "strokeDasharray": arrowHeadBottomPathLength,
       "strokeDashoffset": (isAnimatingIn ? arrowHeadBottomPathLength : 0),
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+      easing: fastOutSlowIn,
       offset: 0
     }, {
       "strokeDasharray": arrowHeadBottomPathLength,
       "strokeDashoffset": (isAnimatingIn ? 0 : arrowHeadBottomPathLength),
       offset: 1
     }], {
-      duration: 250 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(250),
       fill: "forwards",
-      delay: ((isAnimatingIn ? 350 : 0) * currentAnimationDurationFactor)
+      delay: getScaledAnimationDuration((isAnimatingIn ? 350 : 0))
     });
   }
 
-  function toggleAnimation() {
-    animateArrowHead(!isBackArrow);
-    animateSearchCircle(isBackArrow);
-    animateStem(!isBackArrow);
-    isBackArrow = !isBackArrow;
-  }
-});
-
-document.addEventListener("DOMContentLoaded", function(event) {
-  var currentAnimationDurationFactor = 1;
-  var currentAnimations = [];
-
-  var showTrimPathsSelector = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]");
-  showTrimPathsSelector.addEventListener("change", function(event) {
-    var visibility = showTrimPathsSelector.checked ? "visible" : "hidden";
-    document.getElementById("andro_debug").style.visibility = visibility;
-    document.getElementById("id_debug").style.visibility = visibility;
-    document.getElementById("a_debug").style.visibility = visibility;
-    document.getElementById("i1_dot_debug").style.visibility = visibility;
-    document.getElementById("d_debug").style.visibility = visibility;
-    document.getElementById("esig_debug").style.visibility = visibility;
-    document.getElementById("n_debug").style.visibility = visibility;
-    document.getElementById("i2_dot_debug").style.visibility = visibility;
-  });
-  var slowAnimationSelector = document.querySelector("input[id=trimPathSlowAnimationCheckbox]");
-  slowAnimationSelector.addEventListener("change", function(event) {
-    currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
-  });
+  // =============== Handwriting animation.
+  var currentHandwritingAnimations = [];
   document.getElementById("ic_android_design").addEventListener("click", function() {
-    beginAnimation();
+     for (i = 0; i < currentHandwritingAnimations.length; i++) {
+      currentHandwritingAnimations[i].cancel();
+    }
+    currentHandwritingAnimations = [];
+    resetAllStrokes();
+    animateStroke("andro", 1000, 0, fastOutLinearIn);
+    animateStroke("id", 250, 1050, fastOutSlowIn);
+    animateStroke("a", 50, 1300, fastOutSlowIn);
+    animateStroke("i1_dot", 50, 1400, fastOutSlowIn);
+    animateStroke("d", 200, 1550, fastOutSlowIn);
+    animateStroke("esig", 600, 1800, fastOutLinearIn);
+    animateStroke("n", 200, 2450, fastOutSlowIn);
+    animateStroke("i2_dot", 50, 2700, fastOutSlowIn);
   });
 
   function resetAllStrokes() {
@@ -151,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     for (i = 0; i < ids.length; i++) {
       var path = document.getElementById(ids[i]);
       var pathLength = path.getTotalLength();
-      currentAnimations.push(path.animate([{
+      currentHandwritingAnimations.push(path.animate([{
         "strokeDasharray": pathLength,
         "strokeDashoffset": pathLength,
         offset: 0,
@@ -179,28 +181,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
       "strokeDashoffset": 0,
       offset: 1
     }], {
-      duration: duration * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(duration),
       fill: "forwards",
-      delay: startDelay * currentAnimationDurationFactor
+      delay: getScaledAnimationDuration(startDelay)
     });
-  }
-
-  function beginAnimation() {
-    for (i = 0; i < currentAnimations.length; i++) {
-      currentAnimations[i].cancel();
-    }
-    currentAnimations = [];
-    resetAllStrokes();
-    var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1)";
-    var fastOutLinearIn = "cubic-bezier(0.4, 0, 1, 1)";
-    animateStroke("andro", 1000, 0, fastOutLinearIn);
-    animateStroke("id", 250, 1050, fastOutSlowIn);
-    animateStroke("a", 50, 1300, fastOutSlowIn);
-    animateStroke("i1_dot", 50, 1400, fastOutSlowIn);
-    animateStroke("d", 200, 1550, fastOutSlowIn);
-    animateStroke("esig", 600, 1800, fastOutLinearIn);
-    animateStroke("n", 200, 2450, fastOutSlowIn);
-    animateStroke("i2_dot", 50, 2700, fastOutSlowIn);
   }
 });
 
