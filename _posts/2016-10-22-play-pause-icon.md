@@ -78,11 +78,11 @@ style: |
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+<link rel="stylesheet" href="/css/posts/2016/10/22/animated-svgs.css">
 <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-data-polyfill.js"></script>
 <script defer src="/scripts/posts/2016/10/22/transformation-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/linear-progress-bar-animated-svgs.js"></script>
-<script defer src="/scripts/posts/2016/10/22/path-morph-digits-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-morph-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/trim-path-interactive-demo.js"></script>
 <script defer src="/scripts/posts/2016/10/22/trim-path-animated-svgs.js"></script>
@@ -315,13 +315,13 @@ Some examples:
       <g id="plus_minus_container_rotate" transform="rotate(0)">
         <g id="plus_minus_container_translate" transform="translate(-12,-12)">
           <path id="plus_minus_path" d="M5 11h6V5h2v6h6v2h-6v6h-2v-6H5z">
-            <animate id="plus_to_minus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z"
+            <animate id="plus_to_minus_path_animation" class="delight-smil-morph" dur="250ms" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z"
             />
-            <animate id="minus_to_plus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z"
+            <animate id="minus_to_plus_path_animation" class="delight-smil-morph" dur="250ms" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z"
             />
           </path>
-          <path id="plus_minus_end_points_path" fill="#64B5F6">
-            <animate id="plus_minus_end_points_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze"/>
+          <path id="plus_minus_end_points_path" fill="#64B5F6" style="visibility: hidden;">
+            <animate id="plus_minus_end_points_animation" class="delight-smil-morph" dur="250ms" keyTimes="0;1" keySplines="0.4 0 0.2 1"/>
         </path>
         </g>
       </g>
@@ -336,7 +336,7 @@ Some examples:
             <animate id="cross_to_tick_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M6.4,6.4 L17.6,17.6 M6.4,17.6 L17.6,6.4;M4.8,13.4 L9,17.6 M10.4,16.2 L19.6,7" />
             <animate id="tick_to_cross_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M4.8,13.4 L9,17.6 M10.4,16.2 L19.6,7;M6.4,6.4 L17.6,17.6 M6.4,17.6 L17.6,6.4" />
           </path>
-          <path id="cross_tick_end_points_path" fill="#64B5F6">
+          <path id="cross_tick_end_points_path" fill="#64B5F6" style="visibility: hidden;">
             <animate id="cross_tick_end_points_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
           </path>
         </g>
@@ -354,7 +354,7 @@ Some examples:
             <animate id="arrow_to_drawer_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 12, 4 L 10.59,5.41 L 16.17,11 L 18.99,11 L 12,4 z M 4, 11 L 4, 13 L 18.99, 13 L 20, 12 L 18.99, 11 L 4, 11 z M 12,20 L 10.59, 18.59 L 16.17, 13 L 18.99, 13 L 12, 20z;M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z"
             />
           </path>
-          <path id="arrow_drawer_end_points_path" fill="#64B5F6">
+          <path id="arrow_drawer_end_points_path" fill="#64B5F6" style="visibility: hidden;">
             <animate id="drawer_arrow_end_points_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
           </path>
         </g>
@@ -421,29 +421,14 @@ Some examples:
     </g>
   </svg>
 
-  <div class="svgDemoCheckboxContainer">
-    <label for="pathMorphRotateCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-      <input type="checkbox" id="pathMorphRotateCheckbox" class="mdl-checkbox__input" checked>
-      <span class="mdl-checkbox__label">Animate <code>android:rotation</code></span>
-    </label>
-    <label for="pathMorphShowPathPointsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-      <input type="checkbox" id="pathMorphShowPathPointsCheckbox" class="mdl-checkbox__input">
-      <span class="mdl-checkbox__label">Show path control/end points</span>
-    </label>
-    <label for="pathMorphSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-      <input type="checkbox" id="pathMorphSlowAnimationCheckbox" class="mdl-checkbox__input">
-      <span class="mdl-checkbox__label">Slow animation</span>
-    </label>
-  </div>
-</div>
-
-And finally a path morph digits demo:
-
-<div id="svgPathMorphDigitsDemo" class="svgDemoContainer">
-  <svg id="ic_countdown" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1" style="width: 400px; height: 400px;">
+  <svg id="ic_countdown" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1" class="svgDemo">
     <g id="scale_container" transform="scale(0.8,0.8)">
       <g id="countdown_container" transform="translate(0.1,0.1)">
-        <path id="countdown_digits" stroke="#000" stroke-width="0.02" fill="none">
+        <path id="countdown_digits" stroke="#000" stroke-width="0.02" fill="none" d="M 0.24585635359116,0.552486187845304
+ C 0.24585635359116,0.331491712707182 0.370165745856354,0.0994475138121547 0.552486187845304,0.0994475138121547
+ C 0.734806629834254,0.0994475138121547 0.861878453038674,0.331491712707182 0.861878453038674,0.552486187845304
+ C 0.861878453038674,0.773480662983425 0.734806629834254,0.994475138121547 0.552486187845304,0.994475138121547
+ C 0.370165745856354,0.994475138121547 0.24585635359116,0.773480662983425 0.24585635359116,0.552486187845304">
           <animate id="countdown_digits_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
         </path>
         <path id="countdown_digits_cp1" style="visibility: hidden;" fill="#64B5F6">
@@ -460,20 +445,21 @@ And finally a path morph digits demo:
   </svg>
 
   <div class="svgDemoCheckboxContainer">
-    <label for="pathMorphShowControlPointsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-      <input type="checkbox" id="pathMorphShowControlPointsCheckbox" class="mdl-checkbox__input">
-      <span class="mdl-checkbox__label">Show path control points</span>
+    <label for="pathMorphRotateCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="pathMorphRotateCheckbox" class="mdl-checkbox__input" checked>
+      <span class="mdl-checkbox__label">Animate rotation</span>
     </label>
-    <label for="pathMorphShowEndPointsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-      <input type="checkbox" id="pathMorphShowEndPointsCheckbox" class="mdl-checkbox__input">
-      <span class="mdl-checkbox__label">Show path end points</span>
+    <label for="pathMorphShowPathPointsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="pathMorphShowPathPointsCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Show path control/end points</span>
     </label>
-    <label for="pathMorphDigitsSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-      <input type="checkbox" id="pathMorphDigitsSlowAnimationCheckbox" class="mdl-checkbox__input">
+    <label for="pathMorphSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="pathMorphSlowAnimationCheckbox" class="mdl-checkbox__input">
       <span class="mdl-checkbox__label">Slow animation</span>
     </label>
   </div>
 </div>
+
 
 ### Trimming stroked paths
 
@@ -514,6 +500,12 @@ Some examples:
 
 <div id="svgTrimPathDemos" class="svgDemoContainer">
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_search_back" viewBox="0 0 48 24" class="svgDemo">
+    <path id="stem_debug" style="visibility: hidden;" fill="none" stroke-opacity="0.3" stroke="#000" stroke-width="2" d="M24.7 12.7l7.117 7.207C32.787 20.7 34.46 23 37.5 23s5.5-2.46 5.5-5.5-2.46-5.5-5.5-5.5h-5.683-12.97"/>
+    <path id="search_circle_debug" style="visibility: hidden;" fill="none" stroke-opacity="0.3" stroke="#000" stroke-width="2" d="M25.39 13.39a5.5 5.5 0 1 1-7.78-7.78 5.5 5.5 0 1 1 7.78 7.78" />
+     <g id="arrow_head_debug">
+      <path id="arrow_head_top_debug" style="visibility: hidden;" fill="none" stroke-opacity="0.3" stroke="#000" stroke-width="2" d="M16.702 12.696l8.002-8.003" />
+      <path id="arrow_head_bottom_debug" style="visibility: hidden;" fill="none" stroke-opacity="0.3" stroke="#000" stroke-width="2" d="M16.71 11.276l8.012 8.012" />
+    </g>
     <path id="stem" fill="none" stroke="#000" stroke-width="2" d="M24.7 12.7l7.117 7.207C32.787 20.7 34.46 23 37.5 23s5.5-2.46 5.5-5.5-2.46-5.5-5.5-5.5h-5.683-12.97" stroke-dasharray="9.75516635929,42.975462608" />
     <path id="search_circle" fill="none" stroke="#000" stroke-width="2" d="M25.39 13.39a5.5 5.5 0 1 1-7.78-7.78 5.5 5.5 0 1 1 7.78 7.78" />
     <g id="arrow_head" transform="translate(8,0)">
@@ -538,6 +530,10 @@ Some examples:
   </svg>
 
   <div class="svgDemoCheckboxContainer">
+    <label for="trimPathShowTrimPathsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="trimPathShowTrimPathsCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Show trim paths</span>
+    </label>
     <label for="trimPathSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="trimPathSlowAnimationCheckbox" class="mdl-checkbox__input">
       <span class="mdl-checkbox__label">Slow animation</span>

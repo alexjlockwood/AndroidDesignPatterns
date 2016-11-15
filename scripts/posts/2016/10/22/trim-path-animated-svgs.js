@@ -2,6 +2,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var currentAnimationDurationFactor = 1;
   var isBackArrow = false;
 
+  var showTrimPathsSelector = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]");
+  showTrimPathsSelector.addEventListener("change", function(event) {
+    var visibility = showTrimPathsSelector.checked ? "visible" : "hidden";
+    document.getElementById("stem_debug").style.visibility = visibility;
+    document.getElementById("search_circle_debug").style.visibility = visibility;
+    document.getElementById("arrow_head_top_debug").style.visibility = visibility;
+    document.getElementById("arrow_head_bottom_debug").style.visibility = visibility;
+  });
   var slowAnimationSelector = document.querySelector("input[id=trimPathSlowAnimationCheckbox]");
   slowAnimationSelector.addEventListener("change", function(event) {
     currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
