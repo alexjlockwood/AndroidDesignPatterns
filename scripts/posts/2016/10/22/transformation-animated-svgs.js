@@ -51,15 +51,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("ring_outer").animate([{
       "transform": "scale(1,1)",
       offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "transform": "scale(0.5,0.5)",
       offset: 0.3333,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "transform": "scale(0.9,0.9)",
       offset: 0.364,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "transform": "scale(1,1)",
       offset: 1,
@@ -74,11 +74,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }, {
       "strokeWidth": "18",
       offset: 0.3333,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "strokeWidth": "2",
       offset: 0.364,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "strokeWidth": "2",
       offset: 1,
@@ -89,15 +89,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("dot_group").animate([{
       "transform": "scale(0,0)",
       offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "transform": "scale(0,0)",
       offset: 0.3333,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "transform": "scale(1.5,1.5)",
       offset: 0.364,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "transform": "scale(1,1)",
       offset: 1,
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("ring_outer").animate([{
       "transform": "scale(1,1)",
       offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "transform": "scale(0.9,0.9)",
       offset: 0.366,
@@ -130,15 +130,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("ring_outer_path").animate([{
       "strokeWidth": "2",
       offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "strokeWidth": "2",
       offset: 0.366,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "strokeWidth": "18",
       offset: 0.4,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "strokeWidth": "2",
       offset: 1,
@@ -149,15 +149,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("dot_group").animate([{
       "transform": "scale(1,1)",
       offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "transform": "scale(1.4,1.4)",
       offset: 0.366,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "transform": "scale(0,0)",
       offset: 0.4,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     }, {
       "transform": "scale(0,0)",
       offset: 1,
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     return {
       "transform": "rotate(" + rotationDegrees + "deg)",
       offset: keyFrameOffset,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1.0)"
+      easing: fastOutSlowIn
     };
   }
 

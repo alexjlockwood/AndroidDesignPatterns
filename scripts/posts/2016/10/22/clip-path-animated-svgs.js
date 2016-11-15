@@ -1,30 +1,92 @@
 document.addEventListener("DOMContentLoaded", function(event) {
-  var currentAnimationDurationFactor = 1;
-  var isCrossedOut = true;
+  var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1)";
+  var linearOutSlowIn = "cubic-bezier(0, 0, 0.2, 1)";
 
+  function getScaledAnimationDuration(durationMillis) {
+    var slowAnimationSelector = document.querySelector("input[id=clipPathSlowAnimationCheckbox]");
+    var currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
+    return durationMillis * currentAnimationDurationFactor;
+  }
+
+  function shouldShowDebugClipMasks() {
+    return document.querySelector("input[id=clipPathShowClipMaskCheckbox]").checked; 
+  }
+
+  document.querySelector("input[id=clipPathShowClipMaskCheckbox]").addEventListener("change", function(event) {
+    if (shouldShowDebugClipMasks()) {
+      document.getElementById("eye_mask_clip_path_debug").style.visibility = "visible";
+      document.getElementById("clip_path_debug").style.visibility = "visible";
+      document.getElementById("mask_1_path_debug").style.visibility = "visible";
+    } else {
+      document.getElementById("eye_mask_clip_path_debug").style.visibility = "hidden";
+      document.getElementById("clip_path_debug").style.visibility = "hidden";
+      document.getElementById("mask_1_path_debug").style.visibility = "hidden";
+    }
+  });
+ 
+ // =============== Hourglass icon.
+  document.getElementById("ic_timer").addEventListener("click", function() {
+    animateTimer();
+  });
+
+  function animateTimer() {
+    var hourglassFillRotation = document.getElementById("hourglass_fill_rotation");
+    hourglassFillRotation.animate([{
+      "transform": "rotate(0deg)",
+      offset: 0,
+      easing: fastOutSlowIn
+    }, {
+      "transform": "rotate(180deg)",
+      offset: 1
+    }], {
+      duration: getScaledAnimationDuration(333),
+      fill: "forwards"
+    });
+
+    var hourglassFrameRotation = document.getElementById("hourglass_frame_rotation");
+    hourglassFrameRotation.animate([{
+      "transform": "rotate(0deg)",
+      offset: 0.0,
+      easing: fastOutSlowIn
+    }, {
+      "transform": "rotate(180deg)",
+      offset: 1.0
+    }], {
+      duration: getScaledAnimationDuration(333),
+      fill: "forwards"
+    });
+
+    var hourglassClipAnimation = document.getElementById("mask_1_path_animation");
+    var startDelay = getScaledAnimationDuration(333);
+    var duration = getScaledAnimationDuration(1000);
+    hourglassClipAnimation.setAttributeNS(null, "begin", startDelay + "ms");
+    hourglassClipAnimation.setAttributeNS(null, "dur", duration + "ms");
+    hourglassClipAnimation.beginElement();
+
+    var hourglassClipDebugAnimation = document.getElementById("mask_1_path_debug_animation");
+    var startDelay = getScaledAnimationDuration(333);
+    var duration = getScaledAnimationDuration(1000);
+    hourglassClipDebugAnimation.setAttributeNS(null, "begin", startDelay + "ms");
+    hourglassClipDebugAnimation.setAttributeNS(null, "dur", duration + "ms");
+    hourglassClipDebugAnimation.beginElement();
+  }
+
+  // =============== Eye visibility icon.
   var eyeMaskCrossedOut = "M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z";
   var eyeMaskVisible = "M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z";
 
-  var showClipMaskSelector = document.querySelector("input[id=clipPathShowClipMaskCheckbox]");
-  showClipMaskSelector.addEventListener("change", function(event) {
-    shouldShowClipMask = showClipMaskSelector.checked;
-    var clipMaskDebugPath = document.getElementById("eye_mask_clip_path_debug");
-    if (shouldShowClipMask) {
-      clipMaskDebugPath.style.visibility = "visible";
-    } else {
-      clipMaskDebugPath.style.visibility = "hidden";
-    }
-  });
-  var slowAnimationSelector = document.querySelector("input[id=clipPathSlowAnimationCheckbox]");
-  slowAnimationSelector.addEventListener("change", function(event) {
-    currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
-  });
+  var isCrossedOut = true;
   document.getElementById("ic_visibility").addEventListener("click", function() {
-    toggleEyeAnimation();
+    if (isCrossedOut) {
+      animateReverseCrossOut();
+    } else {
+      animateCrossOut();
+    }
+    isCrossedOut = !isCrossedOut;
   });
 
   function animateCrossOut() {
-    var duration = 320 * currentAnimationDurationFactor;
+    var duration = getScaledAnimationDuration(320);
 
     var eyeClipAnimation = document.getElementById("eye_mask_animation");
     eyeClipAnimation.setAttributeNS(null, "dur", duration + "ms");
@@ -42,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       "strokeDasharray": pathLength,
       "strokeDashoffset": pathLength,
       offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)"
+      easing: fastOutSlowIn
     }, {
       "strokeDasharray": pathLength,
       "strokeDashoffset": 0,
@@ -54,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   function animateReverseCrossOut() {
-    var duration = 200 * currentAnimationDurationFactor;
+    var duration = getScaledAnimationDuration(200);
 
     var eyeClipAnimation = document.getElementById("eye_mask_animation");
     eyeClipAnimation.setAttributeNS(null, "dur", duration + "ms");
@@ -72,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       "strokeDasharray": pathLength,
       "strokeDashoffset": 0,
       offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)"
+      easing: fastOutSlowIn
     }, {
       "strokeDasharray": pathLength,
       "strokeDashoffset": pathLength,
@@ -83,48 +145,26 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
   }
 
-  function toggleEyeAnimation() {
-    if (isCrossedOut) {
-      animateReverseCrossOut();
-    } else {
-      animateCrossOut();
-    }
-    isCrossedOut = !isCrossedOut;
-  }
-});
-
-document.addEventListener("DOMContentLoaded", function(event) {
-  var currentAnimationDurationFactor = 1;
+  // =============== Heart break icon.
   var isHeartFull = false;
-  var shouldShowDebugClipPath = false;
-
-  var showClipMaskSelector = document.querySelector("input[id=clipPathShowClipMaskCheckbox]");
-  var slowAnimationSelector = document.querySelector("input[id=clipPathSlowAnimationCheckbox]");
-  showClipMaskSelector.addEventListener("change", function(event) {
-    shouldShowDebugClipPath = showClipMaskSelector.checked;
-    var clipMaskDebugPath = document.getElementById("clip_path_debug");
-    if (shouldShowDebugClipPath && isHeartFull) {
-      clipMaskDebugPath.style.visibility = "visible";
-    } else {
-      clipMaskDebugPath.style.visibility = "hidden";
-    }
-  });
-  slowAnimationSelector.addEventListener("change", function(event) {
-    currentAnimationDurationFactor = slowAnimationSelector.checked ? 10 : 1;
-  });
   document.getElementById("ic_heart").addEventListener("click", function() {
-    toggleHeartAnimation();
+    if (isHeartFull) {
+      animateHeartToBroken();
+    } else {
+      animateHeartToFull();
+    }
+    isHeartFull = !isHeartFull;
   });
 
   function animateHeartToFull() {
     document.getElementById("heart_full_path").style.visibility = "visible";
 
-    var duration = 300 * currentAnimationDurationFactor;
+    var duration = getScaledAnimationDuration(300);
     var heartFillAnimation = document.getElementById("heart_fill_animation");
     heartFillAnimation.setAttributeNS(null, "dur", duration + "ms");
     heartFillAnimation.beginElement();
 
-    if (shouldShowDebugClipPath) {
+    if (shouldShowDebugClipMasks()) {
       document.getElementById("clip_path_debug").style.visibility = "visible";
       var heartFillDebugAnimation = document.getElementById("heart_fill_debug_animation");
       heartFillDebugAnimation.setAttributeNS(null, "dur", duration + "ms");
@@ -135,28 +175,26 @@ document.addEventListener("DOMContentLoaded", function(event) {
   function animateHeartBreak() {
     document.getElementById("clip_path_debug").style.visibility = "hidden";
 
-    var heartBreakLeftRotateGroup = document.getElementById("broken_heart_rotate_left_group");
-    var heartBreakRightRotateGroup = document.getElementById("broken_heart_rotate_right_group");
-    heartBreakLeftRotateGroup.animate([{
+    document.getElementById("broken_heart_rotate_left_group").animate([{
       "transform": "rotate(0deg)",
       offset: 0,
-      easing: "cubic-bezier(0, 0, 0.2, 1)"
+      easing: linearOutSlowIn
     }, {
       "transform": "rotate(-20deg)",
       offset: 1
     }], {
-      duration: 400 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(400),
       fill: "forwards"
     });
-    heartBreakRightRotateGroup.animate([{
+    document.getElementById("broken_heart_rotate_right_group").animate([{
       "transform": "rotate(0deg)",
       offset: 0,
-      easing: "cubic-bezier(0, 0, 0.2, 1)"
+      easing: linearOutSlowIn
     }, {
       "transform": "rotate(20deg)",
       offset: 1
     }], {
-      duration: 400 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(400),
       fill: "forwards"
     });
 
@@ -164,47 +202,47 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var heartBreakRightPath = document.getElementById("broken_heart_right_path");
     heartBreakLeftPath.animate([{
       "fillOpacity": 1,
-      offset: 0,
+      offset: 0
     }, {
       "fillOpacity": 1,
       offset: 1
     }], {
       duration: 0,
-      fill: "forwards",
+      fill: "forwards"
     });
     heartBreakRightPath.animate([{
       "fillOpacity": 1,
-      offset: 0,
+      offset: 0
     }, {
       "fillOpacity": 1,
       offset: 1
     }], {
       duration: 0,
-      fill: "forwards",
+      fill: "forwards"
     });
     heartBreakLeftPath.animate([{
       "fillOpacity": 1,
       offset: 0,
-      easing: "cubic-bezier(0, 0, 0.2, 1)"
+      easing: linearOutSlowIn
     }, {
       "fillOpacity": 0,
       offset: 1
     }], {
-      duration: 300 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(300),
       fill: "forwards",
-      delay: 100 * currentAnimationDurationFactor
+      delay: getScaledAnimationDuration(100)
     });
     heartBreakRightPath.animate([{
       "fillOpacity": 1,
       offset: 0,
-      easing: "cubic-bezier(0, 0, 0.2, 1)"
+      easing: linearOutSlowIn
     }, {
       "fillOpacity": 0,
       offset: 1
     }], {
-      duration: 300 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(300),
       fill: "forwards",
-      delay: 100 * currentAnimationDurationFactor
+      delay: getScaledAnimationDuration(100)
     });
   }
 
@@ -219,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       "strokeDasharray": pathLeftLength,
       "strokeDashoffset": pathLeftLength,
       "strokeOpacity": 0,
-      offset: 0,
+      offset: 0
     }, {
       "strokeDasharray": pathLeftLength,
       "strokeDashoffset": pathLeftLength,
@@ -233,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       "strokeDasharray": pathRightLength,
       "strokeDashoffset": pathRightLength,
       "strokeOpacity": 0,
-      offset: 0,
+      offset: 0
     }, {
       "strokeDasharray": pathRightLength,
       "strokeDashoffset": pathRightLength,
@@ -248,113 +286,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
       "strokeDashoffset": pathLeftLength,
       "strokeOpacity": 0.4,
       offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)"
+      easing: fastOutSlowIn
     }, {
       "strokeDasharray": pathLeftLength,
       "strokeDashoffset": 0,
       "strokeOpacity": 1,
       offset: 1
     }], {
-      duration: 300 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(300),
       fill: "forwards",
-      delay: 400 * currentAnimationDurationFactor
+      delay: getScaledAnimationDuration(400)
     });
     heartStrokeRightPath.animate([{
       "strokeDasharray": pathRightLength,
       "strokeDashoffset": pathRightLength,
       "strokeOpacity": 0.4,
       offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)"
+      easing: fastOutSlowIn
     }, {
       "strokeDasharray": pathRightLength,
       "strokeDashoffset": 0,
       "strokeOpacity": 1,
       offset: 1
     }], {
-      duration: 300 * currentAnimationDurationFactor,
+      duration: getScaledAnimationDuration(300),
       fill: "forwards",
-      delay: 400 * currentAnimationDurationFactor
+      delay: getScaledAnimationDuration(400)
     });
 
     document.getElementById("heart_full_path").style.visibility = "hidden";
-  }
-
-  function toggleHeartAnimation() {
-    if (isHeartFull) {
-      animateHeartToBroken();
-    } else {
-      animateHeartToFull();
-    }
-    isHeartFull = !isHeartFull;
-  }
-
-});
-
-document.addEventListener("DOMContentLoaded", function(event) {
-  var currentAnimationDurationFactor = 1;
-  var shouldShowClipMask = false;
-  var showClipMaskSelector = document.querySelector("input[id=clipPathShowClipMaskCheckbox]");
-  var slowAnimationSelector = document.querySelector("input[id=clipPathSlowAnimationCheckbox]");
-  showClipMaskSelector.addEventListener("change", function(event) {
-    shouldShowClipMask = showClipMaskSelector.checked;
-    var clipMaskDebugPath = document.getElementById("mask_1_path_debug");
-    if (shouldShowClipMask) {
-      clipMaskDebugPath.style.visibility = "visible";
-    } else {
-      clipMaskDebugPath.style.visibility = "hidden";
-    }
-  });
-  slowAnimationSelector.addEventListener("change", function(event) {
-    if (slowAnimationSelector.checked) {
-      currentAnimationDurationFactor = 5;
-    } else {
-      currentAnimationDurationFactor = 1;
-    }
-  });
-  document.getElementById("ic_timer").addEventListener("click", function() {
-    animateTimer();
-  });
-
-  function animateTimer() {
-    var hourglassFillRotation = document.getElementById("hourglass_fill_rotation");
-    hourglassFillRotation.animate([{
-      "transform": "rotate(0deg)",
-      offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)"
-    }, {
-      "transform": "rotate(180deg)",
-      offset: 1
-    }], {
-      duration: 333 * currentAnimationDurationFactor,
-      fill: "forwards"
-    });
-
-    var hourglassFrameRotation = document.getElementById("hourglass_frame_rotation");
-    hourglassFrameRotation.animate([{
-      "transform": "rotate(0deg)",
-      offset: 0.0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)"
-    }, {
-      "transform": "rotate(180deg)",
-      offset: 1.0
-    }], {
-      duration: 333 * currentAnimationDurationFactor,
-      fill: "forwards"
-    });
-
-    var hourglassClipAnimation = document.getElementById("mask_1_path_animation");
-    var startDelay = 333 * currentAnimationDurationFactor;
-    var duration = 1000 * currentAnimationDurationFactor;
-    hourglassClipAnimation.setAttributeNS(null, "begin", startDelay + "ms");
-    hourglassClipAnimation.setAttributeNS(null, "dur", duration + "ms");
-    hourglassClipAnimation.beginElement();
-
-    var hourglassClipDebugAnimation = document.getElementById("mask_1_path_debug_animation");
-    var startDelay = 333 * currentAnimationDurationFactor;
-    var duration = 1000 * currentAnimationDurationFactor;
-    hourglassClipDebugAnimation.setAttributeNS(null, "begin", startDelay + "ms");
-    hourglassClipDebugAnimation.setAttributeNS(null, "dur", duration + "ms");
-    hourglassClipDebugAnimation.beginElement();
   }
 });
 
