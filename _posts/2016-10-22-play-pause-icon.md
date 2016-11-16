@@ -29,12 +29,12 @@ style: |
     height: 4px;
     overflow: hidden;
     position: relative;
-    background-color: rgba(63, 81, 181, 0.26);
+    background-color: rgba(96, 144, 0, 0.3);
   }
 
   #progressBarInnerRect1,
   #progressBarInnerRect2 {
-    background: #3f51b5;
+    background: #690;
   }
 
   #progressBarOuterRect1,
@@ -410,7 +410,7 @@ Some examples:
         <path id="countdown_digits_cp2" style="visibility: hidden;" fill="#64B5F6">
           <animate id="countdown_digits_cp2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
         </path>
-        <path id="countdown_digits_end" style="visibility: hidden;" fill="#F57C00">
+        <path id="countdown_digits_end" style="visibility: hidden;" fill="#64B5F6">
           <animate id="countdown_digits_end_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
         </path>
       </g>
@@ -439,7 +439,7 @@ This is how trimming paths works:
 
 <!-- TODO(alockwood): reduce the scope of the trim path interactive demo. -->
 
-<div id="svgCircularProgressDemos" class="svgDemoContainer">
+<div id="svgSliderDemo" class="svgDemoContainer">
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_line_path" viewBox="0 0 24 1" width="95%">
     <path id="line_path" fill="none" stroke="#000" stroke-width=".25" d="M 0.5,0.5 h 23" />
   </svg>
@@ -488,18 +488,18 @@ Some examples:
 
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_android_handwriting" viewBox="0 0 170 68" class="svgDemo">
     <g transform="translate(2, 12)">
-      <path id="andro_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M.342 40.576c10.073 8.093 17.46-26.214 24.843-37.008-2.504 13.87-.942 31.505 5.634 34.256 6.575 2.752 10.747-12.91 13.866-20.387 0 7.477-7.16 19.9-5.436 20.876 3.597-7.226 10.768-15.395 13.076-16.554 2.307-1.16-1.44 14.734.942 14.376 8.927 2.946 8.88-19.38 21.295-12.37-12.416-4.875-12.516 11.16-11.494 12.643C76.07 34.924 86 6.615 81.632.9 72.673-.873 72.18 37.314 76.07 38.14c10.548-.318 14.896-18.363 13.145-22.848-5.363 7.766 2.17 5.983 4.633 9.62 2.506 3.4-3.374 14.54 2.506 13.907 4.856-.844 15.163-23.165 17.118-17.82-5.727-2.37-10.81 16.224-4.143 16.824 8.588.318 9.125-16.823 4.142-17.34"
+      <path id="andro_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#690" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M.342 40.576c10.073 8.093 17.46-26.214 24.843-37.008-2.504 13.87-.942 31.505 5.634 34.256 6.575 2.752 10.747-12.91 13.866-20.387 0 7.477-7.16 19.9-5.436 20.876 3.597-7.226 10.768-15.395 13.076-16.554 2.307-1.16-1.44 14.734.942 14.376 8.927 2.946 8.88-19.38 21.295-12.37-12.416-4.875-12.516 11.16-11.494 12.643C76.07 34.924 86 6.615 81.632.9 72.673-.873 72.18 37.314 76.07 38.14c10.548-.318 14.896-18.363 13.145-22.848-5.363 7.766 2.17 5.983 4.633 9.62 2.506 3.4-3.374 14.54 2.506 13.907 4.856-.844 15.163-23.165 17.118-17.82-5.727-2.37-10.81 16.224-4.143 16.824 8.588.318 9.125-16.823 4.142-17.34"
     />
-      <path id="id_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M126.046 22.4c-4.284 6.404-2.96 14.827-.092 15.973 4.31 3.24 12.428-18.428 18.5-16.612-13.063 5.738-9.164 14.542-7.253 14.542 15.016-1.847 21.977-34.67 18.283-36.193-9.478 5.223-9.927 36.192-5.008 38.058 6.956 0 10.04-9.364 10.04-9.364"
+      <path id="id_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#690" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M126.046 22.4c-4.284 6.404-2.96 14.827-.092 15.973 4.31 3.24 12.428-18.428 18.5-16.612-13.063 5.738-9.164 14.542-7.253 14.542 15.016-1.847 21.977-34.67 18.283-36.193-9.478 5.223-9.927 36.192-5.008 38.058 6.956 0 10.04-9.364 10.04-9.364"
     />
-      <path id="a_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M15.513 25.218c4.082 0 15.976-2.228 15.976-2.228" />
-      <path id="i1_dot_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-width="3" d="M127.723 15.887l-.56 1.116" />
-      <path id="andro" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M.342 40.576c10.073 8.093 17.46-26.214 24.843-37.008-2.504 13.87-.942 31.505 5.634 34.256 6.575 2.752 10.747-12.91 13.866-20.387 0 7.477-7.16 19.9-5.436 20.876 3.597-7.226 10.768-15.395 13.076-16.554 2.307-1.16-1.44 14.734.942 14.376 8.927 2.946 8.88-19.38 21.295-12.37-12.416-4.875-12.516 11.16-11.494 12.643C76.07 34.924 86 6.615 81.632.9 72.673-.873 72.18 37.314 76.07 38.14c10.548-.318 14.896-18.363 13.145-22.848-5.363 7.766 2.17 5.983 4.633 9.62 2.506 3.4-3.374 14.54 2.506 13.907 4.856-.844 15.163-23.165 17.118-17.82-5.727-2.37-10.81 16.224-4.143 16.824 8.588.318 9.125-16.823 4.142-17.34"
+      <path id="a_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#690" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M15.513 25.218c4.082 0 15.976-2.228 15.976-2.228" />
+      <path id="i1_dot_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#690" stroke-width="3" d="M127.723 15.887l-.56 1.116" />
+      <path id="andro" fill="none" stroke="#690" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M.342 40.576c10.073 8.093 17.46-26.214 24.843-37.008-2.504 13.87-.942 31.505 5.634 34.256 6.575 2.752 10.747-12.91 13.866-20.387 0 7.477-7.16 19.9-5.436 20.876 3.597-7.226 10.768-15.395 13.076-16.554 2.307-1.16-1.44 14.734.942 14.376 8.927 2.946 8.88-19.38 21.295-12.37-12.416-4.875-12.516 11.16-11.494 12.643C76.07 34.924 86 6.615 81.632.9 72.673-.873 72.18 37.314 76.07 38.14c10.548-.318 14.896-18.363 13.145-22.848-5.363 7.766 2.17 5.983 4.633 9.62 2.506 3.4-3.374 14.54 2.506 13.907 4.856-.844 15.163-23.165 17.118-17.82-5.727-2.37-10.81 16.224-4.143 16.824 8.588.318 9.125-16.823 4.142-17.34"
     />
-      <path id="id" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M126.046 22.4c-4.284 6.404-2.96 14.827-.092 15.973 4.31 3.24 12.428-18.428 18.5-16.612-13.063 5.738-9.164 14.542-7.253 14.542 15.016-1.847 21.977-34.67 18.283-36.193-9.478 5.223-9.927 36.192-5.008 38.058 6.956 0 10.04-9.364 10.04-9.364"
+      <path id="id" fill="none" stroke="#690" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M126.046 22.4c-4.284 6.404-2.96 14.827-.092 15.973 4.31 3.24 12.428-18.428 18.5-16.612-13.063 5.738-9.164 14.542-7.253 14.542 15.016-1.847 21.977-34.67 18.283-36.193-9.478 5.223-9.927 36.192-5.008 38.058 6.956 0 10.04-9.364 10.04-9.364"
     />
-      <path id="a" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M15.513 25.218c4.082 0 15.976-2.228 15.976-2.228" />
-      <path id="i1_dot" fill="none" stroke="#3f51b5" stroke-width="3" d="M127.723 15.887l-.56 1.116" />
+      <path id="a" fill="none" stroke="#690" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M15.513 25.218c4.082 0 15.976-2.228 15.976-2.228" />
+      <path id="i1_dot" fill="none" stroke="#690" stroke-width="3" d="M127.723 15.887l-.56 1.116" />
     </g>
   </svg>
 
@@ -571,7 +571,8 @@ And the circular progress bar demo:
       <g id="circular_progress_outer_rotation" transform="rotate(0)">
         <g id="circular_progress_inner_rotation">
           <g id="circular_progress_scale" transform="scale(8.91, 8.91)">
-            <ellipse id="circular_progress_circle_path" rx="9.5" ry="9.5" stroke="#3f51b5" stroke-width="2" stroke-dasharray="1.79095622248, 57.907584527" stroke-dashoffset="14.925" fill="none" />
+            <ellipse id="circular_progress_circle_path_debug" rx="9.5" ry="9.5" style="visibility: hidden;" stroke="#690" stroke-opacity="0.3" stroke-width="2" fill="none" />
+            <ellipse id="circular_progress_circle_path" rx="9.5" ry="9.5" stroke="#690" stroke-width="2" stroke-dasharray="1.79095622248, 57.907584527" stroke-dashoffset="14.925" fill="none" />
           </g>
         </g>
       </g>
@@ -590,6 +591,10 @@ And the circular progress bar demo:
     <label for="circularProgressTrimPathStartEndCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="circularProgressTrimPathStartEndCheckbox" class="mdl-checkbox__input" checked>
       <span class="mdl-checkbox__label">Animate trim path start/end</span>
+    </label>
+    <label for="circularProgressShowTrimPathsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="circularProgressShowTrimPathsCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Show trim paths</span>
     </label>
     <label for="circularProgressSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="circularProgressSlowAnimationCheckbox" class="mdl-checkbox__input">

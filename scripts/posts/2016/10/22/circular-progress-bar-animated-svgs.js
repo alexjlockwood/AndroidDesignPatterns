@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var outerRotationSelector = document.querySelector("input[id=circularProgressOuterRotationCheckbox]");
   var trimPathOffsetSelector = document.querySelector("input[id=circularProgressTrimPathOffsetCheckbox]");
   var trimPathStartEndSelector = document.querySelector("input[id=circularProgressTrimPathStartEndCheckbox]");
+  var showTrimPathsSelector = document.querySelector("input[id=circularProgressShowTrimPathsCheckbox]");
   var slowAnimationSelector = document.querySelector("input[id=circularProgressSlowAnimationCheckbox]");
   outerRotationSelector.addEventListener("change", function(event) {
     if (outerRotationSelector.checked) {
@@ -54,6 +55,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
     restartAnimation(trimPathStartAnimation);
     restartAnimation(trimPathEndAnimation);
     restartAnimation(trimPathOffsetAnimation);
+  });
+  showTrimPathsSelector.addEventListener("change", function(event) {
+    var visibility = showTrimPathsSelector.checked ? "visible" : "hidden";
+    document.getElementById("circular_progress_circle_path_debug").style.visibility = visibility;
   });
   slowAnimationSelector.addEventListener("change", function(event) {
     if (slowAnimationSelector.checked) {
