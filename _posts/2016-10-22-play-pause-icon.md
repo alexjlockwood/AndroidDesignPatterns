@@ -76,9 +76,6 @@ style: |
   }
 ---
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="/css/material.min.css">
-<script defer src="/scripts/material.min.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-data-polyfill.js"></script>
 <script defer src="/scripts/posts/2016/10/22/transformation-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/linear-progress-bar-animated-svgs.js"></script>
