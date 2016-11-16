@@ -434,8 +434,6 @@ Some examples:
 
 This is how trimming paths works:
 
-<!-- TODO(alockwood): reduce the scope of the trim path interactive demo. -->
-
 <div id="svgSliderDemo" class="svgDemoContainer">
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_line_path" viewBox="0 0 24 1" width="95%">
     <path id="line_path" fill="none" stroke="#000" stroke-width=".25" d="M 0.5,0.5 h 23" />
@@ -444,21 +442,21 @@ This is how trimming paths works:
   <div class="sliderContainer">
     <div class="sliderTextContainer">
       <div class="slider">
-        <input id="trimPathStart" class="mdl-slider mdl-js-slider sliderInput" type="range" min="0" max="100" value="0" tabindex="0" oninput="updateTrimPathStart(this.value)" onchange="updateTrimPathStart(this.value)">
+        <input id="trimPathStart" class="mdl-slider mdl-js-slider sliderInput" type="range" min="0" max="100" value="0" tabindex="0">
       </div>
       <div class="sliderText"><code>android:trimPathStart="<span id="trimPathStartValue">0</span>"</code></div>
     </div>
 
     <div class="sliderTextContainer">
       <div class="slider">
-        <input id="trimPathEnd" class="mdl-slider mdl-js-slider sliderInput" type="range" min="0" max="100" value="100" tabindex="0" oninput="updateTrimPathEnd(this.value)" onchange="updateTrimPathEnd(this.value)">
+        <input id="trimPathEnd" class="mdl-slider mdl-js-slider sliderInput" type="range" min="0" max="100" value="100" tabindex="0">
       </div>
       <div class="sliderText"><code>android:trimPathEnd="<span id="trimPathEndValue">100</span>"</code></div>
     </div>
 
     <div class="sliderTextContainer">
       <div class="slider">
-        <input id="trimPathOffset" class="mdl-slider mdl-js-slider sliderInput" type="range" min="0" max="100" value="0" tabindex="0" oninput="updateTrimPathOffset(this.value)" onchange="updateTrimPathOffset(this.value)">
+        <input id="trimPathOffset" class="mdl-slider mdl-js-slider sliderInput" type="range" min="0" max="100" value="0" tabindex="0">
       </div>
       <div class="sliderText"><code>android:trimPathOffset="<span id="trimPathOffsetValue">0</span>"</code></div>
     </div>
