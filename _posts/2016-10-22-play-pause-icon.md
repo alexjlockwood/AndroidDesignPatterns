@@ -271,11 +271,11 @@ And here's a linear indeterminate progress bar example:
   <div class="svgDemoCheckboxContainer">
     <label for="linearProgressScaleCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="linearProgressScaleCheckbox" class="mdl-checkbox__input" checked>
-      <span class="mdl-checkbox__label">Animate <code>android:scaleX</code> property</span>
+      <span class="mdl-checkbox__label">Animate horizontal scale</span>
     </label>
     <label for="linearProgressTranslateCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="linearProgressTranslateCheckbox" class="mdl-checkbox__input" checked>
-      <span class="mdl-checkbox__label">Animate <code>android:translateX</code> property</span>
+      <span class="mdl-checkbox__label">Animate horizontal translation</span>
     </label>
     <label for="linearProgressSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="linearProgressSlowAnimationCheckbox" class="mdl-checkbox__input">
@@ -486,31 +486,36 @@ Some examples:
     </g>
   </svg>
 
-  <svg xmlns="http://www.w3.org/2000/svg" id="ic_android_design" viewBox="0 0 308 68" class="svgDemo">
-    <path id="andro_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M.342 40.576c10.073 8.093 17.46-26.214 24.843-37.008-2.504 13.87-.942 31.505 5.634 34.256 6.575 2.752 10.747-12.91 13.866-20.387 0 7.477-7.16 19.9-5.436 20.876 3.597-7.226 10.768-15.395 13.076-16.554 2.307-1.16-1.44 14.734.942 14.376 8.927 2.946 8.88-19.38 21.295-12.37-12.416-4.875-12.516 11.16-11.494 12.643C76.07 34.924 86 6.615 81.632.9 72.673-.873 72.18 37.314 76.07 38.14c10.548-.318 14.896-18.363 13.145-22.848-5.363 7.766 2.17 5.983 4.633 9.62 2.506 3.4-3.374 14.54 2.506 13.907 4.856-.844 15.163-23.165 17.118-17.82-5.727-2.37-10.81 16.224-4.143 16.824 8.588.318 9.125-16.823 4.142-17.34"
+  <svg xmlns="http://www.w3.org/2000/svg" id="ic_android_handwriting" viewBox="0 0 170 68" class="svgDemo">
+    <g transform="translate(2, 12)">
+      <path id="andro_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M.342 40.576c10.073 8.093 17.46-26.214 24.843-37.008-2.504 13.87-.942 31.505 5.634 34.256 6.575 2.752 10.747-12.91 13.866-20.387 0 7.477-7.16 19.9-5.436 20.876 3.597-7.226 10.768-15.395 13.076-16.554 2.307-1.16-1.44 14.734.942 14.376 8.927 2.946 8.88-19.38 21.295-12.37-12.416-4.875-12.516 11.16-11.494 12.643C76.07 34.924 86 6.615 81.632.9 72.673-.873 72.18 37.314 76.07 38.14c10.548-.318 14.896-18.363 13.145-22.848-5.363 7.766 2.17 5.983 4.633 9.62 2.506 3.4-3.374 14.54 2.506 13.907 4.856-.844 15.163-23.165 17.118-17.82-5.727-2.37-10.81 16.224-4.143 16.824 8.588.318 9.125-16.823 4.142-17.34"
     />
-    <path id="id_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M126.046 22.4c-4.284 6.404-2.96 14.827-.092 15.973 4.31 3.24 12.428-18.428 18.5-16.612-13.063 5.738-9.164 14.542-7.253 14.542 15.016-1.847 21.977-34.67 18.283-36.193-9.478 5.223-9.927 36.192-5.008 38.058 6.956 0 10.04-9.364 10.04-9.364"
+      <path id="id_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M126.046 22.4c-4.284 6.404-2.96 14.827-.092 15.973 4.31 3.24 12.428-18.428 18.5-16.612-13.063 5.738-9.164 14.542-7.253 14.542 15.016-1.847 21.977-34.67 18.283-36.193-9.478 5.223-9.927 36.192-5.008 38.058 6.956 0 10.04-9.364 10.04-9.364"
     />
-    <path id="a_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M15.513 25.218c4.082 0 15.976-2.228 15.976-2.228" />
-    <path id="i1_dot_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-width="3" d="M127.723 15.887l-.56 1.116" />
-    <path id="d_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M179.8 2.605c-3.668 7.51-5.576 31.462-6.24 35.943 1.646-1.62.974-1.677 2.045-1.677C212.01 27 192.197-.394 172.43 6.563" />
-    <path id="esig_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M204.027 29.02c8.472-4.797 5.46-8.965 4.504-8.965-2.755-1.672-12.485 12.385-3.934 17.473 10.222 3.933 14.088-21.51 18.642-21.51-5.815 11.606 11.867 21.51-7.708 22.23 15.235 5.963 20.42-13.348 22.366-14.66-3.526 11.608-1.76 13.94.806 14.66 4.5 1.27 12.92-24.435 25.972-17.394-13.053-7.04-20.326 14.888-14.98 14.888s9.903-11.52 12.848-11.52c0 10.79-3.065 36.49-13.51 28.437"
+      <path id="a_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M15.513 25.218c4.082 0 15.976-2.228 15.976-2.228" />
+      <path id="i1_dot_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-width="3" d="M127.723 15.887l-.56 1.116" />
+      <path id="andro" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M.342 40.576c10.073 8.093 17.46-26.214 24.843-37.008-2.504 13.87-.942 31.505 5.634 34.256 6.575 2.752 10.747-12.91 13.866-20.387 0 7.477-7.16 19.9-5.436 20.876 3.597-7.226 10.768-15.395 13.076-16.554 2.307-1.16-1.44 14.734.942 14.376 8.927 2.946 8.88-19.38 21.295-12.37-12.416-4.875-12.516 11.16-11.494 12.643C76.07 34.924 86 6.615 81.632.9 72.673-.873 72.18 37.314 76.07 38.14c10.548-.318 14.896-18.363 13.145-22.848-5.363 7.766 2.17 5.983 4.633 9.62 2.506 3.4-3.374 14.54 2.506 13.907 4.856-.844 15.163-23.165 17.118-17.82-5.727-2.37-10.81 16.224-4.143 16.824 8.588.318 9.125-16.823 4.142-17.34"
     />
-    <path id="n_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M274.092 17.934c-2.426 3.674-4.002 20.53-4.002 20.53 5.472-13.677 10.573-16.424 12.204-15.88 1.173 5.48-1.21 11.765 1.265 13.526 2.473 1.76 6.36-1.056 9.452-7.205"
+      <path id="id" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M126.046 22.4c-4.284 6.404-2.96 14.827-.092 15.973 4.31 3.24 12.428-18.428 18.5-16.612-13.063 5.738-9.164 14.542-7.253 14.542 15.016-1.847 21.977-34.67 18.283-36.193-9.478 5.223-9.927 36.192-5.008 38.058 6.956 0 10.04-9.364 10.04-9.364"
     />
-    <path id="i2_dot_debug" style="visibility: hidden;" stroke-opacity="0.3" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M239.723 15.887l-.56 1.116" />
-    <path id="andro" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M.342 40.576c10.073 8.093 17.46-26.214 24.843-37.008-2.504 13.87-.942 31.505 5.634 34.256 6.575 2.752 10.747-12.91 13.866-20.387 0 7.477-7.16 19.9-5.436 20.876 3.597-7.226 10.768-15.395 13.076-16.554 2.307-1.16-1.44 14.734.942 14.376 8.927 2.946 8.88-19.38 21.295-12.37-12.416-4.875-12.516 11.16-11.494 12.643C76.07 34.924 86 6.615 81.632.9 72.673-.873 72.18 37.314 76.07 38.14c10.548-.318 14.896-18.363 13.145-22.848-5.363 7.766 2.17 5.983 4.633 9.62 2.506 3.4-3.374 14.54 2.506 13.907 4.856-.844 15.163-23.165 17.118-17.82-5.727-2.37-10.81 16.224-4.143 16.824 8.588.318 9.125-16.823 4.142-17.34"
-    />
-    <path id="id" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M126.046 22.4c-4.284 6.404-2.96 14.827-.092 15.973 4.31 3.24 12.428-18.428 18.5-16.612-13.063 5.738-9.164 14.542-7.253 14.542 15.016-1.847 21.977-34.67 18.283-36.193-9.478 5.223-9.927 36.192-5.008 38.058 6.956 0 10.04-9.364 10.04-9.364"
-    />
-    <path id="a" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M15.513 25.218c4.082 0 15.976-2.228 15.976-2.228" />
-    <path id="i1_dot" fill="none" stroke="#3f51b5" stroke-width="3" d="M127.723 15.887l-.56 1.116" />
-    <path id="d" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M179.8 2.605c-3.668 7.51-5.576 31.462-6.24 35.943 1.646-1.62.974-1.677 2.045-1.677C212.01 27 192.197-.394 172.43 6.563" />
-    <path id="esig" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M204.027 29.02c8.472-4.797 5.46-8.965 4.504-8.965-2.755-1.672-12.485 12.385-3.934 17.473 10.222 3.933 14.088-21.51 18.642-21.51-5.815 11.606 11.867 21.51-7.708 22.23 15.235 5.963 20.42-13.348 22.366-14.66-3.526 11.608-1.76 13.94.806 14.66 4.5 1.27 12.92-24.435 25.972-17.394-13.053-7.04-20.326 14.888-14.98 14.888s9.903-11.52 12.848-11.52c0 10.79-3.065 36.49-13.51 28.437"
-    />
-    <path id="n" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M274.092 17.934c-2.426 3.674-4.002 20.53-4.002 20.53 5.472-13.677 10.573-16.424 12.204-15.88 1.173 5.48-1.21 11.765 1.265 13.526 2.473 1.76 6.36-1.056 9.452-7.205"
-    />
-    <path id="i2_dot" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M239.723 15.887l-.56 1.116" />
+      <path id="a" fill="none" stroke="#3f51b5" stroke-linejoin="round" stroke-linecap="round" stroke-width="3" d="M15.513 25.218c4.082 0 15.976-2.228 15.976-2.228" />
+      <path id="i1_dot" fill="none" stroke="#3f51b5" stroke-width="3" d="M127.723 15.887l-.56 1.116" />
+    </g>
+  </svg>
+
+  <svg xmlns="http://www.w3.org/2000/svg" id="ic_fingerprint" viewBox="0 0 32 32" class="svgDemo">
+    <g transform="translate(49.3335,50.66685)">
+      <path id="ridge_5_path_debug" style="visibility: hidden;" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1.45" d="M-25.36-24.414c-.568.107-1.126.14-1.454.14-1.297 0-2.532-.343-3.62-1.123-1.677-1.204-2.77-3.17-2.77-5.392"/>
+      <path id="ridge_7_path_debug" style="visibility: hidden;" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1.45" d="M-36.14-21.784c-1.006-1.193-1.576-1.918-2.366-3.502-.828-1.66-1.314-3.492-1.314-5.485 0-3.664 2.97-6.633 6.633-6.633 3.662 0 6.632 2.97 6.632 6.632"/>
+      <path id="ridge_6_path_debug" style="visibility: hidden;" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1.45" d="M-42.19-25.676c-.76-2.143-.897-3.87-.897-5.13 0-1.46.25-2.847.814-4.096 1.562-3.45 5.035-5.85 9.068-5.85 5.495 0 9.95 4.453 9.95 9.947 0 1.832-1.486 3.316-3.318 3.316-1.83 0-3.316-1.483-3.316-3.315 0-1.83-1.483-3.316-3.315-3.316-1.83 0-3.316 1.484-3.316 3.315 0 2.57.99 4.887 2.604 6.587 1.222 1.285 2.432 2.1 4.476 2.69"/>
+      <path id="ridge_2_path_debug" style="visibility: hidden;" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1.45" d="M-44.065-38.167c1.19-1.775 2.675-3.246 4.56-4.273 1.883-1.028 4.044-1.61 6.34-1.61 2.29 0 4.44.578 6.32 1.597 1.878 1.02 3.36 2.48 4.552 4.242"/>
+      <path id="ridge_1_path_debug" style="visibility: hidden;" fill="none" stroke="#dadada" stroke-linecap="round" stroke-width="1.45" d="M71.78 97.05c-2.27-1.313-4.712-2.07-7.56-2.07-2.85 0-5.234.78-7.345 2.07"/>
+      <path id="ridge_5_path" fill="none" stroke="#808080" stroke-linecap="round" stroke-width="1.45" d="M-25.36-24.414c-.568.107-1.126.14-1.454.14-1.297 0-2.532-.343-3.62-1.123-1.677-1.204-2.77-3.17-2.77-5.392"/>
+      <path id="ridge_7_path" fill="none" stroke="#808080" stroke-linecap="round" stroke-width="1.45" d="M-36.14-21.784c-1.006-1.193-1.576-1.918-2.366-3.502-.828-1.66-1.314-3.492-1.314-5.485 0-3.664 2.97-6.633 6.633-6.633 3.662 0 6.632 2.97 6.632 6.632"/>
+      <path id="ridge_6_path" fill="none" stroke="#808080" stroke-linecap="round" stroke-width="1.45" d="M-42.19-25.676c-.76-2.143-.897-3.87-.897-5.13 0-1.46.25-2.847.814-4.096 1.562-3.45 5.035-5.85 9.068-5.85 5.495 0 9.95 4.453 9.95 9.947 0 1.832-1.486 3.316-3.318 3.316-1.83 0-3.316-1.483-3.316-3.315 0-1.83-1.483-3.316-3.315-3.316-1.83 0-3.316 1.484-3.316 3.315 0 2.57.99 4.887 2.604 6.587 1.222 1.285 2.432 2.1 4.476 2.69"/>
+      <path id="ridge_2_path" fill="none" stroke="#808080" stroke-linecap="round" stroke-width="1.45" d="M-44.065-38.167c1.19-1.775 2.675-3.246 4.56-4.273 1.883-1.028 4.044-1.61 6.34-1.61 2.29 0 4.44.578 6.32 1.597 1.878 1.02 3.36 2.48 4.552 4.242"/>
+      <path id="ridge_1_path" fill="none" stroke="#808080" stroke-linecap="round" stroke-width="1.45" d="M71.78 97.05c-2.27-1.313-4.712-2.07-7.56-2.07-2.85 0-5.234.78-7.345 2.07"/>
+    </g>
   </svg>
 
   <div class="svgDemoCheckboxContainer">
@@ -576,15 +581,15 @@ And the circular progress bar demo:
   <div class="svgDemoCheckboxContainer">
     <label for="circularProgressOuterRotationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="circularProgressOuterRotationCheckbox" class="mdl-checkbox__input" checked>
-      <span class="mdl-checkbox__label">Animate <code>android:rotation</code> property</span>
+      <span class="mdl-checkbox__label">Animate rotation</span>
     </label>
     <label for="circularProgressTrimPathOffsetCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="circularProgressTrimPathOffsetCheckbox" class="mdl-checkbox__input" checked>
-      <span class="mdl-checkbox__label">Animate <code>android:trimPathOffset</code> property</span>
+      <span class="mdl-checkbox__label">Animate trim path offset</span>
     </label>
     <label for="circularProgressTrimPathStartEndCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="circularProgressTrimPathStartEndCheckbox" class="mdl-checkbox__input" checked>
-      <span class="mdl-checkbox__label">Animate <code>android:trimPath{Start,End}</code> property</span>
+      <span class="mdl-checkbox__label">Animate trim path start/end</span>
     </label>
     <label for="circularProgressSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="circularProgressSlowAnimationCheckbox" class="mdl-checkbox__input">

@@ -8,7 +8,79 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
     return durationMillis * currentAnimationDurationFactor;
   }
-  
+
+  function animateTrimPathStart(strokePathId, durationMillis, easingFunction, isAnimatingIn) {
+    animateStrokeWithDelay(strokePathId, durationMillis, 0, easingFunction, isAnimatingIn);
+  }
+
+  function animateTrimPathStartWithDelay(strokePathId, durationMillis, startDelayMillis, easingFunction, isAnimatingIn) {
+    var strokePath = document.getElementById(strokePathId);
+    var pathLength = strokePath.getTotalLength();
+    // TODO(alockwood): remove this hack...
+    strokePath.animate([{
+      "strokeDasharray": pathLength,
+      "strokeDashoffset": (isAnimatingIn ? -pathLength : 0),
+      offset: 0
+    }, {
+      "strokeDasharray": pathLength,
+      "strokeDashoffset": (isAnimatingIn ? -pathLength : 0),
+      offset: 1
+    }], {
+      duration: 0,
+      fill: "forwards"
+    });
+    strokePath.animate([{
+      "strokeDasharray": pathLength,
+      "strokeDashoffset": (isAnimatingIn ? -pathLength : 0),
+      easing: easingFunction,
+      offset: 0
+    }, {
+      "strokeDasharray": pathLength,
+      "strokeDashoffset": (isAnimatingIn ? 0 : -pathLength),
+      offset: 1
+    }], {
+      duration: getScaledAnimationDuration(durationMillis),
+      fill: "forwards",
+      delay: startDelayMillis
+    });
+  }
+
+  function animateTrimPathEnd(strokePathId, durationMillis, easingFunction, isAnimatingIn) {
+    animateStrokeWithDelay(strokePathId, durationMillis, 0, easingFunction, isAnimatingIn);
+  }
+
+  function animateTrimPathEndWithDelay(strokePathId, durationMillis, startDelayMillis, easingFunction, isAnimatingIn) {
+    var strokePath = document.getElementById(strokePathId);
+    var pathLength = strokePath.getTotalLength();
+    // TODO(alockwood): remove this hack...
+    strokePath.animate([{
+      "strokeDasharray": pathLength,
+      "strokeDashoffset": (isAnimatingIn ? pathLength : 0),
+      offset: 0
+    }, {
+      "strokeDasharray": pathLength,
+      "strokeDashoffset": (isAnimatingIn ? pathLength : 0),
+      offset: 1
+    }], {
+      duration: 0,
+      fill: "forwards"
+    });
+    strokePath.animate([{
+      "strokeDasharray": pathLength,
+      "strokeDashoffset": (isAnimatingIn ? pathLength : 0),
+      easing: easingFunction,
+      offset: 0
+    }, {
+      "strokeDasharray": pathLength,
+      "strokeDashoffset": (isAnimatingIn ? 0 : pathLength),
+      offset: 1
+    }], {
+      duration: getScaledAnimationDuration(durationMillis),
+      fill: "forwards",
+      delay: startDelayMillis
+    });
+  }
+
   document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").addEventListener("change", function(event) {
     var visibility = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").checked ? "visible" : "hidden";
     document.getElementById("stem_debug").style.visibility = visibility;
@@ -19,10 +91,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("id_debug").style.visibility = visibility;
     document.getElementById("a_debug").style.visibility = visibility;
     document.getElementById("i1_dot_debug").style.visibility = visibility;
-    document.getElementById("d_debug").style.visibility = visibility;
-    document.getElementById("esig_debug").style.visibility = visibility;
-    document.getElementById("n_debug").style.visibility = visibility;
-    document.getElementById("i2_dot_debug").style.visibility = visibility;
+    document.getElementById("ridge_5_path_debug").style.visibility = visibility;
+    document.getElementById("ridge_7_path_debug").style.visibility = visibility;
+    document.getElementById("ridge_6_path_debug").style.visibility = visibility;
+    document.getElementById("ridge_2_path_debug").style.visibility = visibility;
+    document.getElementById("ridge_1_path_debug").style.visibility = visibility;
   });
 
   // =============== Search to back animation.
@@ -132,24 +205,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   // =============== Handwriting animation.
   var currentHandwritingAnimations = [];
-  document.getElementById("ic_android_design").addEventListener("click", function() {
+  document.getElementById("ic_android_handwriting").addEventListener("click", function() {
      for (i = 0; i < currentHandwritingAnimations.length; i++) {
       currentHandwritingAnimations[i].cancel();
     }
     currentHandwritingAnimations = [];
     resetAllStrokes();
-    animateStroke("andro", 1000, 0, fastOutLinearIn);
-    animateStroke("id", 250, 1050, fastOutSlowIn);
-    animateStroke("a", 50, 1300, fastOutSlowIn);
-    animateStroke("i1_dot", 50, 1400, fastOutSlowIn);
-    animateStroke("d", 200, 1550, fastOutSlowIn);
-    animateStroke("esig", 600, 1800, fastOutLinearIn);
-    animateStroke("n", 200, 2450, fastOutSlowIn);
-    animateStroke("i2_dot", 50, 2700, fastOutSlowIn);
+    animateHandwritingStroke("andro", 1000, 0, fastOutLinearIn);
+    animateHandwritingStroke("id", 250, 1050, fastOutSlowIn);
+    animateHandwritingStroke("a", 50, 1300, fastOutSlowIn);
+    animateHandwritingStroke("i1_dot", 50, 1400, fastOutSlowIn);
   });
 
   function resetAllStrokes() {
-    var ids = ["andro", "id", "a", "i1_dot", "d", "esig", "n", "i2_dot"];
+    var ids = ["andro", "id", "a", "i1_dot"];
     for (i = 0; i < ids.length; i++) {
       var path = document.getElementById(ids[i]);
       var pathLength = path.getTotalLength();
@@ -168,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
   }
 
-  function animateStroke(pathId, duration, startDelay, easingCurve) {
+  function animateHandwritingStroke(pathId, duration, startDelay, easingCurve) {
     var path = document.getElementById(pathId);
     var pathLength = path.getTotalLength();
     path.animate([{
@@ -186,5 +255,27 @@ document.addEventListener("DOMContentLoaded", function(event) {
       delay: getScaledAnimationDuration(startDelay)
     });
   }
-});
 
+  // =============== Fingerprint animation.
+  var isFingerprintVisible = true;
+  document.getElementById("ic_fingerprint").addEventListener("click", function() {
+    animateFingerprint(!isFingerprintVisible);
+    isFingerprintVisible = !isFingerprintVisible;
+  });
+
+  function animateFingerprint(isAnimatingIn) {
+    if (isAnimatingIn) {
+      animateTrimPathStartWithDelay("ridge_5_path", 180, 20, "cubic-bezier(0.5, 0.5, 1, 1)", true);
+      animateTrimPathStartWithDelay("ridge_7_path", 160, 10, "cubic-bezier(0.5, 0.5, 1, 1)", true);
+      animateTrimPathEndWithDelay("ridge_6_path", 190, 0, "cubic-bezier(0.5, 0.5, 1, 1)", true);
+      animateTrimPathEndWithDelay("ridge_2_path", 140, 0, "cubic-bezier(0.5, 0, 1, 1)", true);
+      animateTrimPathStartWithDelay("ridge_1_path", 216, 60, "cubic-bezier(0.5, 0.5, 1, 1)", true);
+    } else {
+      animateTrimPathEndWithDelay("ridge_5_path", 383, 33, "cubic-bezier(0, 0.29, 1, 1)", false);
+      animateTrimPathEndWithDelay("ridge_7_path", 483, 83, "cubic-bezier(0, 0.5, 1, 1)", false);
+      animateTrimPathStartWithDelay("ridge_6_path", 549, 50, "cubic-bezier(0, 0.5, 1, 1)", false);
+      animateTrimPathStartWithDelay("ridge_2_path", 400, 216, "cubic-bezier(0, 0.5, 1, 1)", false);
+      animateTrimPathEndWithDelay("ridge_1_path", 383, 316, "cubic-bezier(0, 0.5, 1, 1)", false);
+    }
+  }
+});
