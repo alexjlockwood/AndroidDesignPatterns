@@ -77,6 +77,7 @@ style: |
 ---
 
 <script defer src="/scripts/posts/2016/10/22/bezier.js"></script>
+<script defer src="/scripts/posts/2016/10/22/web-animations.min.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-data-polyfill.js"></script>
 <script defer src="/scripts/posts/2016/10/22/transformation-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/linear-progress-bar-animated-svgs.js"></script>
