@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // =============== Handwriting animation.
   var currentHandwritingAnimations = [];
   document.getElementById("ic_android_handwriting").addEventListener("click", function() {
-     for (i = 0; i < currentHandwritingAnimations.length; i++) {
+    for (i = 0; i < currentHandwritingAnimations.length; i++) {
       currentHandwritingAnimations[i].cancel();
     }
     currentHandwritingAnimations = [];

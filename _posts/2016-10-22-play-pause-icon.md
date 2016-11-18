@@ -606,11 +606,7 @@ Some examples:
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_timer" class="svgDemo" viewBox="0 0 24 24">
     <g transform="translate(12,12)">
       <g id="hourglass_frame_rotation">
-        <g transform="translate(-12,-12)">
-          <g transform="translate(12,12)">
-            <path d="M1 0l6.29-6.29c.63-.63.19-1.71-.7-1.71H-6.59c-.89 0-1.33 1.08-.7 1.71L-1 0l-6.29 6.29c-.63.63-.19 1.71.7 1.71H6.59c.89 0 1.33-1.08.7-1.71L1 0zm-5.17-6h8.34L0-1.83-4.17-6zm0 12L0 1.83 4.17 6h-8.34z" />
-          </g>
-        </g>
+        <path d="M1 0l6.29-6.29c.63-.63.19-1.71-.7-1.71H-6.59c-.89 0-1.33 1.08-.7 1.71L-1 0l-6.29 6.29c-.63.63-.19 1.71.7 1.71H6.59c.89 0 1.33-1.08.7-1.71L1 0zm-5.17-6h8.34L0-1.83-4.17-6zm0 12L0 1.83 4.17 6h-8.34z" />
       </g>
     </g>
     <g transform="translate(12,12)">
@@ -621,8 +617,8 @@ Some examples:
               <animate id="hourglass_clip_mask_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,13.3999938965 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6000061035 c 0,0 24,0 24,0 c 0,0 0,-10.6000061035 0,-10.6000061035 Z;M 24,0.00173950195312 c 0,0 -24,0 -24,0 c 0,0 0,10.6982574463 0,10.6982574463 c 0,0 24,0 24,0 c 0,0 0,-10.6982574463 0,-10.6982574463 Z" />
             </path>
           </clipPath>
-           <g clip-path="url(#hourglass_clip_mask)">
-            <path id="path_2" d="M13 12l6.293-6.293c.63-.63.184-1.707-.707-1.707H5.416c-.892 0-1.338 1.077-.708 1.707L11 12l-6.292 6.293c-.63.63-.184 1.707.707 1.707h13.17c.892 0 1.338-1.077.708-1.707L13 12z" />
+          <g clip-path="url(#hourglass_clip_mask)">
+            <path d="M13 12l6.293-6.293c.63-.63.184-1.707-.707-1.707H5.416c-.892 0-1.338 1.077-.708 1.707L11 12l-6.292 6.293c-.63.63-.184 1.707.707 1.707h13.17c.892 0 1.338-1.077.708-1.707L13 12z" />
           </g>
           <path id="hourglass_clip_mask_debug" d="M24 13.4H0V24h24V13.4z" fill="#F44336" fill-opacity="0.3" style="visibility: hidden;">
             <animate id="hourglass_clip_mask_debug_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,13.3999938965 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6000061035 c 0,0 24,0 24,0 c 0,0 0,-10.6000061035 0,-10.6000061035 Z;M 24,0.00173950195312 c 0,0 -24,0 -24,0 c 0,0 0,10.6982574463 0,10.6982574463 c 0,0 24,0 24,0 c 0,0 0,-10.6982574463 0,-10.6982574463 Z" />
@@ -656,19 +652,18 @@ Some examples:
       </path>
     </clipPath>
     <g id="clip_path_group" clip-path="url(#clip)">
-      <path id="heart_full_path" fill="#000000" style="visibility: hidden;" d="M28 39l-1.595-1.433C20.74 32.47 17 29.11 17 24.995 17 21.632 19.657 19 23.05 19c1.914 0 3.75.883 4.95 2.272C29.2 19.882 31.036 19 32.95 19c3.393 0 6.05 2.632 6.05 5.995 0 4.114-3.74 7.476-9.405 12.572L28 39z"
+      <path id="heart_full_path" fill="#000" style="visibility: hidden;" d="M28 39l-1.595-1.433C20.74 32.47 17 29.11 17 24.995 17 21.632 19.657 19 23.05 19c1.914 0 3.75.883 4.95 2.272C29.2 19.882 31.036 19 32.95 19c3.393 0 6.05 2.632 6.05 5.995 0 4.114-3.74 7.476-9.405 12.572L28 39z"
       />
     </g>
     <g id="broken_heart_left_group" transform="translate(28,37.3)">
-      <g id="broken_heart_rotate_left_group" transform="rotate(0)">
+      <g id="broken_heart_rotate_left_group">
         <g id="broken_heart_translate_left_group" transform="translate(-28,-37.3)">
-          <path id="broken_heart_left_path" fill-opacity="0" d="M28.03 21.054l-.03.036C26.91 19.81 25.24 19 23.5 19c-3.08 0-5.5 2.42-5.5 5.5 0 3.78 3.4 6.86 8.55 11.53L28 37.35l.002-.002-.22-.36.707-.915-.984-1.31 1.276-1.736-1.838-2.02 2.205-2.282-2.033-1.582 2.032-2.125-2.662-2.04 1.543-1.924z"
-          />
+          <path id="broken_heart_left_path" fill-opacity="0" d="M28.03 21.054l-.03.036C26.91 19.81 25.24 19 23.5 19c-3.08 0-5.5 2.42-5.5 5.5 0 3.78 3.4 6.86 8.55 11.53L28 37.35l.002-.002-.22-.36.707-.915-.984-1.31 1.276-1.736-1.838-2.02 2.205-2.282-2.033-1.582 2.032-2.125-2.662-2.04 1.543-1.924z" />
         </g>
       </g>
     </g>
     <g id="broken_heart_right_group" transform="translate(28,37.3)">
-      <g id="broken_heart_rotate_right_group" transform="rotate(0)">
+      <g id="broken_heart_rotate_right_group">
         <g id="broken_heart_translate_right_group" transform="translate(-28,-37.3)">
           <path id="broken_heart_right_path" fill-opacity="0" d="M28.03 21.054c.14-.16.286-.31.44-.455l.445-.374C29.925 19.456 31.193 19 32.5 19c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.448 1.308-.22-.36.707-.915-.984-1.31 1.276-1.736-1.838-2.02 2.205-2.282-2.033-1.582 2.032-2.125-2.662-2.04 1.543-1.924z"
           />
@@ -698,29 +693,38 @@ Some examples:
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_uploading" viewBox="0 0 56 56" class="svgDemo">
     <path id="upload_arrow_static" fill="#4d4d4d" d="M25,32L31,32L31,26L35,26L28,19L21,26L25,26L25,32Z"/>
     <clipPath id="upload_arrow_fill_clip">
-      <path d="M21 32 L35 32 L35 32 L21 32 Z">
+      <path id="upload_arrow_clip_path" d="M21 32 L35 32 L35 32 L21 32 Z">
         <animate id="upload_arrow_fill_clip_animation" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M21 32 L35 32 L35 32 L21 32 Z;M21 10 L35 10 L35 32 L21 32 Z" repeatCount="indefinite"/>
       </path>
     </clipPath>
     <g clip-path="url(#upload_arrow_fill_clip)">
       <path id="upload_arrow_filling" fill="#000" d="M25,32L31,32L31,26L35,26L28,19L21,26L25,26L25,32Z" />
     </g>
+    <path id="upload_arrow_fill_clip_debug" d="M21 32 L35 32 L35 32 L21 32 Z" fill="#F44336" fill-opacity="0.3" style="visibility: hidden;">
+      <animate id="upload_arrow_fill_clip_animation_debug" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M21 32 L35 32 L35 32 L21 32 Z;M21 10 L35 10 L35 32 L21 32 Z" repeatCount="indefinite"/>
+    </path>
     <path id="upload_base" fill="#999999" d="M21,34L35,34L35,36L21,36L21,34Z"/>
     <g transform="translate(28,28)">
       <g id="progress_spinner_outer_rotation">
         <g id="progress_spinner_inner_rotation">
-          <g transform="scale(2.74,2.74)">
-            <ellipse id="progress_spinner_circle_path" rx="9.5" ry="9.5" stroke="#690" stroke-width="1.5" stroke-dasharray="1.79095622248, 57.907584527" stroke-dashoffset="14.925" fill="none" />
+          <g transform="translate(-28,-28)">
+            <path id="progress_spinner_circle_path_debug" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2" stroke="#690" stroke-opacity="0.3" stroke-width="4" fill="none" style="visibility: hidden;" />
+            <path id="progress_spinner_circle_path" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2" stroke="#690" stroke-width="4" fill="none" />
           </g>
         </g>
       </g>
     </g>
+    <path id="progress_tick_debug" fill="none" stroke="#690" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2C53.4,6.9 35.46,22.07 35.46,22.07L24.54,32.81L19.72,28.16" stroke-opacity="0.3" style="visibility: hidden;" />
     <path id="progress_tick" fill="none" stroke="#690" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2C53.4,6.9 35.46,22.07 35.46,22.07L24.54,32.81L19.72,28.16" stroke-opacity="0"/>
   </svg>
 
    <div class="svgDemoCheckboxContainer">
+    <label for="uploadingShowTrimPathsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="uploadingShowTrimPathsCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Show trim paths</span>
+    </label>
     <label for="uploadingShowClipMaskCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-      <input type="checkbox" id="clipPathShowClipMaskCheckbox" class="mdl-checkbox__input">
+      <input type="checkbox" id="uploadingShowClipMaskCheckbox" class="mdl-checkbox__input">
       <span class="mdl-checkbox__label">Show clip masks</span>
     </label>
     <label for="uploadingSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
