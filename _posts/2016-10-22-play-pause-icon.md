@@ -9,7 +9,8 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
 style: |
   .svgDemoContainer {
     display: block;
-    background-color: #fafafa;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
   }
   .svgDemo {
     display: inline-block;
