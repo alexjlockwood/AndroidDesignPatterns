@@ -32,12 +32,10 @@ style: |
     position: relative;
     background-color: rgba(96, 144, 0, 0.3);
   }
-
   #progressBarInnerRect1,
   #progressBarInnerRect2 {
     background: #690;
   }
-
   #progressBarOuterRect1,
   #progressBarOuterRect2,
   #progressBarInnerRect1,
@@ -52,26 +50,21 @@ style: |
     padding-left: 16px;
     padding-right: 16px;
   }
-
   .sliderContainer {
     padding: 16px;
   }
-
   .slider {
     margin-top: 8px;
     display: inline-block;
   }
-
   .sliderInput {
     width: 300px;
   }
-
   .sliderTextContainer {
     margin-top: 8px;
     margin-bottom: 8px;
     display: block;
   }
-
   .sliderText {
     display: inline-block;
   }
@@ -247,7 +240,7 @@ Some examples:
       <g id="radiobutton_ring_outer">
         <path id="radiobutton_ring_outer_path" stroke="#000" fill="none" stroke-width="2" d="M-9 0A9 9 0 1 0 9 0 9 9 0 1 0-9 0" />
       </g>
-      <g id="radiobutton_dot_group" transform="scale(0,0)">
+      <g id="radiobutton_dot_group">
         <path id="radiobutton_dot_path" d="M-5 0A5 5 0 1 0 5 0 5 5 0 1 0-5 0" />
       </g>
     </g>
@@ -256,7 +249,7 @@ Some examples:
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_alarm" viewBox="0 0 24 24" class="svgDemo">
     <g transform="translate(12,12)">
       <g id="alarmclock_button_rotation">
-        <g transform="translate(-12,-12)">
+        <g id="asdf" ransform="translate(-12,-12)">
           <g transform="translate(19.0722,4.5758)">
             <path d="M2.94 1.162l-4.595-3.857L-2.94-1.16l4.595 3.855L2.94 1.162z" />
           </g>
@@ -266,12 +259,8 @@ Some examples:
         </g>
       </g>
     </g>
-    <g transform="translate(13.75,12.4473)">
-      <path d="M-1.25-4.427h-1.5v6l4.747 2.854.753-1.232-4-2.372v-5.25z" />
-    </g>
-    <g transform="translate(12,13.0203)">
-      <path d="M-.005-9C-4.98-9-9-4.97-9 0s4.02 9 8.995 9S9 4.97 9 0 4.97-9-.005-9zM0 7c-3.867 0-7-3.134-7-7s3.133-7 7-7 7 3.134 7 7-3.133 7-7 7z" />
-    </g>
+    <path d="M12.5 8.02H11v6l4.747 2.854.753-1.232-4-2.372V8.02z"/>
+    <path d="M11.995 4.02C7.02 4.02 3 8.05 3 13.02s4.02 9 8.995 9S21 17.99 21 13.02s-4.03-9-9.005-9zm.005 16c-3.867 0-7-3.134-7-7s3.133-7 7-7 7 3.134 7 7-3.133 7-7 7z"/>
   </svg>
 
   <div class="svgDemoCheckboxContainer">
@@ -440,7 +429,7 @@ Some examples:
   <svg id="ic_countdown" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1" class="svgDemo">
     <g id="scale_container" transform="scale(0.8,0.8)">
       <g id="countdown_container" transform="translate(0.1,0.1)">
-        <path id="countdown_digits" stroke="#000" stroke-width="0.02" fill="none" d="M 0.24585635359116,0.552486187845304 C 0.24585635359116,0.331491712707182 0.370165745856354,0.0994475138121547 0.552486187845304,0.0994475138121547 C 0.734806629834254,0.0994475138121547 0.861878453038674,0.331491712707182 0.861878453038674,0.552486187845304 C 0.861878453038674,0.773480662983425 0.734806629834254,0.994475138121547 0.552486187845304,0.994475138121547 C 0.370165745856354,0.994475138121547 0.24585635359116,0.773480662983425 0.24585635359116,0.552486187845304">
+        <path id="countdown_digits" stroke="#000" stroke-width="0.02" fill="none" d="M.246.552C.246.332.37.1.552.1c.183 0 .31.23.31.452 0 .22-.127.442-.31.442C.37.994.246.774.246.552">
           <animate id="countdown_digits_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
         </path>
         <path id="countdown_digits_cp1" style="visibility: hidden;" fill="#64B5F6">
