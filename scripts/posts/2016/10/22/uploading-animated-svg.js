@@ -1,85 +1,159 @@
 document.addEventListener("DOMContentLoaded", function(event) {
-  var currentRotationDuration = 4444;
-  var currentTrimPathDuration = 1333;
+  var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1)";
+  var fastOutLinearIn = "cubic-bezier(0.4, 0, 1, 1)";
+  var linearOutSlowIn = "cubic-bezier(0, 0, 0.2, 1)";
 
-  var circular_progress_outer_rotation = document.getElementById("circular_progress_outer_rotation");
-  var circular_progress_inner_rotation = document.getElementById("circular_progress_inner_rotation");
-  var circle_path = document.getElementById("circular_progress_circle_path");
-
-  function restartAnimation(animation) {
-    animation.cancel();
-    animation.play();
+  function getScaledAnimationDuration(durationMillis) {
+    var slowAnimationSelector = document.querySelector("input[id=uploadingSlowAnimationCheckbox]");
+    var currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
+    return durationMillis * currentAnimationDurationFactor;
   }
 
-  var outerRotationAnimation = createRotationAnimation();
-  var trimPathOffsetAnimation = createTrimPathOffsetAnimation();
-  var trimPathStartAnimation = createTrimPathStartAnimation();
-  var trimPathEndAnimation = createTrimPathEndAnimation();
+  var isComplete = false;
+  var progressSpinnerOuterRotation = document.getElementById("progress_spinner_outer_rotation");
+  var progressSpinnerInnerRotation = document.getElementById("progress_spinner_inner_rotation");
+  var progressSpinnerPath = document.getElementById("progress_spinner_circle_path");
+  var uploadArrowEmptyPath = document.getElementById("upload_arrow_static");
+  var uploadArrowFillPath = document.getElementById("upload_arrow_filling");
+  var uploadBasePath = document.getElementById("upload_base");
+  var progressTickPath = document.getElementById("progress_tick");
 
-  var outerRotationSelector = document.querySelector("input[id=circularProgressOuterRotationCheckbox]");
-  var trimPathOffsetSelector = document.querySelector("input[id=circularProgressTrimPathOffsetCheckbox]");
-  var trimPathStartEndSelector = document.querySelector("input[id=circularProgressTrimPathStartEndCheckbox]");
-  var showTrimPathsSelector = document.querySelector("input[id=circularProgressShowTrimPathsCheckbox]");
-  var slowAnimationSelector = document.querySelector("input[id=circularProgressSlowAnimationCheckbox]");
-  outerRotationSelector.addEventListener("change", function(event) {
-    if (outerRotationSelector.checked) {
-      outerRotationAnimation.play();
+  var currentAnimations = [];
+  var arrowFillAnimation;
+
+  var lastKnownTimeMillis = 0;
+  var isCompleteAnimationPending = false;
+  document.getElementById("ic_uploading").addEventListener("click", function() {
+    if (isCompleteAnimationPending) {
+      return;
+    }
+    if (isComplete) {
+      var scaledDuration = getScaledAnimationDuration(2666);
+      var elapsedTimeMillis = new Date().getTime() - lastKnownTimeMillis;
+      var delayTime = scaledDuration - (elapsedTimeMillis % scaledDuration);
+      isCompleteAnimationPending = true;
+      setTimeout(function() {
+        isCompleteAnimationPending = false;
+        cancelAnimations();
+        startCompleteAnimation(); 
+      }, delayTime);
     } else {
-      outerRotationAnimation.pause();
+      cancelAnimations();
+      if (lastKnownTimeMillis != 0) {
+        createFadeStrokeAnimation(progressTickPath, 500, 1, 0);
+        createFadeStrokeAnimation(progressSpinnerPath, 500, 0, 1);
+        createFadeFillAnimation(uploadBasePath, 500, 0, 1);
+        createFadeFillAnimation(uploadArrowEmptyPath, 500, 0, 1);
+        createFadeFillAnimation(uploadArrowFillPath, 500, 0, 1);
+      }
+      currentAnimations.push(createRotationAnimation());
+      currentAnimations.push(createTrimPathOffsetAnimation());
+      currentAnimations.push(createTrimPathStartAnimation());
+      currentAnimations.push(createTrimPathEndAnimation());
+      arrowFillAnimation = createArrowFillAnimation();
+      lastKnownTimeMillis = new Date().getTime();
     }
+    isComplete = !isComplete;
   });
-  trimPathOffsetSelector.addEventListener("change", function(event) {
-    if (!trimPathOffsetSelector.checked) {
-      trimPathOffsetAnimation.pause();
-      return;
+
+  function startCompleteAnimation() {
+    arrowFillAnimation.endElement();
+    createCompleteAnimation();
+    createStrokeWidthAnimation(progressTickPath, 0, 0, 4, 4);
+    createStrokeWidthAnimation(progressTickPath, 500, 800, 4, 2);
+    createFadeFillAnimation(uploadBasePath, 500, 1, 0);
+    createFadeFillAnimation(uploadArrowEmptyPath, 500, 1, 0);
+    createFadeFillAnimation(uploadArrowFillPath, 500, 1, 0);
+    createFadeStrokeAnimation(progressTickPath, 0, 1, 1);
+    createFadeStrokeAnimation(progressSpinnerPath, 0, 0, 0);
+  }
+
+  function cancelAnimations() {
+    for (i = 0; i < currentAnimations.length; i++) {
+      currentAnimations[i].cancel();
     }
-    if (!trimPathStartEndSelector.checked) {
-      trimPathOffsetAnimation.play();
-      return;
+    currentAnimations = [];
+  }
+
+  function createStrokeWidthAnimation(path, durationMillis, startDelayMillis, startWidth, endWidth) {
+    return path.animate([{
+      "strokeWidth": startWidth,
+      offset: 0.0,
+      easing: linearOutSlowIn
+    }, {
+      "strokeWidth": endWidth,
+      offset: 1.0
+    }], {
+      duration: getScaledAnimationDuration(durationMillis),
+      fill: "forwards",
+      delay: getScaledAnimationDuration(startDelayMillis)
+    });
+  }
+
+  function createFadeFillAnimation(path, durationMillis, startOpacity, endOpacity) {
+    return path.animate([{
+      "fillOpacity": startOpacity,
+      offset: 0.0,
+      easing: fastOutSlowIn
+    }, {
+      "fillOpacity": endOpacity,
+      offset: 1.0
+    }], {
+      duration: getScaledAnimationDuration(durationMillis),
+      fill: "forwards"
+    });
+  }
+
+   function createFadeStrokeAnimation(path, durationMillis, startOpacity, endOpacity) {
+    return path.animate([{
+      "strokeOpacity": startOpacity,
+      offset: 0.0,
+      easing: fastOutSlowIn
+    }, {
+      "strokeOpacity": endOpacity,
+      offset: 1.0
+    }], {
+      duration: getScaledAnimationDuration(durationMillis),
+      fill: "forwards"
+    });
+  }
+
+  function createCompleteAnimation() {
+    var fastOutSlowInFunction = BezierEasing(0, 0, 0.2, 1);
+    var strokePath = document.getElementById("progress_tick");
+    var pathLength = strokePath.getTotalLength();
+    var keyFrames = [];
+    for (i = 0; i <= 1024; i += 16) {
+      var trimPathStart = 0;
+      var trimPathEnd = fastOutSlowInFunction(i / 1024);
+      if (i >= 400) {
+        trimPathStart = fastOutSlowInFunction((i - 400) / 624) * 0.89;
+      }
+      keyFrames.push({
+        "strokeDasharray": ((trimPathEnd - trimPathStart) * pathLength) + "," + pathLength,
+        "strokeDashoffset": (-trimPathStart * pathLength),
+        easing: "linear",
+        offset: (i / 1024)
+      });
     }
-    restartAnimation(trimPathStartAnimation);
-    restartAnimation(trimPathEndAnimation);
-    restartAnimation(trimPathOffsetAnimation);
-  });
-  trimPathStartEndSelector.addEventListener("change", function(event) {
-    if (!trimPathStartEndSelector.checked) {
-      trimPathStartAnimation.pause();
-      trimPathEndAnimation.pause();
-      return;
-    }
-    if (!trimPathOffsetSelector.checked) {
-      trimPathStartAnimation.play();
-      trimPathEndAnimation.play();
-      return;
-    }
-    restartAnimation(trimPathStartAnimation);
-    restartAnimation(trimPathEndAnimation);
-    restartAnimation(trimPathOffsetAnimation);
-  });
-  showTrimPathsSelector.addEventListener("change", function(event) {
-    var visibility = showTrimPathsSelector.checked ? "visible" : "hidden";
-    document.getElementById("circular_progress_circle_path_debug").style.visibility = visibility;
-  });
-  slowAnimationSelector.addEventListener("change", function(event) {
-    if (slowAnimationSelector.checked) {
-      currentRotationDuration *= 5;
-      currentTrimPathDuration *= 5;
-    } else {
-      currentRotationDuration /= 5;
-      currentTrimPathDuration /= 5;
-    }
-    outerRotationAnimation.cancel();
-    trimPathOffsetAnimation.cancel();
-    trimPathStartAnimation.cancel();
-    trimPathEndAnimation.cancel();
-    outerRotationAnimation = createRotationAnimation();
-    trimPathOffsetAnimation = createTrimPathOffsetAnimation();
-    trimPathStartAnimation = createTrimPathStartAnimation();
-    trimPathEndAnimation = createTrimPathEndAnimation();
-  });
+    return strokePath.animate(keyFrames, {
+      duration: getScaledAnimationDuration(1024),
+      fill: "forwards"
+    });
+  }
+
+  function createArrowFillAnimation() {
+    var duration = getScaledAnimationDuration(1200);
+    var startDelay = getScaledAnimationDuration(300);
+    var arrowFillAnimation = document.getElementById("upload_arrow_fill_clip_animation");
+    arrowFillAnimation.setAttributeNS(null, 'dur', duration + 'ms');
+    arrowFillAnimation.setAttributeNS(null, 'begin', startDelay + 'ms');
+    arrowFillAnimation.beginElement();
+    return arrowFillAnimation;
+  }
 
   function createRotationAnimation() {
-    return circular_progress_outer_rotation.animate([{
+    return progressSpinnerOuterRotation.animate([{
       "transform": "rotate(0deg)",
       offset: 0.0,
       easing: 'linear'
@@ -87,14 +161,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
       "transform": "rotate(720deg)",
       offset: 1.0
     }], {
-      duration: currentRotationDuration,
+      duration: getScaledAnimationDuration(5332),
       fill: "forwards",
       iterations: "Infinity"
     });
   }
 
   function createTrimPathOffsetAnimation() {
-    return circular_progress_inner_rotation.animate([{
+    return progressSpinnerInnerRotation.animate([{
       "transform": "rotate(0deg)",
       offset: 0.0,
       easing: 'linear'
@@ -102,14 +176,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
       "transform": "rotate(90deg)",
       offset: 1.0
     }], {
-      duration: currentTrimPathDuration,
+      duration: getScaledAnimationDuration(1333),
       fill: "forwards",
       iterations: "Infinity"
     });
   }
 
   function createTrimPathStartAnimation() {
-    return circle_path.animate([{
+    return progressSpinnerPath.animate([{
       "strokeDasharray": "1.79095622248,57.907584527",
       offset: 0.0,
       easing: 'linear'
@@ -425,14 +499,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
       "strokeDasharray": "1.79095622248,57.907584527",
       offset: 1.0
     }], {
-      duration: currentTrimPathDuration,
+      duration: getScaledAnimationDuration(1333),
       fill: "forwards",
       iterations: "Infinity"
     });
   }
 
   function createTrimPathEndAnimation() {
-    return circle_path.animate([{
+    return progressSpinnerPath.animate([{
       "strokeDashoffset": 14.9246351874,
       offset: 0.0,
       easing: 'linear'
@@ -596,10 +670,120 @@ document.addEventListener("DOMContentLoaded", function(event) {
       "strokeDashoffset": -29.8492703747,
       offset: 1
     }], {
-      duration: currentTrimPathDuration,
+      duration: getScaledAnimationDuration(1333),
       fill: "forwards",
       iterations: "Infinity"
     });
   }
-});
 
+  // These values are established by empiricism with tests (tradeoff: performance VS precision)
+  var NEWTON_ITERATIONS = 4;
+  var NEWTON_MIN_SLOPE = 0.001;
+  var SUBDIVISION_PRECISION = 0.0000001;
+  var SUBDIVISION_MAX_ITERATIONS = 10;
+
+  var kSplineTableSize = 11;
+  var kSampleStepSize = 1.0 / (kSplineTableSize - 1.0);
+
+  var float32ArraySupported = typeof Float32Array === 'function';
+
+  function A(aA1, aA2) {
+    return 1.0 - 3.0 * aA2 + 3.0 * aA1;
+  }
+
+  function B(aA1, aA2) {
+    return 3.0 * aA2 - 6.0 * aA1;
+  }
+
+  function C(aA1) {
+    return 3.0 * aA1;
+  }
+
+  // Returns x(t) given t, x1, and x2, or y(t) given t, y1, and y2.
+  function calcBezier(aT, aA1, aA2) {
+    return ((A(aA1, aA2) * aT + B(aA1, aA2)) * aT + C(aA1)) * aT;
+  }
+
+  // Returns dx/dt given t, x1, and x2, or dy/dt given t, y1, and y2.
+  function getSlope(aT, aA1, aA2) {
+    return 3.0 * A(aA1, aA2) * aT * aT + 2.0 * B(aA1, aA2) * aT + C(aA1);
+  }
+
+  function binarySubdivide(aX, aA, aB, mX1, mX2) {
+    var currentX, currentT, i = 0;
+    do {
+      currentT = aA + (aB - aA) / 2.0;
+      currentX = calcBezier(currentT, mX1, mX2) - aX;
+      if (currentX > 0.0) {
+        aB = currentT;
+      } else {
+        aA = currentT;
+      }
+    } while (Math.abs(currentX) > SUBDIVISION_PRECISION && ++i < SUBDIVISION_MAX_ITERATIONS);
+    return currentT;
+  }
+
+  function newtonRaphsonIterate(aX, aGuessT, mX1, mX2) {
+    for (var i = 0; i < NEWTON_ITERATIONS; ++i) {
+      var currentSlope = getSlope(aGuessT, mX1, mX2);
+      if (currentSlope === 0.0) {
+        return aGuessT;
+      }
+      var currentX = calcBezier(aGuessT, mX1, mX2) - aX;
+      aGuessT -= currentX / currentSlope;
+    }
+    return aGuessT;
+  }
+
+  function BezierEasing(mX1, mY1, mX2, mY2) {
+    if (!(0 <= mX1 && mX1 <= 1 && 0 <= mX2 && mX2 <= 1)) {
+      throw new Error('bezier x values must be in [0, 1] range');
+    }
+
+    // Precompute samples table
+    var sampleValues = float32ArraySupported ? new Float32Array(kSplineTableSize) : new Array(kSplineTableSize);
+    if (mX1 !== mY1 || mX2 !== mY2) {
+      for (var i = 0; i < kSplineTableSize; ++i) {
+        sampleValues[i] = calcBezier(i * kSampleStepSize, mX1, mX2);
+      }
+    }
+
+    function getTForX(aX) {
+      var intervalStart = 0.0;
+      var currentSample = 1;
+      var lastSample = kSplineTableSize - 1;
+
+      for (; currentSample !== lastSample && sampleValues[currentSample] <= aX; ++currentSample) {
+        intervalStart += kSampleStepSize;
+      }
+      --currentSample;
+
+      // Interpolate to provide an initial guess for t
+      var dist = (aX - sampleValues[currentSample]) / (sampleValues[currentSample + 1] - sampleValues[currentSample]);
+      var guessForT = intervalStart + dist * kSampleStepSize;
+
+      var initialSlope = getSlope(guessForT, mX1, mX2);
+      if (initialSlope >= NEWTON_MIN_SLOPE) {
+        return newtonRaphsonIterate(aX, guessForT, mX1, mX2);
+      } else if (initialSlope === 0.0) {
+        return guessForT;
+      } else {
+        return binarySubdivide(aX, intervalStart, intervalStart + kSampleStepSize, mX1, mX2);
+      }
+    }
+
+    return function(x) {
+      if (mX1 === mY1 && mX2 === mY2) {
+        return x; // linear
+      }
+      // Because JavaScript number are imprecise, we should guarantee the extremes are right.
+      if (x === 0) {
+        return 0;
+      }
+      if (x === 1) {
+        return 1;
+      }
+      return calcBezier(getTForX(x), mY1, mY2);
+    };
+  };
+});

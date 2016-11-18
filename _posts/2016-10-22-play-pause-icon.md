@@ -76,6 +76,7 @@ style: |
   }
 ---
 
+<script defer src="/scripts/bezier.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-data-polyfill.js"></script>
 <script defer src="/scripts/posts/2016/10/22/transformation-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/linear-progress-bar-animated-svgs.js"></script>
@@ -84,6 +85,7 @@ style: |
 <script defer src="/scripts/posts/2016/10/22/trim-path-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/clip-path-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/circular-progress-bar-animated-svgs.js"></script>
+<script defer src="/scripts/posts/2016/10/22/uploading-animated-svg.js"></script>
 
 <!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
 <!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
@@ -563,7 +565,7 @@ And the circular progress bar demo:
 <div id="svgCircularProgressDemos" class="svgDemoContainer">
   <svg id="circular_progress" xmlns="http://www.w3.org/2000/svg" width="320" height="320">
     <g id="circular_progress_position" transform="translate(160,160)">
-      <g id="circular_progress_outer_rotation" transform="rotate(0)">
+      <g id="circular_progress_outer_rotation">
         <g id="circular_progress_inner_rotation">
           <g id="circular_progress_scale" transform="scale(8.91, 8.91)">
             <ellipse id="circular_progress_circle_path_debug" rx="9.5" ry="9.5" style="visibility: hidden;" stroke="#690" stroke-opacity="0.3" stroke-width="2" fill="none" />
@@ -605,7 +607,7 @@ Some examples:
 <div id="svgClipPathDemos" class="svgDemoContainer">
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_timer" class="svgDemo" viewBox="0 0 24 24">
     <g transform="translate(12,12)">
-      <g id="hourglass_frame_rotation" transform="rotate(0)">
+      <g id="hourglass_frame_rotation">
         <g transform="translate(-12,-12)">
           <g transform="translate(12,12)">
             <path d="M1 0l6.29-6.29c.63-.63.19-1.71-.7-1.71H-6.59c-.89 0-1.33 1.08-.7 1.71L-1 0l-6.29 6.29c-.63.63-.19 1.71.7 1.71H6.59c.89 0 1.33-1.08.7-1.71L1 0zm-5.17-6h8.34L0-1.83-4.17-6zm0 12L0 1.83 4.17 6h-8.34z" />
@@ -614,7 +616,7 @@ Some examples:
       </g>
     </g>
     <g transform="translate(12,12)">
-      <g id="hourglass_fill_rotation" transform="rotate(0)">
+      <g id="hourglass_fill_rotation">
         <g transform="translate(-12,-12)">
           <clipPath id="hourglass_clip_mask">
             <path d="M24 13.4H0V24h24V13.4z">
@@ -687,6 +689,44 @@ Some examples:
     </label>
     <label for="clipPathSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="clipPathSlowAnimationCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Slow animation</span>
+    </label>
+  </div>
+</div>
+
+### Uploading example
+
+<div id="uploadingDemo" class="svgDemoContainer">
+  <svg xmlns="http://www.w3.org/2000/svg" id="ic_uploading" viewBox="0 0 56 56" class="svgDemo">
+    <path id="upload_arrow_static" fill="#4d4d4d" d="M25,32L31,32L31,26L35,26L28,19L21,26L25,26L25,32Z"/>
+    <clipPath id="upload_arrow_fill_clip">
+      <path d="M21 32 L35 32 L35 32 L21 32 Z">
+        <animate id="upload_arrow_fill_clip_animation" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M21 32 L35 32 L35 32 L21 32 Z;M21 10 L35 10 L35 32 L21 32 Z" repeatCount="indefinite"/>
+      </path>
+    </clipPath>
+    <g clip-path="url(#upload_arrow_fill_clip)">
+      <path id="upload_arrow_filling" fill="#000" d="M25,32L31,32L31,26L35,26L28,19L21,26L25,26L25,32Z" />
+    </g>
+    <path id="upload_base" fill="#999999" d="M21,34L35,34L35,36L21,36L21,34Z"/>
+    <g transform="translate(28,28)">
+      <g id="progress_spinner_outer_rotation">
+        <g id="progress_spinner_inner_rotation">
+          <g transform="scale(2.74,2.74)">
+            <ellipse id="progress_spinner_circle_path" rx="9.5" ry="9.5" stroke="#690" stroke-width="1.5" stroke-dasharray="1.79095622248, 57.907584527" stroke-dashoffset="14.925" fill="none" />
+          </g>
+        </g>
+      </g>
+    </g>
+    <path id="progress_tick" fill="none" stroke="#690" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2C53.4,6.9 35.46,22.07 35.46,22.07L24.54,32.81L19.72,28.16" stroke-opacity="0"/>
+  </svg>
+
+   <div class="svgDemoCheckboxContainer">
+    <label for="uploadingShowClipMaskCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="clipPathShowClipMaskCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Show clip masks</span>
+    </label>
+    <label for="uploadingSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="uploadingSlowAnimationCheckbox" class="mdl-checkbox__input">
       <span class="mdl-checkbox__label">Slow animation</span>
     </label>
   </div>

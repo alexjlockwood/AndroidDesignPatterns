@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }], {
       duration: getScaledAnimationDuration(durationMillis),
       fill: "forwards",
-      delay: startDelayMillis
+      delay: getScaledAnimationDuration(startDelayMillis)
     });
   }
 
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }], {
       duration: getScaledAnimationDuration(durationMillis),
       fill: "forwards",
-      delay: startDelayMillis
+      delay: getScaledAnimationDuration(startDelayMillis)
     });
   }
 
