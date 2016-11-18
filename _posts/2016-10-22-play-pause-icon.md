@@ -187,7 +187,7 @@ translation.
   android:viewportHeight="24"
   android:viewportWidth="24">
 
-  <!-- First translate, then rotate, then scale, then draw the path. -->
+  <!-- First translate the canvas, then rotate, then scale, then draw the path. -->
   <group android:scaleX="1.5">
     <group android:rotation="90">
       <group android:translateX="12">
@@ -196,7 +196,7 @@ translation.
     </group>
   </group>
 
-  <!-- First rotate, then translate, then scale, then draw the path. -->
+  <!-- First rotate the canvas, then translate, then scale, then draw the path. -->
   <group android:scaleX="1.5">
     <group
       android:rotation="90"
@@ -205,7 +205,7 @@ translation.
     </group>
   </group>
 
-  <!-- First translate, then rotate, then scale, then draw the path. -->
+  <!-- First translate the canvas, then rotate, then scale, then draw the path. -->
   <group
     android:rotation="90"
     android:scaleX="1.5">
