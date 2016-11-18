@@ -76,7 +76,7 @@ style: |
   }
 ---
 
-<script defer src="/scripts/bezier.js"></script>
+<script defer src="/scripts/posts/2016/10/22/bezier.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-data-polyfill.js"></script>
 <script defer src="/scripts/posts/2016/10/22/transformation-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/linear-progress-bar-animated-svgs.js"></script>
@@ -563,14 +563,12 @@ And the circular progress bar demo:
 -->
 
 <div id="svgCircularProgressDemos" class="svgDemoContainer">
-  <svg id="circular_progress" xmlns="http://www.w3.org/2000/svg" width="320" height="320">
-    <g id="circular_progress_position" transform="translate(160,160)">
+  <svg id="circular_progress" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="320" height="320">
+    <g id="circular_progress_position" transform="translate(24,24)">
       <g id="circular_progress_outer_rotation">
         <g id="circular_progress_inner_rotation">
-          <g id="circular_progress_scale" transform="scale(8.91, 8.91)">
-            <ellipse id="circular_progress_circle_path_debug" rx="9.5" ry="9.5" style="visibility: hidden;" stroke="#690" stroke-opacity="0.3" stroke-width="2" fill="none" />
-            <ellipse id="circular_progress_circle_path" rx="9.5" ry="9.5" stroke="#690" stroke-width="2" stroke-dasharray="1.79095622248, 57.907584527" stroke-dashoffset="14.925" fill="none" />
-          </g>
+          <path id="circular_progress_circle_path_debug" d="M0,0 m 0,-18 a 18,18 0 1,1 0,36 a 18,18 0 1,1 0,-36" style="visibility: hidden;" stroke="#690" stroke-opacity="0.3" stroke-width="2" fill="none" />
+          <path id="circular_progress_circle_path" d="M0,0 m 0,-18 a 18,18 0 1,1 0,36 a 18,18 0 1,1 0,-36" stroke="#690" stroke-width="2" fill="none" />
         </g>
       </g>
     </g>

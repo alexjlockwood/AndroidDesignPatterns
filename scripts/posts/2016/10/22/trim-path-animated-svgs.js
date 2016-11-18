@@ -108,32 +108,53 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   function animateStem(isAnimatingToBack) {
+    var fastOutSlowInFunction = BezierEasing(0.4, 0, 0.2, 1);
     var stemPath = document.getElementById("stem");
     var pathLength = stemPath.getTotalLength();
-    var searchDashArray = (0.185 * pathLength) + "," + (0.815 * pathLength);
-    var arrowDashArray = (0.25 * pathLength) + "," + (0.75 * pathLength);
-    stemPath.animate([{
-      "strokeDasharray": (isAnimatingToBack ? searchDashArray : arrowDashArray),
-      easing: fastOutSlowIn,
-      offset: 0
-    }, {
-      "strokeDasharray": (isAnimatingToBack ? arrowDashArray : searchDashArray),
-      offset: 1
-    }], {
-      duration: getScaledAnimationDuration(600),
-      fill: "forwards"
-    });
-    stemPath.animate([{
-      "strokeDashoffset": (isAnimatingToBack ? 0 : -0.75 * pathLength),
-      easing: fastOutSlowIn,
-      offset: 0
-    }, {
-      "strokeDashoffset": (isAnimatingToBack ? -0.75 * pathLength : 0),
-      offset: 1
-    }], {
-      duration: getScaledAnimationDuration(450),
-      fill: "forwards"
-    });
+    var keyFrames = [];
+    if (isAnimatingToBack) {
+      for (i = 0; i < 600; i += 16) {
+        var trimPathStart = fastOutSlowInFunction(i / 600) * 0.75;
+        var trimPathEnd = fastOutSlowInFunction(Math.min(i, 450) / 450) * (1 - 0.185) + 0.185;
+        var trimPathLength = trimPathEnd - trimPathStart;
+        keyFrames.push({
+          "strokeDasharray": (trimPathLength * pathLength) + "," + pathLength,
+          "strokeDashoffset": (-trimPathStart * pathLength),
+          easing: "linear",
+          offset: (i / 600)
+        });
+      }
+      keyFrames.push({
+        "strokeDasharray": (0.25 * pathLength) + "," + pathLength,
+        "strokeDashoffset": (-0.75 * pathLength),
+        offset: 1
+      });
+      return stemPath.animate(keyFrames, {
+        duration: getScaledAnimationDuration(600),
+        fill: "forwards"
+      });
+    } else {
+      for (i = 0; i < 600; i += 16) {
+        var trimPathStart = (1 - fastOutSlowInFunction(Math.min(i, 450) / 450)) * 0.75;
+        var trimPathEnd = 1 - fastOutSlowInFunction(i / 600) * 0.815;
+        var trimPathLength = trimPathEnd - trimPathStart;
+        keyFrames.push({
+          "strokeDasharray": (trimPathLength * pathLength) + "," + pathLength,
+          "strokeDashoffset": (-trimPathStart * pathLength),
+          easing: "linear",
+          offset: (i / 600)
+        });
+      }
+      keyFrames.push({
+        "strokeDasharray": (0.185 * pathLength) + "," + pathLength,
+        "strokeDashoffset": 0,
+        offset: 1
+      });
+      return stemPath.animate(keyFrames, {
+        duration: getScaledAnimationDuration(600),
+        fill: "forwards"
+      });
+    }
   }
 
   function animateSearchCircle(isAnimatingIn) {
@@ -222,6 +243,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     for (i = 0; i < ids.length; i++) {
       var path = document.getElementById(ids[i]);
       var pathLength = path.getTotalLength();
+      // TODO(alockwood): fix this hack
       currentHandwritingAnimations.push(path.animate([{
         "strokeDasharray": pathLength,
         "strokeDashoffset": pathLength,
