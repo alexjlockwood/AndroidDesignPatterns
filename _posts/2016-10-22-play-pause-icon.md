@@ -101,16 +101,38 @@ In this blog post I will describe different techniques to animate icons using `A
 
 <!--more-->
 
-* I am writing this blog post because I want to see more apps embrace and incorporate motion into their apps. I genuinely think that animated icons make the application better and more usable. They're a great opportunity to make your app feel alive.
-* TODO: explain the importance of motion in a few sentences
-* In a previous series of blog posts, I wrote about transitions. Transitions can be used to construct elaborate animations between different states in your applications.
-* In this blog post, I'm going to focus on something much smaller in scope but just as important: delightful details and creative customization. In this blog post I will describe different techniques to animate icons using `AnimatedVectorDrawable`s.
+* I am writing this blog post because I want to see more apps embrace and incorporate motion into
+* their apps. I genuinely think that animated icons make the application better and more usable.
+* They're a great opportunity to make your app feel alive. TODO: explain the importance of motion in
+* a few sentences In a previous series of blog posts, I wrote about transitions. Transitions can be
+* used to construct elaborate animations between different states in your applications. In this blog
+* post, I'm going to focus on something much smaller in scope but just as important: delightful
+* details and creative customization. In this blog post I will describe different techniques to
+* animate icons using `AnimatedVectorDrawable`s.
 
-As Eames said, the details make the design. Motion can be an opportunity to provide delight and make a connection with your user. They can also bring personality to your app. After all, animating literally means bringing to life. Whenever an element changes state this is a great opportunity to animate this change. This helps both to explain what is changing and can direct attention. This technique isn't restricted to larger blocks of your UI. Animating small details eases the transition. Although they often don't provide extra functionalit, these small details bring a smile to your face and make the experience of using the app more enjoyable.
+As Eames said, the details make the design. Motion can be an opportunity to provide delight and make
+a connection with your user. They can also bring personality to your app. After all, animating
+literally means bringing to life. Whenever an element changes state this is a great opportunity to
+animate this change. This helps both to explain what is changing and can direct attention. This
+technique isn't restricted to larger blocks of your UI. Animating small details eases the
+transition. Although they often don't provide extra functionalit, these small details bring a smile
+to your face and make the experience of using the app more enjoyable.
 
 ## Introduction to `VectorDrawable`s & `AnimatedVectorDrawable`s
 
-To craft delightful details like these, we'll take a look at the VectorDrawable and AnimatedVectorDrawable classes. We'll start by looking at what VectorDrawable allows us to do, to understand what we can animate. VectorDrawable was introduced in Lollipop and lets you create density independent images by defining a series of drawing commands. It's similar in concept to SVG on the web. Here's an example of a VectorDrawable. It defines a path which has a series of space separated drawing commands, which use a subset of the SVG path data spec to draw lines, curves and so on. For example, these commands draw a cross by moving to a point. Drawing a line to another point. Lifting and moving to another point. And drawing another line. Simple. Now vectors aren't appropriate for every kind of image. You wouldn't want to represent a person's face with a vector, for example. But iconography and simple illustrations are great candidates. The vector format provides density independence, meaning that the same image works on any screen density. When vector support reaches enough devices, you won't have to explore assets at multiple different sizes like we covered in Lesson One. It also generally produces a small file size.
+To craft delightful details like these, we'll take a look at the VectorDrawable and
+AnimatedVectorDrawable classes. We'll start by looking at what VectorDrawable allows us to do, to
+understand what we can animate. VectorDrawable was introduced in Lollipop and lets you create
+density independent images by defining a series of drawing commands. It's similar in concept to SVG
+on the web. Here's an example of a VectorDrawable. It defines a path which has a series of space
+separated drawing commands, which use a subset of the SVG path data spec to draw lines, curves and
+so on. For example, these commands draw a cross by moving to a point. Drawing a line to another
+point. Lifting and moving to another point. And drawing another line. Simple. Now vectors aren't
+appropriate for every kind of image. You wouldn't want to represent a person's face with a vector,
+for example. But iconography and simple illustrations are great candidates. The vector format
+provides density independence, meaning that the same image works on any screen density. When vector
+support reaches enough devices, you won't have to explore assets at multiple different sizes like we
+covered in Lesson One. It also generally produces a small file size.
 
 `VectorDrawable`s are made up of four types of elements:
 
@@ -122,35 +144,47 @@ To craft delightful details like these, we'll take a look at the VectorDrawable 
 
 * **`<clip-path>`** - Defines a portion of the drawable to be clipped.
 
-The opportunity to animate all or parts of the image is what we're really interested in right now. The `AnimatedVectorDrawable` class lets you animate any property of a part of set of parts. `AnimatedVectorDrawable`s are the glue that tie together `VectorDrawable`s and `ObjectAnimator`s. That is, `AnimatedVectorDrawable`s assign `ObjectAnimator`s to individual groups/paths called "targets" and tell them how they should be animated.
-
-The table below describes what can be animated:
-
-| Property name                 | Element type            | Value type | Min value | Max value |
-|-------------------------------|-------------------------|------------|-----------|-----------|
-| `android:alpha`               | `<vector>`              | `float`    | `0`       | `1`       |
-| `android:pivot{X,Y}`          | `<group>`               | `float`    | - - -     | - - -     |
-| `android:rotation`            | `<group>`               | `float`    | - - -     | - - -     |
-| `android:scale{X,Y}`          | `<group>`               | `float`    | - - -     | - - -     |
-| `android:translate{X,Y}`      | `<group>`               | `float`    | - - -     | - - -     |
-| `android:fillAlpha`           | `<path>`                | `float`    | `0`       | `1`       |
-| `android:fillColor`           | `<path>`                | `integer`  | - - -     | - - -     |
-| `android:strokeAlpha`         | `<path>`                | `float`    | `0`       | `1`       |
-| `android:strokeColor`         | `<path>`                | `integer`  | - - -     | - - -     |
-| `android:strokeWidth`         | `<path>`                | `float`    | `0`       | - - -     |
-| `android:trimPath{Start,End}` | `<path>`                | `float`    | `0`       | `1`       |
-| `android:trimPathOffset`      | `<path>`                | `float`    | `0`       | `1`       |
-| `android:pathData`            | `<path>`, `<clip-path>` | `string`   | - - -     | - - -     |
-
-TODO(alockwood): add a caption to the above table
-
-In the below sections we'll go through these one by one.
+The opportunity to animate all or parts of the image is what we're really interested in right now.
+The `AnimatedVectorDrawable` class lets you animate any property of a part of set of parts.
+`AnimatedVectorDrawable`s are the glue that tie together `VectorDrawable`s and `ObjectAnimator`s.
+That is, `AnimatedVectorDrawable`s assign `ObjectAnimator`s to individual groups/paths called
+"targets" and tell them how they should be animated.
 
 ## Building animated icons
 
-### Path transformations
+### Basic path properties
 
-Transformations include alpha, pivot, rotation, scale, and translate. It is important to understand the order in which transformations will be performed because this will affect what is ultimately drawn to the display. The three groups below describe how transformations will be applied. Note that children groups are applied before parent groups, and that transformations made on the same group are applied in the order of scale, rotation, and then translation.
+| Property name         | Element type | Value type | Min value | Max value |
+|-----------------------|--------------|------------|-----------|-----------|
+| `android:fillAlpha`   | `<path>`     | `float`    | `0`       | `1`       |
+| `android:fillColor`   | `<path>`     | `integer`  | - - -     | - - -     |
+| `android:strokeAlpha` | `<path>`     | `float`    | `0`       | `1`       |
+| `android:strokeColor` | `<path>`     | `integer`  | - - -     | - - -     |
+| `android:strokeWidth` | `<path>`     | `float`    | `0`       | - - -     |
+
+TODO(alockwood): give some examples?
+
+### Group transformations
+
+Transformations include alpha, rotation, scale, and translate. Pivot determines the
+center point with which to perform a scale and/or a rotation.
+
+| Property name        | Element type | Value type | Min value | Max value |
+|----------------------|--------------|------------|-----------|-----------|
+| `android:alpha`      | `<vector>`   | `float`    | `0`       | `1`       |
+| `android:pivotX`     | `<group>`    | `float`    | - - -     | - - -     |
+| `android:pivotY`     | `<group>`    | `float`    | - - -     | - - -     |
+| `android:rotation`   | `<group>`    | `float`    | - - -     | - - -     |
+| `android:scaleX`     | `<group>`    | `float`    | - - -     | - - -     |
+| `android:scaleY`     | `<group>`    | `float`    | - - -     | - - -     |
+| `android:translateX` | `<group>`    | `float`    | - - -     | - - -     |
+| `android:translateY` | `<group>`    | `float`    | - - -     | - - -     |
+
+It is important to understand the order in which transformations will be performed because this will
+affect what is ultimately drawn to the display. The three groups below describe how transformations
+will be applied. Note that children groups are applied before parent groups, and that
+transformations made on the same group are applied in the order of scale, rotation, and then
+translation.
 
 ```xml
 <vector
@@ -248,14 +282,12 @@ Some examples:
   </div>
 </div>
 
-And here's a linear indeterminate progress bar example:
-
-<!-- A material horizontal indeterminate progress bar consists of a translucent background and
-     two opaque children rectangles. The two children rectangles are scaled and translated in
-     parallel at different speeds. A unique combination of cubic bezier interpolation curves
-     is used to scale the rectangles at varying degrees. Further, the two rectangles are translated
-     from the left to the right indefinitely (however, you can never actually tell that there are
-     really two rectangles being translated because the two are never entirely visible at once). -->
+A material horizontal indeterminate progress bar consists of a translucent background and
+two opaque children rectangles. The two children rectangles are scaled and translated in
+parallel at different speeds. A unique combination of cubic bezier interpolation curves
+is used to scale the rectangles at varying degrees. Further, the two rectangles are translated
+from the left to the right indefinitely (however, you can never actually tell that there are
+really two rectangles being translated because the two are never entirely visible at once).
 
 <div id="svgLinearProgressDemo" class="svgDemoContainer">
   <div id="progressBarContainer">
@@ -272,11 +304,11 @@ And here's a linear indeterminate progress bar example:
   <div class="svgDemoCheckboxContainer">
     <label for="linearProgressScaleCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="linearProgressScaleCheckbox" class="mdl-checkbox__input" checked>
-      <span class="mdl-checkbox__label">Animate horizontal scale</span>
+      <span class="mdl-checkbox__label">Animate scale</span>
     </label>
     <label for="linearProgressTranslateCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="linearProgressTranslateCheckbox" class="mdl-checkbox__input" checked>
-      <span class="mdl-checkbox__label">Animate horizontal translation</span>
+      <span class="mdl-checkbox__label">Animate translation</span>
     </label>
     <label for="linearProgressSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
       <input type="checkbox" id="linearProgressSlowAnimationCheckbox" class="mdl-checkbox__input">
@@ -286,6 +318,12 @@ And here's a linear indeterminate progress bar example:
 </div>
 
 ### Morphing paths
+
+Paths can be morphed.
+
+| Property name      | Element type | Value type |
+|--------------------|--------------|------------|
+| `android:pathData` | `<path>`     | `string`   |
 
 Some examples:
 
@@ -345,7 +383,7 @@ Some examples:
       <g id="arrow_overflow_translate_dot3" transform="translate(0,6)">
         <g id="arrow_overflow_rotate_dot3">
           <g id="arrow_overflow_pivot_dot3">
-            <path id="arrow_overflow_path3" fill="#000" d="M 0,-2 l 0,0 c 1.1045694996,0 2,0.8954305004 2,2 l 0,0 c 0,1.1045694996 -0.8954305004,2 -2,2 l 0,0 c -1.1045694996,0 -2,-0.8954305004 -2,-2 l 0,0 c 0,-1.1045694996 0.8954305004,-2 2,-2 Z">
+            <path id="arrow_overflow_path3" fill="#000" d="M 0,-2 l 0,0 c 1.05,0 2,0.895 2,2 l 0,0 c 0,1.05 -0.895,2 -2,2 l 0,0 c -1.05,0 -2,-0.895 -2,-2 l 0,0 c 0,-1.05 0.895,-2 2,-2 Z">
               <animate id="overflow_to_arrow_path3_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
               <animate id="arrow_to_overflow_path3_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
             </path>
@@ -358,7 +396,7 @@ Some examples:
       <g id="arrow_overflow_translate_dot1" transform="translate(0,-6)">
         <g id="arrow_overflow_rotate_dot1">
           <g id="arrow_overflow_pivot_dot1">
-            <path id="arrow_overflow_path1" fill="#000" d="M 0,-2 l 0,0 c 1.1045694996,0 2,0.8954305004 2,2 l 0,0 c 0,1.1045694996 -0.8954305004,2 -2,2 l 0,0 c -1.1045694996,0 -2,-0.8954305004 -2,-2 l 0,0 c 0,-1.1045694996 0.8954305004,-2 2,-2 Z">
+            <path id="arrow_overflow_path1" fill="#000" d="M 0,-2 l 0,0 c 1.05,0 2,0.895 2,2 l 0,0 c 0,1.05 -0.895,2 -2,2 l 0,0 c -1.05,0 -2,-0.895 -2,-2 l 0,0 c 0,-1.05 0.895,-2 2,-2 Z">
               <animate id="overflow_to_arrow_path1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
               <animate id="arrow_to_overflow_path1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
             </path>
@@ -370,7 +408,7 @@ Some examples:
       </g>
       <g id="arrow_overflow_translate_dot2">
         <g id="arrow_overflow_pivot_dot2">
-          <path id="arrow_overflow_path2" fill="#000" d="M 0,-2 l 0,0 c 1.1045694996,0 2,0.8954305004 2,2 l 0,0 c 0,1.1045694996 -0.8954305004,2 -2,2 l 0,0 c -1.1045694996,0 -2,-0.8954305004 -2,-2 l 0,0 c 0,-1.1045694996 0.8954305004,-2 2,-2 Z">
+          <path id="arrow_overflow_path2" fill="#000" d="M 0,-2 l 0,0 c 1.05,0 2,0.895 2,2 l 0,0 c 0,1.05 -0.895,2 -2,2 l 0,0 c -1.05,0 -2,-0.895 -2,-2 l 0,0 c 0,-1.05 0.895,-2 2,-2 Z">
             <animate id="overflow_to_arrow_path2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.1667;0.3333;0.5;0.6666;0.83333;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
             <animate id="arrow_to_overflow_path2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
           </path>
@@ -435,6 +473,14 @@ Some examples:
 </div>
 
 ### Trimming stroked paths
+
+Paths can be trimmed.
+
+| Property name            | Element type | Value type | Min value | Max value |
+|--------------------------|--------------|------------|-----------|-----------|
+| `android:trimPathStart`  | `<path>`     | `float`    | `0`       | `1`       |
+| `android:trimPathEnd`    | `<path>`     | `float`    | `0`       | `1`       |
+| `android:trimPathOffset` | `<path>`     | `float`    | `0`       | `1`       |
 
 This is how trimming paths works:
 
@@ -525,40 +571,38 @@ Some examples:
   </div>
 </div>
 
-And the circular progress bar demo:
+A material circular indeterminate progress bar can be animated by altering SVG properties in parallel:
 
-<!-- A material circular indeterminate progress bar can be animated by altering
-     SVG properties in parallel:
+1. The entire progress bar is rotated indefinitely about the center of the 
+   canvas from 0° to 720°over the course of 4.444s.
 
-     (1) The entire progress bar is rotated indefinitely about the center of
-         the canvas from 0° to 720° over the course of 4.444s.
+2. The progress bar's starting stroke position (i.e. trimPathOffset) is animated
+   from 0.0 to 0.25 over the course of 1.333s. In this example, it could also be
+   thought of as an additional rotation from 0 to 90 degrees (although trimming
+   the path offset in Android is usually more convenient).
 
-     (2) The progress bar's starting stroke position (i.e. trimPathOffset) is animated
-         from 0.0 to 0.25 over the course of 1.333s. In this example, it could also be
-         thought of as an additional rotation from 0 to 90 degrees (although trimming
-         the path offset in Android is usually more convenient).
+3. Portions of the progress bar's circular path are clipped using the trimPathStart
+   and trimPathEnd properties. trimPath{Start,End} both take floating point values between
+   0f and 1f; trimPathStart="x" and trimPathEnd="y" tells us that only the portion
+   of the path between [x,y] will be drawn to the display. Over the course of the
+   animation, these properties are assigned the following values:
 
-     (3) Portions of the progress bar's circular path are clipped using the trimPathStart
-         and trimPathEnd properties. trimPath{Start,End} both take floating point values between
-         0f and 1f; trimPathStart="x" and trimPathEnd="y" tells us that only the portion
-         of the path between [x,y] will be drawn to the display. Over the course of the
-         animation, these properties are assigned the following values:
+   ```
+   t = 0.0, trimPathStart = 0.75, trimPathEnd = 0.78
+   t = 0.5, trimPathStart = 0.00, trimPathEnd = 0.75
+   t = 1.0, trimPathStart = 0.00, trimPathEnd = 0.03
+   ```
 
-         t = 0.0, trimPathStart = 0.75, trimPathEnd = 0.78
-         t = 0.5, trimPathStart = 0.00, trimPathEnd = 0.75
-         t = 1.0, trimPathStart = 0.00, trimPathEnd = 0.03
+   At time t = 0 and t = 1, the progress bar is at it's smallest size (only 3% is
+   visible). At t = 0.5, the progress bar has stretched to its maximum size (75% is
+   visible).
 
-         At time t = 0 and t = 1, the progress bar is at it's smallest size (only 3% is
-         visible). At t = 0.5, the progress bar has stretched to its maximum size (75% is
-         visible).
-
-         Between t = 0 and t = 0.5, the animation uses a standard "fast out slow in" interpolation
-         curve to assign floating point values to the trimPathStart property (in other words,
-         trimPathStart's rate of change is much faster at t = 0 than it is at t = 0.5). This
-         results in a quick and sudden expansion of the progress bar path. The same thing is done
-         to assign values to the trimPathEnd property between t = 0.5 and t = 1.0,
-         resulting in a quick and immediate shrinking of the progress bar path.
--->
+   Between t = 0 and t = 0.5, the animation uses a standard "fast out slow in" interpolation
+   curve to assign floating point values to the trimPathStart property (in other words,
+   trimPathStart's rate of change is much faster at t = 0 than it is at t = 0.5). This
+   results in a quick and sudden expansion of the progress bar path. The same thing is done
+   to assign values to the trimPathEnd property between t = 0.5 and t = 1.0,
+   resulting in a quick and immediate shrinking of the progress bar path.
 
 <div id="svgCircularProgressDemos" class="svgDemoContainer">
   <svg id="circular_progress" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="320" height="320">
@@ -598,6 +642,12 @@ And the circular progress bar demo:
 
 ### Clipping paths
 
+Paths can be clipped.
+
+| Property name      | Element type  | Value type |
+|--------------------|---------------|------------|
+| `android:pathData` | `<clip-path>` | `string`   |
+
 Some examples:
 
 <div id="svgClipPathDemos" class="svgDemoContainer">
@@ -612,14 +662,14 @@ Some examples:
         <g transform="translate(-12,-12)">
           <clipPath id="hourglass_clip_mask">
             <path d="M24 13.4H0V24h24V13.4z">
-              <animate id="hourglass_clip_mask_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,13.3999938965 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6000061035 c 0,0 24,0 24,0 c 0,0 0,-10.6000061035 0,-10.6000061035 Z;M 24,0.00173950195312 c 0,0 -24,0 -24,0 c 0,0 0,10.6982574463 0,10.6982574463 c 0,0 24,0 24,0 c 0,0 0,-10.6982574463 0,-10.6982574463 Z" />
+              <animate id="hourglass_clip_mask_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,14 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6 c 0,0 24,0 24,0 c 0,0 0,-10.6 0,-10.6 Z;M 24,0.002 c 0,0 -24,0 -24,0 c 0,0 0,10.698 0,10.698 c 0,0 24,0 24,0 c 0,0 0,-10.698 0,-10.698 Z" />
             </path>
           </clipPath>
           <g clip-path="url(#hourglass_clip_mask)">
             <path d="M13 12l6.293-6.293c.63-.63.184-1.707-.707-1.707H5.416c-.892 0-1.338 1.077-.708 1.707L11 12l-6.292 6.293c-.63.63-.184 1.707.707 1.707h13.17c.892 0 1.338-1.077.708-1.707L13 12z" />
           </g>
           <path id="hourglass_clip_mask_debug" d="M24 13.4H0V24h24V13.4z" fill="#F44336" fill-opacity="0.3" style="visibility: hidden;">
-            <animate id="hourglass_clip_mask_debug_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,13.3999938965 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6000061035 c 0,0 24,0 24,0 c 0,0 0,-10.6000061035 0,-10.6000061035 Z;M 24,0.00173950195312 c 0,0 -24,0 -24,0 c 0,0 0,10.6982574463 0,10.6982574463 c 0,0 24,0 24,0 c 0,0 0,-10.6982574463 0,-10.6982574463 Z" />
+            <animate id="hourglass_clip_mask_debug_animation" fill="freeze" attributeName="d" begin="infinite" dur="1000ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 24,14 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6 c 0,0 24,0 24,0 c 0,0 0,-10.6 0,-10.6 Z;M 24,0.002 c 0,0 -24,0 -24,0 c 0,0 0,10.698 0,10.698 c 0,0 24,0 24,0 c 0,0 0,-10.698 0,-10.698 Z" />
           </path>
         </g>
       </g>
