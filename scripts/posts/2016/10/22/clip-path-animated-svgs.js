@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   function shouldShowDebugClipMasks() {
-    return document.querySelector("input[id=clipPathShowClipMaskCheckbox]").checked; 
+    return document.querySelector("input[id=clipPathShowClipMaskCheckbox]").checked;
   }
 
   document.querySelector("input[id=clipPathShowClipMaskCheckbox]").addEventListener("change", function(event) {
@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       document.getElementById("hourglass_clip_mask_debug").style.visibility = "hidden";
     }
   });
- 
- // =============== Hourglass icon.
+
+  // =============== Hourglass icon.
   document.getElementById("ic_timer").addEventListener("click", function() {
     animateTimer();
   });
@@ -314,4 +314,3 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("heart_full_path").style.visibility = "hidden";
   }
 });
-

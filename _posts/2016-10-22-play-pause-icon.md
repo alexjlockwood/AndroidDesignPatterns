@@ -220,7 +220,7 @@ Some examples:
 
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_alarm" viewBox="0 0 24 24" class="svgDemo">
     <g transform="translate(12,12)">
-      <g id="alarmclock_button_rotation" transform="rotate(0)">
+      <g id="alarmclock_button_rotation">
         <g transform="translate(-12,-12)">
           <g transform="translate(19.0722,4.5758)">
             <path d="M2.94 1.162l-4.595-3.857L-2.94-1.16l4.595 3.855L2.94 1.162z" />
@@ -291,7 +291,7 @@ Some examples:
 <div id="svgPathMorphDemo" class="svgDemoContainer">
   <svg id="ic_plus_minus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svgDemo">
     <g transform="translate(12,12)">
-      <g id="plus_minus_container_rotate" transform="rotate(0)">
+      <g id="plus_minus_container_rotate">
         <g id="plus_minus_container_translate" transform="translate(-12,-12)">
           <path id="plus_minus_path" d="M5 11h6V5h2v6h6v2h-6v6h-2v-6H5z">
             <animate id="plus_to_minus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z" />
@@ -307,7 +307,7 @@ Some examples:
 
   <svg id="ic_cross_tick" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svgDemo">
     <g transform="translate(12,12)">
-      <g id="cross_tick_container_rotate" transform="rotate(0)">
+      <g id="cross_tick_container_rotate">
         <g id="cross_tick_container_translate" transform="translate(-12,-12)">
           <path id="cross_tick_path" stroke="#000" stroke-width="2" stroke-linecap="square" d="M6.4 6.4l11.2 11.2m-11.2 0L17.6 6.4">
             <animate id="cross_to_tick_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M6.4,6.4 L17.6,17.6 M6.4,17.6 L17.6,6.4;M4.8,13.4 L9,17.6 M10.4,16.2 L19.6,7" />
@@ -323,7 +323,7 @@ Some examples:
 
   <svg id="ic_arrow_drawer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svgDemo">
     <g transform="translate(12,12)">
-      <g id="arrow_drawer_container_rotate" transform="rotate(0)">
+      <g id="arrow_drawer_container_rotate">
         <g id="arrow_drawer_container_translate" transform="translate(-12,-12)">
           <path id="arrow_drawer_path" d="M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z">            
             <animate id="drawer_to_arrow_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z;M 12, 4 L 10.59,5.41 L 16.17,11 L 18.99,11 L 12,4 z M 4, 11 L 4, 13 L 18.99, 13 L 20, 12 L 18.99, 11 L 4, 11 z M 12,20 L 10.59, 18.59 L 16.17, 13 L 18.99, 13 L 12, 20z"
@@ -342,7 +342,7 @@ Some examples:
   <svg id="ic_arrow_overflow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svgDemo">
     <g transform="translate(12,12)">
       <g id="arrow_overflow_translate_dot3" transform="translate(0,6)">
-        <g id="arrow_overflow_rotate_dot3" transform="rotate(0)">
+        <g id="arrow_overflow_rotate_dot3">
           <g id="arrow_overflow_pivot_dot3">
             <path id="arrow_overflow_path3" fill="#000" d="M 0,-2 l 0,0 c 1.1045694996,0 2,0.8954305004 2,2 l 0,0 c 0,1.1045694996 -0.8954305004,2 -2,2 l 0,0 c -1.1045694996,0 -2,-0.8954305004 -2,-2 l 0,0 c 0,-1.1045694996 0.8954305004,-2 2,-2 Z">
               <animate id="overflow_to_arrow_path3_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
@@ -355,7 +355,7 @@ Some examples:
         </g>
       </g>
       <g id="arrow_overflow_translate_dot1" transform="translate(0,-6)">
-        <g id="arrow_overflow_rotate_dot1" transform="rotate(0)">
+        <g id="arrow_overflow_rotate_dot1">
           <g id="arrow_overflow_pivot_dot1">
             <path id="arrow_overflow_path1" fill="#000" d="M 0,-2 l 0,0 c 1.1045694996,0 2,0.8954305004 2,2 l 0,0 c 0,1.1045694996 -0.8954305004,2 -2,2 l 0,0 c -1.1045694996,0 -2,-0.8954305004 -2,-2 l 0,0 c 0,-1.1045694996 0.8954305004,-2 2,-2 Z">
               <animate id="overflow_to_arrow_path1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
@@ -568,8 +568,8 @@ And the circular progress bar demo:
     <g id="circular_progress_position" transform="translate(24,24)">
       <g id="circular_progress_outer_rotation">
         <g id="circular_progress_inner_rotation">
-          <path id="circular_progress_circle_path_debug" d="M0,0 m 0,-18 a 18,18 0 1,1 0,36 a 18,18 0 1,1 0,-36" style="visibility: hidden;" stroke="#690" stroke-opacity="0.3" stroke-width="2" fill="none" />
-          <path id="circular_progress_circle_path" d="M0,0 m 0,-18 a 18,18 0 1,1 0,36 a 18,18 0 1,1 0,-36" stroke="#690" stroke-width="2" fill="none" />
+          <path id="circular_progress_circle_path_debug" d="M0,0 m 0,-18 a 18,18 0 1,1 0,36 a 18,18 0 1,1 0,-36" style="visibility: hidden;" stroke="#690" stroke-opacity="0.3" stroke-width="4" fill="none" />
+          <path id="circular_progress_circle_path" d="M0,0 m 0,-18 a 18,18 0 1,1 0,36 a 18,18 0 1,1 0,-36" stroke="#690" stroke-width="4" fill="none" />
         </g>
       </g>
     </g>

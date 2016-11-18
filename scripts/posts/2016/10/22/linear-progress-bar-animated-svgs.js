@@ -134,4 +134,3 @@ document.addEventListener("DOMContentLoaded", function(event) {
     restartAnimations();
   });
 });
-
