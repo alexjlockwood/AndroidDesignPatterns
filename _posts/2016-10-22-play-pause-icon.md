@@ -249,7 +249,7 @@ Some examples:
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_alarm" viewBox="0 0 24 24" class="svgDemo">
     <g transform="translate(12,12)">
       <g id="alarmclock_button_rotation">
-        <g id="asdf" ransform="translate(-12,-12)">
+        <g transform="translate(-12,-12)">
           <g transform="translate(19.0722,4.5758)">
             <path d="M2.94 1.162l-4.595-3.857L-2.94-1.16l4.595 3.855L2.94 1.162z" />
           </g>
@@ -563,7 +563,7 @@ Some examples:
 A material circular indeterminate progress bar can be animated by altering SVG properties in parallel:
 
 1. The entire progress bar is rotated indefinitely about the center of the 
-   canvas from 0° to 720°over the course of 4.444s.
+   canvas from 0° to 720° over the course of 4.444s.
 
 2. The progress bar's starting stroke position (i.e. trimPathOffset) is animated
    from 0.0 to 0.25 over the course of 1.333s. In this example, it could also be
