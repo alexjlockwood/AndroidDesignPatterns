@@ -20,7 +20,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   document.querySelector("input[id=uploadingShowClipMaskCheckbox]").addEventListener("change", function(event) {
-    var visibility = shouldShowDebugClipMasks() ? "visible" : "hidden";
+    var shouldShowClipMasks = shouldShowDebugClipMasks();
+    var visibility = shouldShowClipMasks ? "visible" : "hidden";
+    //if (shouldShowClipMasks) {
+    // TODO(alockwood): start this only if the current state is 'uploading'
+    //  arrowFillClipMaskAnimation = createArrowFillClipMaskAnimation();
+    //} else if (arrowFillClipMaskAnimation !== null) {
+    //  arrowFillClipMaskAnimation.endElement();
+    //}
     document.getElementById("upload_arrow_fill_clip_debug").style.visibility = visibility;
   });
 
@@ -32,10 +39,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var uploadArrowFillPath = document.getElementById("upload_arrow_filling");
   var uploadBasePath = document.getElementById("upload_base");
   var progressTickPath = document.getElementById("progress_tick");
+  var progressTickToPlusPath = document.getElementById("progress_tick_to_plus");
 
   var currentAnimations = [];
   var arrowFillAnimation;
-  var arrowFillClipMaskAnimation;
+  var arrowFillClipMaskAnimation = null;
 
   var lastKnownTimeMillis = 0;
   var isCompleteAnimationPending = false;
@@ -76,8 +84,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function startCompleteAnimation() {
     arrowFillAnimation.endElement();
-    if (arrowFillClipMaskAnimation) {
+    if (arrowFillClipMaskAnimation !== null) {
       arrowFillClipMaskAnimation.endElement();
+      document.getElementById("upload_arrow_fill_clip_debug").style.visibility = "hidden";
     }
     createCompleteAnimation();
     createStrokeWidthAnimation(progressTickPath, 0, 0, 4, 4);
@@ -87,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     createFadeFillAnimation(uploadArrowFillPath, 500, 1, 0);
     createFadeStrokeAnimation(progressTickPath, 0, 1, 1);
     createFadeStrokeAnimation(progressSpinnerPath, 0, 0, 0);
+    createTickToPlusAnimation();
   }
 
   function cancelAnimations() {
@@ -163,6 +173,37 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
   }
 
+  // TODO(alockwood): implement this.
+  function createTickToPlusAnimation() {
+    progressTickToPlusPath.animate([{
+      "strokeOpacity": 0,
+      offset: 0
+    }, {
+      "strokeOpacity": 0,
+      offset: 1
+    }], {
+      duration: 0,
+      fill: "forwards"
+    });
+    progressTickToPlusPath.animate([{
+      "strokeOpacity": 0,
+      offset: 0
+    }, {
+      "strokeOpacity": 1,
+      offset: 1
+    }], {
+      duration: 0,
+      fill: "forwards",
+      delay: getScaledAnimationDuration(1800)
+    });
+    var duration = getScaledAnimationDuration(300);
+    var startDelay = getScaledAnimationDuration(1800);
+    var animation = document.getElementById("progress_tick_to_plus_animation");
+    animation.setAttributeNS(null, 'dur', duration + 'ms');
+    animation.setAttributeNS(null, 'begin', startDelay + 'ms');
+    animation.beginElement();
+  }
+
   function createArrowFillAnimation() {
     var duration = getScaledAnimationDuration(1200);
     var startDelay = getScaledAnimationDuration(300);
@@ -174,13 +215,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   function createArrowFillClipMaskAnimation() {
+    if (shouldShowDebugClipMasks()) {
+      document.getElementById("upload_arrow_fill_clip_debug").style.visibility = "visible";
+    }
     var duration = getScaledAnimationDuration(1200);
     var startDelay = getScaledAnimationDuration(300);
     var animation = document.getElementById("upload_arrow_fill_clip_animation_debug");
     animation.setAttributeNS(null, 'dur', duration + 'ms');
     animation.setAttributeNS(null, 'begin', startDelay + 'ms');
     animation.beginElement();
-    return arrowFillAnimation;
+    return animation;
   }
 
   function createRotationAnimation() {
