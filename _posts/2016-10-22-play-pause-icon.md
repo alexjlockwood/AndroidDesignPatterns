@@ -95,13 +95,14 @@ In this blog post I will describe different techniques to animate icons using `A
 <!--more-->
 
 * I am writing this blog post because I want to see more apps embrace and incorporate motion into
-* their apps. I genuinely think that animated icons make the application better and more usable.
+  their apps. I genuinely think that animated icons make the application better and more usable.
 * They're a great opportunity to make your app feel alive. TODO: explain the importance of motion in
-* a few sentences In a previous series of blog posts, I wrote about transitions. Transitions can be
-* used to construct elaborate animations between different states in your applications. In this blog
-* post, I'm going to focus on something much smaller in scope but just as important: delightful
-* details and creative customization. In this blog post I will describe different techniques to
-* animate icons using `AnimatedVectorDrawable`s.
+  a few sentences.
+* In a previous series of blog posts, I wrote about transitions. Transitions can be
+  used to construct elaborate animations between different states in your applications.
+* In this blog post, I'm going to focus on something much smaller in scope but just as important: 
+  delightful details and creative customization. In this blog post I will describe different
+  techniques to animate icons using `AnimatedVectorDrawable`s.
 
 As Eames said, the details make the design. Motion can be an opportunity to provide delight and make
 a connection with your user. They can also bring personality to your app. After all, animating
