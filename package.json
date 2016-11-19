@@ -1,0 +1,36 @@
+{
+  "name": "android-design-patterns",
+  "version": "1.0.0",
+  "description": "Android Design Patterns blog source code.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexjlockwood/alexjlockwood.github.io.git"
+  },
+  "keywords": [
+    "android",
+    "design",
+    "patterns",
+    "development",
+    "blog"
+  ],
+  "author": "Alex Lockwood",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexjlockwood/alexjlockwood.github.io/issues"
+  },
+  "homepage": "https://github.com/alexjlockwood/alexjlockwood.github.io#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-connect": "^2.3.1",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.1.1",
+    "gulp-util": "^3.0.7"
+  }
+}
