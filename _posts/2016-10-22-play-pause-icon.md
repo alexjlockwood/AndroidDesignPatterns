@@ -285,10 +285,10 @@ Some examples:
 
   <svg xmlns="http://www.w3.org/2000/svg" id="ic_radiobutton" class="svgDemo" viewBox="0 0 32 32">
     <g transform="translate(16,16)">
-      <g id="radiobutton_ring_outer">
-        <path id="radiobutton_ring_outer_path" stroke="#000" fill="none" stroke-width="2" d="M-9 0A9 9 0 1 0 9 0 9 9 0 1 0-9 0" />
+      <g id="radiobutton_ring_group">
+        <path id="radiobutton_ring_path" stroke="#000" fill="none" stroke-width="2" d="M-9 0A9 9 0 1 0 9 0 9 9 0 1 0-9 0" />
       </g>
-      <g id="radiobutton_dot_group">
+      <g id="radiobutton_dot_group" transform="scale(0,0)">
         <path id="radiobutton_dot_path" d="M-5 0A5 5 0 1 0 5 0 5 5 0 1 0-5 0" />
       </g>
     </g>

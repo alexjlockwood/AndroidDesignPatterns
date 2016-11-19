@@ -37,67 +37,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   // =============== Radio button icon.
-  var isChecked = false;
+  var isRadioButtonChecked = false;
   document.getElementById("ic_radiobutton").addEventListener("click", function() {
-    if (isChecked) {
-      animateToUncheck();
-    } else {
-      animateToCheck();
-    }
-    isChecked = !isChecked;
+    animateRadioButton(!isRadioButtonChecked);
+    isRadioButtonChecked = !isRadioButtonChecked;
   });
 
-  function animateToCheck() {
-    document.getElementById("radiobutton_ring_outer").animate([{
+  function animateRadioButton(isAnimatingToCheck) {
+    document.getElementById("radiobutton_ring_group").animate([{
       "transform": "scale(1,1)",
       offset: 0,
       easing: fastOutSlowIn
     }, {
-      "transform": "scale(0.5,0.5)",
-      offset: 0.3333,
-      easing: fastOutSlowIn
+      "transform": isAnimatingToCheck ? "scale(0.5,0.5)" : "scale(0.9,0.9)",
+      offset: isAnimatingToCheck ? 0.333 : 0.366,
+      easing: isAnimatingToCheck ? fastOutSlowIn : "cubic-bezier(0.4, 0, 0.4, 1.0)"
     }, {
-      "transform": "scale(0.9,0.9)",
-      offset: 0.364,
-      easing: fastOutSlowIn
-    }, {
-      "transform": "scale(1,1)",
-      offset: 1,
-    }], {
-      duration: getScaledAnimationDuration(500),
-      fill: "forwards"
-    });
-    document.getElementById("radiobutton_ring_outer_path").animate([{
-      "strokeWidth": "2",
-      offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.4, 1.0)"
-    }, {
-      "strokeWidth": "18",
-      offset: 0.3333,
-      easing: fastOutSlowIn
-    }, {
-      "strokeWidth": "2",
-      offset: 0.364,
-      easing: fastOutSlowIn
-    }, {
-      "strokeWidth": "2",
-      offset: 1,
-    }], {
-      duration: getScaledAnimationDuration(500),
-      fill: "forwards"
-    });
-    document.getElementById("radiobutton_dot_group").animate([{
-      "transform": "scale(0,0)",
-      offset: 0,
-      easing: fastOutSlowIn
-    }, {
-      "transform": "scale(0,0)",
-      offset: 0.3333,
-      easing: fastOutSlowIn
-    }, {
-      "transform": "scale(1.5,1.5)",
-      offset: 0.364,
-      easing: fastOutSlowIn
+      "transform": isAnimatingToCheck ? "scale(0.9,0.9)" : "scale(0.5,0.5)",
+      offset: isAnimatingToCheck ? 0.366 : 0.4,
+      easing: isAnimatingToCheck ? fastOutSlowIn : "cubic-bezier(0.4, 0, 0.4, 1.0)"
     }, {
       "transform": "scale(1,1)",
       offset: 1,
@@ -105,39 +63,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
       duration: getScaledAnimationDuration(500),
       fill: "forwards"
     });
-  }
-
-  function animateToUncheck() {
-    document.getElementById("radiobutton_ring_outer").animate([{
-      "transform": "scale(1,1)",
-      offset: 0,
-      easing: fastOutSlowIn
-    }, {
-      "transform": "scale(0.9,0.9)",
-      offset: 0.366,
-      easing: "cubic-bezier(0.4, 0, 0.4, 1.0)"
-    }, {
-      "transform": "scale(0.5,0.5)",
-      offset: 0.4,
-      easing: "cubic-bezier(0.4, 0, 0.4, 1.0)"
-    }, {
-      "transform": "scale(1,1)",
-      offset: 1,
-    }], {
-      duration: getScaledAnimationDuration(500),
-      fill: "forwards"
-    });
-    document.getElementById("radiobutton_ring_outer_path").animate([{
+    document.getElementById("radiobutton_ring_path").animate([{
       "strokeWidth": "2",
       offset: 0,
+      easing: isAnimatingToCheck ? "cubic-bezier(0.4, 0, 0.4, 1.0)" : fastOutSlowIn
+    }, {
+      "strokeWidth": isAnimatingToCheck ? "18" : "2",
+      offset: isAnimatingToCheck ? 0.333 : 0.366,
       easing: fastOutSlowIn
     }, {
-      "strokeWidth": "2",
-      offset: 0.366,
-      easing: fastOutSlowIn
-    }, {
-      "strokeWidth": "18",
-      offset: 0.4,
+      "strokeWidth": isAnimatingToCheck ? "2" : "18",
+      offset: isAnimatingToCheck ? 0.366 : 0.4,
       easing: fastOutSlowIn
     }, {
       "strokeWidth": "2",
@@ -147,19 +83,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
       fill: "forwards"
     });
     document.getElementById("radiobutton_dot_group").animate([{
-      "transform": "scale(1,1)",
+      "transform": isAnimatingToCheck ? "scale(0,0)" : "scale(1,1)",
       offset: 0,
       easing: fastOutSlowIn
     }, {
-      "transform": "scale(1.4,1.4)",
-      offset: 0.366,
+      "transform": isAnimatingToCheck ? "scale(0,0)" : "scale(1.4,1.4)",
+      offset: isAnimatingToCheck ? 0.333 : 0.366,
       easing: fastOutSlowIn
     }, {
-      "transform": "scale(0,0)",
-      offset: 0.4,
+      "transform": isAnimatingToCheck ? "scale(1.5,1.5)" : "scale(0,0)",
+      offset: isAnimatingToCheck ? 0.366 : 0.4,
       easing: fastOutSlowIn
     }, {
-      "transform": "scale(0,0)",
+      "transform": isAnimatingToCheck ? "scale(1,1)" : "scale(0,0)",
       offset: 1,
     }], {
       duration: getScaledAnimationDuration(500),
