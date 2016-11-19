@@ -6,73 +6,19 @@ permalink: /2016/10/icon-morphing.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
-style: |
-  .svgDemoContainer {
-    display: block;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-  }
-  .svgDemo {
-    display: inline-block;
-    width: 33%;
-    padding: 16ems;
-    height: 240ems;
-  }
-  .svgDemoCheckboxContainer {
-    padding: 16px;
-  }
-  /* Linear progress bar demo. */
-  #progressBarContainer {
-    padding: 16px;
-  }
-  #progressBar {
-    width: 360px;
-    height: 4px;
-    overflow: hidden;
-    position: relative;
-    background-color: rgba(96, 144, 0, 0.3);
-  }
-  #progressBarInnerRect1,
-  #progressBarInnerRect2 {
-    background: #690;
-  }
-  #progressBarOuterRect1,
-  #progressBarOuterRect2,
-  #progressBarInnerRect1,
-  #progressBarInnerRect2 {
-    height: 4px;
-    position: absolute;
-    width: 288px;
-  }
-  /* Trim path interactive demo. */
-  #ic_line_path {
-    padding-top: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  .sliderContainer {
-    padding: 16px;
-  }
-  .slider {
-    margin-top: 8px;
-    display: inline-block;
-  }
-  .sliderInput {
-    width: 300px;
-  }
-  .sliderTextContainer {
-    margin-top: 8px;
-    margin-bottom: 8px;
-    display: block;
-  }
-  .sliderText {
-    display: inline-block;
-  }
 ---
 
+<!-- TODO(alockwood): need to adjust material CSS to fix changes mdl made to the site layout -->
+<!-- TODO(alockwood): need to fix the margins of header elements in posts (mdlite overwrites them)-->
+<!-- TODO(alockwood): need to fix ordered/unordered list elements as well? -->
+<!-- TODO(alockwood): probably should check all of the elements and confirm all of the elements that mdlite overwrites -->
+<!-- TODO(alockwood): minify all of these and combine into a single file? -->
+<link rel="stylesheet" type="text/css" href="/css/posts/2016/10/22/style.css" />
+<!-- TODO(alockwood): use npm to import this (using module.exports?) -->
 <script defer src="/scripts/posts/2016/10/22/bezier.js"></script>
 <script defer src="/scripts/posts/2016/10/22/web-animations.min.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-data-polyfill.js"></script>
+<script defer src="/scripts/posts/2016/10/22/path-properties-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/transformation-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/linear-progress-bar-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-morph-animated-svgs.js"></script>
@@ -82,71 +28,178 @@ style: |
 <script defer src="/scripts/posts/2016/10/22/circular-progress-bar-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/uploading-animated-svg.js"></script>
 
-<!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
-<!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
-<!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
-<!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
-<!-- TODO(alockwood): need to figure out why adding the material design lite css messes the site layout up -->
-
 <!--morestart-->
 
 In this blog post I will describe different techniques to animate icons using `AnimatedVectorDrawable`s.
 
 <!--more-->
 
-* I am writing this blog post because I want to see more apps embrace and incorporate motion into
-  their apps. I genuinely think that animated icons make the application better and more usable.
-* They're a great opportunity to make your app feel alive. TODO: explain the importance of motion in
-  a few sentences.
-* In a previous series of blog posts, I wrote about transitions. Transitions can be
-  used to construct elaborate animations between different states in your applications.
-* In this blog post, I'm going to focus on something much smaller in scope but just as important: 
-  delightful details and creative customization. In this blog post I will describe different
-  techniques to animate icons using `AnimatedVectorDrawable`s.
-
-As Eames said, the details make the design. Motion can be an opportunity to provide delight and make
-a connection with your user. They can also bring personality to your app. After all, animating
-literally means bringing to life. Whenever an element changes state this is a great opportunity to
-animate this change. This helps both to explain what is changing and can direct attention. This
-technique isn't restricted to larger blocks of your UI. Animating small details eases the
-transition. Although they often don't provide extra functionalit, these small details bring a smile
-to your face and make the experience of using the app more enjoyable.
-
-## Introduction to `VectorDrawable`s & `AnimatedVectorDrawable`s
-
-To craft delightful details like these, we'll take a look at the VectorDrawable and
-AnimatedVectorDrawable classes. We'll start by looking at what VectorDrawable allows us to do, to
-understand what we can animate. VectorDrawable was introduced in Lollipop and lets you create
-density independent images by defining a series of drawing commands. It's similar in concept to SVG
-on the web. Here's an example of a VectorDrawable. It defines a path which has a series of space
-separated drawing commands, which use a subset of the SVG path data spec to draw lines, curves and
-so on. For example, these commands draw a cross by moving to a point. Drawing a line to another
-point. Lifting and moving to another point. And drawing another line. Simple. Now vectors aren't
-appropriate for every kind of image. You wouldn't want to represent a person's face with a vector,
-for example. But iconography and simple illustrations are great candidates. The vector format
-provides density independence, meaning that the same image works on any screen density. When vector
-support reaches enough devices, you won't have to explore assets at multiple different sizes like we
-covered in Lesson One. It also generally produces a small file size.
+## Creating animated icons
 
 `VectorDrawable`s are made up of four types of elements:
 
 * **`<vector>`** - The root element of the `VectorDrawable`. Defines the intrinsic width and height of the drawable, as well as the width and height of the vector's virtual canvas.
-
 * **`<group>`** - Defines a group of paths or subgroups plus additional transformation information.
-
-* **`<path>`** - Defines the paths to be drawn using [SVG path syntax][svg-path-reference]. Paths are drawn in the top-down order in which they appear in the XML file.
-
+* **`<path>`** - Defines the paths to be drawn using [SVG path syntax][svg-path-reference]. Paths will either be filled or stroked.
 * **`<clip-path>`** - Defines a portion of the drawable to be clipped.
 
-The opportunity to animate all or parts of the image is what we're really interested in right now.
-The `AnimatedVectorDrawable` class lets you animate any property of a part of set of parts.
-`AnimatedVectorDrawable`s are the glue that tie together `VectorDrawable`s and `ObjectAnimator`s.
-That is, `AnimatedVectorDrawable`s assign `ObjectAnimator`s to individual groups/paths called
-"targets" and tell them how they should be animated.
+The opportunity to animate all or parts of the image is what we're really interested in right now. In this section I'll go over different techniques and properties that are commonly used to construct animated icons.
 
-## Building animated icons
+### Drawing `path`s
 
-### Basic path properties
+Before we can animate paths we need to know how to draw them. The most important elements of a `VectorDrawable` are the paths because they are what ultimately end up getting drawn to the screen. Paths are defined using the `<path>` tag and are drawn in the top-down order in which they appear in the `VectorDrawable`'s XML file. Paths are drawn using a series of space separated drawing commands, using a subset of the [SVG path data spec][svg-path-reference] in order to draw lines, curves, and so on. If you are not already familiar with the basics of SVG notation, I **highly encourage** you to skim through this spec before reading any further. I've summarized the drawing commands I encounter most frequently in the table below (**TODO: add footnote explaining other commands at some point?**):
+
+
+| Command             | Description |
+|---------------------|-------------|
+| `M x,y`             | Move the path's current position to `(x,y)`.
+| `L x,y`             | Draw a line to `(x,y)`.
+| `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
+| `Z`                 | Close the current path by drawing a line to the beginning of the current path.
+
+We can see how these commands work in action in the diagrams below. Each icon is drawn in a 12x12 grid using the following drawing commands:
+
+<div class="svgDemoContainer" style="padding-top: 16px; padding-left: 16px; padding-right: 16px;">
+  <div class="svgDemo">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" id="ic_play_basic_demo" viewBox="0 0 241 241" width="240px" height="240px">
+        <defs>
+          <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="gray" stroke-width="0.5" />
+          </pattern>
+          <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+            <rect width="80" height="80" fill="url(#smallGrid)" />
+            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" stroke-width="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+        <path id="ic_play_basic_demo_path" class="basic_path_property_play_inactive" d="M 80 50 L 80 190 L 190 120 Z" />
+        <path id="ic_play_basic_demo_path_strokes" fill="none" stroke="#000" stroke-width="2" d="M 80 50 L 80 190 L 190 120 Z" />
+        <path id="ic_play_demo_path_end_points" fill="#000" d="
+    M 80 50 m -6 0 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 z
+    M 80 190 m -6 0 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 z
+    M 190 120 m -6 0 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 z
+    " />
+        <text text-anchor="end" x="70" y="40">1, 4</text>
+        <text text-anchor="end" x="70" y="208">2</text>
+        <text text-anchor="start" x="208" y="126">3</text>
+      </svg>
+    </div>
+    <div>
+      <ol>
+        <li><code>M 4,2.5</code></li>
+        <li><code>L 4,9.5</code></li>
+        <li><code>L 9.5,6</code></li>
+        <li><code>Z</code></li>
+      </ol>
+    </div>
+  </div>
+  <div class="svgDemo">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" id="ic_pause_basic_demo" viewBox="0 0 241 241" width="240px" height="240px">
+        <defs>
+          <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="gray" stroke-width="0.5" />
+          </pattern>
+          <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+            <rect width="80" height="80" fill="url(#smallGrid)" />
+            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" stroke-width="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+        <path id="ic_pause_basic_demo_path" class="basic_path_property_pause_inactive" d="M 80,50 L 80,190 M 160,50 L 160,190" />
+        <path id="ic_pause_basic_demo_path_strokes" fill="none" stroke="#000" stroke-width="2" d="M 80,50 L 80,190 M 160,50 L 160,190" />
+        <path id="ic_pause_demo_path_end_points" fill="#000" d="
+    M 80 50 m -6 0 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 z
+    M 80 190 m -6 0 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 z
+    M 160 50 m -6 0 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 z
+    M 160 190 m -6 0 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 z
+    " />
+        <text text-anchor="middle" x="80" y="35">1</text>
+        <text text-anchor="middle" x="80" y="215">2</text>
+        <text text-anchor="middle" x="160" y="35">3</text>
+        <text text-anchor="middle" x="160" y="215">4</text>
+      </svg>
+    </div>
+    <div>
+      <ol>
+        <li><code>M 4,2.5</code></li>
+        <li><code>L 4,9.5</code></li>
+        <li><code>M 8,2.5</code></li>
+        <li><code>L 8,9.5</code></li>
+      </ol>
+    </div>
+  </div>
+  <div class="svgDemo">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" id="ic_record_basic_demo" viewBox="0 0 241 241" width="240px" height="240px">
+        <defs>
+          <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="gray" stroke-width="0.5" />
+          </pattern>
+          <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+            <rect width="80" height="80" fill="url(#smallGrid)" />
+            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" stroke-width="1" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+        <path id="ic_record_basic_demo_path" class="basic_path_property_record_inactive" d="
+    M 40 120 
+    C 40 75.817220016 75.817220016 40 120 40
+    C 164.182779984 40 200 75.817220016 200 120
+    C 200 164.182779984 164.182779984 200 120 200
+    C 75.817220016 200 40 164.182779984 40 120 Z
+    " />
+        <path id="ic_record_basic_demo_path_strokes" fill="none" stroke="#000" stroke-width="2" d="M 80 50 L 80 190 L 190 120 Z" d="
+    M 40 120 
+    C 40 75.817220016 75.817220016 40 120 40
+    C 164.182779984 40 200 75.817220016 200 120
+    C 200 164.182779984 164.182779984 200 120 200
+    C 75.817220016 200 40 164.182779984 40 120 Z
+    " />
+        <path id="ic_record_demo_path_control_points" fill="#000" d="
+    M 40 75.817220016 m -4 0 a 4 4 0 1 0 8 0 a 4 4 0 1 0 -8 0 z
+    M 75.817220016 40 m -4 0 a 4 4 0 1 0 8 0 a 4 4 0 1 0 -8 0 z
+    M 164.182779984 40 m -4 0 a 4 4 0 1 0 8 0 a 4 4 0 1 0 -8 0 z
+    M 200 75.817220016 m -4 0 a 4 4 0 1 0 8 0 a 4 4 0 1 0 -8 0 z
+    M 200 164.182779984 m -4 0 a 4 4 0 1 0 8 0 a 4 4 0 1 0 -8 0 z
+    M 164.182779984 200 m -4 0 a 4 4 0 1 0 8 0 a 4 4 0 1 0 -8 0 z
+    M 75.817220016 200 m -4 0 a 4 4 0 1 0 8 0 a 4 4 0 1 0 -8 0 z
+    M 40 164.182779984 m -4 0 a 4 4 0 1 0 8 0 a 4 4 0 1 0 -8 0 z
+    " />
+        <path id="ic_record_demo_path_end_points" fill="#000" d="
+    M 40 120 m -6 0 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 z
+    M 120 40 m -6 0 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 z
+    M 200 120 m -6 0 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 z
+    M 120 200 m -6 0 a 6 6 0 1 0 12 0 a 6 6 0 1 0 -12 0 z
+    " />
+        <text text-anchor="end" x="26" y="126">1, 5</text>
+        <text text-anchor="middle" x="120" y="26">2</text>
+        <text text-anchor="start" x="215" y="126">3</text>
+        <text text-anchor="middle" x="120" y="225">4</text>
+      </svg>
+    </div>
+    <div>
+      <ol>
+        <li><code>M 2,6</code></li>
+        <li><code>C 2,3.79 3.79,2 6,2</code></li>
+        <li><code>C 8.21,2 10,3.79 10,6</code></li>
+        <li><code>C 10,8.21 8.21,10 6,10</code></li>
+        <li><code>C 3.79,10 2,8.21 2,6</code></li>
+      </ol>
+    </div>
+  </div>
+  <!--
+  <div class="svgDemoCheckboxContainer">
+    <label for="basicPathPropertyShowPointsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="basicPathPropertyShowPointsCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Show path control/end points</span>
+    </label>
+  </div>
+  -->
+</div>
+
+As you can see above, paths can either be filled (as in the play and record icons) or stroked (as in the pause icon). Collectively, these two types of paths have 5 animatable properties, each of which are listed below:
 
 | Property name         | Element type | Value type | Min value | Max value |
 |-----------------------|--------------|------------|-----------|-----------|
@@ -156,29 +209,23 @@ That is, `AnimatedVectorDrawable`s assign `ObjectAnimator`s to individual groups
 | `android:strokeColor` | `<path>`     | `integer`  | - - -     | - - -     |
 | `android:strokeWidth` | `<path>`     | `float`    | `0`       | - - -     |
 
-TODO(alockwood): give some examples?
+`fillColor` and `strokeColor` can be used to an icon's color over time. `fillAlpha` and `strokeAlpha` can be used to selectively fade in/out individual paths over the course of an animation. (**TODO(alockwood): add footnote explaining that `android:alpha` can be animated on the `<vector>` tag as well?**) And `strokeWidth` can be used to animate the width of a stroked path over time. We'll see some examples of how these properties can be used later on in this post.
 
-### Group transformations
+### Transforming `group`s of `path`s
 
-Transformations include alpha, rotation, scale, and translate. Pivot determines the
-center point with which to perform a scale and/or a rotation.
+Transformations include alpha, rotation, scale, and translate. Pivot determines the center point with which to perform a scale and/or a rotation.
 
-| Property name        | Element type | Value type | Min value | Max value |
-|----------------------|--------------|------------|-----------|-----------|
-| `android:alpha`      | `<vector>`   | `float`    | `0`       | `1`       |
-| `android:pivotX`     | `<group>`    | `float`    | - - -     | - - -     |
-| `android:pivotY`     | `<group>`    | `float`    | - - -     | - - -     |
-| `android:rotation`   | `<group>`    | `float`    | - - -     | - - -     |
-| `android:scaleX`     | `<group>`    | `float`    | - - -     | - - -     |
-| `android:scaleY`     | `<group>`    | `float`    | - - -     | - - -     |
-| `android:translateX` | `<group>`    | `float`    | - - -     | - - -     |
-| `android:translateY` | `<group>`    | `float`    | - - -     | - - -     |
+| Property name        | Element type | Value type |
+|----------------------|--------------|------------|
+| `android:pivotX`     | `<group>`    | `float`    |
+| `android:pivotY`     | `<group>`    | `float`    |
+| `android:rotation`   | `<group>`    | `float`    |
+| `android:scaleX`     | `<group>`    | `float`    |
+| `android:scaleY`     | `<group>`    | `float`    |
+| `android:translateX` | `<group>`    | `float`    |
+| `android:translateY` | `<group>`    | `float`    |
 
-It is important to understand the order in which transformations will be performed because this will
-affect what is ultimately drawn to the display. The three groups below describe how transformations
-will be applied. Note that children groups are applied before parent groups, and that
-transformations made on the same group are applied in the order of scale, rotation, and then
-translation.
+It is important to understand the order in which transformations will be performed because this will affect what is ultimately drawn to the display. The three groups below describe how transformations will be applied. Note that children groups are applied before parent groups, and that transformations made on the same group are applied in the order of scale, rotation, and then translation.
 
 ```xml
 <vector
@@ -272,12 +319,7 @@ Some examples:
   </div>
 </div>
 
-A material horizontal indeterminate progress bar consists of a translucent background and
-two opaque children rectangles. The two children rectangles are scaled and translated in
-parallel at different speeds. A unique combination of cubic bezier interpolation curves
-is used to scale the rectangles at varying degrees. Further, the two rectangles are translated
-from the left to the right indefinitely (however, you can never actually tell that there are
-really two rectangles being translated because the two are never entirely visible at once).
+A material horizontal indeterminate progress bar consists of a translucent background and two opaque children rectangles. The two children rectangles are scaled and translated in parallel at different speeds. A unique combination of cubic bezier interpolation curves is used to scale the rectangles at varying degrees. Further, the two rectangles are translated from the left to the right indefinitely (however, you can never actually tell that there are really two rectangles being translated because the two are never entirely visible at once).
 
 <div id="svgLinearProgressDemo" class="svgDemoContainer">
   <div id="progressBarContainer">
@@ -307,7 +349,9 @@ really two rectangles being translated because the two are never entirely visibl
   </div>
 </div>
 
-### Morphing paths
+Explain examples.
+
+### Morphing `path`s
 
 Paths can be morphed.
 
@@ -462,7 +506,9 @@ Some examples:
   </div>
 </div>
 
-### Trimming stroked paths
+Explain examples.
+
+### Trimming stroked `path`s
 
 Paths can be trimmed.
 
@@ -630,7 +676,9 @@ A material circular indeterminate progress bar can be animated by altering SVG p
   </div>
 </div>
 
-### Clipping paths
+Explain examples.
+
+### Clipping `path`s with `clip-path`
 
 Paths can be clipped.
 
@@ -725,6 +773,8 @@ Some examples:
   </div>
 </div>
 
+Explain examples.
+
 ### Uploading example
 
 <div id="uploadingDemo" class="svgDemoContainer">
@@ -777,6 +827,8 @@ Some examples:
   </div>
 </div>
 
+Explain examples.
+
 ## Further reading
 
 It also might be useful to give a listing of useful tools/resources for further reading.
@@ -794,3 +846,4 @@ This stuff is probably better suited to go in the sample app `README.md` file.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
+  [cubic-bezier-curve]: https://en.wikipedia.org/wiki/B%C3%A9zier_curve
