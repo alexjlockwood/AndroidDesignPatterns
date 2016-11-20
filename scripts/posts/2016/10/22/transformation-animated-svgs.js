@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function getScaledAnimationDuration(durationMillis) {
     var slowAnimationSelector = document.querySelector("input[id=basicTransformationSlowAnimationCheckbox]");
-    var currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
+    var currentAnimationDurationFactor = slowAnimationSelector.checked ? 10 : 1;
     return durationMillis * currentAnimationDurationFactor;
   }
 
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       offset: 0,
       easing: fastOutSlowIn
     }, {
-      "transform": isAnimatingToCheck ? "scale(0,0)" : "scale(1.4,1.4)",
+      "transform": isAnimatingToCheck ? "scale(0,0)" : "scale(1.5,1.5)",
       offset: isAnimatingToCheck ? 0.333 : 0.366,
       easing: fastOutSlowIn
     }, {
