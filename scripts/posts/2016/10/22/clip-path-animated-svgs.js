@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function getScaledAnimationDuration(durationMillis) {
     var slowAnimationSelector = document.querySelector("input[id=clipPathSlowAnimationCheckbox]");
-    var currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
+    var currentAnimationDurationFactor = slowAnimationSelector.checked ? 20 : 1;
     return durationMillis * currentAnimationDurationFactor;
   }
 
@@ -25,8 +25,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   // =============== Hourglass icon.
+  var numRotations = 0;
   document.getElementById("ic_timer").addEventListener("click", function() {
     animateTimer();
+    numRotations += 1;
   });
 
   function animateTimer() {
@@ -43,26 +45,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
     document.getElementById("hourglass_frame_rotation").animate([{
       "transform": "rotate(0deg)",
-      offset: 0.0,
+      offset: 0,
       easing: fastOutSlowIn
     }, {
       "transform": "rotate(180deg)",
-      offset: 1.0
+      offset: 1
     }], {
       duration: getScaledAnimationDuration(333),
       fill: "forwards"
     });
 
-    var hourglassClipAnimation = document.getElementById("hourglass_clip_mask_animation");
     var startDelay = getScaledAnimationDuration(333);
     var duration = getScaledAnimationDuration(1000);
+    var hourglassClipAnimation = document.getElementById("hourglass_clip_mask_animation");
     hourglassClipAnimation.setAttributeNS(null, "begin", startDelay + "ms");
     hourglassClipAnimation.setAttributeNS(null, "dur", duration + "ms");
     hourglassClipAnimation.beginElement();
-
     var hourglassClipDebugAnimation = document.getElementById("hourglass_clip_mask_debug_animation");
-    var startDelay = getScaledAnimationDuration(333);
-    var duration = getScaledAnimationDuration(1000);
     hourglassClipDebugAnimation.setAttributeNS(null, "begin", startDelay + "ms");
     hourglassClipDebugAnimation.setAttributeNS(null, "dur", duration + "ms");
     hourglassClipDebugAnimation.beginElement();
