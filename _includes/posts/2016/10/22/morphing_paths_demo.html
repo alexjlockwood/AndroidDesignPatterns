@@ -1,0 +1,150 @@
+<div class="svgDemoContainer">
+  <ul class="flex-container">
+    <li class="flex-item">
+      <svg id="ic_plus_minus" viewBox="0 0 24 24" class="svgDemoGraphic">
+        <g transform="translate(12,12)">
+          <g id="plus_minus_container_rotate">
+            <g id="plus_minus_container_translate" transform="translate(-12,-12)">
+              <path id="plus_minus_path" d="M5 11h6V5h2v6h6v2h-6v6h-2v-6H5z">
+                <animate id="plus_to_minus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z" />
+                <animate id="minus_to_plus_path_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 5,11 L 11,11 L 11,11 L 13,11 L 13,11 L 19,11 L 19,13 L 13,13 L 13,13 L 11,13 L 11,13 L 5,13 Z;M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z" />
+              </path>
+              <path id="plus_minus_end_points_path" fill="#64B5F6" style="visibility: hidden;">
+                <animate id="plus_minus_end_points_animation" attributeName="d" begin="indefinite" dur="250ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
+              </path>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </li>
+    <li class="flex-item">
+      <svg id="ic_cross_tick" viewBox="0 0 24 24" class="svgDemoGraphic">
+        <g transform="translate(12,12)">
+          <g id="cross_tick_container_rotate">
+            <g id="cross_tick_container_translate" transform="translate(-12,-12)">
+              <path id="cross_tick_path" stroke="#000" stroke-width="2" stroke-linecap="square" d="M6.4 6.4l11.2 11.2m-11.2 0L17.6 6.4">
+                <animate id="cross_to_tick_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M6.4,6.4 L17.6,17.6 M6.4,17.6 L17.6,6.4;M4.8,13.4 L9,17.6 M10.4,16.2 L19.6,7" />
+                <animate id="tick_to_cross_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M4.8,13.4 L9,17.6 M10.4,16.2 L19.6,7;M6.4,6.4 L17.6,17.6 M6.4,17.6 L17.6,6.4" />
+              </path>
+              <path id="cross_tick_end_points_path" fill="#64B5F6" style="visibility: hidden;">
+                <animate id="cross_tick_end_points_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
+              </path>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </li>
+    <li class="flex-item">
+      <svg id="ic_arrow_drawer" viewBox="0 0 24 24" class="svgDemoGraphic">
+        <g transform="translate(12,12)">
+          <g id="arrow_drawer_container_rotate">
+            <g id="arrow_drawer_container_translate" transform="translate(-12,-12)">
+              <path id="arrow_drawer_path" d="M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z">
+                <animate id="drawer_to_arrow_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z;M 12, 4 L 10.59,5.41 L 16.17,11 L 18.99,11 L 12,4 z M 4, 11 L 4, 13 L 18.99, 13 L 20, 12 L 18.99, 11 L 4, 11 z M 12,20 L 10.59, 18.59 L 16.17, 13 L 18.99, 13 L 12, 20z" />
+                <animate id="arrow_to_drawer_path_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" values="M 12, 4 L 10.59,5.41 L 16.17,11 L 18.99,11 L 12,4 z M 4, 11 L 4, 13 L 18.99, 13 L 20, 12 L 18.99, 11 L 4, 11 z M 12,20 L 10.59, 18.59 L 16.17, 13 L 18.99, 13 L 12, 20z;M 3,6 L 3,8 L 21,8 L 21,6 L 3,6 z M 3,11 L 3,13 L 21,13 L 21, 12 L 21,11 L 3,11 z M 3,18 L 3,16 L 21,16 L 21,18 L 3,18 z" />
+              </path>
+              <path id="arrow_drawer_end_points_path" fill="#64B5F6" style="visibility: hidden;">
+                <animate id="drawer_arrow_end_points_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
+              </path>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </li>
+    <li class="flex-item">
+      <svg id="ic_arrow_overflow" viewBox="0 0 24 24" class="svgDemoGraphic">
+        <g transform="translate(12,12)">
+          <g id="arrow_overflow_translate_dot3" transform="translate(0,6)">
+            <g id="arrow_overflow_rotate_dot3">
+              <g id="arrow_overflow_pivot_dot3">
+                <path id="arrow_overflow_path3" fill="#000" d="M 0,-2 l 0,0 c 1.05,0 2,0.895 2,2 l 0,0 c 0,1.05 -0.895,2 -2,2 l 0,0 c -1.05,0 -2,-0.895 -2,-2 l 0,0 c 0,-1.05 0.895,-2 2,-2 Z">
+                  <animate id="overflow_to_arrow_path3_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
+                  <animate id="arrow_to_overflow_path3_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
+                </path>
+                <path id="arrow_overflow_end_points_path3" style="visibility: hidden;" fill="#64B5F6">
+                  <animate id="arrow_overflow_end_points3_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" fill="freeze" />
+                </path>
+              </g>
+            </g>
+          </g>
+          <g id="arrow_overflow_translate_dot1" transform="translate(0,-6)">
+            <g id="arrow_overflow_rotate_dot1">
+              <g id="arrow_overflow_pivot_dot1">
+                <path id="arrow_overflow_path1" fill="#000" d="M 0,-2 l 0,0 c 1.05,0 2,0.895 2,2 l 0,0 c 0,1.05 -0.895,2 -2,2 l 0,0 c -1.05,0 -2,-0.895 -2,-2 l 0,0 c 0,-1.05 0.895,-2 2,-2 Z">
+                  <animate id="overflow_to_arrow_path1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
+                  <animate id="arrow_to_overflow_path1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
+                </path>
+                <path id="arrow_overflow_end_points_path1" style="visibility: hidden;" fill="#64B5F6">
+                  <animate id="arrow_overflow_end_points1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" fill="freeze" />
+                </path>
+              </g>
+            </g>
+          </g>
+          <g id="arrow_overflow_translate_dot2">
+            <g id="arrow_overflow_pivot_dot2">
+              <path id="arrow_overflow_path2" fill="#000" d="M 0,-2 l 0,0 c 1.05,0 2,0.895 2,2 l 0,0 c 0,1.05 -0.895,2 -2,2 l 0,0 c -1.05,0 -2,-0.895 -2,-2 l 0,0 c 0,-1.05 0.895,-2 2,-2 Z">
+                <animate id="overflow_to_arrow_path2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.1667;0.3333;0.5;0.6666;0.83333;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
+                <animate id="arrow_to_overflow_path2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" />
+              </path>
+              <path id="arrow_overflow_end_points_path2" style="visibility: hidden;" fill="#64B5F6">
+                <animate id="arrow_overflow_end_points2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" fill="freeze" />
+              </path>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </li>
+    <li class="flex-item">
+      <svg id="ic_play_pause_stop" viewBox="0 0 18 18" class="svgDemoGraphic">
+        <g id="play_pause_stop_translateX" transform="translate(0.75,0)">
+          <g transform="translate(9,9)">
+            <g id="play_pause_stop_rotate" transform="rotate(90)">
+              <g transform="translate(-9,-9)">
+                <path id="play_pause_stop_path" d="M9 5v8H4l5-8m0 0l5 8H9V5">
+                  <animate id="play_pause_stop_animation" fill="freeze" attributeName="d" begin="infinite" dur="200ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" />
+                </path>
+                <path id="play_pause_stop_end_points_path" style="visibility: hidden;" fill="#64B5F6">
+                  <animate id="play_pause_stop_end_points_animation" fill="freeze" attributeName="d" begin="infinite" dur="200ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" />
+                </path>
+              </g>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </li>
+    <li class="flex-item">
+      <svg id="ic_countdown" viewBox="0 0 1 1" class="svgDemoGraphic">
+        <g id="scale_container" transform="scale(0.8,0.8)">
+          <g id="countdown_container" transform="translate(0.1,0.1)">
+            <path id="countdown_digits" stroke="#000" stroke-width="0.02" fill="none" d="M.246.552C.246.332.37.1.552.1c.183 0 .31.23.31.452 0 .22-.127.442-.31.442C.37.994.246.774.246.552">
+              <animate id="countdown_digits_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
+            </path>
+            <path id="countdown_digits_cp1" style="visibility: hidden;" fill="#64B5F6">
+              <animate id="countdown_digits_cp1_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
+            </path>
+            <path id="countdown_digits_cp2" style="visibility: hidden;" fill="#64B5F6">
+              <animate id="countdown_digits_cp2_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
+            </path>
+            <path id="countdown_digits_end" style="visibility: hidden;" fill="#64B5F6">
+              <animate id="countdown_digits_end_animation" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" fill="freeze" />
+            </path>
+          </g>
+        </g>
+      </svg>
+    </li>
+  </ul>
+  <div class="svgDemoCheckboxContainer">
+    <label for="pathMorphRotateCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="pathMorphRotateCheckbox" class="mdl-checkbox__input" checked>
+      <span class="mdl-checkbox__label">Animate rotation</span>
+    </label>
+    <label for="pathMorphShowPathPointsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="pathMorphShowPathPointsCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Show path control/end points</span>
+    </label>
+    <label for="pathMorphSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+      <input type="checkbox" id="pathMorphSlowAnimationCheckbox" class="mdl-checkbox__input">
+      <span class="mdl-checkbox__label">Slow animation</span>
+    </label>
+  </div>
+</div>

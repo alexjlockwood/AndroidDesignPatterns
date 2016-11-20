@@ -12,6 +12,10 @@
   height: 240px;
 }
 
+.svgBasicDemoPathInstructionList {
+  margin-top: 16px;
+}
+
 .svgBasicDemoPathInstruction {
   margin: 0px;
 }
