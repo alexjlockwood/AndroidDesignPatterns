@@ -1,5 +1,5 @@
-/* TODO(alockwood): figure out why compass/css3 is apparently not found? */
-@import "compass/css3";
+/* TODO(alockwood): figure out why compass/css3 is apparently not found?
+@import "compass/css3"; */
 
 .svgDemoContainer {
   background-color: #f5f5f5;
@@ -10,6 +10,10 @@
 .svgDemoGraphic {
   width: 240px;
   height: 240px;
+}
+
+.svgBasicDemoPathInstruction {
+  margin: 0px;
 }
 
 .flex-container {

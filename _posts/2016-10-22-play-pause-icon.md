@@ -85,10 +85,10 @@ We can see how these commands work in action in the diagrams below. Each icon is
           <text text-anchor="start" x="208" y="126">3</text>
         </svg>
         <ol>
-          <li><code>M 4,2.5</code></li>
-          <li><code>L 4,9.5</code></li>
-          <li><code>L 9.5,6</code></li>
-          <li><code>Z</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>M 4,2.5</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>L 4,9.5</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>L 9.5,6</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>Z</code></li>
         </ol>
       </div>
     </li>
@@ -118,10 +118,10 @@ We can see how these commands work in action in the diagrams below. Each icon is
           <text text-anchor="middle" x="160" y="215">4</text>
         </svg>
         <ol>
-          <li><code>M 4,2.5</code></li>
-          <li><code>L 4,9.5</code></li>
-          <li><code>M 8,2.5</code></li>
-          <li><code>L 8,9.5</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>M 4,2.5</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>L 4,9.5</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>M 8,2.5</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>L 8,9.5</code></li>
         </ol>
       </div>
     </li>
@@ -171,11 +171,11 @@ We can see how these commands work in action in the diagrams below. Each icon is
           <text text-anchor="middle" x="120" y="225">4</text>
         </svg>
         <ol>
-          <li><code>M 2,6</code></li>
-          <li><code>C 2,3.79 3.79,2 6,2</code></li>
-          <li><code>C 8.21,2 10,3.79 10,6</code></li>
-          <li><code>C 10,8.21 8.21,10 6,10</code></li>
-          <li><code>C 3.79,10 2,8.21 2,6</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>M 2,6</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>C 2,3.79 3.79,2 6,2</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>C 8.21,2 10,3.79 10,6</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>C 10,8.21 8.21,10 6,10</code></li>
+          <li class="svgBasicDemoPathInstruction"><code>C 3.79,10 2,8.21 2,6</code></li>
         </ol>
       </div>
     </li>
@@ -519,6 +519,7 @@ This is how trimming paths works:
 
 <div class="svgDemoContainer">
   <svg id="ic_line_path" viewBox="0 0 24 1" width="95%">
+    <path id="line_path_background" fill="none" stroke="#000" stroke-opacity="0.26" stroke-width=".25" d="M 0.5,0.5 h 23" />
     <path id="line_path" fill="none" stroke="#000" stroke-width=".25" d="M 0.5,0.5 h 23" />
   </svg>
   <div class="sliderContainer">
