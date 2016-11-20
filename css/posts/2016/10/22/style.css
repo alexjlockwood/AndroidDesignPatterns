@@ -1,3 +1,4 @@
+/* TODO(alockwood): figure out why compass/css3 is apparently not found? */
 @import "compass/css3";
 
 .svgDemoContainer {
