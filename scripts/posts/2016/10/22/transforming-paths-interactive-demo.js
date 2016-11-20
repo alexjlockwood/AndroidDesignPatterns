@@ -55,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       currentTransformValue = shouldEnable ? "rotate(0deg)" : "rotate(90deg)";
       nextTransformValue = shouldEnable ? "rotate(90deg)" : "rotate(0deg)";
     }
-    console.log(currentTransformValue + " " + nextTransformValue);
     group.animate([{
       "transform": currentTransformValue,
       offset: 0,

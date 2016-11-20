@@ -31,20 +31,13 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
 
 <!--morestart-->
 
-In this blog post I will describe different techniques to animate icons using `AnimatedVectorDrawable`s.
+In this blog post I will describe different techniques to animate icons using `VectorDrawable`s and `AnimatedVectorDrawable`s.
 
 <!--more-->
 
 ## Creating animated icons
 
-`VectorDrawable`s are made up of four types of elements:
-
-* **`<vector>`** - The root element of the `VectorDrawable`. Defines the intrinsic width and height of the drawable, as well as the width and height of the vector's virtual canvas.
-* **`<group>`** - Defines a group of paths or subgroups plus additional transformation information.
-* **`<path>`** - Defines the paths to be drawn using [SVG path syntax][svg-path-reference]. Paths will either be filled or stroked.
-* **`<clip-path>`** - Defines a portion of the drawable to be clipped.
-
-The opportunity to animate all or parts of the image is what we're really interested in right now. In this section I'll go over different techniques and properties that are commonly used to construct animated icons.
+TODO(alockwood): figure out what to write here
 
 ### Drawing `path`s
 
@@ -73,7 +66,7 @@ We can see how these commands and attributes work in action in the diagrams belo
 
 ### Transforming `group`s of `path`s
 
-Transformations include rotation, scale, and translate. Pivot determines the center point with which to perform a scale and/or a rotation.
+Paths can also be transformed using the `<group>` tag. Multiple paths can belong to a group. Groups support the following transformation types, all of which are animatable. Note that the pivot determines the center point with which to perform a scale and/or rotation.
 
 | Property name        | Element type | Value type |
 |----------------------|--------------|------------|
@@ -85,7 +78,7 @@ Transformations include rotation, scale, and translate. Pivot determines the cen
 | `android:translateX` | `<group>`    | `float`    |
 | `android:translateY` | `<group>`    | `float`    |
 
-It is important to understand the order in which transformations will be performed because this will affect what is ultimately drawn to the display. The three groups below describe how transformations will be applied. Note that children groups are applied before parent groups, and that transformations made on the same group are applied in the order of scale, rotation, and then translation.
+It is particularly important to understand the order in which transformations are applied because it can seem a little backwards at first. The two rules to remember are (1) children groups are transformed before their parent groups, and (2) transformations that are made on the same group are applied in order of scale, rotation, and then translation. As an example, consider the group transformations applied to the play, pause, and record vector drawables discussed above:
 
 ```xml
 <vector
@@ -95,47 +88,47 @@ It is important to understand the order in which transformations will be perform
   android:viewportHeight="12"
   android:viewportWidth="12">
 
-  <!-- First translate the canvas, then rotate, then scale, then draw the path. -->
+  <!-- Translate the canvas, then rotate, then scale, then draw the play icon. -->
   <group android:scaleX="1.5" android:pivotX="6" android:pivotY="6" >
     <group android:rotation="90" android:pivotX="6" android:pivotY="6">
       <group android:translateX="2">
-        <path/>
+        <path android:name="play_path"/>
       </group>
     </group>
   </group>
 
-  <!-- First rotate the canvas, then translate, then scale, then draw the path. -->
+  <!-- Rotate the canvas, then translate, then scale, then draw the pause icon. -->
   <group android:scaleX="1.5" android:pivotX="6" android:pivotY="6">
     <group
       android:rotation="90" android:pivotX="6" android:pivotY="6"
       android:translateX="2">
-      <path/>
+      <path android:name="pause_path"/>
     </group>
   </group>
 
-  <!-- First translate the canvas, then rotate, then scale, then draw the path. -->
+  <!-- Translate the canvas, then rotate, then scale, then draw the record icon. -->
   <group
     android:rotation="90"
     android:scaleX="1.5"
     android:pivotX="6"
     android:pivotY="6">
     <group android:translateX="2">
-      <path/>
+      <path android:name="record_path"/>
     </group>
   </group>
 
 </vector>
 ```
 
-And the results:
+In each scenario, the following will be displayed to the screen. Make sure you understand how the different orderings of the groups affect how each icon ends up being displayed.
 
 {% include posts/2016/10/22/transforming_paths_interactive_demo.html %}
 
-Some examples:
+Transformations are widely used to animate icons. Here are three more examples of icons that depend on group transformations in order to be animated.
 
 {% include posts/2016/10/22/transforming_paths_demo.html %}
 
-A radio button consists of two paths: an outer ring and an inner dot.
+First, the expand/collapse chevron on the left consists of two paths.
 
 A material horizontal indeterminate progress bar consists of a translucent background and two opaque children rectangles. The two children rectangles are scaled and translated in parallel at different speeds. A unique combination of cubic bezier interpolation curves is used to scale the rectangles at varying degrees. Further, the two rectangles are translated from the left to the right indefinitely (however, you can never actually tell that there are really two rectangles being translated because the two are never entirely visible at once).
 
