@@ -11,6 +11,11 @@
   width: 240px;
   height: 240px;
 }
+.svgTransformPathsDemoList {
+  margin-top: 16px;
+  list-style: none;
+  padding-left:0;
+}
 
 .svgBasicDemoPathInstructionList {
   margin-top: 16px;

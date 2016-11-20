@@ -19,6 +19,7 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
 <script defer src="/scripts/posts/2016/10/22/web-animations.min.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-data-polyfill.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-properties-animated-svgs.js"></script>
+<script defer src="/scripts/posts/2016/10/22/transforming-paths-interactive-demo.js"></script>
 <script defer src="/scripts/posts/2016/10/22/transformation-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/linear-progress-bar-animated-svgs.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-morph-animated-svgs.js"></script>
@@ -47,7 +48,7 @@ The opportunity to animate all or parts of the image is what we're really intere
 
 ### Drawing `path`s
 
-Before we can animate paths we need to know how to draw them. The most important elements of a `VectorDrawable` are the paths because they are what ultimately end up getting drawn to the screen. Paths are defined using the `<path>` tag and are drawn in the top-down order in which they appear in the `VectorDrawable`'s XML file. Paths are drawn using a series of space separated drawing commands, using a subset of the [SVG path data spec][svg-path-reference] in order to draw lines, curves, and so on. I've summarized the drawing commands I encounter most frequently in the table below (**TODO: add footnote explaining other commands at some point?**):
+Before we can animate paths we need to know how to draw them. The most important elements of a `VectorDrawable` are the paths because they are what ultimately end up getting drawn to the screen. Paths are defined using the `<path>` tag and are drawn in the top-down order in which they appear in the `VectorDrawable`'s XML file. Paths are drawn using a series of space separated drawing commands, using a subset of the [SVG path data spec][svg-path-reference] in order to draw lines, curves, and so on. This sequence of commands is specified as a string in the `android:pathData` attribute. I've summarized the drawing commands I encounter most frequently in the table below:
 
 | Command             | Description |
 |---------------------|-------------|
@@ -56,7 +57,7 @@ Before we can animate paths we need to know how to draw them. The most important
 | `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
 | `Z`                 | Close the current path by drawing a line to the beginning of the current path.
 
-As you can see above, paths can either be filled (as in the play and record icons) or stroked (as in the pause icon). Collectively, these two types of paths have 5 animatable properties, each of which are listed below:
+Paths can either be filled or stroked. The path commands will result in a series of lines and shapes. If the path is filled, the interiors of all shapes will be painted. If the path is stroked, the paint will be applied along the outline of the path. Collectively, these filled and stroked paths have 5 animatable properties, each of which are listed below:
 
 | Property name         | Element type | Value type | Min value | Max value |
 |-----------------------|--------------|------------|-----------|-----------|
@@ -66,15 +67,13 @@ As you can see above, paths can either be filled (as in the play and record icon
 | `android:strokeColor` | `<path>`     | `integer`  | - - -     | - - -     |
 | `android:strokeWidth` | `<path>`     | `float`    | `0`       | - - -     |
 
-`fillColor` and `strokeColor` can be used to an icon's color over time. `fillAlpha` and `strokeAlpha` can be used to selectively fade in/out individual paths over the course of an animation. (**TODO(alockwood): add footnote explaining that `android:alpha` can be animated on the `<vector>` tag as well?**) And `strokeWidth` can be used to animate the width of a stroked path over time. We'll see some examples of how these properties can be used later on in this post.
-
-We can see how these commands work in action in the diagrams below. Each icon is drawn in a 12x12 grid using the following drawing commands:
+We can see how these commands and attributes work in action in the diagrams below. The play and record icons are filled paths with orange and red fill colors respectively. The pause icon is a stroked path with a green stroke color and a stroke width of 2. Each icon is drawn in a 12x12 grid using the following drawing commands (view the `VectorDrawable` source code for each [here][play-pause-record-vector-drawable-gist]):
 
 {% include posts/2016/10/22/drawing_paths_demo.html %}
 
 ### Transforming `group`s of `path`s
 
-Transformations include alpha, rotation, scale, and translate. Pivot determines the center point with which to perform a scale and/or a rotation.
+Transformations include rotation, scale, and translate. Pivot determines the center point with which to perform a scale and/or a rotation.
 
 | Property name        | Element type | Value type |
 |----------------------|--------------|------------|
@@ -91,25 +90,25 @@ It is important to understand the order in which transformations will be perform
 ```xml
 <vector
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:width="24dp"
-  android:height="24dp"
-  android:viewportHeight="24"
-  android:viewportWidth="24">
+  android:width="48dp"
+  android:height="48dp"
+  android:viewportHeight="12"
+  android:viewportWidth="12">
 
   <!-- First translate the canvas, then rotate, then scale, then draw the path. -->
-  <group android:scaleX="1.5">
-    <group android:rotation="90">
-      <group android:translateX="12">
+  <group android:scaleX="1.5" android:pivotX="6" android:pivotY="6" >
+    <group android:rotation="90" android:pivotX="6" android:pivotY="6">
+      <group android:translateX="2">
         <path/>
       </group>
     </group>
   </group>
 
   <!-- First rotate the canvas, then translate, then scale, then draw the path. -->
-  <group android:scaleX="1.5">
+  <group android:scaleX="1.5" android:pivotX="6" android:pivotY="6">
     <group
-      android:rotation="90"
-      android:translateX="12">
+      android:rotation="90" android:pivotX="6" android:pivotY="6"
+      android:translateX="2">
       <path/>
     </group>
   </group>
@@ -117,14 +116,20 @@ It is important to understand the order in which transformations will be perform
   <!-- First translate the canvas, then rotate, then scale, then draw the path. -->
   <group
     android:rotation="90"
-    android:scaleX="1.5">
-    <group android:translateX="12">
+    android:scaleX="1.5"
+    android:pivotX="6"
+    android:pivotY="6">
+    <group android:translateX="2">
       <path/>
     </group>
   </group>
 
 </vector>
 ```
+
+And the results:
+
+{% include posts/2016/10/22/transforming_paths_interactive_demo.html %}
 
 Some examples:
 
@@ -231,17 +236,16 @@ Explain examples.
 
 It also might be useful to give a listing of useful tools/resources for further reading.
 
-## Miscellaneous stuff
+## Sample app
 
-Here is the link to the [sample app source code][adp-delightful-details].
+Here is the link to the [sample app source code][adp-delightful-details] (mention that the `README.md` file has a bunch of useful information).
 
-This stuff is probably better suited to go in the sample app `README.md` file.
+## Potential footnotes:
 
-* Which stuff is/isn't backwards compatible.
-* Importance/usefulness of tinting icons.
-* Explain how `android:propertyXName` and `android:propertyYName` can be used.
-* Mention that currently animated vectors can only be constructed in XML (and that this might change in the future).
+* Mention that the `<vector>` tag's `android:alpha` property can also be animated.
+* Mention a few other path command information (i.e. `H`, `V`, `A`, difference between upper/lower case, space/commas don't matter, etc.).
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
   [cubic-bezier-curve]: https://en.wikipedia.org/wiki/B%C3%A9zier_curve
+  [play-pause-record-vector-drawable-gist]: https://gist.github.com/alexjlockwood/e70717b7cb9c040899f08b58860ea3fb
