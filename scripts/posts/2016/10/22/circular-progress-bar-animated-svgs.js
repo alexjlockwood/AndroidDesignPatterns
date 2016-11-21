@@ -19,11 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function createRotationAnimation() {
         return circular_progress_outer_rotation.animate([{
             transform: "rotate(0deg)",
-            offset: 0.0,
+            offset: 0,
             easing: 'linear'
         }, {
             transform: "rotate(720deg)",
-            offset: 1.0
+            offset: 1
         }], {
             duration: getScaledAnimationDuration(4444),
             fill: "forwards",
@@ -34,11 +34,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function createTrimPathOffsetAnimation() {
         return circular_progress_inner_rotation.animate([{
             transform: "rotate(0deg)",
-            offset: 0.0,
+            offset: 0,
             easing: 'linear'
         }, {
             transform: "rotate(90deg)",
-            offset: 1.0
+            offset: 1
         }], {
             duration: getScaledAnimationDuration(1333),
             fill: "forwards",

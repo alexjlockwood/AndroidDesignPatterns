@@ -124,9 +124,7 @@ In each scenario, the following will be displayed to the screen. Make sure you u
 
 {% include posts/2016/10/22/transforming_paths_interactive_demo.html %}
 
-Transformations are widely used to animate icons. Here are three more examples of icons that depend on group transformations in order to be animated.
-
-{% include posts/2016/10/22/transforming_paths_demo.html %}
+Transformations are widely used to animate icons. Below are three more examples of icons that depend on group transformations in order to be animated.
 
 The expand/collapse icon ([source code][asl_checkable_expandcollapse]) on the left consists of only two straight line paths. When clicked, the two straight lines are simultaneously rotated 90 degrees and translated vertically in order to create the transition between the expanded and collapsed states. 
 
@@ -134,13 +132,15 @@ The alarm clock icon ([source code][avd_clock_alarm]) is also fairly simple. The
 
 The radio button icon ([source code][asl_checkable_radiobutton]) looks complicated at first, but actually only involves animating the icon's scale and stroke width properties. The radio button consists of two paths: an inner dot and an outer ring. The radio button begins in an unchecked state with only its outer ring visible. When it is checked, the outer ring's scale and stroke width are rapidly animated in order to create the effect that the outer ring is collapsing in on itself. A pretty awesome effect!
 
+{% include posts/2016/10/22/transforming_paths_demo.html %}
+
 One last cool animation that makes use of group transformations is the horizontal indeterminate progress bar ([source code][avd_progress_indeterminate_horizontal]). A material horizontal indeterminate progress bar consists of two opaque rectangular paths drawn on top of a translucent background. The two rectangles are scaled and translated in parallel, controlled by a unique combination of interpolators that alter their size and location at varying degrees. Try toggling the scale and translation animations on the demo below to see the effect! (**TODO(alockwood): make the linear progress bar fill the screens width?**)
 
 {% include posts/2016/10/22/indeterminate_progress_bar_horizontal_demo.html %}
 
 ### Trimming stroked `path`s
 
-Paths can be trimmed.
+A lesser known property of stroked paths paths is that they can be trimmed. `VectorDrawable`s provide three additional attributes that can be animated to achieve some pretty cool effects:
 
 | Property name            | Element type | Value type | Min value | Max value |
 |--------------------------|--------------|------------|-----------|-----------|
@@ -148,54 +148,41 @@ Paths can be trimmed.
 | `android:trimPathEnd`    | `<path>`     | `float`    | `0`       | `1`       |
 | `android:trimPathOffset` | `<path>`     | `float`    | `0`       | `1`       |
 
-This is how trimming paths works:
+Perhaps the best way to understand how this works is through an example. Consider the simple, straight line path below. Update the sliders below to see how altering each attribute affects what portions of the path will be drawn to the display. Note that setting the start value to be greater than the end value is perfectly valid, and results in a trimmed path that begins at the start value and wraps around the end of the path back to the lesser end value.
 
 {% include posts/2016/10/22/trim_path_start_end_offset_interactive_demo.html %}
 
-Some examples:
+Below are four examples of animated icons that are composed of stroked paths and make use of this effect. (**TODO(alockwood): an alternative to talking about each icon one by one is to talk about the different types of effects that can be created using these attributes and citing the icons as examples).
+
+The fingerprint icon ([source code][asl_fingerprint]) is made up of 5 stroked paths. The paths begin with their trim path start and end values set to 0 and 1 respectively, and their end values are quickly animated to 0 when hidden and back to 1 when shown. The Android handwriting icon ([source code][avd_handwriting_android_design]) works similarly. The paths begin with their start and end values set to 0, making it completely hidden. Then each path is sequentially animated into view, creating the illusion that the icon is being written out by hand.
+
+The search to back icon ([source code][asl_trimclip_searchback]) uses a clever trim path transition in order to animate the stem of the search icon into the stem of a back arrow. Notice how the start and end trims are animated at different speeds in order to create the effect that the stem is being stretched over time as it slides into its new position.
+
+Unlike the others, the Google IO 2016 icon ([source code][avd_handwriting_io16]) animates the trim path offset attribute, making use of the fact that trimmed paths wrap around the end of the path.
 
 {% include posts/2016/10/22/trimming_stroked_paths_demo.html %}
 
-A material circular indeterminate progress bar can be animated by altering SVG properties in parallel:
+Lastly, a material circular indeterminate progress bar ([source code][avd_progress_indeterminate_circular]) consists of a single circular stroked path, and can be animated by modifying the following three properties in parallel at various speeds:
 
-1. The entire progress bar is rotated indefinitely about the center of the 
-   canvas from 0° to 720° over the course of 4.444s.
+1. The entire progress bar is rotated from 0° to 720° over the course of 4444 milliseconds.
 
-2. The progress bar's starting stroke position (i.e. trimPathOffset) is animated
-   from 0.0 to 0.25 over the course of 1.333s. In this example, it could also be
-   thought of as an additional rotation from 0 to 90 degrees (although trimming
-   the path offset in Android is usually more convenient).
+2. The progress bar's trimPathOffset is animated from `0` to `0.25` over the course of 1333 milliseconds. This has the same effect as applying an additional rotation from 0° to 90°.
 
-3. Portions of the progress bar's circular path are clipped using the trimPathStart
-   and trimPathEnd properties. trimPath{Start,End} both take floating point values between
-   0f and 1f; trimPathStart="x" and trimPathEnd="y" tells us that only the portion
-   of the path between [x,y] will be drawn to the display. Over the course of the
-   animation, these properties are assigned the following values:
+3. Portions of the progress bar's circular path are trimmed using the trim path start/end properties over the course of 1333 milliseconds. Specifically, over the course of the animation they are animated between the following values:
 
-   ```
-   t = 0.0, trimPathStart = 0.75, trimPathEnd = 0.78
-   t = 0.5, trimPathStart = 0.00, trimPathEnd = 0.75
-   t = 1.0, trimPathStart = 0.00, trimPathEnd = 0.03
-   ```
+    | `t` | `android:trimPathStart` | `android:trimPathEnd` |
+    |-----|-------------------------|-----------------------|
+    | 0.0 | 0.0                     | 0.03                  |
+    | 0.5 | 0.0                     | 0.75                  |
+    | 1.0 | 0.75                    | 0.78                  |
 
-   At time t = 0 and t = 1, the progress bar is at it's smallest size (only 3% is
-   visible). At t = 0.5, the progress bar has stretched to its maximum size (75% is
-   visible).
-
-   Between t = 0 and t = 0.5, the animation uses a standard "fast out slow in" interpolation
-   curve to assign floating point values to the trimPathStart property (in other words,
-   trimPathStart's rate of change is much faster at t = 0 than it is at t = 0.5). This
-   results in a quick and sudden expansion of the progress bar path. The same thing is done
-   to assign values to the trimPathEnd property between t = 0.5 and t = 1.0,
-   resulting in a quick and immediate shrinking of the progress bar path.
+    At time `t = 0.0` and `t = 1.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). Similar to the search to back icon, the path's start and end trims are animated at different speeds to achieve the stretching effect that is characteristic of loading indicators.
 
 {% include posts/2016/10/22/indeterminate_progress_bar_circular_demo.html %}
 
-Explain examples.
-
 ### Morphing `path`s
 
-Paths can be morphed.
+Paths can be morphed using the following property:
 
 | Property name      | Element type | Value type |
 |--------------------|--------------|------------|
@@ -205,27 +192,21 @@ Some examples:
 
 {% include posts/2016/10/22/morphing_paths_demo.html %}
 
-Explain examples.
+### Clipping `path`s
 
-### Clipping `path`s with `clip-path`
-
-Paths can be clipped.
+Finally, paths can be clipped using the `<clip-path>` tag. A clip path specifies the portion of the display that should be shown. Anything that lies outside the bounds of the clip path will not be drawn to the display. Note that clip paths only affect the paths contained in the current group (paths belonging to other sibling groups will not be affected).
 
 | Property name      | Element type  | Value type |
 |--------------------|---------------|------------|
 | `android:pathData` | `<clip-path>` | `string`   |
 
-Some examples:
+Clip paths are animated via path morphing using the `android:pathData` property. They are commonly used to create fill animations. For example, in the hourglass animation ([source code][avd_clock_timer]) and the heart break animation ([source code][asl_trimclip_heartbreak]). However, they can also be used to create other effects, such as animating the effect of crossing out an icon, as in the second animation below.
 
 {% include posts/2016/10/22/clipping_paths_demo.html %}
-
-Explain examples.
 
 ### Uploading example
 
 {% include posts/2016/10/22/uploading_demo.html %}
-
-Explain examples.
 
 ## Further reading
 
@@ -240,6 +221,8 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * Mention that the `<vector>` tag's `android:alpha` property can also be animated.
 * Mention a few other path command information (i.e. `H`, `V`, `A`, difference between upper/lower case, space/commas don't matter, etc.).
 * Add check box to 'color individual paths' so the reader can see what is being animated?
+* Add warning that attempting to trim a filled path will cause unexpected behavior.
+* Add source code for eye visibility icon animation?
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
@@ -250,5 +233,10 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
   [avd_clock_alarm]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_clock_alarm.xml
   [asl_checkable_radiobutton]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/asl_checkable_radiobutton.xml
   [avd_progress_indeterminate_horizontal]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_progress_indeterminate_horizontal.xml
-
-
+  [asl_fingerprint]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/asl_fingerprint.xml
+  [asl_trimclip_searchback]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/asl_trimclip_searchback.xml
+  [avd_handwriting_android_design]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_handwriting_android_design.xml
+  [avd_handwriting_io16]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_handwriting_io16.xml
+  [avd_progress_indeterminate_circular]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_progress_indeterminate_circular.xml
+  [avd_clock_timer]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_clock_timer.xml
+  [asl_trimclip_heartbreak]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/asl_trimclip_heart.xml
