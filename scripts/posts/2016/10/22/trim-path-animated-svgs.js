@@ -299,4 +299,73 @@ document.addEventListener("DOMContentLoaded", function(event) {
       animateTrimPathEndWithDelay("ridge_1_path", 383, 316, "cubic-bezier(0, 0.5, 1, 1)", false);
     }
   }
+
+  // Google IO 2016 animation.
+  var currentIo16Animations = [];
+  var ioOne1 = document.getElementById("io16_one_1");
+  var ioOne2 = document.getElementById("io16_one_2");
+  var ioOne3 = document.getElementById("io16_one_3");
+  var ioOne4 = document.getElementById("io16_one_4");
+  var ioSix1 = document.getElementById("io16_six_1");
+  var ioSix2 = document.getElementById("io16_six_2");
+  var ioSix3 = document.getElementById("io16_six_3");
+  var ioSix4 = document.getElementById("io16_six_4");
+  var onePathLength = ioOne1.getTotalLength();
+  var sixPathLength = ioSix1.getTotalLength();
+  var oneStrokeDashArray = (onePathLength / 4) + "," + (onePathLength * 3 / 4);
+  var sixStrokeDashArray = (sixPathLength / 4) + "," + (sixPathLength * 3 / 4);
+  ioOne1.setAttribute("stroke-dasharray", oneStrokeDashArray);
+  ioOne2.setAttribute("stroke-dasharray", oneStrokeDashArray);
+  ioOne3.setAttribute("stroke-dasharray", oneStrokeDashArray);
+  ioOne4.setAttribute("stroke-dasharray", oneStrokeDashArray);
+  ioSix1.setAttribute("stroke-dasharray", sixStrokeDashArray);
+  ioSix2.setAttribute("stroke-dasharray", sixStrokeDashArray);
+  ioSix3.setAttribute("stroke-dasharray", sixStrokeDashArray);
+  ioSix4.setAttribute("stroke-dasharray", sixStrokeDashArray);
+  ioOne1.setAttribute("stroke-dashoffset", "0");
+  ioOne2.setAttribute("stroke-dashoffset", "" + (onePathLength * 0.25));
+  ioOne3.setAttribute("stroke-dashoffset", "" + (onePathLength * 0.5));
+  ioOne4.setAttribute("stroke-dashoffset", "" + (onePathLength * 0.75));
+  ioSix1.setAttribute("stroke-dashoffset", "0");
+  ioSix2.setAttribute("stroke-dashoffset", "" + (sixPathLength * 0.25));
+  ioSix3.setAttribute("stroke-dashoffset", "" + (sixPathLength * 0.5));
+  ioSix4.setAttribute("stroke-dashoffset", "" + (sixPathLength * 0.75));
+  beginIo16Animation();
+
+  function beginIo16Animation() {
+    var oneDurationMillis = getScaledAnimationDuration(4000);
+    var sixDurationMillis = getScaledAnimationDuration(5000);
+    currentIo16Animations.push(animateIo16Stroke(ioOne1, oneDurationMillis, 0));
+    currentIo16Animations.push(animateIo16Stroke(ioOne2, oneDurationMillis, onePathLength / 4));
+    currentIo16Animations.push(animateIo16Stroke(ioOne3, oneDurationMillis, onePathLength / 2));
+    currentIo16Animations.push(animateIo16Stroke(ioOne4, oneDurationMillis, onePathLength * 3 / 4));
+    currentIo16Animations.push(animateIo16Stroke(ioSix1, sixDurationMillis, 0));
+    currentIo16Animations.push(animateIo16Stroke(ioSix2, sixDurationMillis, sixPathLength / 4));
+    currentIo16Animations.push(animateIo16Stroke(ioSix3, sixDurationMillis, sixPathLength / 2))
+    currentIo16Animations.push(animateIo16Stroke(ioSix4, sixDurationMillis, sixPathLength * 3 / 4));
+  }
+
+  function animateIo16Stroke(element, durationMillis, startingStrokeDashOffset) {
+    return element.animate([{
+      "strokeDashoffset": "" + startingStrokeDashOffset,
+      easing: "linear",
+      offset: 0
+    }, {
+      "strokeDashoffset": "" + (startingStrokeDashOffset + element.getTotalLength()),
+      easing: "linear",
+      offset: 1
+    }], {
+      duration: getScaledAnimationDuration(durationMillis),
+      fill: "forwards",
+      iterations: "Infinity"
+    });
+  }
+
+  document.querySelector("input[id=trimPathSlowAnimationCheckbox]").addEventListener("change", function(event) {
+    for (var i = 0; i < currentIo16Animations.length; i++) {
+      currentIo16Animations[i].cancel();
+    }
+    currentIo16Animations = [];
+    beginIo16Animation();
+  });
 });

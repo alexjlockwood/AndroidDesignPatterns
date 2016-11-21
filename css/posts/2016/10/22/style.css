@@ -11,10 +11,16 @@
   width: 240px;
   height: 240px;
 }
+
+.svgTrimPathDemoGraphic {
+  width: 300px;
+  height: 300px;
+}
+
 .svgTransformPathsDemoList {
   margin-top: 16px;
   list-style: none;
-  padding-left:0;
+  padding-left: 0;
 }
 
 .svgBasicDemoPathInstructionList {
@@ -46,6 +52,7 @@
 .svgDemoCheckboxContainer {
   padding: 16px;
 }
+
 
 /* Linear progress bar demo. */
 
@@ -199,7 +206,7 @@
 
 .delightIconHandwritingStrokePath {
   fill: none;
-  stroke: #000;
+  stroke: #5C6BC0;
   stroke-width: 3;
   stroke-linejoin: round;
   stroke-linecap: round;
@@ -231,3 +238,7 @@
   visibility: hidden;
 }
 
+.delightIconIo16StrokePath {
+  fill: none;
+  stroke-width: 5;
+}
