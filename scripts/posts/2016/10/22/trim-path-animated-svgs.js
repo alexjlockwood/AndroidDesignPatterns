@@ -86,15 +86,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
     document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").addEventListener("change", function (event) {
         var visibility = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").checked ? "visible" : "hidden";
         var fingerprintDebugPaths = document.getElementsByClassName("delightIconFingerPrintStrokePathDebug");
-        for (var i = 0; i < fingerprintDebugPaths.length; i++) {
+        var i = 0;
+        for (i = 0; i < fingerprintDebugPaths.length; i += 1) {
             fingerprintDebugPaths.item(i).style.visibility = visibility;
         }
         var handwritingDebugPaths = document.getElementsByClassName("delightIconHandwritingStrokePathDebug");
-        for (var i = 0; i < handwritingDebugPaths.length; i++) {
+        for (i = 0; i < handwritingDebugPaths.length; i += 1) {
             handwritingDebugPaths.item(i).style.visibility = visibility;
         }
         var searchToBackDebugPaths = document.getElementsByClassName("delightIconSearchToBackStrokePathDebug");
-        for (var i = 0; i < searchToBackDebugPaths.length; i++) {
+        for (i = 0; i < searchToBackDebugPaths.length; i += 1) {
             searchToBackDebugPaths.item(i).style.visibility = visibility;
         }
     });
