@@ -174,3 +174,60 @@
   fill: #000;
 }
 
+.delightIconFillPath {
+  fill: #000;
+}
+
+.delightIconStrokePath {
+  fill: none;
+  stroke: #000;
+}
+
+.delightIconSearchToBackStrokePath {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2;
+}
+
+.delightIconSearchToBackStrokePathDebug {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2;
+  stroke-opacity: 0.3;
+  visibility: hidden;
+}
+
+.delightIconHandwritingStrokePath {
+  fill: none;
+  stroke: #000;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.delightIconHandwritingStrokePathDebug {
+  fill: none;
+  stroke: #000;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-opacity: 0.3;
+  visibility: hidden;
+}
+
+.delightIconFingerPrintStrokePath {
+  fill: none;
+  stroke: #000;
+  stroke-linecap: round;
+  stroke-width: 1.45;
+}
+
+.delightIconFingerPrintStrokePathDebug {
+  fill: none;
+  stroke: #000;
+  stroke-linecap: round;
+  stroke-width: 1.45;
+  stroke-opacity: 0.3;
+  visibility: hidden;
+}
+

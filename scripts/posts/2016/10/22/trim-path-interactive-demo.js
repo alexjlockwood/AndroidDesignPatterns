@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(event) {
   var trimPathStart = 0.0;
-  var trimPathEnd = 1.0;
+  var trimPathEnd = 0.5;
   var trimPathOffset = 0.0;
 
   document.querySelector("input[id=trimPathStart]").addEventListener("change", function(event) {

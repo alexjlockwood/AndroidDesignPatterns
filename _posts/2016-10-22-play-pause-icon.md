@@ -41,16 +41,7 @@ TODO(alockwood): figure out what to write here
 
 ### Drawing `path`s
 
-Before we can animate paths we need to know how to draw them. The most important elements of a `VectorDrawable` are the paths because they are what ultimately end up getting drawn to the screen. Paths are defined using the `<path>` tag and are drawn in the top-down order in which they appear in the `VectorDrawable`'s XML file. Paths are drawn using a series of space separated drawing commands, using a subset of the [SVG path data spec][svg-path-reference] in order to draw lines, curves, and so on. This sequence of commands is specified as a string in the `android:pathData` attribute. I've summarized the drawing commands I encounter most frequently in the table below:
-
-| Command             | Description |
-|---------------------|-------------|
-| `M x,y`             | Move the path's current position to `(x,y)`.
-| `L x,y`             | Draw a line to `(x,y)`.
-| `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
-| `Z`                 | Close the current path by drawing a line to the beginning of the current path.
-
-Paths can either be filled or stroked. The path commands will result in a series of lines and shapes. If the path is filled, the interiors of all shapes will be painted. If the path is stroked, the paint will be applied along the outline of the path. Collectively, these filled and stroked paths have 5 animatable properties, each of which are listed below:
+Before we can animate paths we need to know how to draw them. The most important elements of a `VectorDrawable` are the paths because they are what ultimately end up getting drawn to the screen. Paths are defined using the `<path>` tag and are drawn in the top-down order in which they appear in the `VectorDrawable`'s XML file. Paths can either be filled or stroked. The path commands will result in a series of lines and shapes. If the path is filled, the interiors of all shapes will be painted. If the path is stroked, the paint will be applied along the outline of the path. Collectively, these filled and stroked paths have 5 animatable properties, each of which are listed below:
 
 | Property name         | Element type | Value type | Min value | Max value |
 |-----------------------|--------------|------------|-----------|-----------|
@@ -59,6 +50,15 @@ Paths can either be filled or stroked. The path commands will result in a series
 | `android:strokeAlpha` | `<path>`     | `float`    | `0`       | `1`       |
 | `android:strokeColor` | `<path>`     | `integer`  | - - -     | - - -     |
 | `android:strokeWidth` | `<path>`     | `float`    | `0`       | - - -     |
+
+Paths are drawn using a series of space separated drawing commands, using a subset of the [SVG path data spec][svg-path-reference] in order to draw lines, curves, and so on. This sequence of commands is specified as a string in the `android:pathData` attribute. I've summarized the drawing commands I encounter most frequently in the table below:
+
+| Command             | Description |
+|---------------------|-------------|
+| `M x,y`             | Move the path's current position to `(x,y)`.
+| `L x,y`             | Draw a line to `(x,y)`.
+| `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
+| `Z`                 | Close the current path by drawing a line to the beginning of the current path.
 
 We can see how these commands and attributes work in action in the diagrams below. The play and record icons are filled paths with orange and red fill colors respectively. The pause icon is a stroked path with a green stroke color and a stroke width of 2. Each icon is drawn in a 12x12 grid using the following drawing commands (view the `VectorDrawable` source code for each [here][play-pause-record-vector-drawable-gist]):
 
@@ -106,13 +106,13 @@ It is particularly important to understand the order in which transformations ar
     </group>
   </group>
 
-  <!-- Translate the canvas, then rotate, then scale, then draw the record icon. -->
-  <group
-    android:rotation="90"
-    android:scaleX="1.5"
-    android:pivotX="6"
-    android:pivotY="6">
-    <group android:translateX="2">
+  <!-- Scale the canvas, then rotate, then translate, then draw the record icon. -->
+  <group android:translateX="2">
+    <group
+      android:rotation="90"
+      android:scaleX="1.5"
+      android:pivotX="6"
+      android:pivotY="6">
       <path android:name="record_path"/>
     </group>
   </group>
@@ -128,27 +128,15 @@ Transformations are widely used to animate icons. Here are three more examples o
 
 {% include posts/2016/10/22/transforming_paths_demo.html %}
 
-First, the expand/collapse chevron on the left consists of two paths.
+The expand/collapse icon ([source code][asl_checkable_expandcollapse]) on the left consists of only two straight line paths. When clicked, the two straight lines are simultaneously rotated 90 degrees and translated vertically in order to create the transition between the expanded and collapsed states. 
 
-A material horizontal indeterminate progress bar consists of a translucent background and two opaque children rectangles. The two children rectangles are scaled and translated in parallel at different speeds. A unique combination of cubic bezier interpolation curves is used to scale the rectangles at varying degrees. Further, the two rectangles are translated from the left to the right indefinitely (however, you can never actually tell that there are really two rectangles being translated because the two are never entirely visible at once).
+The alarm clock icon ([source code][avd_clock_alarm]) is also fairly simple. The two alarm bells are rotated 16 degrees back and forth about the origin a total of 8 times in order to make it look like the alarm clock is ringing. 
+
+The radio button icon ([source code][asl_checkable_radiobutton]) looks complicated at first, but actually only involves animating the icon's scale and stroke width properties. The radio button consists of two paths: an inner dot and an outer ring. The radio button begins in an unchecked state with only its outer ring visible. When it is checked, the outer ring's scale and stroke width are rapidly animated in order to create the effect that the outer ring is collapsing in on itself. A pretty awesome effect!
+
+One last cool animation that makes use of group transformations is the horizontal indeterminate progress bar ([source code][avd_progress_indeterminate_horizontal]). A material horizontal indeterminate progress bar consists of two opaque rectangular paths drawn on top of a translucent background. The two rectangles are scaled and translated in parallel, controlled by a unique combination of interpolators that alter their size and location at varying degrees. Try toggling the scale and translation animations on the demo below to see the effect!
 
 {% include posts/2016/10/22/indeterminate_progress_bar_horizontal_demo.html %}
-
-Explain examples.
-
-### Morphing `path`s
-
-Paths can be morphed.
-
-| Property name      | Element type | Value type |
-|--------------------|--------------|------------|
-| `android:pathData` | `<path>`     | `string`   |
-
-Some examples:
-
-{% include posts/2016/10/22/morphing_paths_demo.html %}
-
-Explain examples.
 
 ### Trimming stroked `path`s
 
@@ -205,6 +193,20 @@ A material circular indeterminate progress bar can be animated by altering SVG p
 
 Explain examples.
 
+### Morphing `path`s
+
+Paths can be morphed.
+
+| Property name      | Element type | Value type |
+|--------------------|--------------|------------|
+| `android:pathData` | `<path>`     | `string`   |
+
+Some examples:
+
+{% include posts/2016/10/22/morphing_paths_demo.html %}
+
+Explain examples.
+
 ### Clipping `path`s with `clip-path`
 
 Paths can be clipped.
@@ -233,12 +235,20 @@ It also might be useful to give a listing of useful tools/resources for further 
 
 Here is the link to the [sample app source code][adp-delightful-details] (mention that the `README.md` file has a bunch of useful information).
 
-## Potential footnotes:
+## Potential footnotes/ideas
 
 * Mention that the `<vector>` tag's `android:alpha` property can also be animated.
 * Mention a few other path command information (i.e. `H`, `V`, `A`, difference between upper/lower case, space/commas don't matter, etc.).
+* Add check box to 'color individual paths' so the reader can see what is being animated?
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
   [cubic-bezier-curve]: https://en.wikipedia.org/wiki/B%C3%A9zier_curve
   [play-pause-record-vector-drawable-gist]: https://gist.github.com/alexjlockwood/e70717b7cb9c040899f08b58860ea3fb
+  
+  [asl_checkable_expandcollapse]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/asl_checkable_expandcollapse.xml
+  [avd_clock_alarm]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_clock_alarm.xml
+  [asl_checkable_radiobutton]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/asl_checkable_radiobutton.xml
+  [avd_progress_indeterminate_horizontal]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_progress_indeterminate_horizontal.xml
+
+

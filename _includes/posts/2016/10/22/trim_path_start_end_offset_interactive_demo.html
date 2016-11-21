@@ -1,7 +1,7 @@
 <div class="svgDemoContainer">
   <svg id="ic_line_path" viewBox="0 0 24 1" width="95%">
     <path id="line_path_background" fill="none" stroke="#000" stroke-opacity="0.26" stroke-width=".25" d="M 0.5,0.5 h 23" />
-    <path id="line_path" fill="none" stroke="#000" stroke-width=".25" d="M 0.5,0.5 h 23" />
+    <path id="line_path" fill="none" stroke="#000" stroke-width=".25" stroke-dasharray="11.5,11.5" d="M 0.5,0.5 h 23" />
   </svg>
   <div class="sliderContainer">
     <div class="sliderTextContainer">
@@ -12,9 +12,9 @@
     </div>
     <div class="sliderTextContainer">
       <div class="slider">
-        <input id="trimPathEnd" class="mdl-slider mdl-js-slider sliderInput" type="range" min="0" max="100" value="100" tabindex="0">
+        <input id="trimPathEnd" class="mdl-slider mdl-js-slider sliderInput" type="range" min="0" max="100" value="50" tabindex="0">
       </div>
-      <div class="sliderText"><code>android:trimPathEnd="<span id="trimPathEndValue">100</span>"</code></div>
+      <div class="sliderText"><code>android:trimPathEnd="<span id="trimPathEndValue">0.5</span>"</code></div>
     </div>
     <div class="sliderTextContainer">
       <div class="slider">

@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var currentAnimationDurationFactor = slowAnimationSelector.checked ? 10 : 1;
     return durationMillis * currentAnimationDurationFactor;
   }
-
+  
   function animateTransform(elementId, durationMillis, transformType, fromValue, toValue, easingFunction) {
     document.getElementById(elementId).animate([{
       "transform": transformType + "(" + fromValue + ")",
