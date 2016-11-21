@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   function cancelAnimations() {
-    for (i = 0; i < currentAnimations.length; i++) {
+    for (var i = 0; i < currentAnimations.length; i++) {
       currentAnimations[i].cancel();
     }
     currentAnimations = [];
@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var strokePath = document.getElementById("progress_tick");
     var pathLength = strokePath.getTotalLength();
     var keyFrames = [];
-    for (i = 0; i <= 1024; i += 16) {
+    for (var i = 0; i <= 1024; i += 16) {
       var trimPathStart = 0;
       var trimPathEnd = fastOutSlowInFunction(i / 1024);
       if (i >= 400) {
@@ -268,7 +268,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     };
     var pathLength = progressSpinnerPath.getTotalLength();
     var keyFrames = [];
-    for (i = 0; i < 1344; i += 16) {
+    for (var i = 0; i < 1344; i += 16) {
       var trimPathStart = 0;
       if (i >= 672) {
         trimPathStart = fastOutSlowInFunction(((i - 672) / 672)) * 0.75;

@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function animateAlarmClock() {
     var keyFrames = [];
-    for (i = 0; i < 22; i++) {
+    for (var i = 0; i < 22; i++) {
       if (i == 0) {
         keyFrames.push(createKeyFrame(0, 0));
       } else if (i < 21) {

@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function animatePointsWithList(animationElementId, durationMillis, listOfPathStrings, dotRadius) {
     var valuesString = "";
-    for (i = 0; i < listOfPathStrings.length; i++) {
+    for (var i = 0; i < listOfPathStrings.length; i++) {
       valuesString = valuesString + createPathDotString(listOfPathStrings[i], dotRadius);
       if (i + 1 !== listOfPathStrings.length) {
         valuesString = valuesString + ";";
@@ -546,7 +546,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var xcoords = [];
     var ycoords = [];
     var numPoints = 0;
-    for (i = 0; i < numbers.length; i++) {
+    for (var i = 0; i < numbers.length; i++) {
       var xy = numbers[i].split(",");
       if (xy.length == 2) {
         xcoords.push(xy[0]);
@@ -559,7 +559,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var endPath = "";
     var controlPointPath = createControlPointPath();
     var endPointPath = createEndPointPath();
-    for (i = 0; i < numPoints; i++) {
+    for (var i = 0; i < numPoints; i++) {
       var point = "M" + xcoords[i] + "," + ycoords[i];
       if (i % 3 == 0) {
         endPath += point + endPointPath;

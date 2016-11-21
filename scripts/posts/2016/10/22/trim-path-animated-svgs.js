@@ -83,19 +83,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").addEventListener("change", function(event) {
     var visibility = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").checked ? "visible" : "hidden";
-    document.getElementById("stem_debug").style.visibility = visibility;
-    document.getElementById("search_circle_debug").style.visibility = visibility;
-    document.getElementById("arrow_head_top_debug").style.visibility = visibility;
-    document.getElementById("arrow_head_bottom_debug").style.visibility = visibility;
-    document.getElementById("andro_debug").style.visibility = visibility;
-    document.getElementById("id_debug").style.visibility = visibility;
-    document.getElementById("a_debug").style.visibility = visibility;
-    document.getElementById("i1_dot_debug").style.visibility = visibility;
-    document.getElementById("ridge_5_path_debug").style.visibility = visibility;
-    document.getElementById("ridge_7_path_debug").style.visibility = visibility;
-    document.getElementById("ridge_6_path_debug").style.visibility = visibility;
-    document.getElementById("ridge_2_path_debug").style.visibility = visibility;
-    document.getElementById("ridge_1_path_debug").style.visibility = visibility;
+    var fingerprintDebugPaths = document.getElementsByClassName("delightIconFingerPrintStrokePathDebug");
+    for (var i = 0; i < fingerprintDebugPaths.length; i++) {
+      fingerprintDebugPaths.item(i).style.visibility = visibility;
+    }
+    var handwritingDebugPaths = document.getElementsByClassName("delightIconHandwritingStrokePathDebug");
+    for (var i = 0; i < handwritingDebugPaths.length; i++) {
+      handwritingDebugPaths.item(i).style.visibility = visibility;
+    }
+    var searchToBackDebugPaths = document.getElementsByClassName("delightIconSearchToBackStrokePathDebug");
+    for (var i = 0; i < searchToBackDebugPaths.length; i++) {
+      searchToBackDebugPaths.item(i).style.visibility = visibility;
+    }
   });
 
   // =============== Search to back animation.
@@ -113,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var pathLength = stemPath.getTotalLength();
     var keyFrames = [];
     if (isAnimatingToBack) {
-      for (i = 0; i < 600; i += 16) {
+      for (var i = 0; i < 600; i += 16) {
         var trimPathStart = fastOutSlowInFunction(i / 600) * 0.75;
         var trimPathEnd = fastOutSlowInFunction(Math.min(i, 450) / 450) * (1 - 0.185) + 0.185;
         var trimPathLength = trimPathEnd - trimPathStart;
@@ -134,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         fill: "forwards"
       });
     } else {
-      for (i = 0; i < 600; i += 16) {
+      for (var i = 0; i < 600; i += 16) {
         var trimPathStart = (1 - fastOutSlowInFunction(Math.min(i, 450) / 450)) * 0.75;
         var trimPathEnd = 1 - fastOutSlowInFunction(i / 600) * 0.815;
         var trimPathLength = trimPathEnd - trimPathStart;
@@ -227,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // =============== Handwriting animation.
   var currentHandwritingAnimations = [];
   document.getElementById("ic_android_handwriting").addEventListener("click", function() {
-    for (i = 0; i < currentHandwritingAnimations.length; i++) {
+    for (var i = 0; i < currentHandwritingAnimations.length; i++) {
       currentHandwritingAnimations[i].cancel();
     }
     currentHandwritingAnimations = [];
@@ -240,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function resetAllStrokes() {
     var ids = ["andro", "id", "a", "i1_dot"];
-    for (i = 0; i < ids.length; i++) {
+    for (var i = 0; i < ids.length; i++) {
       var path = document.getElementById(ids[i]);
       var pathLength = path.getTotalLength();
       // TODO(alockwood): fix this hack
