@@ -1,47 +1,50 @@
-<div class="svgDemoContainer">
-  <svg id="ic_uploading" viewBox="0 0 56 56" class="svgDemoGraphic">
-    <path id="upload_arrow_static" fill="#4d4d4d" d="M25,32L31,32L31,26L35,26L28,19L21,26L25,26L25,32Z" />
-    <clipPath id="upload_arrow_fill_clip">
-      <path id="upload_arrow_clip_path" d="M21 32 L35 32 L35 32 L21 32 Z">
-        <animate id="upload_arrow_fill_clip_animation" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M21 32 L35 32 L35 32 L21 32 Z;M21 10 L35 10 L35 32 L21 32 Z" repeatCount="indefinite" />
+<div>
+  <div class="svgDemoContainer">
+    <svg id="ic_uploading" viewBox="0 0 56 56" class="svgDemoGraphic">
+      <path id="upload_arrow_static" fill="#4d4d4d" d="M25,32L31,32L31,26L35,26L28,19L21,26L25,26L25,32Z" />
+      <clipPath id="upload_arrow_fill_clip">
+        <path id="upload_arrow_clip_path" d="M21 32 L35 32 L35 32 L21 32 Z">
+          <animate id="upload_arrow_fill_clip_animation" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M21 32 L35 32 L35 32 L21 32 Z;M21 10 L35 10 L35 32 L21 32 Z" repeatCount="indefinite" />
+        </path>
+      </clipPath>
+      <g clip-path="url(#upload_arrow_fill_clip)">
+        <path id="upload_arrow_filling" fill="#000" d="M25,32L31,32L31,26L35,26L28,19L21,26L25,26L25,32Z" />
+      </g>
+      <path id="upload_arrow_fill_clip_debug" d="M21 32 L35 32 L35 32 L21 32 Z" fill="#F44336" fill-opacity="0.3" style="visibility: hidden;">
+        <animate id="upload_arrow_fill_clip_animation_debug" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M21 32 L35 32 L35 32 L21 32 Z;M21 10 L35 10 L35 32 L21 32 Z" repeatCount="indefinite" />
       </path>
-    </clipPath>
-    <g clip-path="url(#upload_arrow_fill_clip)">
-      <path id="upload_arrow_filling" fill="#000" d="M25,32L31,32L31,26L35,26L28,19L21,26L25,26L25,32Z" />
-    </g>
-    <path id="upload_arrow_fill_clip_debug" d="M21 32 L35 32 L35 32 L21 32 Z" fill="#F44336" fill-opacity="0.3" style="visibility: hidden;">
-      <animate id="upload_arrow_fill_clip_animation_debug" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M21 32 L35 32 L35 32 L21 32 Z;M21 10 L35 10 L35 32 L21 32 Z" repeatCount="indefinite" />
-    </path>
-    <path id="upload_base" fill="#999999" d="M21,34L35,34L35,36L21,36L21,34Z" />
-    <g transform="translate(28,28)">
-      <g id="progress_spinner_outer_rotation">
-        <g id="progress_spinner_inner_rotation">
-          <g transform="translate(-28,-28)">
-            <path id="progress_spinner_circle_path_debug" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2" stroke="#690" stroke-opacity="0.3" stroke-width="4" fill="none" style="visibility: hidden;" />
-            <path id="progress_spinner_circle_path" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2" stroke="#690" stroke-width="4" fill="none" />
+      <path id="upload_base" fill="#999999" d="M21,34L35,34L35,36L21,36L21,34Z" />
+      <g transform="translate(28,28)">
+        <g id="progress_spinner_outer_rotation">
+          <g id="progress_spinner_inner_rotation">
+            <g transform="translate(-28,-28)">
+              <path id="progress_spinner_circle_path_debug" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2" stroke="#690" stroke-opacity="0.3" stroke-width="4" fill="none" style="visibility: hidden;" />
+              <path id="progress_spinner_circle_path" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2" stroke="#690" stroke-width="4" fill="none" />
+            </g>
           </g>
         </g>
       </g>
-    </g>
-    <path id="progress_tick_debug" fill="none" stroke="#690" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2C53.4,6.9 35.46,22.07 35.46,22.07L24.54,32.81L19.72,28.16" stroke-opacity="0.3" style="visibility: hidden;" />
-    <path id="progress_tick" fill="none" stroke="#690" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2C53.4,6.9 35.46,22.07 35.46,22.07L24.54,32.81L19.72,28.16" stroke-opacity="0" />
-    <!-- TODO(alockwood): implement this. -->
-    <path id="progress_tick_to_plus" fill="none" stroke-width="2" stroke-linecap="square" stroke="#690" d="M35.46,22.07L24.54,32.81M24.54,32.81L19.72,28.16" stroke-opacity="0" style="visibility: hidden;">
-      <animate id="progress_tick_to_plus_animation" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M35.46,22.07L24.54,32.81M24.54,32.81L19.72,28.16;M28,22L28,34M34,28L22,28" />
-    </path>
-  </svg>
-  <div class="svgDemoCheckboxContainer">
-    <label for="uploadingShowTrimPathsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-      <input type="checkbox" id="uploadingShowTrimPathsCheckbox" class="mdl-checkbox__input">
-      <span class="mdl-checkbox__label">Show trim paths</span>
-    </label>
-    <label for="uploadingShowClipMaskCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-      <input type="checkbox" id="uploadingShowClipMaskCheckbox" class="mdl-checkbox__input">
-      <span class="mdl-checkbox__label">Show clip masks</span>
-    </label>
-    <label for="uploadingSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-      <input type="checkbox" id="uploadingSlowAnimationCheckbox" class="mdl-checkbox__input">
-      <span class="mdl-checkbox__label">Slow animation</span>
-    </label>
+      <path id="progress_tick_debug" fill="none" stroke="#690" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2C53.4,6.9 35.46,22.07 35.46,22.07L24.54,32.81L19.72,28.16" stroke-opacity="0.3" style="visibility: hidden;" />
+      <path id="progress_tick" fill="none" stroke="#690" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2C53.4,6.9 35.46,22.07 35.46,22.07L24.54,32.81L19.72,28.16" stroke-opacity="0" />
+      <!-- TODO(alockwood): implement this. -->
+      <path id="progress_tick_to_plus" fill="none" stroke-width="2" stroke-linecap="square" stroke="#690" d="M35.46,22.07L24.54,32.81M24.54,32.81L19.72,28.16" stroke-opacity="0" style="visibility: hidden;">
+        <animate id="progress_tick_to_plus_animation" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M35.46,22.07L24.54,32.81M24.54,32.81L19.72,28.16;M28,22L28,34M34,28L22,28" />
+      </path>
+    </svg>
+    <div class="svgDemoCheckboxContainer">
+      <label for="uploadingShowTrimPathsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+        <input type="checkbox" id="uploadingShowTrimPathsCheckbox" class="mdl-checkbox__input">
+        <span class="mdl-checkbox__label">Show trim paths</span>
+      </label>
+      <label for="uploadingShowClipMaskCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+        <input type="checkbox" id="uploadingShowClipMaskCheckbox" class="mdl-checkbox__input">
+        <span class="mdl-checkbox__label">Show clip masks</span>
+      </label>
+      <label for="uploadingSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+        <input type="checkbox" id="uploadingSlowAnimationCheckbox" class="mdl-checkbox__input">
+        <span class="mdl-checkbox__label">Slow animation</span>
+      </label>
+    </div>
   </div>
+  <p class="mdl-typography--caption mdl-typography--text-center"><strong>Figure ?.</strong> Uploading icon animation (<a href="">source code</a> TODO: implement this!).</p>
 </div>

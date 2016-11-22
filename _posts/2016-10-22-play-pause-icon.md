@@ -37,7 +37,8 @@ In this blog post I will describe different techniques to animate icons using `V
 
 ## Creating animated icons
 
-TODO(alockwood): figure out what to write here
+* TODO(alockwood): figure out what to write here
+* Maybe start with an explanation that this blog post is about explaining animation techniques and won't be super technical as a result (most of the technical details can be learned by reading the sample app source code).
 
 ### Drawing `path`s
 
@@ -60,7 +61,7 @@ Paths are drawn using a series of space separated drawing commands, using a subs
 | `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
 | `Z`                 | Close the current path by drawing a line to the beginning of the current path.
 
-We can see how these commands and attributes work in action in the diagrams below. The play and record icons are filled paths with orange and red fill colors respectively. The pause icon is a stroked path with a green stroke color and a stroke width of 2. Each icon is drawn in a 12x12 grid using the following drawing commands (view the `VectorDrawable` source code for each [here][play-pause-record-vector-drawable-gist]):
+We can see how these commands and attributes work in action in the diagrams below. The play and record icons are filled paths with orange and red fill colors respectively. The pause icon is a stroked path with a green stroke color and a stroke width of 2. Each icon is drawn in a 12x12 grid using the following drawing commands:
 
 {% include posts/2016/10/22/drawing_paths_demo.html %}
 
@@ -126,15 +127,15 @@ In each scenario, the following will be displayed to the screen. Make sure you u
 
 Transformations are widely used to animate icons. Below are three more examples of icons that depend on group transformations in order to be animated.
 
-The expand/collapse icon ([source code][asl_checkable_expandcollapse]) on the left consists of only two straight line paths. When clicked, the two straight lines are simultaneously rotated 90 degrees and translated vertically in order to create the transition between the expanded and collapsed states. 
+The expand/collapse icon on the left consists of only two straight line paths. When clicked, the two straight lines are simultaneously rotated 90 degrees and translated vertically in order to create the transition between the expanded and collapsed states. 
 
-The alarm clock icon ([source code][avd_clock_alarm]) is also fairly simple. The two alarm bells are rotated 16 degrees back and forth about the origin a total of 8 times in order to make it look like the alarm clock is ringing. 
+The alarm clock icon is also fairly simple. The two alarm bells are rotated 16 degrees back and forth about the origin a total of 8 times in order to make it look like the alarm clock is ringing. 
 
-The radio button icon ([source code][asl_checkable_radiobutton]) looks complicated at first, but actually only involves animating the icon's scale and stroke width properties. The radio button consists of two paths: an inner dot and an outer ring. The radio button begins in an unchecked state with only its outer ring visible. When it is checked, the outer ring's scale and stroke width are rapidly animated in order to create the effect that the outer ring is collapsing in on itself. A pretty awesome effect!
+The radio button icon looks complicated at first, but actually only involves animating the icon's scale and stroke width properties. The radio button consists of two paths: an inner dot and an outer ring. The radio button begins in an unchecked state with only its outer ring visible. When it is checked, the outer ring's scale and stroke width are rapidly animated in order to create the effect that the outer ring is collapsing in on itself. A pretty awesome effect!
 
 {% include posts/2016/10/22/transforming_paths_demo.html %}
 
-One last cool animation that makes use of group transformations is the horizontal indeterminate progress bar ([source code][avd_progress_indeterminate_horizontal]). A material horizontal indeterminate progress bar consists of two opaque rectangular paths drawn on top of a translucent background. The two rectangles are scaled and translated in parallel, controlled by a unique combination of interpolators that alter their size and location at varying degrees. Try toggling the scale and translation animations on the demo below to see the effect! (**TODO(alockwood): make the linear progress bar fill the screens width?**)
+One last cool animation that makes use of group transformations is the horizontal indeterminate progress bar. A material horizontal indeterminate progress bar consists of two opaque rectangular paths drawn on top of a translucent background. The two rectangles are scaled and translated in parallel, controlled by a unique combination of interpolators that alter their size and location at varying degrees. Note that the two rectangles are never entirely visible at the same time. Try toggling the scale and translation animations on the demo below to see the effect! (**TODO(alockwood): make the linear progress bar fill the screens width?**)
 
 {% include posts/2016/10/22/indeterminate_progress_bar_horizontal_demo.html %}
 
@@ -154,15 +155,15 @@ Perhaps the best way to understand how this works is through an example. Conside
 
 Below are four examples of animated icons that are composed of stroked paths and make use of this effect. (**TODO(alockwood): an alternative to talking about each icon one by one is to talk about the different types of effects that can be created using these attributes and citing the icons as examples).
 
-The fingerprint icon ([source code][asl_fingerprint]) is made up of 5 stroked paths. The paths begin with their trim path start and end values set to 0 and 1 respectively, and their end values are quickly animated to 0 when hidden and back to 1 when shown. The Android handwriting icon ([source code][avd_handwriting_android_design]) works similarly. The paths begin with their start and end values set to 0, making it completely hidden. Then each path is sequentially animated into view, creating the illusion that the icon is being written out by hand.
+The fingerprint icon is made up of 5 stroked paths. The paths begin with their trim path start and end values set to 0 and 1 respectively, and their end values are quickly animated to 0 when hidden and back to 1 when shown. The Android handwriting icon works similarly. The paths begin with their start and end values set to 0, making it completely hidden. Then each path is sequentially animated into view, creating the illusion that the icon is being written out by hand.
 
-The search to back icon ([source code][asl_trimclip_searchback]) uses a clever trim path transition in order to animate the stem of the search icon into the stem of a back arrow. Notice how the start and end trims are animated at different speeds in order to create the effect that the stem is being stretched over time as it slides into its new position.
+The search to back icon uses a clever trim path transition in order to animate the stem of the search icon into the stem of a back arrow. Notice how the start and end trims are animated at different speeds in order to create the effect that the stem is being stretched over time as it slides into its new position.
 
-Unlike the others, the Google IO 2016 icon ([source code][avd_handwriting_io16]) animates the trim path offset attribute, making use of the fact that trimmed paths wrap around the end of the path.
+Unlike the others, the Google IO 2016 icon animates the trim path offset attribute, making use of the fact that trimmed paths wrap around the end of the path.
 
 {% include posts/2016/10/22/trimming_stroked_paths_demo.html %}
 
-Lastly, a material circular indeterminate progress bar ([source code][avd_progress_indeterminate_circular]) consists of a single circular stroked path, and can be animated by modifying the following three properties in parallel at various speeds:
+Lastly, a material circular indeterminate progress bar consists of a single circular stroked path, and can be animated by modifying the following three properties in parallel at various speeds:
 
 1. The entire progress bar is rotated from 0° to 720° over the course of 4444 milliseconds.
 
@@ -200,7 +201,7 @@ Finally, paths can be clipped using the `<clip-path>` tag. A clip path specifies
 |--------------------|---------------|------------|
 | `android:pathData` | `<clip-path>` | `string`   |
 
-Clip paths are animated via path morphing using the `android:pathData` property. They are commonly used to create fill animations. For example, in the hourglass animation ([source code][avd_clock_timer]) and the heart break animation ([source code][asl_trimclip_heartbreak]). However, they can also be used to create other effects, such as animating the effect of crossing out an icon, as in the second animation below.
+Clip paths are animated via path morphing using the `android:pathData` property. They are commonly used to create fill animations. For example, in the hourglass animation and the heart break animation. However, they can also be used to create other effects, such as animating the effect of crossing out an icon, as in the second animation below.
 
 {% include posts/2016/10/22/clipping_paths_demo.html %}
 
@@ -227,16 +228,3 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
   [cubic-bezier-curve]: https://en.wikipedia.org/wiki/B%C3%A9zier_curve
-  [play-pause-record-vector-drawable-gist]: https://gist.github.com/alexjlockwood/e70717b7cb9c040899f08b58860ea3fb
-  
-  [asl_checkable_expandcollapse]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/asl_checkable_expandcollapse.xml
-  [avd_clock_alarm]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_clock_alarm.xml
-  [asl_checkable_radiobutton]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/asl_checkable_radiobutton.xml
-  [avd_progress_indeterminate_horizontal]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_progress_indeterminate_horizontal.xml
-  [asl_fingerprint]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/asl_fingerprint.xml
-  [asl_trimclip_searchback]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/asl_trimclip_searchback.xml
-  [avd_handwriting_android_design]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_handwriting_android_design.xml
-  [avd_handwriting_io16]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_handwriting_io16.xml
-  [avd_progress_indeterminate_circular]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_progress_indeterminate_circular.xml
-  [avd_clock_timer]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/avd_clock_timer.xml
-  [asl_trimclip_heartbreak]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/drawable/asl_trimclip_heart.xml

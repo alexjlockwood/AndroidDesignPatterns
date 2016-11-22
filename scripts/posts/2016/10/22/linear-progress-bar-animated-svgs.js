@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function (event) {
+document.addEventListener("DOMContentLoaded", function () {
     'use strict';
 
     var currentAnimationDuration = 2000;
@@ -119,15 +119,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
     }
 
-    scaleSelector.addEventListener("change", function (event) {
+    scaleSelector.addEventListener("change", function () {
         restartAnimations();
     });
-
-    translateSelector.addEventListener("change", function (event) {
+    translateSelector.addEventListener("change", function () {
         restartAnimations();
     });
-
-    slowAnimationSelector.addEventListener("change", function (event) {
+    slowAnimationSelector.addEventListener("change", function () {
         if (slowAnimationSelector.checked) {
             currentAnimationDuration *= 5;
         } else {
