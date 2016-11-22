@@ -15,18 +15,9 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
 <!-- TODO(alockwood): minify all of these and combine into a single file? -->
 <link rel="stylesheet" type="text/css" href="/css/posts/2016/10/22/style.css" />
 <!-- TODO(alockwood): use npm to import this (using module.exports?) -->
-<script defer src="/scripts/posts/2016/10/22/bezier.js"></script>
 <script defer src="/scripts/posts/2016/10/22/web-animations.min.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-data-polyfill.js"></script>
-<script defer src="/scripts/posts/2016/10/22/transforming-paths-interactive-demo.js"></script>
-<script defer src="/scripts/posts/2016/10/22/transformation-animated-svgs.js"></script>
-<script defer src="/scripts/posts/2016/10/22/linear-progress-bar-animated-svgs.js"></script>
-<script defer src="/scripts/posts/2016/10/22/path-morph-animated-svgs.js"></script>
-<script defer src="/scripts/posts/2016/10/22/trim-path-interactive-demo.js"></script>
-<script defer src="/scripts/posts/2016/10/22/trim-path-animated-svgs.js"></script>
-<script defer src="/scripts/posts/2016/10/22/clip-path-animated-svgs.js"></script>
-<script defer src="/scripts/posts/2016/10/22/circular-progress-bar-animated-svgs.js"></script>
-<script defer src="/scripts/posts/2016/10/22/uploading-animated-svg.js"></script>
+<script defer src="/scripts/posts/2016/10/22/animated-icon-demos.js"></script>
 
 <!--morestart-->
 
