@@ -8,13 +8,7 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
 ---
 
-<!-- TODO(alockwood): need to adjust material CSS to fix changes mdl made to the site layout -->
-<!-- TODO(alockwood): need to fix the margins of header elements in posts (mdlite overwrites them)-->
-<!-- TODO(alockwood): need to fix ordered/unordered list elements as well? -->
-<!-- TODO(alockwood): probably should check all of the elements and confirm all of the elements that mdlite overwrites -->
-<!-- TODO(alockwood): minify all of these and combine into a single file? -->
 <link rel="stylesheet" type="text/css" href="/css/posts/2016/10/22/style.css" />
-<!-- TODO(alockwood): use npm to import this (using module.exports?) -->
 <script defer src="/scripts/posts/2016/10/22/web-animations.min.js"></script>
 <script defer src="/scripts/posts/2016/10/22/path-data-polyfill.js"></script>
 <script defer src="/scripts/posts/2016/10/22/animated-icon-demos.js"></script>
@@ -227,6 +221,11 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * Add source code for eye visibility icon animation?
 * Test polyfills and animations on different browsers.
 * Add pictures of sample app to GitHub `README.md` file.
+* Minify resources?
+* Set up `module.exports`.
+* Fix CSS issues created after the addition of material design lite.
+* Make sure all polyfills/libraries/etc. are up to date.
+* Move javascript/css stuff into default layout `<head>` so we can benefit from caching.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
