@@ -131,11 +131,20 @@ The expand/collapse icon on the left consists of only two straight line paths. W
 
 The alarm clock icon is also fairly simple. The two alarm bells are rotated 16 degrees back and forth about the origin a total of 8 times in order to make it look like the alarm clock is ringing. 
 
-The radio button icon looks complicated at first, but actually only involves animating the icon's scale and stroke width properties. The radio button consists of two paths: an inner dot and an outer ring. The radio button begins in an unchecked state with only its outer ring visible. When it is checked, the outer ring's scale and stroke width are rapidly animated in order to create the effect that the outer ring is collapsing in on itself. A pretty awesome effect!
+The radio button icon looks complicated at first, but actually only involves animating the icon's scale and stroke width properties.
+
+| `t`   | Outer ring `strokeWidth` | Outer ring `scale{X,Y}` | Inner dot `scale{X,Y}` |
+|-------|--------------------------|-------------------------|------------------------|
+| 0.0   | 2                        | 1                       | 0                      |
+| 0.333 | 18                       | 0.5                     | 0                      |
+| 0.334 | 2                        | 0.9                     | 1.5                    |
+| 1.0   | 2                        | 1                       | 1                      |
+
+ The radio button consists of two paths: an inner dot and an outer ring. The radio button begins in an unchecked state with only its outer ring visible. When it is checked, the outer ring's scale and stroke width are rapidly animated in order to create the effect that the outer ring is collapsing in on itself. A pretty awesome effect!
 
 {% include posts/2016/10/22/transforming_paths_demo.html %}
 
-One last cool animation that makes use of group transformations is the horizontal indeterminate progress bar. A material horizontal indeterminate progress bar consists of two opaque rectangular paths drawn on top of a translucent background. The two rectangles are scaled and translated in parallel, controlled by a unique combination of interpolators that alter their size and location at varying degrees. Note that the two rectangles are never entirely visible at the same time. Try toggling the scale and translation animations on the demo below to see the effect! (**TODO(alockwood): make the linear progress bar fill the screens width?**)
+One last cool animation that makes use of group transformations is the horizontal indeterminate progress bar. A material horizontal indeterminate progress bar consists of two opaque rectangular paths drawn on top of a translucent background. The two rectangles are scaled and translated in parallel, controlled by a unique combination of interpolators that alter their size and location at varying degrees. Note that the two rectangles are never entirely visible at the same time. Try toggling the scale and translation animations on the demo below to see the effect!
 
 {% include posts/2016/10/22/indeterminate_progress_bar_horizontal_demo.html %}
 
@@ -173,8 +182,8 @@ Lastly, a material circular indeterminate progress bar consists of a single circ
 
     | `t` | `android:trimPathStart` | `android:trimPathEnd` |
     |-----|-------------------------|-----------------------|
-    | 0.0 | 0.0                     | 0.03                  |
-    | 0.5 | 0.0                     | 0.75                  |
+    | 0.0 | 0                       | 0.03                  |
+    | 0.5 | 0                       | 0.75                  |
     | 1.0 | 0.75                    | 0.78                  |
 
     At time `t = 0.0` and `t = 1.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). Similar to the search to back icon, the path's start and end trims are animated at different speeds to achieve the stretching effect that is characteristic of loading indicators.

@@ -52,11 +52,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
             easing: fastOutSlowIn
         }, {
             transform: isAnimatingToCheck ? "scale(0.5,0.5)" : "scale(0.9,0.9)",
-            offset: isAnimatingToCheck ? 0.333 : 0.366,
+            offset: isAnimatingToCheck ? 0.333 : 0.4,
             easing: isAnimatingToCheck ? fastOutSlowIn : "cubic-bezier(0.4, 0, 0.4, 1.0)"
         }, {
             transform: isAnimatingToCheck ? "scale(0.9,0.9)" : "scale(0.5,0.5)",
-            offset: isAnimatingToCheck ? 0.366 : 0.4,
+            offset: isAnimatingToCheck ? 0.333 : 0.4,
             easing: isAnimatingToCheck ? fastOutSlowIn : "cubic-bezier(0.4, 0, 0.4, 1.0)"
         }, {
             transform: "scale(1,1)",
@@ -71,11 +71,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
             easing: isAnimatingToCheck ? "cubic-bezier(0.4, 0, 0.4, 1.0)" : fastOutSlowIn
         }, {
             strokeWidth: isAnimatingToCheck ? "18" : "2",
-            offset: isAnimatingToCheck ? 0.333 : 0.366,
+            offset: isAnimatingToCheck ? 0.333 : 0.4,
             easing: fastOutSlowIn
         }, {
             strokeWidth: isAnimatingToCheck ? "2" : "18",
-            offset: isAnimatingToCheck ? 0.366 : 0.4,
+            offset: isAnimatingToCheck ? 0.333 : 0.4,
             easing: fastOutSlowIn
         }, {
             strokeWidth: "2",
@@ -90,11 +90,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
             easing: fastOutSlowIn
         }, {
             transform: isAnimatingToCheck ? "scale(0,0)" : "scale(1.5,1.5)",
-            offset: isAnimatingToCheck ? 0.333 : 0.366,
+            offset: isAnimatingToCheck ? 0.333 : 0.4,
             easing: fastOutSlowIn
         }, {
             transform: isAnimatingToCheck ? "scale(1.5,1.5)" : "scale(0,0)",
-            offset: isAnimatingToCheck ? 0.366 : 0.4,
+            offset: isAnimatingToCheck ? 0.333 : 0.4,
             easing: fastOutSlowIn
         }, {
             transform: isAnimatingToCheck ? "scale(1,1)" : "scale(0,0)",
