@@ -190,6 +190,12 @@
   stroke: #000;
 }
 
+.delightIconHighlightPath {
+  fill: none;
+  stroke: #c00;
+  visibility: hidden;
+}
+
 .delightIconSearchToBackStrokePath {
   fill: none;
   stroke: #000;
@@ -242,3 +248,4 @@
   fill: none;
   stroke-width: 5;
 }
+

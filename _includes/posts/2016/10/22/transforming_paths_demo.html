@@ -7,11 +7,13 @@
             <g id="leftBar" transform="rotate(135)">
               <g transform="translate(0,3)">
                 <path id="leftBarPath" class="delightIconFillPath" d="M1-4v8h-2v-8z" />
+                <path id="leftBarPathHighlight" class="delightIconHighlightPath" stroke-width="0.4" d="M1-4v8h-2v-8z" />
               </g>
             </g>
             <g id="rightBar" transform="rotate(45)">
               <g transform="translate(0,-3)">
                 <path id="rightBarPath" class="delightIconFillPath" d="M1-4v8h-2v-8z" />
+                <path id="rightBarPathHighlight" class="delightIconHighlightPath" stroke-width="0.4" d="M1-4v8h-2v-8z" />
               </g>
             </g>
           </g>
@@ -24,9 +26,11 @@
               <g transform="translate(-12,-12)">
                 <g transform="translate(19.0722,4.5758)">
                   <path id="basicTransformationAlarmLeftBell" class="delightIconFillPath" d="M2.94 1.162l-4.595-3.857L-2.94-1.16l4.595 3.855L2.94 1.162z" />
+                  <path id="basicTransformationAlarmLeftBellHighlight" class="delightIconHighlightPath" stroke-width="0.4" d="M2.94 1.162l-4.595-3.857L-2.94-1.16l4.595 3.855L2.94 1.162z" />
                 </g>
                 <g transform="translate(4.9262,4.5729)">
                   <path id="basicTransformationAlarmRightBell" class="delightIconFillPath" d="M2.94-1.163L1.656-2.695-2.94 1.16l1.285 1.535L2.94-1.163z" />
+                  <path id="basicTransformationAlarmRightBellHighlight" class="delightIconHighlightPath" stroke-width="0.4" d="M2.94-1.163L1.656-2.695-2.94 1.16l1.285 1.535L2.94-1.163z" />
                 </g>
               </g>
             </g>
@@ -40,15 +44,21 @@
           <g transform="translate(16,16)">
             <g id="radiobutton_ring_group">
               <path id="radiobutton_ring_path" class="delightIconStrokePath" stroke-width="2" d="M-9 0A9 9 0 1 0 9 0 9 9 0 1 0-9 0" />
+              <path id="radiobutton_ring_path_highlight" class="delightIconHighlightPath" stroke-width="0.3" d="M-9 0A9 9 0 1 0 9 0 9 9 0 1 0-9 0" />
             </g>
             <g id="radiobutton_dot_group" transform="scale(0,0)">
               <path id="radiobutton_dot_path" class="delightIconFillPath" d="M-5 0A5 5 0 1 0 5 0 5 5 0 1 0-5 0" />
+              <path id="radiobutton_dot_path_highlight" class="delightIconHighlightPath" stroke-width="0.3" d="M-5 0A5 5 0 1 0 5 0 5 5 0 1 0-5 0" />
             </g>
           </g>
         </svg>
       </li>
     </ul>
     <div class="svgDemoCheckboxContainer">
+      <label for="basicTransformationHighlightAnimatingPathsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+        <input type="checkbox" id="basicTransformationHighlightAnimatingPathsCheckbox" class="mdl-checkbox__input">
+        <span class="mdl-checkbox__label">Highlight animating paths</span>
+      </label>
       <label for="basicTransformationSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
         <input type="checkbox" id="basicTransformationSlowAnimationCheckbox" class="mdl-checkbox__input">
         <span class="mdl-checkbox__label">Slow animation</span>

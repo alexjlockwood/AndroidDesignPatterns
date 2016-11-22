@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function (event) {
+document.addEventListener("DOMContentLoaded", function () {
     'use strict';
 
     var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1.0)";
@@ -8,6 +8,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
         var currentAnimationDurationFactor = slowAnimationSelector.checked ? 10 : 1;
         return durationMillis * currentAnimationDurationFactor;
     }
+
+    document.querySelector("input[id=basicTransformationHighlightAnimatingPathsCheckbox]").addEventListener("change", function () {
+        var shouldHighlight = document.querySelector("input[id=basicTransformationHighlightAnimatingPathsCheckbox]").checked;
+        var visibility = shouldHighlight ? "visible" : "hidden";
+        var highlightPaths = document.getElementsByClassName("delightIconHighlightPath");
+        var i = 0;
+        for (i = 0; i < highlightPaths.length; i += 1) {
+            highlightPaths.item(i).style.visibility = visibility;
+        }
+    });
 
     function animateTransform(elementId, durationMillis, transformType, fromValue, toValue, easingFunction) {
         document.getElementById(elementId).animate([{
@@ -122,10 +132,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
         var keyFrames = [];
         var i = 0;
         for (i = 0; i < 22; i += 1) {
-            if (i == 0) {
+            if (i === 0) {
                 keyFrames.push(createKeyFrame(0, 0));
             } else if (i < 21) {
-                var rotation = i % 2 == 0 ? -8 : 8;
+                var rotation = i % 2 === 0 ? -8 : 8;
                 keyFrames.push(createKeyFrame(rotation, 0.025 + ((i - 1) * 0.05)));
             } else {
                 keyFrames.push({
