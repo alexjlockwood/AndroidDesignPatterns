@@ -51,17 +51,18 @@ Before we can animate paths we need to know how to draw them. The most important
 | `android:strokeColor` | `<path>`     | `integer`  | - - -     | - - -     |
 | `android:strokeWidth` | `<path>`     | `float`    | `0`       | - - -     |
 
-Paths are drawn using a series of space separated drawing commands, using a subset of the [SVG path data spec][svg-path-reference] in order to draw lines, curves, and so on. This sequence of commands is specified as a string in the `android:pathData` attribute. I've summarized the drawing commands I encounter most frequently in the table below:
+Paths are drawn using a series of space and comma separated drawing commands, using a subset of the [SVG path data spec][svg-path-reference] in order to draw lines, curves, and so on. This sequence of commands is specified as a string in the `android:pathData` attribute. I've summarized the drawing commands I encounter most frequently in the table below:
 
 | Command             | Description |
 |---------------------|-------------|
-| `M x,y`             | Move the path's current position to `(x,y)`.
+| `M x,y`             | Begin a new subpath by moving to coordinate `(x,y)`.
 | `L x,y`             | Draw a line to `(x,y)`.
 | `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
-| `Z`                 | Close the current path by drawing a line to the beginning of the current path.
+| `Z`                 | Close the path by drawing a line back to the beginning of the current subpath.
 
 We can see how these commands and attributes work in action in the diagrams below. The play and record icons are filled paths with orange and red fill colors respectively. The pause icon is a stroked path with a green stroke color and a stroke width of 2. Each icon is drawn in a 12x12 grid using the following drawing commands:
 
+<!-- DEMO: visualizing path commands (play/pause/record) -->
 {% include posts/2016/10/22/drawing_paths_demo.html %}
 
 ### Transforming `group`s of `path`s
@@ -122,6 +123,7 @@ It is particularly important to understand the order in which transformations ar
 
 In each scenario, the following will be displayed to the screen. Make sure you understand how the different orderings of the groups affect how each icon ends up being displayed.
 
+<!-- DEMO: visualizing group transformations (play/pause/record) -->
 {% include posts/2016/10/22/transforming_paths_interactive_demo.html %}
 
 Transformations are widely used to animate icons. Below are three more examples of icons that depend on group transformations in order to be animated.
@@ -161,7 +163,7 @@ Perhaps the best way to understand how this works is through an example. Conside
 
 {% include posts/2016/10/22/trim_path_start_end_offset_interactive_demo.html %}
 
-Below are four examples of animated icons that are composed of stroked paths and make use of this effect. (**TODO(alockwood): an alternative to talking about each icon one by one is to talk about the different types of effects that can be created using these attributes and citing the icons as examples).
+Below are four examples of animated icons that are composed of stroked paths and make use of this effect. (**TODO(alockwood): an alternative to talking about each icon one by one is to talk about the different types of effects that can be created using these attributes and citing the icons as examples**).
 
 The fingerprint icon is made up of 5 stroked paths. The paths begin with their trim path start and end values set to 0 and 1 respectively, and their end values are quickly animated to 0 when hidden and back to 1 when shown. The Android handwriting icon works similarly. The paths begin with their start and end values set to 0, making it completely hidden. Then each path is sequentially animated into view, creating the illusion that the icon is being written out by hand.
 
@@ -225,13 +227,15 @@ It also might be useful to give a listing of useful tools/resources for further 
 
 Here is the link to the [sample app source code][adp-delightful-details] (mention that the `README.md` file has a bunch of useful information).
 
-## Potential footnotes/ideas
+## Potential footnotes/ideas/todos
 
 * Mention that the `<vector>` tag's `android:alpha` property can also be animated.
 * Mention a few other path command information (i.e. `H`, `V`, `A`, difference between upper/lower case, space/commas don't matter, etc.).
 * Add check box to 'color individual paths' so the reader can see what is being animated?
 * Add warning that attempting to trim a filled path will cause unexpected behavior.
 * Add source code for eye visibility icon animation?
+* Test polyfills and animations on different browsers.
+* Add pictures of sample app to GitHub `README.md` file.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
