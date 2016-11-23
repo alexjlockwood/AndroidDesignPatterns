@@ -113,11 +113,11 @@ In each scenario, the following will be displayed to the screen. Make sure you u
 
 Transformations are widely used to animate icons. Below are three more examples of icons that depend on group transformations in order to be animated.
 
-The expand/collapse icon on the left consists of only two straight line paths. When clicked, the two straight lines are simultaneously rotated 90 degrees and translated vertically in order to create the transition between the expanded and collapsed states. 
+* The expand/collapse icon on the left consists of only two straight line paths. When clicked, the two straight lines are simultaneously rotated 90 degrees and translated vertically in order to create the transition between the expanded and collapsed states. 
 
-The alarm clock icon is also fairly simple. The two alarm bells are rotated 16 degrees back and forth about the origin a total of 8 times in order to make it look like the alarm clock is ringing. 
+* The alarm clock icon is also fairly simple. The two alarm bells are rotated 16 degrees back and forth about the origin a total of 8 times in order to make it look like the alarm clock is ringing.
 
-The radio button icon looks complicated at first, but actually only involves animating the icon's scale and stroke width properties.
+The radio button icon looks complicated at first, but actually only involves animating the icon's scale and stroke width properties. The radio button consists of two paths: an inner dot and an outer ring. The radio button begins in an unchecked state with only its outer ring visible. When it is checked, the outer ring's scale and stroke width are rapidly animated in order to create the effect that the outer ring is collapsing in on itself. A pretty awesome effect!
 
 | `t`   | Outer ring `strokeWidth` | Outer ring `scale{X,Y}` | Inner dot `scale{X,Y}` |
 |-------|--------------------------|-------------------------|------------------------|
@@ -126,13 +126,11 @@ The radio button icon looks complicated at first, but actually only involves ani
 | 0.334 | 2                        | 0.9                     | 1.5                    |
 | 1.0   | 2                        | 1                       | 1                      |
 
- The radio button consists of two paths: an inner dot and an outer ring. The radio button begins in an unchecked state with only its outer ring visible. When it is checked, the outer ring's scale and stroke width are rapidly animated in order to create the effect that the outer ring is collapsing in on itself. A pretty awesome effect!
-
-{% include posts/2016/10/22/includes3_transforming_paths_animated-svgs.html %}
+{% include posts/2016/10/22/includes3_transforming_paths_animated_svgs.html %}
 
 One last cool animation that makes use of group transformations is the horizontal indeterminate progress bar. A material horizontal indeterminate progress bar consists of two opaque rectangular paths drawn on top of a translucent background. The two rectangles are scaled and translated in parallel, controlled by a unique combination of interpolators that alter their size and location at varying degrees. Note that the two rectangles are never entirely visible at the same time. Try toggling the scale and translation animations on the demo below to see the effect!
 
-{% include posts/2016/10/22/includes4_transforming_paths_indeterminate_progress.html.html %}
+{% include posts/2016/10/22/includes4_transforming_paths_indeterminate_progress.html %}
 
 ### Trimming stroked `path`s
 
@@ -156,7 +154,7 @@ The search to back icon uses a clever trim path transition in order to animate t
 
 Unlike the others, the Google IO 2016 icon animates the trim path offset attribute, making use of the fact that trimmed paths wrap around the end of the path.
 
-{% include posts/2016/10/22/includes6_trimming_stroked_paths_animated_svgs.html.html %}
+{% include posts/2016/10/22/includes6_trimming_stroked_paths_animated_svgs.html %}
 
 Lastly, a material circular indeterminate progress bar consists of a single circular stroked path, and can be animated by modifying the following three properties in parallel at various speeds:
 
@@ -198,11 +196,11 @@ Finally, paths can be clipped using the `<clip-path>` tag. A clip path specifies
 
 Clip paths are animated via path morphing using the `android:pathData` property. They are commonly used to create fill animations. For example, in the hourglass animation and the heart break animation. However, they can also be used to create other effects, such as animating the effect of crossing out an icon, as in the second animation below.
 
-{% include posts/2016/10/22/clipping_paths_demo.html %}
+{% include posts/2016/10/22/includes9_clipping_paths_animated_svgs.html %}
 
 ### Uploading example
 
-{% include posts/2016/10/22/uploading_demo.html %}
+{% include posts/2016/10/22/includes10_uploading_downloading_animated_svgs.html %}
 
 ## Further reading
 
