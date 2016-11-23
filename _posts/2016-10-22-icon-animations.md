@@ -26,7 +26,7 @@ In this blog post I will describe different techniques to animate icons using `V
 
 ### Drawing `path`s
 
-Before we can animate paths we need to know how to draw them. The most important elements of a `VectorDrawable` are the paths because they are what ultimately end up getting drawn to the screen. Paths are defined using the `<path>` tag and are drawn in the top-down order in which they appear in the `VectorDrawable`'s XML file. Paths can either be filled or stroked. The path commands will result in a series of lines and shapes. If the path is filled, the interiors of all shapes will be painted. If the path is stroked, the paint will be applied along the outline of the path. Collectively, these filled and stroked paths have 5 animatable properties, each of which are listed below:
+Before we can animate paths we need to know how to draw them. The most important elements of a `VectorDrawable` are the paths because they are what ultimately end up getting drawn to the screen. Paths are defined using the `<path>` tag and are drawn in the top-down order in which they appear in the `VectorDrawable`'s XML file. If the path is filled, the interiors of all shapes will be painted. Paths can either be filled or stroked. If the path is stroked, the paint will be applied along the outline of the path. Paths have the following 5 animatable properties, each of which affect the path's appearance during the course of an animation:
 
 | Property name         | Element type | Value type | Min value | Max value |
 |-----------------------|--------------|------------|-----------|-----------|
@@ -36,7 +36,7 @@ Before we can animate paths we need to know how to draw them. The most important
 | `android:strokeColor` | `<path>`     | `integer`  | - - -     | - - -     |
 | `android:strokeWidth` | `<path>`     | `float`    | `0`       | - - -     |
 
-Paths are drawn using a series of space and comma separated drawing commands, using a subset of the [SVG path data spec][svg-path-reference] in order to draw lines, curves, and so on. This sequence of commands is specified as a string in the `android:pathData` attribute. I've summarized the drawing commands I encounter most frequently in the table below:
+The properties above can be used to modify the path's appearance, but a path's shape is determined by path commands. Paths are drawn using a series of space and comma separated drawing commands, using a subset of the [SVG path data spec][svg-path-reference] in order to draw lines, curves, and so on. This sequence of commands is specified as a string in the `android:pathData` attribute. Although there are many different commands, the ones you'll encounter the most frequently are listed in the table below:
 
 | Command             | Description |
 |---------------------|-------------|
@@ -45,10 +45,10 @@ Paths are drawn using a series of space and comma separated drawing commands, us
 | `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
 | `Z`                 | Close the path by drawing a line back to the beginning of the current subpath.
 
-We can see how these commands and attributes work in action in the diagrams below. The play and record icons are filled paths with orange and red fill colors respectively. The pause icon is a stroked path with a green stroke color and a stroke width of 2. Each icon is drawn in a 12x12 grid using the following drawing commands:
+We can see how these commands and attributes work in action in the diagrams below. The triangular play and circular record icons are both filled paths with orange and red fill colors respectively. The pause icon is a stroked path with a green stroke color and a stroke width of 2. Each icon is drawn in a 12x12 grid using the following drawing commands:
 
 <!-- DEMO: visualizing path commands (play/pause/record) -->
-{% include posts/2016/10/22/drawing_paths_demo.html %}
+{% include posts/2016/10/22/includes1_drawing_paths_path_commands.html %}
 
 ### Transforming `group`s of `path`s
 
@@ -64,7 +64,7 @@ Paths can also be transformed using the `<group>` tag. Multiple paths can belong
 | `android:translateX` | `<group>`    | `float`    |
 | `android:translateY` | `<group>`    | `float`    |
 
-It is particularly important to understand the order in which transformations are applied because it can seem a little backwards at first. The two rules to remember are (1) children groups are transformed before their parent groups, and (2) transformations that are made on the same group are applied in order of scale, rotation, and then translation. As an example, consider the group transformations applied to the play, pause, and record vector drawables discussed above:
+It is particularly important to understand the order in which transformations are applied because it can seem a little backwards at first. The two rules to remember are (1) children groups are transformed before their parent groups, and (2) transformations that are made on the same group are applied in order of scale, rotation, and then translation. As an example, consider the group transformations applied to the play, pause, and record icons discussed above:
 
 ```xml
 <vector
@@ -109,7 +109,7 @@ It is particularly important to understand the order in which transformations ar
 In each scenario, the following will be displayed to the screen. Make sure you understand how the different orderings of the groups affect how each icon ends up being displayed.
 
 <!-- DEMO: visualizing group transformations (play/pause/record) -->
-{% include posts/2016/10/22/transforming_paths_interactive_demo.html %}
+{% include posts/2016/10/22/includes2_transforming_paths_demo.html %}
 
 Transformations are widely used to animate icons. Below are three more examples of icons that depend on group transformations in order to be animated.
 
@@ -128,17 +128,17 @@ The radio button icon looks complicated at first, but actually only involves ani
 
  The radio button consists of two paths: an inner dot and an outer ring. The radio button begins in an unchecked state with only its outer ring visible. When it is checked, the outer ring's scale and stroke width are rapidly animated in order to create the effect that the outer ring is collapsing in on itself. A pretty awesome effect!
 
-{% include posts/2016/10/22/transforming_paths_demo.html %}
+{% include posts/2016/10/22/includes3_transforming_paths_animated-svgs.html %}
 
 One last cool animation that makes use of group transformations is the horizontal indeterminate progress bar. A material horizontal indeterminate progress bar consists of two opaque rectangular paths drawn on top of a translucent background. The two rectangles are scaled and translated in parallel, controlled by a unique combination of interpolators that alter their size and location at varying degrees. Note that the two rectangles are never entirely visible at the same time. Try toggling the scale and translation animations on the demo below to see the effect!
 
-{% include posts/2016/10/22/indeterminate_progress_bar_horizontal_demo.html %}
+{% include posts/2016/10/22/includes4_transforming_paths_indeterminate_progress.html.html %}
 
 ### Trimming stroked `path`s
 
 A lesser known property of stroked paths paths is that they can be trimmed. `VectorDrawable`s provide three additional attributes that can be animated to achieve some pretty cool effects:
 
-| Property name            | Element type | Value type | Min value | Max value |
+| Property name            | Element type | Value type | Min value | Max value|
 |--------------------------|--------------|------------|-----------|-----------|
 | `android:trimPathStart`  | `<path>`     | `float`    | `0`       | `1`       |
 | `android:trimPathEnd`    | `<path>`     | `float`    | `0`       | `1`       |
@@ -146,7 +146,7 @@ A lesser known property of stroked paths paths is that they can be trimmed. `Vec
 
 Perhaps the best way to understand how this works is through an example. Consider the simple, straight line path below. Update the sliders below to see how altering each attribute affects what portions of the path will be drawn to the display. Note that setting the start value to be greater than the end value is perfectly valid, and results in a trimmed path that begins at the start value and wraps around the end of the path back to the lesser end value.
 
-{% include posts/2016/10/22/trim_path_start_end_offset_interactive_demo.html %}
+{% include posts/2016/10/22/includes5_trimming_stroked_paths_demo.html %}
 
 Below are four examples of animated icons that are composed of stroked paths and make use of this effect. (**TODO(alockwood): an alternative to talking about each icon one by one is to talk about the different types of effects that can be created using these attributes and citing the icons as examples**).
 
@@ -156,7 +156,7 @@ The search to back icon uses a clever trim path transition in order to animate t
 
 Unlike the others, the Google IO 2016 icon animates the trim path offset attribute, making use of the fact that trimmed paths wrap around the end of the path.
 
-{% include posts/2016/10/22/trimming_stroked_paths_demo.html %}
+{% include posts/2016/10/22/includes6_trimming_stroked_paths_animated_svgs.html.html %}
 
 Lastly, a material circular indeterminate progress bar consists of a single circular stroked path, and can be animated by modifying the following three properties in parallel at various speeds:
 
@@ -174,7 +174,7 @@ Lastly, a material circular indeterminate progress bar consists of a single circ
 
     At time `t = 0.0` and `t = 1.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). Similar to the search to back icon, the path's start and end trims are animated at different speeds to achieve the stretching effect that is characteristic of loading indicators.
 
-{% include posts/2016/10/22/indeterminate_progress_bar_circular_demo.html %}
+{% include posts/2016/10/22/includes7_trimming_stroked_paths_indeterminate_progress.html %}
 
 ### Morphing `path`s
 
@@ -186,7 +186,7 @@ Paths can be morphed using the following property:
 
 Some examples:
 
-{% include posts/2016/10/22/morphing_paths_demo.html %}
+{% include posts/2016/10/22/includes8_morphing_paths_animated_svgs.html %}
 
 ### Clipping `path`s
 
@@ -215,10 +215,11 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 ## Potential footnotes/ideas/todos
 
 * Mention that the `<vector>` tag's `android:alpha` property can also be animated.
+* Should we explain the concept of "scalable vector graphic" or can that be assumed?
 * Mention a few other path command information (i.e. `H`, `V`, `A`, difference between upper/lower case, space/commas don't matter, etc.).
 * Add check box to 'color individual paths' so the reader can see what is being animated?
 * Add warning that attempting to trim a filled path will cause unexpected behavior.
-* Add source code for eye visibility icon animation?
+* Add source code for eye visibility icon animation.
 * Test polyfills and animations on different browsers.
 * Add pictures of sample app to GitHub `README.md` file.
 * Minify resources?
@@ -226,6 +227,7 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * Fix CSS issues created after the addition of material design lite.
 * Make sure all polyfills/libraries/etc. are up to date.
 * Move javascript/css stuff into default layout `<head>` so we can benefit from caching.
+* Finish implementing Roman's downloading icon animation.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
