@@ -113,22 +113,24 @@ In each scenario, the following will be displayed to the screen. Make sure you u
 
 Transformations are widely used to animate icons. Below are three more examples of icons that depend on group transformations in order to be animated.
 
-* The expand/collapse icon on the left consists of only two straight line paths. When clicked, the two straight lines are simultaneously rotated 90 degrees and translated vertically in order to create the transition between the expanded and collapsed states. 
+* The _expand/collapse icon_ is drawn using two paths. When clicked, the two straight lines are simultaneously rotated 90° and a `<group>` containing the two paths is vertically translated in order to create the effect. 
 
-* The alarm clock icon is also fairly simple. The two alarm bells are rotated 16 degrees back and forth about the origin a total of 8 times in order to make it look like the alarm clock is ringing.
+* The _alarm clock icon_ draws its bells using two rectangular paths. When clicked, a `<group>` containing the two paths is repeatedly rotated about the center in order to create the alarm clock ringing effect.
 
-The radio button icon looks complicated at first, but actually only involves animating the icon's scale and stroke width properties. The radio button consists of two paths: an inner dot and an outer ring. The radio button begins in an unchecked state with only its outer ring visible. When it is checked, the outer ring's scale and stroke width are rapidly animated in order to create the effect that the outer ring is collapsing in on itself. A pretty awesome effect!
+* The _radio button icon_ animation is one of my favorites because of its clever simplity. The radio button is drawn using two paths: a filled inner dot and a stroked outer ring. Perhaps surprisingly, only two properties need to be animated. For example, in order to animate from an unchecked to checked state:
 
-| `t`   | Outer ring `strokeWidth` | Outer ring `scale{X,Y}` | Inner dot `scale{X,Y}` |
-|-------|--------------------------|-------------------------|------------------------|
-| 0.0   | 2                        | 1                       | 0                      |
-| 0.333 | 18                       | 0.5                     | 0                      |
-| 0.334 | 2                        | 0.9                     | 1.5                    |
-| 1.0   | 2                        | 1                       | 1                      |
+    | `t`   | Outer ring `strokeWidth` | Outer ring `scale{X,Y}` | Inner dot `scale{X,Y}` |
+    |-------|--------------------------|-------------------------|------------------------|
+    | 0.0   | 2                        | 1                       | 0                      |
+    | 0.333 | 18                       | 0.5                     | 0                      |
+    | 0.334 | 2                        | 0.9                     | 1.5                    |
+    | 1.0   | 2                        | 1                       | 1                      |
+
+    The part I like the best is during `0 <= t <= 0.333`, where the outer ring's stroke width and scale are simultaneously increased and decreased respectively, making it look as if the outer ring is collapsing inwards toward the center. A pretty awesome effect!
 
 {% include posts/2016/10/22/includes3_transforming_paths_animated_svgs.html %}
 
-One last cool animation that makes use of group transformations is the horizontal indeterminate progress bar. A material horizontal indeterminate progress bar consists of two opaque rectangular paths drawn on top of a translucent background. The two rectangles are scaled and translated in parallel, controlled by a unique combination of interpolators that alter their size and location at varying degrees. Note that the two rectangles are never entirely visible at the same time. Try toggling the scale and translation animations on the demo below to see the effect!
+One last cool animation that makes use of group transformations is the _horizontal indeterminate progress bar_. A material horizontal indeterminate progress bar consists of three paths: a translucent background and two inner rectangular paths. The two inner rectangles are simultaneously translated from left to right and scaled, altering their positions and sizes at varying degrees. Try toggling the scale and translation animations on the demo below to see the effect!
 
 {% include posts/2016/10/22/includes4_transforming_paths_indeterminate_progress.html %}
 
@@ -176,13 +178,27 @@ Lastly, a material circular indeterminate progress bar consists of a single circ
 
 ### Morphing `path`s
 
-Paths can be morphed using the following property:
+Perhaps the most complex animation technique we'll discuss is path morphing: the ability to transform one path into another. On Android 5.0 and above, this can be done by animating the path commands themselves using the `android:pathData` attribute.
 
 | Property name      | Element type | Value type |
 |--------------------|--------------|------------|
 | `android:pathData` | `<path>`     | `string`   |
 
-Some examples:
+You're probably wondering what magical algorithm could possibly be used behind the scenes in order to animate the differences in two arbitrary paths' drawing command strings. Well, before we get into that I should clarify that there are a couple of rules that determine whether or not two `pathData` strings can be morphed. We call two path command strings to be _compatible_ to be animated if they both contain the same number of commands and each successive command type in one path matches its corresponding command type in the other.
+
+What this means is that if you want to morph one set of pathData into another then a letter in one path needs to match a letter in the other path and each number in the first path needs a corresponding number in the other path. You cannot morph an L command into a C command, you can’t even morph a C into a c, it must be the same letter and the same case. You also cannot morph a lineto command with three coordinates,maybe triangle, into a lineto command with four coordinates like a square. (**TODO: reword this paragraph... copied from another blog**)
+
+The key to understanding path morphing animations is to think of them as being powered by the animation of the paths' control/end points. **TODO: explain this further**
+
+Some tips on path morphing:
+
+1. Adding dummy points to paths in order to make them compatible. (i.e. plus/minus animation)
+2. Drawing straight lines using bezier curves makes it possible to animate a straight line into a curve (i.e. animated digits animation).
+3. Sometimes you will need to get creative in how two paths can be animated by splitting them up into two and animating them separately (i.e. play/pause/stop icons).
+4. Choose the order of your path commands with care. Remember that it is the coordinates of each path that are animated, so the start/end locations of each path point will ultimately determine whether or not the animation looks seamless. This is also why automated tools may not generate perfect results.
+5. Adding rotation can be extremely helpful as it usually distracts the eye from a path morph animation that might otherwise look somewhat weird.
+6. Make sure your UX team is aware of these rules. Many UXers don't have to think about this and simply depend on UX software like Sketch or Adobe Illustrator to export the result as an SVG. However, automated export tools like this often don't take into consideration these types of rules.
+7. Elliptical arcs can be approximated as one or more cubic bezier curves. This can be useful, as it animating elliptical arcs is not very common.
 
 {% include posts/2016/10/22/includes8_morphing_paths_animated_svgs.html %}
 
@@ -201,10 +217,6 @@ Clip paths are animated via path morphing using the `android:pathData` property.
 ### Uploading example
 
 {% include posts/2016/10/22/includes10_uploading_downloading_animated_svgs.html %}
-
-## Further reading
-
-It also might be useful to give a listing of useful tools/resources for further reading.
 
 ## Sample app
 
@@ -226,6 +238,14 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * Make sure all polyfills/libraries/etc. are up to date.
 * Move javascript/css stuff into default layout `<head>` so we can benefit from caching.
 * Finish implementing Roman's downloading icon animation.
+* Mention the importance of understanding how path morphing animations work from a UX perspective?
+* Mention path morphing tools like [vectalign](https://github.com/bonnyfone/vectalign)?
+* Add a "special thanks" section for Roman and Nick.
+* Add "click the icons to play" to the captions?
+* Good example of path morphing (between an Android and an Applie) can be found [here](https://lewismcgeary.github.io/posts/animated-vector-drawable-pathMorphing/).
+* Add a section about choosing interpolators?
+* It also might be useful to give a listing of useful tools/resources for further reading.
+* At some point will need to rewrite SMIL animations and/or use some sort of polyfill.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
