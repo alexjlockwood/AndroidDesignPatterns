@@ -2045,7 +2045,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function cancelAnimations() {
-        for (var i = 0; i < currentAnimations.length; i++) {
+        for (var i = 0; i < currentAnimations.length; i += 1) {
             currentAnimations[i].cancel();
         }
         currentAnimations = [];
@@ -2054,11 +2054,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function createStrokeWidthAnimation(path, durationMillis, startDelayMillis, startWidth, endWidth) {
         return path.animate([{
             strokeWidth: startWidth,
-            offset: 0.0,
+            offset: 0,
             easing: linearOutSlowIn
         }, {
             strokeWidth: endWidth,
-            offset: 1.0
+            offset: 1
         }], {
             duration: getScaledAnimationDuration(durationMillis),
             fill: "forwards",
@@ -2069,11 +2069,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function createFadeFillAnimation(path, durationMillis, startOpacity, endOpacity) {
         return path.animate([{
             fillOpacity: startOpacity,
-            offset: 0.0,
+            offset: 0,
             easing: fastOutSlowIn
         }, {
             fillOpacity: endOpacity,
-            offset: 1.0
+            offset: 1
         }], {
             duration: getScaledAnimationDuration(durationMillis),
             fill: "forwards"
@@ -2083,11 +2083,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function createFadeStrokeAnimation(path, durationMillis, startOpacity, endOpacity) {
         return path.animate([{
             strokeOpacity: startOpacity,
-            offset: 0.0,
+            offset: 0,
             easing: fastOutSlowIn
         }, {
             strokeOpacity: endOpacity,
-            offset: 1.0
+            offset: 1
         }], {
             duration: getScaledAnimationDuration(durationMillis),
             fill: "forwards"
@@ -2238,6 +2238,21 @@ document.addEventListener("DOMContentLoaded", function () {
             iterations: "Infinity"
         });
     }
+});
+
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+// =============== DEMO: downloading animated icon demo
+// =======================================================================================
+// =======================================================================================
+// =======================================================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("ic_downloading").addEventListener("click", function () {
+        var lineAnimation = document.getElementById("downloading_line_path_animation");
+        lineAnimation.beginElement();
+    });
 });
 
 var bezierModule = (function () {
