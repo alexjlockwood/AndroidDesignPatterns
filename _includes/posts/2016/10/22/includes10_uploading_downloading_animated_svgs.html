@@ -2,45 +2,14 @@
   <div class="svgDemoContainer">
     <ul class="flex-container">
       <li class="flex-item">
-        <svg id="ic_uploading" viewBox="0 0 56 56" class="svgDemoGraphic">
-          <path id="upload_arrow_static" fill="#4d4d4d" d="M25,32L31,32L31,26L35,26L28,19L21,26L25,26L25,32Z" />
-          <clipPath id="upload_arrow_fill_clip">
-            <path id="upload_arrow_clip_path" d="M21 32 L35 32 L35 32 L21 32 Z">
-              <animate id="upload_arrow_fill_clip_animation" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M21 32 L35 32 L35 32 L21 32 Z;M21 10 L35 10 L35 32 L21 32 Z" repeatCount="indefinite" />
-            </path>
-          </clipPath>
-          <g clip-path="url(#upload_arrow_fill_clip)">
-            <path id="upload_arrow_filling" fill="#000" d="M25,32L31,32L31,26L35,26L28,19L21,26L25,26L25,32Z" />
-          </g>
-          <path id="upload_arrow_fill_clip_debug" d="M21 32 L35 32 L35 32 L21 32 Z" fill="#F44336" fill-opacity="0.3" style="visibility: hidden;">
-            <animate id="upload_arrow_fill_clip_animation_debug" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M21 32 L35 32 L35 32 L21 32 Z;M21 10 L35 10 L35 32 L21 32 Z" repeatCount="indefinite" />
-          </path>
-          <path id="upload_base" fill="#999999" d="M21,34L35,34L35,36L21,36L21,34Z" />
-          <g transform="translate(28,28)">
-            <g id="progress_spinner_outer_rotation">
-              <g id="progress_spinner_inner_rotation">
-                <g transform="translate(-28,-28)">
-                  <path id="progress_spinner_circle_path_debug" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2" stroke="#690" stroke-opacity="0.3" stroke-width="4" fill="none" style="visibility: hidden;" />
-                  <path id="progress_spinner_circle_path" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2" stroke="#690" stroke-width="4" fill="none" />
-                </g>
-              </g>
-            </g>
-          </g>
-          <path id="progress_tick_debug" fill="none" stroke="#690" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2C53.4,6.9 35.46,22.07 35.46,22.07L24.54,32.81L19.72,28.16" stroke-opacity="0.3" style="visibility: hidden;" />
-          <path id="progress_tick" fill="none" stroke="#690" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter" d="M28,2C42.36,2 54,13.64 54,28C54,42.36 42.36,54 28,54C13.64,54 2,42.36 2,28C2,13.64 13.76,2 28,2C53.4,6.9 35.46,22.07 35.46,22.07L24.54,32.81L19.72,28.16" stroke-opacity="0" />
-          <path id="progress_tick_to_plus" fill="none" stroke-width="2" stroke-linecap="square" stroke="#690" d="M35.46,22.07L24.54,32.81M24.54,32.81L19.72,28.16" stroke-opacity="0" style="visibility: hidden;">
-            <animate id="progress_tick_to_plus_animation" fill="freeze" attributeName="d" begin="infinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M35.46,22.07L24.54,32.81M24.54,32.81L19.72,28.16;M28,22L28,34M34,28L22,28" />
-          </path>
-        </svg>
-      </li>
-      <li class="flex-item">
         <svg id="ic_downloading" viewBox="0 0 240 240" class="svgDemoGraphic">
           <g transform="translate(120,120)">
             <g transform="scale(0.91,0.91)">
               <g id="downloading_progress_bar_outer_rotation">
                 <g id="downloading_progress_bar_inner_rotation">
                   <path id="downloading_progress_bar" fill="none" stroke="#000" stroke-opacity="0" stroke-linecap="square" stroke-linejoin="miter" stroke-width="20" d="M 0,-120 a 120,120 0 1,1 0,240 a 120,120 0 1,1 0,-240" />
-                  <path id="downloading_progress_bar_check" transform="translate(-120,-120)" fill="none" stroke="#000" stroke-opacity="0" stroke-width="14.5" stroke-linecap="square" stroke-linejoin="miter" d="M 120,0 a 120,120 0 1,1 0,240 a 120,120 0 1,1 0,-240 C 224,30 162,83 162,83 L 106.5,138.5 L 80.45,112.45" />
+                  <path id="downloading_progress_bar_check" transform="translate(-120,-120)" fill="none" stroke="#000" stroke-opacity="0" stroke-width="20" stroke-linecap="square" stroke-linejoin="miter" d="M 120,0 a 120,120 0 1,1 0,240 a 120,120 0 1,1 0,-240 C 224,30 162,83 162,83 L 106.5,138.5 L 80.45,112.45" />
+                  <path id="downloading_progress_bar_check_debug" transform="translate(-120,-120)" fill="none" stroke="#000" stroke-opacity="0.3" style="visibility: hidden;" stroke-width="20" stroke-linecap="square" stroke-linejoin="miter" d="M 120,0 a 120,120 0 1,1 0,240 a 120,120 0 1,1 0,-240 C 224,30 162,83 162,83 L 106.5,138.5 L 80.45,112.45" />
                 </g>
               </g>
             </g>
@@ -55,7 +24,18 @@
                   <g transform="translate(120, 180)">
                     <g id="downloading_arrow_group_rotate">
                       <g transform="translate(-120, -180)">
-                        <path id="downloading_arrow_path" fill-opacity="1" fill="#000" d="M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 70,-70 70,-70 Z" />
+                        <path id="downloading_arrow_path" fill="#4d4d4d" d="M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 70,-70 70,-70 Z" />
+                        <clipPath id="downloading_arrow_fill_clip">
+                          <path id="downloading_arrow_clip_path" d="M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z">
+                            <animate id="downloading_arrow_fill_clip_animation" fill="freeze" attributeName="d" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 0,0 L 240,0 L 240,0 L 0,0 L 0,0 Z;M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z" repeatCount="indefinite" />
+                          </path>
+                        </clipPath>
+                        <g clip-path="url(#downloading_arrow_fill_clip)">
+                          <path id="downloading_arrow_filling" fill="#000" d="M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 70,-70 70,-70 Z" />
+                        </g>
+                        <path id="downloading_arrow_fill_clip_debug" d="M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z" fill="#F44336" fill-opacity="0.3" style="visibility: hidden;">
+                          <animate id="downloading_arrow_fill_clip_animation_debug" fill="freeze" attributeName="d" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 0,0 L 240,0 L 240,0 L 0,0 L 0,0 Z;M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z" repeatCount="indefinite" />
+                        </path>
                       </g>
                     </g>
                   </g>
@@ -69,21 +49,18 @@
                           M 119.5,164.0 c 0,0 10.5,0 10.5,0 c 0,0 0,-134.0 0,-134.0 c 0,0 -20,0 -20,0 c 0,0 0,134.0 0,134.0 c 0,0 9.5,0 9.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z;
                           M 119.5,90 c 0,0 30.5,0 30.5,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 29.5,0 29.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z;
                           M 119.5,90 c 0,0 30.5,0 30.5,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 29.5,0 29.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z;
-                          M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 67.0635070801,-67.0634918213 67.0635070801,-67.0634918213 c 0,0 2.93649291992,-2.93650817871 2.93649291992,-2.93650817871 Z" 
-                          keyTimes="
+                          M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 67.0635070801,-67.0634918213 67.0635070801,-67.0634918213 c 0,0 2.93649291992,-2.93650817871 2.93649291992,-2.93650817871 Z" keyTimes="
                           0;
                           0.12;
                           0.14;
                           0.34;
                           0.64;
-                          1" 
-                          keySplines="
+                          1" keySplines="
                           0.536045886347 0 0.83333333333 0.738554952534;
                           0 0 0.66666667 1;
                           0.285413967217 0.447720387652 0.00998752315506 1;
                           0 0 0.168462981777 1;
-                          0.0655716936212 0 0 1" 
-                          fill="freeze" />
+                          0.0655716936212 0 0 1" fill="freeze" />
                         </path>
                       </g>
                     </g>
@@ -97,19 +74,23 @@
       </li>
     </ul>
     <div class="svgDemoCheckboxContainer">
-      <label for="uploadingShowTrimPathsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-        <input type="checkbox" id="uploadingShowTrimPathsCheckbox" class="mdl-checkbox__input">
+      <label for="downloadingShowControlEndPointsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+        <input type="checkbox" id="downloadingShowControlEndPointsCheckbox" class="mdl-checkbox__input">
+        <span class="mdl-checkbox__label">Show control/end points (TODO: implement this)</span>
+      </label>
+      <label for="downloadingShowTrimPathsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+        <input type="checkbox" id="downloadingShowTrimPathsCheckbox" class="mdl-checkbox__input">
         <span class="mdl-checkbox__label">Show trim paths</span>
       </label>
-      <label for="uploadingShowClipMaskCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-        <input type="checkbox" id="uploadingShowClipMaskCheckbox" class="mdl-checkbox__input">
+      <label for="downloadingShowClipMaskCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+        <input type="checkbox" id="downloadingShowClipMaskCheckbox" class="mdl-checkbox__input">
         <span class="mdl-checkbox__label">Show clip masks</span>
       </label>
-      <label for="uploadingSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
-        <input type="checkbox" id="uploadingSlowAnimationCheckbox" class="mdl-checkbox__input">
+      <label for="downloadingSlowAnimationCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+        <input type="checkbox" id="downloadingSlowAnimationCheckbox" class="mdl-checkbox__input">
         <span class="mdl-checkbox__label">Slow animation</span>
       </label>
     </div>
   </div>
-  <p class="mdl-typography--caption mdl-typography--text-center"><strong>Figure ?.</strong> Uploading icon animation (<a href="">source code</a> TODO: implement this!).</p>
+  <p class="mdl-typography--caption mdl-typography--text-center"><strong>Figure ?.</strong> Downloading icon animation (<a href="">source code</a> TODO: implement this!).</p>
 </div>
