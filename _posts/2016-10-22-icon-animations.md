@@ -247,6 +247,7 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * It also might be useful to give a listing of useful tools/resources for further reading.
 * At some point will need to rewrite SMIL animations and/or use some sort of polyfill.
 * Fix instances of `begin="infinite"` vs `begin="indefinite"`.
+* Uncheck all of the circular progress bar items, then click "slow animation". Animation shouldn't start.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
