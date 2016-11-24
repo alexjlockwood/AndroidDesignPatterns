@@ -27,17 +27,10 @@ document.addEventListener("DOMContentLoaded", function () {
       currentTransformValue = shouldEnable ? "rotate(0deg)" : "rotate(90deg)";
       nextTransformValue = shouldEnable ? "rotate(90deg)" : "rotate(0deg)";
     }
-    group.animate([{
-      transform: currentTransformValue,
-      offset: 0,
-      easing: "cubic-bezier(0.4, 0, 0.2, 1)"
-    }, {
-      transform: nextTransformValue,
-      offset: 1
-    }], {
-      duration: 300,
-      fill: "forwards"
-    });
+    group.animate([
+      { transform: currentTransformValue, offset: 0, easing: "cubic-bezier(0.4, 0, 0.2, 1)" },
+      { transform: nextTransformValue, offset: 1 }
+    ], { duration: 300, fill: "forwards" });
   }
 
   var playScale = getCheckbox("playTransformScaleCheckbox");
@@ -107,17 +100,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   function animateTransform(elementId, durationMillis, transformType, fromValue, toValue, easingFunction) {
-    document.getElementById(elementId).animate([{
-      transform: transformType + "(" + fromValue + ")",
-      offset: 0,
-      easing: easingFunction
-    }, {
-      transform: transformType + "(" + toValue + ")",
-      offset: 1
-    }], {
-      duration: getScaledAnimationDuration(durationMillis),
-      fill: "forwards"
-    });
+    document.getElementById(elementId).animate([
+      { transform: transformType + "(" + fromValue + ")", offset: 0, easing: easingFunction },
+      { transform: transformType + "(" + toValue + ")", offset: 1 }
+    ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards" });
   }
 
   // =============== Chevron icon.
@@ -394,18 +380,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var trimPathEnd = 0.5;
   var trimPathOffset = 0.0;
 
-  function getTrimPathStart() {
-    return document.querySelector("input[id=trimPathStart]").value / 100;
-  }
-
-  function getTrimPathEnd() {
-    return document.querySelector("input[id=trimPathEnd]").value / 100;
-  }
-
-  function getTrimPathOffset() {
-    return document.querySelector("input[id=trimPathOffset]").value / 100;
-  }
-
   function updateSliderText() {
     document.getElementById("trimPathStartValue").innerHTML = trimPathStart;
     document.getElementById("trimPathEndValue").innerHTML = trimPathEnd;
@@ -457,27 +431,27 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   document.querySelector("input[id=trimPathStart]").addEventListener("change", function () {
-    trimPathStart = getTrimPathStart();
+    trimPathStart = document.querySelector("input[id=trimPathStart]").value / 100;
     updateUi();
   });
   document.querySelector("input[id=trimPathEnd]").addEventListener("change", function () {
-    trimPathEnd = getTrimPathEnd();
+    trimPathEnd = document.querySelector("input[id=trimPathEnd]").value / 100;
     updateUi();
   });
   document.querySelector("input[id=trimPathOffset]").addEventListener("change", function () {
-    trimPathOffset = getTrimPathOffset();
+    trimPathOffset = document.querySelector("input[id=trimPathOffset]").value / 100;
     updateUi();
   });
   document.querySelector("input[id=trimPathStart]").addEventListener("input", function () {
-    trimPathStart = getTrimPathStart();
+    trimPathStart = document.querySelector("input[id=trimPathStart]").value / 100;
     updateUi();
   });
   document.querySelector("input[id=trimPathEnd]").addEventListener("input", function () {
-    trimPathEnd = getTrimPathEnd();
+    trimPathEnd = document.querySelector("input[id=trimPathEnd]").value / 100;
     updateUi();
   });
   document.querySelector("input[id=trimPathOffset]").addEventListener("input", function () {
-    trimPathOffset = getTrimPathOffset();
+    trimPathOffset = document.querySelector("input[id=trimPathOffset]").value / 100;
     updateUi();
   });
 });
@@ -505,64 +479,28 @@ document.addEventListener("DOMContentLoaded", function () {
     var strokePath = document.getElementById(strokePathId);
     var pathLength = strokePath.getTotalLength();
     // TODO(alockwood): remove this hack...
-    strokePath.animate([{
-      strokeDasharray: pathLength,
-      strokeDashoffset: (isAnimatingIn ? -pathLength : 0),
-      offset: 0
-    }, {
-      strokeDasharray: pathLength,
-      strokeDashoffset: (isAnimatingIn ? -pathLength : 0),
-      offset: 1
-    }], {
-      duration: 0,
-      fill: "forwards"
-    });
-    strokePath.animate([{
-      strokeDasharray: pathLength,
-      strokeDashoffset: (isAnimatingIn ? -pathLength : 0),
-      easing: easingFunction,
-      offset: 0
-    }, {
-      strokeDasharray: pathLength,
-      strokeDashoffset: (isAnimatingIn ? 0 : -pathLength),
-      offset: 1
-    }], {
-      duration: getScaledAnimationDuration(durationMillis),
-      fill: "forwards",
-      delay: getScaledAnimationDuration(startDelayMillis)
-    });
+    strokePath.animate([
+      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? -pathLength : 0), offset: 0 },
+      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? -pathLength : 0), offset: 1 }
+    ], { duration: 0, fill: "forwards" });
+    strokePath.animate([
+      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? -pathLength : 0), easing: easingFunction, offset: 0 },
+      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? 0 : -pathLength), offset: 1 }
+    ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards", delay: getScaledAnimationDuration(startDelayMillis) });
   }
 
   function animateTrimPathEndWithDelay(strokePathId, durationMillis, startDelayMillis, easingFunction, isAnimatingIn) {
     var strokePath = document.getElementById(strokePathId);
     var pathLength = strokePath.getTotalLength();
     // TODO(alockwood): remove this hack...
-    strokePath.animate([{
-      strokeDasharray: pathLength,
-      strokeDashoffset: (isAnimatingIn ? pathLength : 0),
-      offset: 0
-    }, {
-      strokeDasharray: pathLength,
-      strokeDashoffset: (isAnimatingIn ? pathLength : 0),
-      offset: 1
-    }], {
-      duration: 0,
-      fill: "forwards"
-    });
-    strokePath.animate([{
-      strokeDasharray: pathLength,
-      strokeDashoffset: (isAnimatingIn ? pathLength : 0),
-      easing: easingFunction,
-      offset: 0
-    }, {
-      strokeDasharray: pathLength,
-      strokeDashoffset: (isAnimatingIn ? 0 : pathLength),
-      offset: 1
-    }], {
-      duration: getScaledAnimationDuration(durationMillis),
-      fill: "forwards",
-      delay: getScaledAnimationDuration(startDelayMillis)
-    });
+    strokePath.animate([
+      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? pathLength : 0), offset: 0 },
+      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? pathLength : 0), offset: 1 }
+    ], { duration: 0, fill: "forwards" });
+    strokePath.animate([
+      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? pathLength : 0), easing: easingFunction, offset: 0 },
+      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? 0 : pathLength), offset: 1 }
+    ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards", delay: getScaledAnimationDuration(startDelayMillis) });
   }
 
   document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").addEventListener("change", function () {
@@ -851,7 +789,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   document.querySelector("input[id=trimPathSlowAnimationCheckbox]").addEventListener("change", function () {
-    for (var i = 0; i < currentIo16Animations.length; i++) {
+    for (var i = 0; i < currentIo16Animations.length; i += 1) {
       currentIo16Animations[i].cancel();
     }
     currentIo16Animations = [];
@@ -978,9 +916,15 @@ document.addEventListener("DOMContentLoaded", function () {
     outerRotationAnimation.cancel();
     trimPathOffsetAnimation.cancel();
     trimPathStartEndAnimation.cancel();
-    outerRotationAnimation = createRotationAnimation();
-    trimPathOffsetAnimation = createTrimPathOffsetAnimation();
-    trimPathStartEndAnimation = createTrimPathStartEndAnimation();
+    if (document.querySelector("input[id=circularProgressOuterRotationCheckbox]").checked) {
+      outerRotationAnimation = createRotationAnimation();
+    }
+    if (document.querySelector("input[id=circularProgressTrimPathOffsetCheckbox]").checked) {
+      trimPathOffsetAnimation = createTrimPathOffsetAnimation();
+    }
+    if (document.querySelector("input[id=circularProgressTrimPathStartEndCheckbox]").checked) {
+      trimPathStartEndAnimation = createTrimPathStartEndAnimation();
+    }
   });
 });
 
