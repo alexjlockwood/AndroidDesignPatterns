@@ -2249,9 +2249,232 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 
 document.addEventListener("DOMContentLoaded", function () {
+    var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1)";
+    var linearOutSlowIn = "cubic-bezier(0, 0, 0.2, 1)";
+
+    function getScaledAnimationDuration(durationMillis) {
+        var slowAnimationSelector = document.querySelector("input[id=uploadingSlowAnimationCheckbox]");
+        var currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
+        return durationMillis * currentAnimationDurationFactor;
+    }
+
+    function createProgressBarOuterRotationAnimation() {
+        return document.getElementById("downloading_progress_bar_outer_rotation").animate([
+            { transform: "rotate(0deg)", offset: 0, easing: 'linear' },
+            { transform: "rotate(720deg)", offset: 1 }
+        ], { duration: getScaledAnimationDuration(5332), fill: "forwards", iterations: "Infinity" });
+    }
+
+    function createTrimPathOffsetAnimation() {
+        return document.getElementById("downloading_progress_bar_inner_rotation").animate([
+            { transform: "rotate(0deg)", offset: 0, easing: 'linear' },
+            { transform: "rotate(90deg)", offset: 1 }
+        ], { duration: getScaledAnimationDuration(1333), fill: "forwards", iterations: "Infinity" });
+    }
+
+    function createTrimPathStartEndAnimation() {
+        var downloadingProgressBar = document.getElementById("downloading_progress_bar");
+        var fastOutSlowInFunction = bezierModule.createEasingFunction(0.4, 0, 0.2, 1);
+        var trimPathEndFunction = function (t) {
+            if (t <= 0.5) {
+                return fastOutSlowInFunction(t * 2) * 0.96;
+            } else {
+                return 0.08 * t + 0.92;
+            }
+        };
+        var pathLength = downloadingProgressBar.getTotalLength();
+        var keyFrames = [];
+        for (var i = 0; i < 1344; i += 16) {
+            var trimPathStart = 0;
+            if (i >= 672) {
+                trimPathStart = fastOutSlowInFunction(((i - 672) / 672)) * 0.75;
+            }
+            var trimPathEnd = trimPathEndFunction(i / 1344) * 0.75 + 0.03;
+            var trimPathLength = trimPathEnd - trimPathStart;
+            keyFrames.push({
+                strokeDasharray: (trimPathLength * pathLength) + "," + (1 - trimPathLength) * pathLength,
+                strokeDashoffset: (-trimPathStart * pathLength),
+                easing: "linear",
+                offset: (i / 1344)
+            });
+        }
+        keyFrames.push({
+            strokeDasharray: (0.03 * pathLength) + "," + pathLength,
+            strokeDashoffset: (-0.75 * pathLength),
+            offset: 1
+        });
+        return downloadingProgressBar.animate(keyFrames, {
+            duration: getScaledAnimationDuration(1333),
+            fill: "forwards",
+            iterations: "Infinity"
+        });
+    }
+
+    function createLineAnimation() {
+        var animation = document.getElementById("downloading_line_path_animation");
+        animation.setAttributeNS(null, "dur", getScaledAnimationDuration(714) + "ms");
+        animation.beginElement();
+        return animation;
+    }
+
+    function createCheckToArrowPathMorphAnimation() {
+        var animation = document.getElementById("downloading_check_arrow_path_animation");
+        //animation.setAttributeNS(null, "begin", (getScaledAnimationDuration(1800) / 1000) + "s");
+        animation.setAttributeNS(null, "dur", getScaledAnimationDuration(833) + "ms");
+        animation.beginElement();
+        return animation;
+    }
+
+    function createCheckToArrowPathMotionAnimation() {
+        var animation = document.getElementById("downloading_check_arrow_path_motion_animation");
+        //animation.setAttributeNS(null, "begin", (getScaledAnimationDuration(1800) / 1000) + "s");
+        animation.setAttributeNS(null, "dur", getScaledAnimationDuration(517) + "ms");
+        animation.beginElement();
+        return animation;
+    }
+
+    function createCheckToArrowRotateAnimation() {
+        var checkarrow_rotation = document.getElementById("downloading_check_arrow_group_rotate");
+        checkarrow_rotation.animate([
+            { transform: "rotate(45deg)", offset: 0, easing: "cubic-bezier(0.198183722744, 0, 0, 1)" },
+            { transform: "rotate(0deg)", offset: 1 }
+        ], { duration: getScaledAnimationDuration(517), fill: "forwards", delay: getScaledAnimationDuration(1800) });
+    }
+
+    function createArrowTranslateAnimation() {
+        return document.getElementById("downloading_arrow_group_translate").animate([
+            { transform: "translate(0px,0px)", easing: "linear", offset: 0 },
+            { transform: "translate(0px,-16.38px)", easing: "linear", offset: 0.15254237288 },
+            { transform: "translate(0px,-20px)", easing: "linear", offset: 0.28292046936 },
+            { transform: "translate(0px,-28.98px)", easing: "linear", offset: 0.33637548891 },
+            { transform: "translate(0px,-20px)", easing: "linear", offset: 0.39113428943 },
+            { transform: "translate(0px,32px)", easing: "linear", offset: 0.54367666232 },
+            { transform: "translate(0px,15px)", easing: "linear", offset: 0.65189048239 },
+            { transform: "translate(0px,0px)", offset: 1 }
+        ], { duration: getScaledAnimationDuration(767), fill: "forwards" });
+    }
+
+    function createArrowRotateAnimation() {
+        return document.getElementById("downloading_arrow_group_rotate").animate([
+            { transform: "rotate(0deg)", easing: "linear", offset: 0 },
+            { transform: "rotate(0deg)", easing: "cubic-bezier(0.321997467027, 0, 0.232738510433, 1)", offset: 0.12048192771 },
+            { transform: "rotate(10deg)", easing: "linear", offset: 0.44096385542 },
+            { transform: "rotate(10deg)", easing: "cubic-bezier(0.148005204046, 0, 0.232989560987, 1)", offset: 0.72048192771 },
+            { transform: "rotate(0deg)", offset: 1 }
+        ], { duration: getScaledAnimationDuration(415), fill: "forwards" });
+    }
+
+    function createFadeFillAnimation(path, durationMillis, startDelayMillis, startOpacity, endOpacity) {
+        return path.animate([
+            { fillOpacity: startOpacity, offset: 0, easing: fastOutSlowIn },
+            { fillOpacity: endOpacity, offset: 1 }
+        ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards", delay: startDelayMillis });
+    }
+
+    function createFadeStrokeAnimation(path, durationMillis, startOpacity, endOpacity) {
+        return path.animate([
+            { strokeOpacity: startOpacity, offset: 0, easing: fastOutSlowIn },
+            { strokeOpacity: endOpacity, offset: 1 }
+        ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards" });
+    }
+
+    function createStrokeWidthAnimation(path, durationMillis, startDelayMillis, startWidth, endWidth) {
+        return path.animate([
+            { strokeWidth: startWidth, offset: 0, easing: linearOutSlowIn },
+            { strokeWidth: endWidth, offset: 1 }
+        ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards", delay: getScaledAnimationDuration(startDelayMillis) });
+    }
+
+    function createProgressToCheckTrimAnimation(strokePath) {
+        var fastOutSlowInFunction = bezierModule.createEasingFunction(0, 0, 0.2, 1);
+        var pathLength = strokePath.getTotalLength();
+        var keyFrames = [];
+        for (var i = 0; i <= 1024; i += 16) {
+            var trimPathStart = 0;
+            var trimPathEnd = fastOutSlowInFunction(i / 1024);
+            if (i >= 400) {
+                trimPathStart = fastOutSlowInFunction((i - 400) / 624) * 0.89;
+            }
+            keyFrames.push({
+                strokeDasharray: ((trimPathEnd - trimPathStart) * pathLength) + "," + pathLength,
+                strokeDashoffset: (-trimPathStart * pathLength),
+                easing: "linear",
+                offset: (i / 1024)
+            });
+        }
+        return strokePath.animate(keyFrames, {
+            duration: getScaledAnimationDuration(1024),
+            fill: "forwards"
+        });
+    }
+
+    var progressAnimations = [];
+
+    function beginDownloadingAnimation() {
+        var arrowPath = document.getElementById("downloading_arrow_path");
+        createFadeFillAnimation(arrowPath, 0, 0, 1, 1);
+        var checkArrowPath = document.getElementById("downloading_check_arrow_path");
+        createFadeFillAnimation(checkArrowPath, 0, 0, 0, 0);
+        var progressBarPath = document.getElementById("downloading_progress_bar");
+        createFadeStrokeAnimation(progressBarPath, 0, 1, 1);
+        var progressBarCheckPath = document.getElementById("downloading_progress_bar_check");
+        createFadeStrokeAnimation(progressBarCheckPath, 0, 0, 0);
+        progressAnimations.push(createProgressBarOuterRotationAnimation());
+        progressAnimations.push(createTrimPathStartEndAnimation());
+        progressAnimations.push(createTrimPathOffsetAnimation());
+        createLineAnimation();
+        createArrowTranslateAnimation();
+        createArrowRotateAnimation();
+    }
+
+    function beginCompleteAnimation() {
+        for (var i = 0; i < progressAnimations.length; i += 1) {
+            progressAnimations[i].cancel();
+        }
+        progressAnimations = [];
+        var progressBarPath = document.getElementById("downloading_progress_bar");
+        createFadeStrokeAnimation(progressBarPath, 0, 0, 0);
+        var progressBarCheckPath = document.getElementById("downloading_progress_bar_check");
+        createFadeStrokeAnimation(progressBarCheckPath, 0, 1, 1);
+        var arrowPath = document.getElementById("downloading_arrow_path");
+        createFadeFillAnimation(arrowPath, 500, 0, 1, 0);
+        //createFadeFillAnimation(checkArrowPath, 0, 1800, 1, 1);
+        // TODO(alockwood): figure out why SMIL won't respect these start delays... :/
+        setTimeout(function () {
+            var checkArrowPath = document.getElementById("downloading_check_arrow_path");
+            createFadeFillAnimation(checkArrowPath, 0, 0, 1, 1);
+            createFadeStrokeAnimation(progressBarCheckPath, 0, 0, 0);
+            createCheckToArrowPathMorphAnimation();
+            createCheckToArrowPathMotionAnimation();
+        }, getScaledAnimationDuration(1800));
+        createCheckToArrowRotateAnimation();
+        var strokePath = document.getElementById("downloading_progress_bar_check");
+        createProgressToCheckTrimAnimation(strokePath);
+        createStrokeWidthAnimation(strokePath, 0, 0, 20, 20);
+        createStrokeWidthAnimation(strokePath, 500, 800, 20, 14.5);
+    }
+
+    var numClicks = 0;
+    var lastKnownTimeMillis = 0;
+    var isCompleteAnimationPending = false;
     document.getElementById("ic_downloading").addEventListener("click", function () {
-        var lineAnimation = document.getElementById("downloading_line_path_animation");
-        lineAnimation.beginElement();
+        if (isCompleteAnimationPending) {
+            return;
+        }
+        if (numClicks % 2 === 0) {
+            lastKnownTimeMillis = new Date().getTime();
+            beginDownloadingAnimation();
+        } else {
+            var scaledDuration = getScaledAnimationDuration(2666);
+            var elapsedTimeMillis = new Date().getTime() - lastKnownTimeMillis;
+            var delayTime = scaledDuration - (elapsedTimeMillis % scaledDuration);
+            isCompleteAnimationPending = true;
+            setTimeout(function () {
+                isCompleteAnimationPending = false;
+                beginCompleteAnimation();
+            }, delayTime);
+        }
+        numClicks += 1;
     });
 });
 
