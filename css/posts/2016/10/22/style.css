@@ -61,7 +61,7 @@
 }
 
 #progressBar {
-  width: 360px;
+  max-width: 360px;
   height: 4px;
   overflow: hidden;
   position: relative;

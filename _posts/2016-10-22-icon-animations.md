@@ -281,6 +281,7 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * At some point will need to rewrite SMIL animations and/or use some sort of polyfill.
 * Fix instances of `begin="infinite"` vs `begin="indefinite"`.
 * Confirm that markdown is rendered properly when paginating through posts on ADP home screen.
+* Sliders in trim path start/end/offset demo look crappy on mobile viewports.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
