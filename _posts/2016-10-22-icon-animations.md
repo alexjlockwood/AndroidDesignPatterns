@@ -19,14 +19,20 @@ In this blog post I will describe different techniques to animate icons using `V
 
 <!--more-->
 
-## Creating animated icons
-
 * TODO(alockwood): figure out what to write here
 * Maybe start with an explanation that this blog post is about explaining animation techniques and won't be super technical as a result (most of the technical details can be learned by reading the sample app source code).
 
+In this blog post we will discuss five groups of techniques:
+
+1. Drawing `path`s
+2. Transforming `group`s of `path`s
+3. Trimming stroked `path`s
+4. Morphing `path`s
+5. Clipping `path`s
+
 ### Drawing `path`s
 
-Before we can animate paths we need to know how to draw them. The most important elements of a `VectorDrawable` are the paths because they are what ultimately end up getting drawn to the screen. Paths are defined using the `<path>` tag and are drawn in the top-down order in which they appear in the `VectorDrawable`'s XML file. If the path is filled, the interiors of all shapes will be painted. Paths can either be filled or stroked. If the path is stroked, the paint will be applied along the outline of the path. Paths have the following 5 animatable properties, each of which affect the path's appearance during the course of an animation:
+Before we can begin to create animated icons we need to understand how they are drawn. The most important elements of a `VectorDrawable` are the paths because they are what ultimately end up getting drawn to the screen. Paths are defined using the `<path>` tag and are drawn in the top-down order in which they appear in the `VectorDrawable`'s XML file. If the path is filled, the interiors of all shapes will be painted. Paths can either be filled or stroked. If the path is stroked, the paint will be applied along the outline of the path. Paths have the following 5 animatable properties, each of which affect the path's appearance during the course of an animation:
 
 | Property name         | Element type | Value type | Min value | Max value |
 |-----------------------|--------------|------------|-----------|-----------|
@@ -45,9 +51,37 @@ The properties above can be used to modify the path's appearance, but a path's s
 | `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
 | `Z`                 | Close the path by drawing a line back to the beginning of the current subpath.
 
-We can see how these commands and attributes work in action in the diagrams below. The triangular play and circular record icons are both filled paths with orange and red fill colors respectively. The pause icon is a stroked path with a green stroke color and a stroke width of 2. Each icon is drawn in a 12x12 grid using the following drawing commands:
+We can see how these commands and attributes work in action in the diagrams below:
 
-<!-- DEMO: visualizing path commands (play/pause/record) -->
+```xml
+<vector
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:width="48dp"
+  android:height="48dp"
+  android:viewportHeight="12"
+  android:viewportWidth="12">
+
+  <!-- This path draws an orange triangular play icon. -->
+  <path
+    android:fillColor="#FF9800"
+    android:pathData="M 4,2.5 L 4,9.5 L 9.5,6 Z"/>
+
+  <!-- This path draws two green stroked vertical pause bars. -->
+  <path
+    android:pathData="M 4,2.5 L 4,9.5 M 8,2.5 L 8,9.5"
+    android:strokeColor="#0F9D58"
+    android:strokeWidth="2"/>
+
+  <!-- This path draws a red circle. -->
+  <path
+    android:fillColor="#DB4437"
+    android:pathData="M 2,6 C 2,3.79 3.79,2 6,2 C 8.21,2 10,3.79 10,6 C 10,8.21 8.21,10 6,10 C 3.79,10 2,8.21 2,6"/>
+  
+</vector>
+```
+
+ The triangular play and circular record icons are both filled paths with orange and red fill colors respectively. The pause icon is a stroked path with a green stroke color and a stroke width of 2. Each icon is drawn in a 12x12 grid using the following drawing commands:
+
 {% include posts/2016/10/22/includes1_drawing_paths_path_commands.html %}
 
 ### Transforming `group`s of `path`s
@@ -108,7 +142,6 @@ It is particularly important to understand the order in which transformations ar
 
 In each scenario, the following will be displayed to the screen. Make sure you understand how the different orderings of the groups affect how each icon ends up being displayed.
 
-<!-- DEMO: visualizing group transformations (play/pause/record) -->
 {% include posts/2016/10/22/includes2_transforming_paths_demo.html %}
 
 Transformations are widely used to animate icons. Below are three more examples of icons that depend on group transformations in order to be animated.
@@ -166,11 +199,11 @@ Lastly, a material circular indeterminate progress bar consists of a single circ
 
 3. Portions of the progress bar's circular path are trimmed using the trim path start/end properties over the course of 1333 milliseconds. Specifically, over the course of the animation they are animated between the following values:
 
-    | `t` | `android:trimPathStart` | `android:trimPathEnd` |
-    |-----|-------------------------|-----------------------|
-    | 0.0 | 0                       | 0.03                  |
-    | 0.5 | 0                       | 0.75                  |
-    | 1.0 | 0.75                    | 0.78                  |
+    | `t` | `trimPathStart` | `trimPathEnd` |
+    |-----|-----------------|---------------|
+    | 0.0 | 0               | 0.03          |
+    | 0.5 | 0               | 0.75          |
+    | 1.0 | 0.75            | 0.78          |
 
     At time `t = 0.0` and `t = 1.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). Similar to the search to back icon, the path's start and end trims are animated at different speeds to achieve the stretching effect that is characteristic of loading indicators.
 
@@ -178,7 +211,7 @@ Lastly, a material circular indeterminate progress bar consists of a single circ
 
 ### Morphing `path`s
 
-Perhaps the most complex animation technique we'll discuss is path morphing: the ability to transform one path into another. On Android 5.0 and above, this can be done by animating the path commands themselves using the `android:pathData` attribute.
+Perhaps the most complex animation technique we'll discuss is path morphing: the ability to transform one arbitrary path into another. On Android 5.0 and above, this can be done by animating the path commands themselves using the `android:pathData` attribute.
 
 | Property name      | Element type | Value type |
 |--------------------|--------------|------------|
@@ -214,9 +247,9 @@ Clip paths are animated via path morphing using the `android:pathData` property.
 
 {% include posts/2016/10/22/includes9_clipping_paths_animated_svgs.html %}
 
-### Uploading example
+### One last example!
 
-{% include posts/2016/10/22/includes10_uploading_downloading_animated_svgs.html %}
+{% include posts/2016/10/22/includes10_downloading_animated_svgs.html %}
 
 ## Sample app
 
@@ -247,6 +280,7 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * It also might be useful to give a listing of useful tools/resources for further reading.
 * At some point will need to rewrite SMIL animations and/or use some sort of polyfill.
 * Fix instances of `begin="infinite"` vs `begin="indefinite"`.
+* Confirm that markdown is rendered properly when paginating through posts on ADP home screen.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData

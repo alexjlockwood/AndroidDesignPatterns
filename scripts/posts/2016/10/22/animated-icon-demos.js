@@ -530,7 +530,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   function animateStem(isAnimatingToBack) {
-    var fastOutSlowInFunction = bezierModule.createEasingFunction(0.4, 0, 0.2, 1);
+    var fastOutSlowInFunction = bezier.createEasingFunction(0.4, 0, 0.2, 1);
     var stemPath = document.getElementById("stem");
     var pathLength = stemPath.getTotalLength();
     var keyFrames = [];
@@ -670,18 +670,10 @@ document.addEventListener("DOMContentLoaded", function () {
       var path = document.getElementById(ids[i]);
       var pathLength = path.getTotalLength();
       // TODO(alockwood): fix this hack
-      currentHandwritingAnimations.push(path.animate([{
-        strokeDasharray: pathLength,
-        strokeDashoffset: pathLength,
-        offset: 0,
-      }, {
-        strokeDasharray: pathLength,
-        strokeDashoffset: pathLength,
-        offset: 1
-      }], {
-        duration: 0,
-        fill: "forwards"
-      }));
+      currentHandwritingAnimations.push(path.animate([
+        { strokeDasharray: pathLength, strokeDashoffset: pathLength, offset: 0, },
+        { strokeDasharray: pathLength, strokeDashoffset: pathLength, offset: 1 }
+      ], { duration: 0, fill: "forwards" }));
     }
   }
 
@@ -836,7 +828,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function createTrimPathStartEndAnimation() {
-    var fastOutSlowInFunction = bezierModule.createEasingFunction(0.4, 0, 0.2, 1);
+    var fastOutSlowInFunction = bezier.createEasingFunction(0.4, 0, 0.2, 1);
     var trimPathEndFunction = function (t) {
       if (t <= 0.5) {
         return fastOutSlowInFunction(t * 2) * 0.96;
@@ -1063,17 +1055,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function animateRotationWithEasing(elementId, durationMillis, fromDegrees, toDegrees, easingFunction) {
-    document.getElementById(elementId).animate([{
-      transform: ("rotate(" + fromDegrees + "deg)"),
-      offset: 0,
-      easing: easingFunction
-    }, {
-      transform: ("rotate(" + toDegrees + "deg)"),
-      offset: 1
-    }], {
-      duration: getScaledAnimationDuration(durationMillis),
-      fill: "forwards"
-    });
+    document.getElementById(elementId).animate([
+      { transform: ("rotate(" + fromDegrees + "deg)"), offset: 0, easing: easingFunction },
+      { transform: ("rotate(" + toDegrees + "deg)"), offset: 1 }
+    ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards" });
   }
 
   function animatePathMorph(animationElementId, durationMillis) {
@@ -1103,15 +1088,14 @@ document.addEventListener("DOMContentLoaded", function () {
     var pathData = path.getPathData({ normalize: true });
     var pathDataDots = [];
     var r = dotRadius;
-    for (let seg of pathData) {
+    for (var i = 0; i < pathData.length; i += 1) {
+      var seg = pathData[i];
       if (seg.type === "M" || seg.type === "L") {
-        let [x, y] = seg.values;
-        addDotToList(pathDataDots, x, y, r);
+        addDotToList(pathDataDots, seg.values[0], seg.values[1], r);
       } else if (seg.type === "C") {
-        let [x1, y1, x2, y2, x, y] = seg.values;
-        addDotToList(pathDataDots, x1, y1, r);
-        addDotToList(pathDataDots, x2, y2, r);
-        addDotToList(pathDataDots, x, y, r);
+        addDotToList(pathDataDots, seg.values[0], seg.values[1], r);
+        addDotToList(pathDataDots, seg.values[2], seg.values[3], r);
+        addDotToList(pathDataDots, seg.values[4], seg.values[5], r);
       }
     }
     path.setPathData(pathDataDots);
@@ -1125,7 +1109,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function animatePointsWithList(animationElementId, durationMillis, listOfPathStrings, dotRadius) {
     var valuesString = "";
-    for (var i = 0; i < listOfPathStrings.length; i++) {
+    for (var i = 0; i < listOfPathStrings.length; i += 1) {
       valuesString = valuesString + createPathDotString(listOfPathStrings[i], dotRadius);
       if (i + 1 !== listOfPathStrings.length) {
         valuesString = valuesString + ";";
@@ -1752,14 +1736,9 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 
 document.addEventListener("DOMContentLoaded", function () {
+  var root = document.getElementById("includes10_root");
   var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1)";
   var linearOutSlowIn = "cubic-bezier(0, 0, 0.2, 1)";
-
-  function getScaledAnimationDuration(durationMillis) {
-    var slowAnimationSelector = document.querySelector("input[id=downloadingSlowAnimationCheckbox]");
-    var currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
-    return durationMillis * currentAnimationDurationFactor;
-  }
 
   document.querySelector("input[id=downloadingShowTrimPathsCheckbox]").addEventListener("change", function () {
     var visibility = document.querySelector("input[id=downloadingShowTrimPathsCheckbox]").checked ? "visible" : "hidden";
@@ -1780,19 +1759,19 @@ document.addEventListener("DOMContentLoaded", function () {
     return document.getElementById("downloading_progress_bar_outer_rotation").animate([
       { transform: "rotate(0deg)", offset: 0, easing: 'linear' },
       { transform: "rotate(720deg)", offset: 1 }
-    ], { duration: getScaledAnimationDuration(5332), fill: "forwards", iterations: "Infinity" });
+    ], { duration: common.getDuration(root, 5332), fill: "forwards", iterations: "Infinity" });
   }
 
   function createTrimPathOffsetAnimation() {
     return document.getElementById("downloading_progress_bar_inner_rotation").animate([
       { transform: "rotate(0deg)", offset: 0, easing: 'linear' },
       { transform: "rotate(90deg)", offset: 1 }
-    ], { duration: getScaledAnimationDuration(1333), fill: "forwards", iterations: "Infinity" });
+    ], { duration: common.getDuration(root, 1333), fill: "forwards", iterations: "Infinity" });
   }
 
   function createTrimPathStartEndAnimation() {
     var downloadingProgressBar = document.getElementById("downloading_progress_bar");
-    var fastOutSlowInFunction = bezierModule.createEasingFunction(0.4, 0, 0.2, 1);
+    var fastOutSlowInFunction = bezier.createEasingFunction(0.4, 0, 0.2, 1);
     var trimPathEndFunction = function (t) {
       if (t <= 0.5) {
         return fastOutSlowInFunction(t * 2) * 0.96;
@@ -1822,7 +1801,7 @@ document.addEventListener("DOMContentLoaded", function () {
       offset: 1
     });
     return downloadingProgressBar.animate(keyFrames, {
-      duration: getScaledAnimationDuration(1333),
+      duration: common.getDuration(root, 1333),
       fill: "forwards",
       iterations: "Infinity"
     });
@@ -1830,7 +1809,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function createLineAnimation() {
     var animation = document.getElementById("downloading_line_path_animation");
-    animation.setAttributeNS(null, "dur", getScaledAnimationDuration(714) + "ms");
+    animation.setAttributeNS(null, "dur", common.getDuration(root, 714) + "ms");
     animation.beginElement();
     return animation;
   }
@@ -1838,7 +1817,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function createCheckToArrowPathMorphAnimation() {
     var animation = document.getElementById("downloading_check_arrow_path_animation");
     //animation.setAttributeNS(null, "begin", (getScaledAnimationDuration(1800) / 1000) + "s");
-    animation.setAttributeNS(null, "dur", getScaledAnimationDuration(833) + "ms");
+    animation.setAttributeNS(null, "dur", common.getDuration(root, 833) + "ms");
     animation.beginElement();
     return animation;
   }
@@ -1846,7 +1825,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function createCheckToArrowPathMotionAnimation() {
     var animation = document.getElementById("downloading_check_arrow_path_motion_animation");
     //animation.setAttributeNS(null, "begin", (getScaledAnimationDuration(1800) / 1000) + "s");
-    animation.setAttributeNS(null, "dur", getScaledAnimationDuration(517) + "ms");
+    animation.setAttributeNS(null, "dur", common.getDuration(root, 517) + "ms");
     animation.beginElement();
     return animation;
   }
@@ -1856,7 +1835,7 @@ document.addEventListener("DOMContentLoaded", function () {
     checkarrow_rotation.animate([
       { transform: "rotate(45deg)", offset: 0, easing: "cubic-bezier(0.198183722744, 0, 0, 1)" },
       { transform: "rotate(0deg)", offset: 1 }
-    ], { duration: getScaledAnimationDuration(517), fill: "forwards", delay: getScaledAnimationDuration(1800) });
+    ], { duration: common.getDuration(root, 517), fill: "forwards", delay: common.getDuration(root, 1800) });
   }
 
   function createArrowTranslateAnimation() {
@@ -1869,7 +1848,7 @@ document.addEventListener("DOMContentLoaded", function () {
       { transform: "translate(0px,32px)", easing: "linear", offset: 0.54367666232 },
       { transform: "translate(0px,15px)", easing: "linear", offset: 0.65189048239 },
       { transform: "translate(0px,0px)", offset: 1 }
-    ], { duration: getScaledAnimationDuration(767), fill: "forwards" });
+    ], { duration: common.getDuration(root, 767), fill: "forwards" });
   }
 
   function createArrowRotateAnimation() {
@@ -1879,33 +1858,33 @@ document.addEventListener("DOMContentLoaded", function () {
       { transform: "rotate(10deg)", easing: "linear", offset: 0.44096385542 },
       { transform: "rotate(10deg)", easing: "cubic-bezier(0.148005204046, 0, 0.232989560987, 1)", offset: 0.72048192771 },
       { transform: "rotate(0deg)", offset: 1 }
-    ], { duration: getScaledAnimationDuration(415), fill: "forwards" });
+    ], { duration: common.getDuration(root, 415), fill: "forwards" });
   }
 
   function createFadeFillAnimation(path, durationMillis, startDelayMillis, startOpacity, endOpacity) {
     return path.animate([
       { fillOpacity: startOpacity, offset: 0, easing: fastOutSlowIn },
       { fillOpacity: endOpacity, offset: 1 }
-    ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards", delay: startDelayMillis });
+    ], { duration: common.getDuration(root, durationMillis), fill: "forwards", delay: common.getDuration(root, startDelayMillis) });
   }
 
   function createFadeStrokeAnimation(path, durationMillis, startOpacity, endOpacity) {
     return path.animate([
       { strokeOpacity: startOpacity, offset: 0, easing: fastOutSlowIn },
       { strokeOpacity: endOpacity, offset: 1 }
-    ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards" });
+    ], { duration: common.getDuration(root, durationMillis), fill: "forwards" });
   }
 
   function createStrokeWidthAnimation(path, durationMillis, startDelayMillis, startWidth, endWidth) {
     return path.animate([
       { strokeWidth: startWidth, offset: 0, easing: linearOutSlowIn },
       { strokeWidth: endWidth, offset: 1 }
-    ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards", delay: getScaledAnimationDuration(startDelayMillis) });
+    ], { duration: common.getDuration(root, durationMillis), fill: "forwards", delay: common.getDuration(root, startDelayMillis) });
   }
 
   function createArrowFillAnimation() {
-    var duration = getScaledAnimationDuration(1333);
-    var startDelay = getScaledAnimationDuration(333);
+    var duration = common.getDuration(root, 1333);
+    var startDelay = common.getDuration(root, 333);
     var animation = document.getElementById("downloading_arrow_fill_clip_animation");
     animation.setAttributeNS(null, 'dur', duration + 'ms');
     animation.setAttributeNS(null, 'begin', startDelay + 'ms');
@@ -1914,8 +1893,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function createArrowFillDebugAnimation() {
-    var duration = getScaledAnimationDuration(1333);
-    var startDelay = getScaledAnimationDuration(333);
+    var duration = common.getDuration(root, 1333);
+    var startDelay = common.getDuration(root, 333);
     var animation = document.getElementById("downloading_arrow_fill_clip_animation_debug");
     animation.setAttributeNS(null, 'dur', duration + 'ms');
     animation.setAttributeNS(null, 'begin', startDelay + 'ms');
@@ -1924,7 +1903,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function createProgressToCheckTrimAnimation(strokePath) {
-    var fastOutSlowInFunction = bezierModule.createEasingFunction(0, 0, 0.2, 1);
+    var fastOutSlowInFunction = bezier.createEasingFunction(0, 0, 0.2, 1);
     var pathLength = strokePath.getTotalLength();
     var keyFrames = [];
     for (var i = 0; i <= 1024; i += 16) {
@@ -1941,7 +1920,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
     return strokePath.animate(keyFrames, {
-      duration: getScaledAnimationDuration(1024),
+      duration: common.getDuration(root, 1024),
       fill: "forwards"
     });
   }
@@ -1990,7 +1969,7 @@ document.addEventListener("DOMContentLoaded", function () {
       createFadeStrokeAnimation(progressBarCheckPath, 0, 0, 0);
       createCheckToArrowPathMorphAnimation();
       createCheckToArrowPathMotionAnimation();
-    }, getScaledAnimationDuration(1800));
+    }, common.getDuration(root, 1800));
     createCheckToArrowRotateAnimation();
     var strokePath = document.getElementById("downloading_progress_bar_check");
     createProgressToCheckTrimAnimation(strokePath);
@@ -2009,7 +1988,7 @@ document.addEventListener("DOMContentLoaded", function () {
       lastKnownTimeMillis = new Date().getTime();
       beginDownloadingAnimation();
     } else {
-      var scaledDuration = getScaledAnimationDuration(2666);
+      var scaledDuration = common.getDuration(root, 2666);
       var elapsedTimeMillis = new Date().getTime() - lastKnownTimeMillis;
       var delayTime = scaledDuration - (elapsedTimeMillis % scaledDuration);
       isCompleteAnimationPending = true;
@@ -2022,7 +2001,25 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-var bezierModule = (function () {
+var common = (function () {
+  function getDuration(root, durationMillis) {
+    return getScaledDuration(root, durationMillis, 5);
+  }
+
+  function getScaledDuration(root, durationMillis, scaleFactor) {
+    var selector = document.querySelector(root.nodeName + "#" + root.id + " input[id=slowAnimationCheckbox]");
+    return durationMillis * (selector.checked ? scaleFactor : 1);
+  }
+  return {
+    fastOutSlowIn: "cubic-bezier(0.4, 0, 0.2, 1)",
+    fastOutLinearIn: "cubic-bezier(0.4, 0, 1, 1)",
+    linearOutSlowIn: "cubic-bezier(0, 0, 0.2, 1)",
+    getDuration: getDuration,
+    getScaledDuration: getScaledDuration
+  };
+})();
+
+var bezier = (function () {
   // These values are established by empiricism with tests (tradeoff: performance VS precision)
   var NEWTON_ITERATIONS = 4;
   var NEWTON_MIN_SLOPE = 0.001;
