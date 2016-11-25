@@ -8,7 +8,7 @@
 // =======================================================================================
 // =======================================================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
   function getCheckbox(checkboxId) {
     return document.querySelector("input[id=" + checkboxId + "]");
   }
@@ -43,31 +43,31 @@ document.addEventListener("DOMContentLoaded", function () {
   var recordRotation = getCheckbox("recordTransformRotationCheckbox");
   var recordTranslation = getCheckbox("recordTransformTranslationCheckbox");
 
-  playScale.addEventListener("change", function () {
+  playScale.addEventListener("change", function() {
     updateGroupTransform("play", "scale", playScale.checked);
   });
-  playRotation.addEventListener("change", function () {
+  playRotation.addEventListener("change", function() {
     updateGroupTransform("play", "rotation", playRotation.checked);
   });
-  playTranslation.addEventListener("change", function () {
+  playTranslation.addEventListener("change", function() {
     updateGroupTransform("play", "translation", playTranslation.checked);
   });
-  pauseScale.addEventListener("change", function () {
+  pauseScale.addEventListener("change", function() {
     updateGroupTransform("pause", "scale", pauseScale.checked);
   });
-  pauseRotation.addEventListener("change", function () {
+  pauseRotation.addEventListener("change", function() {
     updateGroupTransform("pause", "rotation", pauseRotation.checked);
   });
-  pauseTranslation.addEventListener("change", function () {
+  pauseTranslation.addEventListener("change", function() {
     updateGroupTransform("pause", "translation", pauseTranslation.checked);
   });
-  recordScale.addEventListener("change", function () {
+  recordScale.addEventListener("change", function() {
     updateGroupTransform("record", "scale", recordScale.checked);
   });
-  recordRotation.addEventListener("change", function () {
+  recordRotation.addEventListener("change", function() {
     updateGroupTransform("record", "rotation", recordRotation.checked);
   });
-  recordTranslation.addEventListener("change", function () {
+  recordTranslation.addEventListener("change", function() {
     updateGroupTransform("record", "translation", recordTranslation.checked);
   });
 });
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 // =======================================================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
   var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1.0)";
 
   function getScaledAnimationDuration(durationMillis) {
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return durationMillis * currentAnimationDurationFactor;
   }
 
-  document.querySelector("input[id=basicTransformationHighlightAnimatingPathsCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=basicTransformationHighlightAnimatingPathsCheckbox]").addEventListener("change", function() {
     var shouldHighlight = document.querySelector("input[id=basicTransformationHighlightAnimatingPathsCheckbox]").checked;
     var visibility = shouldHighlight ? "visible" : "hidden";
     var highlightPaths = document.getElementsByClassName("delightIconHighlightPath");
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // =============== Chevron icon.
   var isExpanded = false;
-  document.getElementById("ic_expand_collapse").addEventListener("click", function () {
+  document.getElementById("ic_expand_collapse").addEventListener("click", function() {
     if (isExpanded) {
       animateTransform("chevron", 250, "translate", "12px,9px", "12px,15px", fastOutSlowIn);
       animateTransform("leftBar", 200, "rotate", "45deg", "135deg", "cubic-bezier(0, 0, 0, 1)");
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // =============== Radio button icon.
   var isRadioButtonChecked = false;
-  document.getElementById("ic_radiobutton").addEventListener("click", function () {
+  document.getElementById("ic_radiobutton").addEventListener("click", function() {
     animateRadioButton(!isRadioButtonChecked);
     isRadioButtonChecked = !isRadioButtonChecked;
   });
@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // =============== Alarm clock icon.
-  document.getElementById("ic_alarm").addEventListener("click", function () {
+  document.getElementById("ic_alarm").addEventListener("click", function() {
     animateAlarmClock();
   });
 
@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 // =======================================================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
   var currentAnimationDuration = 2000;
 
   function createOuterRect1Animation() {
@@ -351,13 +351,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  scaleSelector.addEventListener("change", function () {
+  scaleSelector.addEventListener("change", function() {
     restartAnimations();
   });
-  translateSelector.addEventListener("change", function () {
+  translateSelector.addEventListener("change", function() {
     restartAnimations();
   });
-  slowAnimationSelector.addEventListener("change", function () {
+  slowAnimationSelector.addEventListener("change", function() {
     if (slowAnimationSelector.checked) {
       currentAnimationDuration *= 5;
     } else {
@@ -375,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 // =======================================================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
   var trimPathStart = 0.0;
   var trimPathEnd = 0.5;
   var trimPathOffset = 0.0;
@@ -430,27 +430,27 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSliderText();
   }
 
-  document.querySelector("input[id=trimPathStart]").addEventListener("change", function () {
+  document.querySelector("input[id=trimPathStart]").addEventListener("change", function() {
     trimPathStart = document.querySelector("input[id=trimPathStart]").value / 100;
     updateUi();
   });
-  document.querySelector("input[id=trimPathEnd]").addEventListener("change", function () {
+  document.querySelector("input[id=trimPathEnd]").addEventListener("change", function() {
     trimPathEnd = document.querySelector("input[id=trimPathEnd]").value / 100;
     updateUi();
   });
-  document.querySelector("input[id=trimPathOffset]").addEventListener("change", function () {
+  document.querySelector("input[id=trimPathOffset]").addEventListener("change", function() {
     trimPathOffset = document.querySelector("input[id=trimPathOffset]").value / 100;
     updateUi();
   });
-  document.querySelector("input[id=trimPathStart]").addEventListener("input", function () {
+  document.querySelector("input[id=trimPathStart]").addEventListener("input", function() {
     trimPathStart = document.querySelector("input[id=trimPathStart]").value / 100;
     updateUi();
   });
-  document.querySelector("input[id=trimPathEnd]").addEventListener("input", function () {
+  document.querySelector("input[id=trimPathEnd]").addEventListener("input", function() {
     trimPathEnd = document.querySelector("input[id=trimPathEnd]").value / 100;
     updateUi();
   });
-  document.querySelector("input[id=trimPathOffset]").addEventListener("input", function () {
+  document.querySelector("input[id=trimPathOffset]").addEventListener("input", function() {
     trimPathOffset = document.querySelector("input[id=trimPathOffset]").value / 100;
     updateUi();
   });
@@ -464,7 +464,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 // =======================================================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
   var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1)";
   var fastOutLinearIn = "cubic-bezier(0.4, 0, 1, 1)";
   var linearOutSlowIn = "cubic-bezier(0, 0, 0.2, 1)";
@@ -503,7 +503,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards", delay: getScaledAnimationDuration(startDelayMillis) });
   }
 
-  document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").addEventListener("change", function() {
     var visibility = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").checked ? "visible" : "hidden";
     var fingerprintDebugPaths = document.getElementsByClassName("delightIconFingerPrintStrokePathDebug");
     var i = 0;
@@ -522,7 +522,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // =============== Search to back animation.
   var isBackArrow = false;
-  document.getElementById("ic_search_back").addEventListener("click", function () {
+  document.getElementById("ic_search_back").addEventListener("click", function() {
     animateArrowHead(!isBackArrow);
     animateSearchCircle(isBackArrow);
     animateStem(!isBackArrow);
@@ -652,7 +652,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // =============== Handwriting animation.
   var currentHandwritingAnimations = [];
-  document.getElementById("ic_android_handwriting").addEventListener("click", function () {
+  document.getElementById("ic_android_handwriting").addEventListener("click", function() {
     for (var i = 0; i < currentHandwritingAnimations.length; i++) {
       currentHandwritingAnimations[i].cancel();
     }
@@ -698,7 +698,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // =============== Fingerprint animation.
   var isFingerprintVisible = true;
-  document.getElementById("ic_fingerprint").addEventListener("click", function () {
+  document.getElementById("ic_fingerprint").addEventListener("click", function() {
     animateFingerprint(!isFingerprintVisible);
     isFingerprintVisible = !isFingerprintVisible;
   });
@@ -780,7 +780,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  document.querySelector("input[id=trimPathSlowAnimationCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=trimPathSlowAnimationCheckbox]").addEventListener("change", function() {
     for (var i = 0; i < currentIo16Animations.length; i += 1) {
       currentIo16Animations[i].cancel();
     }
@@ -797,7 +797,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 // =======================================================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
   function getScaledAnimationDuration(durationMillis) {
     var slowAnimationSelector = document.querySelector("input[id=circularProgressSlowAnimationCheckbox]");
     var currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
@@ -829,7 +829,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function createTrimPathStartEndAnimation() {
     var fastOutSlowInFunction = bezier.createEasingFunction(0.4, 0, 0.2, 1);
-    var trimPathEndFunction = function (t) {
+    var trimPathEndFunction = function(t) {
       if (t <= 0.5) {
         return fastOutSlowInFunction(t * 2) * 0.96;
       } else {
@@ -869,14 +869,14 @@ document.addEventListener("DOMContentLoaded", function () {
   var trimPathOffsetAnimation = createTrimPathOffsetAnimation();
   var trimPathStartEndAnimation = createTrimPathStartEndAnimation();
 
-  document.querySelector("input[id=circularProgressOuterRotationCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=circularProgressOuterRotationCheckbox]").addEventListener("change", function() {
     if (document.querySelector("input[id=circularProgressOuterRotationCheckbox]").checked) {
       outerRotationAnimation.play();
     } else {
       outerRotationAnimation.pause();
     }
   });
-  document.querySelector("input[id=circularProgressTrimPathOffsetCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=circularProgressTrimPathOffsetCheckbox]").addEventListener("change", function() {
     if (!document.querySelector("input[id=circularProgressTrimPathOffsetCheckbox]").checked) {
       trimPathOffsetAnimation.pause();
       return;
@@ -888,7 +888,7 @@ document.addEventListener("DOMContentLoaded", function () {
     restartAnimation(trimPathStartEndAnimation);
     restartAnimation(trimPathOffsetAnimation);
   });
-  document.querySelector("input[id=circularProgressTrimPathStartEndCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=circularProgressTrimPathStartEndCheckbox]").addEventListener("change", function() {
     if (!document.querySelector("input[id=circularProgressTrimPathStartEndCheckbox]").checked) {
       trimPathStartEndAnimation.pause();
       return;
@@ -900,11 +900,11 @@ document.addEventListener("DOMContentLoaded", function () {
     restartAnimation(trimPathStartEndAnimation);
     restartAnimation(trimPathOffsetAnimation);
   });
-  document.querySelector("input[id=circularProgressShowTrimPathsCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=circularProgressShowTrimPathsCheckbox]").addEventListener("change", function() {
     var visibility = document.querySelector("input[id=circularProgressShowTrimPathsCheckbox]").checked ? "visible" : "hidden";
     document.getElementById("circular_progress_circle_path_debug").style.visibility = visibility;
   });
-  document.querySelector("input[id=circularProgressSlowAnimationCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=circularProgressSlowAnimationCheckbox]").addEventListener("change", function() {
     outerRotationAnimation.cancel();
     trimPathOffsetAnimation.cancel();
     trimPathStartEndAnimation.cancel();
@@ -928,7 +928,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 // =======================================================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
 
   var plusMinusPaths = [
     "M 5,11 L 11,11 L 11,5 L 13,5 L 13,11 L 19,11 L 19,13 L 13,13 L 13,19 L 11,19 L 11,13 L 5,13 Z",
@@ -1123,7 +1123,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ================ Plus to minus.
   var isIconMinus = false;
-  document.getElementById("ic_plus_minus").addEventListener("click", function () {
+  document.getElementById("ic_plus_minus").addEventListener("click", function() {
     if (isIconMinus) {
       animateMinusToPlus();
     } else {
@@ -1132,7 +1132,7 @@ document.addEventListener("DOMContentLoaded", function () {
     isIconMinus = !isIconMinus;
   });
 
-  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function() {
     var pathPointsSelector = document.querySelector("input[id=pathMorphShowPathPointsCheckbox]");
     var shouldShowPathPoints = pathPointsSelector.checked;
     var visibility = shouldShowPathPoints ? "visible" : "hidden";
@@ -1158,7 +1158,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ================ Cross to tick.
   var isIconTick = false;
-  document.getElementById("ic_cross_tick").addEventListener("click", function () {
+  document.getElementById("ic_cross_tick").addEventListener("click", function() {
     if (isIconTick) {
       animateTickToCross();
     } else {
@@ -1167,7 +1167,7 @@ document.addEventListener("DOMContentLoaded", function () {
     isIconTick = !isIconTick;
   });
 
-  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function() {
     var pathPointsSelector = document.querySelector("input[id=pathMorphShowPathPointsCheckbox]");
     var shouldShowPathPoints = pathPointsSelector.checked;
     var visibility = shouldShowPathPoints ? "visible" : "hidden";
@@ -1193,7 +1193,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ================ Drawer to arrow.
   var isIconDrawer = true;
-  document.getElementById("ic_arrow_drawer").addEventListener("click", function () {
+  document.getElementById("ic_arrow_drawer").addEventListener("click", function() {
     if (isIconDrawer) {
       animateDrawerToArrow();
     } else {
@@ -1202,7 +1202,7 @@ document.addEventListener("DOMContentLoaded", function () {
     isIconDrawer = !isIconDrawer;
   });
 
-  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function() {
     var pathPointsSelector = document.querySelector("input[id=pathMorphShowPathPointsCheckbox]");
     var shouldShowPathPoints = pathPointsSelector.checked;
     var visibility = shouldShowPathPoints ? "visible" : "hidden";
@@ -1229,7 +1229,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ================ Overflow to arrow.
   var isIconOverflow = true;
   var overflowArrowDotRadius = 0.3;
-  document.getElementById("ic_arrow_overflow").addEventListener("click", function () {
+  document.getElementById("ic_arrow_overflow").addEventListener("click", function() {
     if (isIconOverflow) {
       animateOverflowToArrow();
     } else {
@@ -1237,7 +1237,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     isIconOverflow = !isIconOverflow;
   });
-  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function() {
     var pathPointsSelector = document.querySelector("input[id=pathMorphShowPathPointsCheckbox]");
     var shouldShowPathPoints = pathPointsSelector.checked;
     var visibility = shouldShowPathPoints ? "visible" : "hidden";
@@ -1372,13 +1372,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ================ Play/pause/stop.
   var currentPlayPauseStopIconIndex = 0;
-  document.getElementById("ic_play_pause_stop").addEventListener("click", function () {
+  document.getElementById("ic_play_pause_stop").addEventListener("click", function() {
     var previousPlayPauseStopIconIndex = currentPlayPauseStopIconIndex;
     currentPlayPauseStopIconIndex = (currentPlayPauseStopIconIndex + 1) % 3;
     animatePlayPauseStop(previousPlayPauseStopIconIndex, currentPlayPauseStopIconIndex);
   });
 
-  document.querySelector("input[id=pathMorphRotateCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=pathMorphRotateCheckbox]").addEventListener("change", function() {
     var animateRotationSelector = document.querySelector("input[id=pathMorphRotateCheckbox]");
     var currentRotation = animateRotationSelector.checked && currentPlayPauseStopIconIndex === 0 ? 90 : 0;
     // TODO(alockwood): fix this hack...
@@ -1394,7 +1394,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function() {
     var pathPointsSelector = document.querySelector("input[id=pathMorphShowPathPointsCheckbox]");
     var shouldShowPathPoints = pathPointsSelector.checked;
     var visibility = shouldShowPathPoints ? "visible" : "hidden";
@@ -1427,7 +1427,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // =============== Animated digits.
   var numDigitClicks = 0;
-  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=pathMorphShowPathPointsCheckbox]").addEventListener("change", function() {
     var currentPoints = getPointsInPath(0);
     var countdownDigitsCp1Path = document.getElementById("countdown_digits_cp1");
     var countdownDigitsCp2Path = document.getElementById("countdown_digits_cp2");
@@ -1442,7 +1442,7 @@ document.addEventListener("DOMContentLoaded", function () {
     animateCount(numDigitClicks % 10, numDigitClicks % 10);
   });
 
-  document.getElementById("ic_countdown").addEventListener("click", function () {
+  document.getElementById("ic_countdown").addEventListener("click", function() {
     animateCount(numDigitClicks % 10, (numDigitClicks + 1) % 10);
     numDigitClicks += 1;
   });
@@ -1530,7 +1530,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 // =======================================================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
   var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1)";
   var linearOutSlowIn = "cubic-bezier(0, 0, 0.2, 1)";
 
@@ -1544,7 +1544,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return document.querySelector("input[id=clipPathShowClipMaskCheckbox]").checked;
   }
 
-  document.querySelector("input[id=clipPathShowClipMaskCheckbox]").addEventListener("change", function () {
+  document.querySelector("input[id=clipPathShowClipMaskCheckbox]").addEventListener("change", function() {
     if (shouldShowDebugClipMasks()) {
       document.getElementById("eye_mask_clip_path_debug").style.visibility = "visible";
       document.getElementById("clip_path_debug").style.visibility = "visible";
@@ -1558,7 +1558,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // =============== Hourglass icon.
   var numRotations = 0;
-  document.getElementById("ic_timer").addEventListener("click", function () {
+  document.getElementById("ic_timer").addEventListener("click", function() {
     animateTimer();
     numRotations += 1;
   });
@@ -1590,7 +1590,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var eyeMaskVisible = "M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z";
 
   var isCrossedOut = true;
-  document.getElementById("ic_visibility").addEventListener("click", function () {
+  document.getElementById("ic_visibility").addEventListener("click", function() {
     if (isCrossedOut) {
       animateReverseCrossOut();
     } else {
@@ -1643,7 +1643,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // =============== Heart break icon.
   var isHeartFull = false;
-  document.getElementById("ic_heart").addEventListener("click", function () {
+  document.getElementById("ic_heart").addEventListener("click", function() {
     if (isHeartFull) {
       animateHeartToBroken();
     } else {
@@ -1735,24 +1735,31 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 // =======================================================================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
   var root = document.getElementById("includes10_root");
-  var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1)";
-  var linearOutSlowIn = "cubic-bezier(0, 0, 0.2, 1)";
+  var fastOutSlowIn = common.fastOutSlowIn;
+  var linearOutSlowIn = common.linearOutSlowIn;
+  var downloadingAnimations = [];
+  var isDownloading = false;
+  var lastKnownTimeMillis = 0;
+  var isCompleteAnimationPending = false;
+  var downloadingClipMask = document.getElementById("downloading_arrow_fill_clip");
+  var downloadingClipMaskAnimation = document.getElementById("downloading_arrow_fill_clip_animation");
+  var downloadingClipMaskDebug = document.getElementById("downloading_arrow_fill_clip_debug");
+  var downloadingClipMaskAnimationDebug = document.getElementById("downloading_arrow_fill_clip_animation_debug");
 
-  document.querySelector("input[id=downloadingShowTrimPathsCheckbox]").addEventListener("change", function () {
-    var visibility = document.querySelector("input[id=downloadingShowTrimPathsCheckbox]").checked ? "visible" : "hidden";
+  document.querySelector(root.nodeName + "#" + root.id + " input[id=showTrimPathsCheckbox]").addEventListener("change", function() {
+    var visibility = document.querySelector(root.nodeName + "#" + root.id + " input[id=showTrimPathsCheckbox]").checked ? "visible" : "hidden";
     document.getElementById("downloading_progress_bar_check_debug").style.visibility = visibility;
   });
 
   function shouldShowDebugClipMasks() {
-    return document.querySelector("input[id=downloadingShowClipMaskCheckbox]").checked;
+    return document.querySelector(root.nodeName + "#" + root.id + " input[id=showClipMaskCheckbox]").checked;
   }
 
-  document.querySelector("input[id=downloadingShowClipMaskCheckbox]").addEventListener("change", function () {
-    var shouldShowClipMasks = shouldShowDebugClipMasks();
-    var visibility = shouldShowClipMasks ? "visible" : "hidden";
-    document.getElementById("downloading_arrow_fill_clip_debug").style.visibility = visibility;
+  document.querySelector(root.nodeName + "#" + root.id + " input[id=showClipMaskCheckbox]").addEventListener("change", function() {
+    var visibility = (isDownloading && shouldShowDebugClipMasks()) ? "visible" : "hidden";
+    downloadingClipMaskDebug.style.visibility = visibility;
   });
 
   function createProgressBarOuterRotationAnimation() {
@@ -1772,7 +1779,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function createTrimPathStartEndAnimation() {
     var downloadingProgressBar = document.getElementById("downloading_progress_bar");
     var fastOutSlowInFunction = bezier.createEasingFunction(0.4, 0, 0.2, 1);
-    var trimPathEndFunction = function (t) {
+    var trimPathEndFunction = function(t) {
       if (t <= 0.5) {
         return fastOutSlowInFunction(t * 2) * 0.96;
       } else {
@@ -1816,7 +1823,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function createCheckToArrowPathMorphAnimation() {
     var animation = document.getElementById("downloading_check_arrow_path_animation");
-    //animation.setAttributeNS(null, "begin", (getScaledAnimationDuration(1800) / 1000) + "s");
     animation.setAttributeNS(null, "dur", common.getDuration(root, 833) + "ms");
     animation.beginElement();
     return animation;
@@ -1824,7 +1830,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function createCheckToArrowPathMotionAnimation() {
     var animation = document.getElementById("downloading_check_arrow_path_motion_animation");
-    //animation.setAttributeNS(null, "begin", (getScaledAnimationDuration(1800) / 1000) + "s");
     animation.setAttributeNS(null, "dur", common.getDuration(root, 517) + "ms");
     animation.beginElement();
     return animation;
@@ -1833,7 +1838,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function createCheckToArrowRotateAnimation() {
     var checkarrow_rotation = document.getElementById("downloading_check_arrow_group_rotate");
     checkarrow_rotation.animate([
-      { transform: "rotate(45deg)", offset: 0, easing: "cubic-bezier(0.198183722744, 0, 0, 1)" },
+      { transform: "rotate(45deg)", offset: 0, easing: "cubic-bezier(0.2, 0, 0, 1)" },
       { transform: "rotate(0deg)", offset: 1 }
     ], { duration: common.getDuration(root, 517), fill: "forwards", delay: common.getDuration(root, 1800) });
   }
@@ -1841,12 +1846,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function createArrowTranslateAnimation() {
     return document.getElementById("downloading_arrow_group_translate").animate([
       { transform: "translate(0px,0px)", easing: "linear", offset: 0 },
-      { transform: "translate(0px,-16.38px)", easing: "linear", offset: 0.15254237288 },
-      { transform: "translate(0px,-20px)", easing: "linear", offset: 0.28292046936 },
-      { transform: "translate(0px,-28.98px)", easing: "linear", offset: 0.33637548891 },
-      { transform: "translate(0px,-20px)", easing: "linear", offset: 0.39113428943 },
-      { transform: "translate(0px,32px)", easing: "linear", offset: 0.54367666232 },
-      { transform: "translate(0px,15px)", easing: "linear", offset: 0.65189048239 },
+      { transform: "translate(0px,-16.38px)", easing: "linear", offset: 0.1525 },
+      { transform: "translate(0px,-20px)", easing: "linear", offset: 0.2830 },
+      { transform: "translate(0px,-28.98px)", easing: "linear", offset: 0.3364 },
+      { transform: "translate(0px,-20px)", easing: "linear", offset: 0.3911 },
+      { transform: "translate(0px,32px)", easing: "linear", offset: 0.5437 },
+      { transform: "translate(0px,15px)", easing: "linear", offset: 0.6519 },
       { transform: "translate(0px,0px)", offset: 1 }
     ], { duration: common.getDuration(root, 767), fill: "forwards" });
   }
@@ -1854,9 +1859,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function createArrowRotateAnimation() {
     return document.getElementById("downloading_arrow_group_rotate").animate([
       { transform: "rotate(0deg)", easing: "linear", offset: 0 },
-      { transform: "rotate(0deg)", easing: "cubic-bezier(0.321997467027, 0, 0.232738510433, 1)", offset: 0.12048192771 },
-      { transform: "rotate(10deg)", easing: "linear", offset: 0.44096385542 },
-      { transform: "rotate(10deg)", easing: "cubic-bezier(0.148005204046, 0, 0.232989560987, 1)", offset: 0.72048192771 },
+      { transform: "rotate(0deg)", easing: "cubic-bezier(0.32, 0, 0.23, 1)", offset: 0.1205 },
+      { transform: "rotate(10deg)", easing: "linear", offset: 0.4410 },
+      { transform: "rotate(10deg)", easing: "cubic-bezier(0.16, 0, 0.23, 1)", offset: 0.7205 },
       { transform: "rotate(0deg)", offset: 1 }
     ], { duration: common.getDuration(root, 415), fill: "forwards" });
   }
@@ -1893,6 +1898,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function createArrowFillDebugAnimation() {
+    downloadingClipMaskDebug.style.visibility = shouldShowDebugClipMasks() ? "visible" : "hidden";
     var duration = common.getDuration(root, 1333);
     var startDelay = common.getDuration(root, 333);
     var animation = document.getElementById("downloading_arrow_fill_clip_animation_debug");
@@ -1925,8 +1931,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  var progressAnimations = [];
-
   function beginDownloadingAnimation() {
     var arrowPathLight = document.getElementById("downloading_arrow_path");
     var arrowPathDark = document.getElementById("downloading_arrow_filling");
@@ -1938,9 +1942,9 @@ document.addEventListener("DOMContentLoaded", function () {
     createFadeStrokeAnimation(progressBarPath, 0, 1, 1);
     var progressBarCheckPath = document.getElementById("downloading_progress_bar_check");
     createFadeStrokeAnimation(progressBarCheckPath, 0, 0, 0);
-    progressAnimations.push(createProgressBarOuterRotationAnimation());
-    progressAnimations.push(createTrimPathStartEndAnimation());
-    progressAnimations.push(createTrimPathOffsetAnimation());
+    downloadingAnimations.push(createProgressBarOuterRotationAnimation());
+    downloadingAnimations.push(createTrimPathStartEndAnimation());
+    downloadingAnimations.push(createTrimPathOffsetAnimation());
     createLineAnimation();
     createArrowTranslateAnimation();
     createArrowRotateAnimation();
@@ -1948,11 +1952,16 @@ document.addEventListener("DOMContentLoaded", function () {
     createArrowFillDebugAnimation();
   }
 
-  function beginCompleteAnimation() {
-    for (var i = 0; i < progressAnimations.length; i += 1) {
-      progressAnimations[i].cancel();
+  function cancelDownloadingAnimations() {
+    downloadingClipMaskDebug.style.visibility = "hidden";
+    downloadingClipMaskAnimationDebug.endElement();
+    for (var i = 0; i < downloadingAnimations.length; i += 1) {
+      downloadingAnimations[i].cancel();
     }
-    progressAnimations = [];
+    downloadingAnimations = [];
+  }
+
+  function beginCompleteAnimation() {
     var progressBarPath = document.getElementById("downloading_progress_bar");
     createFadeStrokeAnimation(progressBarPath, 0, 0, 0);
     var progressBarCheckPath = document.getElementById("downloading_progress_bar_check");
@@ -1961,9 +1970,9 @@ document.addEventListener("DOMContentLoaded", function () {
     var arrowPathDark = document.getElementById("downloading_arrow_filling");
     createFadeFillAnimation(arrowPathLight, 500, 0, 1, 0);
     createFadeFillAnimation(arrowPathDark, 500, 0, 1, 0);
-    //createFadeFillAnimation(checkArrowPath, 0, 1800, 1, 1);
     // TODO(alockwood): figure out why SMIL won't respect these start delays... :/
-    setTimeout(function () {
+    setTimeout(function() {
+      isCompleteAnimationPending = false;
       var checkArrowPath = document.getElementById("downloading_check_arrow_path");
       createFadeFillAnimation(checkArrowPath, 0, 0, 1, 1);
       createFadeStrokeAnimation(progressBarCheckPath, 0, 0, 0);
@@ -1977,31 +1986,28 @@ document.addEventListener("DOMContentLoaded", function () {
     createStrokeWidthAnimation(strokePath, 500, 800, 20, 14.5);
   }
 
-  var numClicks = 0;
-  var lastKnownTimeMillis = 0;
-  var isCompleteAnimationPending = false;
-  document.getElementById("ic_downloading").addEventListener("click", function () {
+  document.getElementById("ic_downloading").addEventListener("click", function() {
     if (isCompleteAnimationPending) {
       return;
     }
-    if (numClicks % 2 === 0) {
-      lastKnownTimeMillis = new Date().getTime();
-      beginDownloadingAnimation();
-    } else {
+    if (isDownloading) {
       var scaledDuration = common.getDuration(root, 2666);
       var elapsedTimeMillis = new Date().getTime() - lastKnownTimeMillis;
       var delayTime = scaledDuration - (elapsedTimeMillis % scaledDuration);
       isCompleteAnimationPending = true;
-      setTimeout(function () {
-        isCompleteAnimationPending = false;
+      setTimeout(function() {
+        cancelDownloadingAnimations();
         beginCompleteAnimation();
       }, delayTime);
+    } else {
+      lastKnownTimeMillis = new Date().getTime();
+      beginDownloadingAnimation();
     }
-    numClicks += 1;
+    isDownloading = !isDownloading;
   });
 });
 
-var common = (function () {
+var common = (function() {
   function getDuration(root, durationMillis) {
     return getScaledDuration(root, durationMillis, 5);
   }
@@ -2019,7 +2025,7 @@ var common = (function () {
   };
 })();
 
-var bezier = (function () {
+var bezier = (function() {
   // These values are established by empiricism with tests (tradeoff: performance VS precision)
   var NEWTON_ITERATIONS = 4;
   var NEWTON_MIN_SLOPE = 0.001;
@@ -2079,7 +2085,7 @@ var bezier = (function () {
     return aGuessT;
   }
 
-  var bezierEasing = function (mX1, mY1, mX2, mY2) {
+  var bezierEasing = function(mX1, mY1, mX2, mY2) {
     if (!(0 <= mX1 && mX1 <= 1 && 0 <= mX2 && mX2 <= 1)) {
       throw new Error('bezier x values must be in [0, 1] range');
     }
@@ -2116,7 +2122,7 @@ var bezier = (function () {
       }
     }
 
-    return function (x) {
+    return function(x) {
       if (mX1 === mY1 && mX2 === mY2) {
         return x; // linear
       }
