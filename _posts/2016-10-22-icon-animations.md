@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Icon animations'
+title: 'Introduction to Animated Icons'
 date: 2016-10-22
 permalink: /2016/10/icon-morphing.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
@@ -292,6 +292,7 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * Sliders in trim path start/end/offset demo look crappy on mobile viewports.
 * Footnote idea: You also cannot morph a `L` command with three coordinates, into an `L` command with four coordinates like a square.
 * Add color to icons?
+* Link to SVG source code somewhere? Somehow make the blog post useful to web developers as well? Mention that trim path start/end doesn't exist in SVG and must be animated using stroke dash array/offset?
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
