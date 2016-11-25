@@ -1915,14 +1915,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function createProgressToCheckTrimAnimation(strokePath) {
-    var fastOutSlowInFunction = bezier.createEasingFunction(0, 0, 0.2, 1);
+    var linearOutSlowInFunction = bezier.createEasingFunction(0, 0, 0.2, 1);
     var pathLength = strokePath.getTotalLength();
     var keyFrames = [];
     for (var i = 0; i <= 1024; i += 16) {
       var trimPathStart = 0;
-      var trimPathEnd = fastOutSlowInFunction(i / 1024);
+      var trimPathEnd = linearOutSlowInFunction(i / 1024);
       if (i >= 400) {
-        trimPathStart = fastOutSlowInFunction((i - 400) / 624) * 0.88047672583;
+        trimPathStart = linearOutSlowInFunction((i - 400) / 624) * 0.88047672583;
       }
       keyFrames.push({
         strokeDasharray: ((trimPathEnd - trimPathStart) * pathLength) + "," + pathLength,
