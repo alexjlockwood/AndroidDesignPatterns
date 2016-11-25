@@ -29,6 +29,7 @@ In this blog post we will discuss five groups of techniques:
 3. Trimming stroked `path`s
 4. Morphing `path`s
 5. Clipping `path`s
+6. Putting it all together.
 
 ### Drawing `path`s
 
@@ -247,7 +248,15 @@ Clip paths can be animated via path morphing using the `android:pathData` proper
 
 {% include posts/2016/10/22/includes9_clipping_paths_animated_svgs.html %}
 
-### One last example!
+### Putting it all together
+
+This example combines all of the combination techniques discussed above:
+
+* Animate stroke width (progress indicator to check mark).
+* Animate trim path (progress indicator and progress indicator to check mark).
+* Animate path morph (bottom line bounce animation and checkmark to arrow animation).
+* Animate clip path (download arrow fill animation).
+* Animate translation and rotation (arrow bounce animation and checkmark to arrow animation).
 
 {% include posts/2016/10/22/includes10_downloading_animated_svgs.html %}
 
@@ -262,7 +271,6 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * Mention a few other path command information (i.e. `H`, `V`, `A`, difference between upper/lower case, space/commas don't matter, etc.).
 * Add check box to 'color individual paths' so the reader can see what is being animated?
 * Add warning that attempting to trim a filled path will cause unexpected behavior.
-* Add source code for eye visibility icon animation.
 * Test polyfills and animations on different browsers.
 * Add pictures of sample app to GitHub `README.md` file.
 * Minify resources?
@@ -270,7 +278,7 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * Fix CSS issues created after the addition of material design lite.
 * Make sure all polyfills/libraries/etc. are up to date.
 * Move javascript/css stuff into default layout `<head>` so we can benefit from caching.
-* Finish implementing Roman's downloading icon animation.
+* Finish implementing Roman's downloading icon animation for Android.
 * Mention the importance of understanding how path morphing animations work from a UX perspective?
 * Mention path morphing tools like [vectalign](https://github.com/bonnyfone/vectalign)?
 * Add a "special thanks" section for Roman and Nick.

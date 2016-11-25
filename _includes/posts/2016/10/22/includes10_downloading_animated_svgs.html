@@ -1,61 +1,57 @@
 <div id="includes10_root">
   <div class="svgDemoContainer">
-    <ul class="flex-container">
-      <li class="flex-item">
-        <svg id="ic_downloading" viewBox="0 0 240 240" class="svgDemoGraphic">
-          <g transform="translate(120,120)">
-            <g transform="scale(0.91,0.91)">
-              <g id="downloading_progress_bar_outer_rotation">
-                <g id="downloading_progress_bar_inner_rotation">
-                  <path id="downloading_progress_bar" fill="none" stroke="#000" stroke-opacity="0" stroke-linecap="square" stroke-linejoin="miter" stroke-width="20" d="M 0,-120 a 120,120 0 1,1 0,240 a 120,120 0 1,1 0,-240" />
-                  <path id="downloading_progress_bar_check" transform="translate(-120,-120)" fill="none" stroke="#000" stroke-opacity="0" stroke-width="20" stroke-linecap="square" stroke-linejoin="miter" d="M 120,0 a 120,120 0 1,1 0,240 a 120,120 0 1,1 0,-240 C 224,30 162,83 162,83 L 106.5,138.5 L 80.45,112.45" />
-                  <path id="downloading_progress_bar_check_debug" transform="translate(-120,-120)" fill="none" stroke="#000" stroke-opacity="0.3" style="visibility: hidden;" stroke-width="20" stroke-linecap="square" stroke-linejoin="miter" d="M 120,0 a 120,120 0 1,1 0,240 a 120,120 0 1,1 0,-240 C 224,30 162,83 162,83 L 106.5,138.5 L 80.45,112.45" />
-                </g>
-              </g>
+    <svg id="ic_downloading" viewBox="0 0 240 240" style="max-width: 320px; max-height: 320px;">
+      <g transform="translate(120,120)">
+        <g transform="scale(0.91,0.91)">
+          <g id="downloading_progress_bar_outer_rotation">
+            <g id="downloading_progress_bar_inner_rotation">
+              <path id="downloading_progress_bar" fill="none" stroke="#000" stroke-opacity="0" stroke-linecap="square" stroke-linejoin="miter" stroke-width="20" d="M 0,-120 a 120,120 0 1,1 0,240 a 120,120 0 1,1 0,-240" />
+              <path id="downloading_progress_bar_check" transform="translate(-120,-120)" fill="none" stroke="#000" stroke-opacity="0" stroke-width="20" stroke-linecap="square" stroke-linejoin="miter" d="M 120,0 a 120,120 0 1,1 0,240 a 120,120 0 1,1 0,-240 C 224,30 162,83 162,83 L 106.5,138.5 L 80.45,112.45" />
+              <path id="downloading_progress_bar_check_debug" transform="translate(-120,-120)" fill="none" stroke="#000" stroke-opacity="0.3" style="visibility: hidden;" stroke-width="20" stroke-linecap="square" stroke-linejoin="miter" d="M 120,0 a 120,120 0 1,1 0,240 a 120,120 0 1,1 0,-240 C 224,30 162,83 162,83 L 106.5,138.5 L 80.45,112.45" />
             </g>
           </g>
-          <g transform="translate(120,120)">
-            <g transform="scale(0.65,0.65)">
-              <g transform="translate(-120,-120)">
-                <path id="downloading_line_path" fill="none" stroke="#000" stroke-width="20" d="M 50,190 c 0,0 47.6596,0 70,0 c 22.3404,0 70,0 70,0">
-                  <animate id="downloading_line_path_animation" attributeName="d" begin="indefinite" calcMode="spline" keyTimes="0;0.5126;0.62885;0.8375;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" values="M 50,190 c 0,0 47.66,0 70,0 c 22.34,0 70,0 70,0;M 50,190 c 0,0 47.66,0 70,0 c 22.34,0 70,0 70,0;M 50,190 c 0,0 32.34,19.79 70,19.79 c 37.66,0 70,-19.79 70,-19.79;M 50,190 c 0,0 26.45,-7.98 69.67,-7.98 c 43.21,0 70.33,7.98 70.33,7.98;M 50,190 c 0,0 47.66,0 70,0 c 22.34,0 70,0 70,0" />
-                </path>
-                <g id="downloading_arrow_group_translate">
-                  <g transform="translate(120, 180)">
-                    <g id="downloading_arrow_group_rotate">
-                      <g transform="translate(-120, -180)">
-                        <path id="downloading_arrow_path" fill="#4d4d4d" d="M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 70,-70 70,-70 Z" />
-                        <clipPath id="downloading_arrow_fill_clip">
-                          <path id="downloading_arrow_clip_path" d="M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z">
-                            <animate id="downloading_arrow_fill_clip_animation" fill="freeze" attributeName="d" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 0,0 L 240,0 L 240,0 L 0,0 L 0,0 Z;M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z" repeatCount="indefinite" />
-                          </path>
-                        </clipPath>
-                        <g clip-path="url(#downloading_arrow_fill_clip)">
-                          <path id="downloading_arrow_filling" fill="#000" d="M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 70,-70 70,-70 Z" />
-                        </g>
-                        <path id="downloading_arrow_fill_clip_debug" d="M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z" fill="#F44336" fill-opacity="0.3" style="visibility: hidden;">
-                          <animate id="downloading_arrow_fill_clip_animation_debug" fill="freeze" attributeName="d" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 0,0 L 240,0 L 240,0 L 0,0 L 0,0 Z;M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z" repeatCount="indefinite" />
-                        </path>
-                      </g>
+        </g>
+      </g>
+      <g transform="translate(120,120)">
+        <g transform="scale(0.65,0.65)">
+          <g transform="translate(-120,-120)">
+            <path id="downloading_line_path" fill="none" stroke="#000" stroke-width="20" d="M 50,190 c 0,0 47.6596,0 70,0 c 22.3404,0 70,0 70,0">
+              <animate id="downloading_line_path_animation" attributeName="d" begin="indefinite" calcMode="spline" keyTimes="0;0.5126;0.62885;0.8375;1" keySplines="0 0 1 1;0 0 1 1;0 0 1 1;0 0 1 1" fill="freeze" values="M 50,190 c 0,0 47.66,0 70,0 c 22.34,0 70,0 70,0;M 50,190 c 0,0 47.66,0 70,0 c 22.34,0 70,0 70,0;M 50,190 c 0,0 32.34,19.79 70,19.79 c 37.66,0 70,-19.79 70,-19.79;M 50,190 c 0,0 26.45,-7.98 69.67,-7.98 c 43.21,0 70.33,7.98 70.33,7.98;M 50,190 c 0,0 47.66,0 70,0 c 22.34,0 70,0 70,0" />
+            </path>
+            <g id="downloading_arrow_group_translate">
+              <g transform="translate(120, 180)">
+                <g id="downloading_arrow_group_rotate">
+                  <g transform="translate(-120, -180)">
+                    <path id="downloading_arrow_path" fill="#4d4d4d" d="M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 70,-70 70,-70 Z" />
+                    <clipPath id="downloading_arrow_fill_clip">
+                      <path id="downloading_arrow_clip_path" d="M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z">
+                        <animate id="downloading_arrow_fill_clip_animation" fill="freeze" attributeName="d" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 0,0 L 240,0 L 240,0 L 0,0 L 0,0 Z;M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z" repeatCount="indefinite" />
+                      </path>
+                    </clipPath>
+                    <g clip-path="url(#downloading_arrow_fill_clip)">
+                      <path id="downloading_arrow_filling" fill="#000" d="M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 70,-70 70,-70 Z" />
                     </g>
-                  </g>
-                  <g id="downloading_check_arrow_group_translate" transform="translate(94,153)">
-                    <g id="downloading_check_arrow_group_rotate" transform="rotate(45)">
-                      <g transform="translate(-120,-164)">
-                        <path id="downloading_check_arrow_path" fill="#000" fill-opacity="0" d="M 129.12,164 c 0,0 0.88,0 0.88,0 c 0,0 0,-134 0,-134 c 0,0 -20,0 -20,0 c 0,0 -0.1,114.38 -0.1,114.38 c 0,0 -51.8,-0.13 -51.8,-0.13 c 0,0 0.01,19.87 0.01,19.87 c 0,0 68.02,-0.11 68.02,-0.11 c 0,0 2.98,0 2.98,0 Z">
-                          <animate id="downloading_check_arrow_path_animation" begin="indefinite" attributeName="d" calcMode="spline" values="M 129.12,164 c 0,0 0.88,0 0.88,0 c 0,0 0,-134 0,-134 c 0,0 -20,0 -20,0 c 0,0 -0.1,114.38 -0.1,114.38 c 0,0 -51.8,-0.13 -51.8,-0.13 c 0,0 0.01,19.87 0.01,19.87 c 0,0 68.02,-0.11 68.02,-0.11 c 0,0 2.98,0 2.98,0 Z;M 129.12,164 c 0,0 0.88,0 0.88,0 c 0,0 0,-134 0,-134 c 0,0 -20,0 -20,0 c 0,0 -0.1,114.38 -0.1,114.38 c 0,0 0,-0.02 0,-0.02 c 0,0 0.01,19.87 0.01,19.87 c 0,0 18.4,-0.21 18.4,-0.21 c 0,0 0.81,-0.01 0.81,-0.01 Z;M 119.5,164 c 0,0 10.5,0 10.5,0 c 0,0 0,-134 0,-134 c 0,0 -20,0 -20,0 c 0,0 0,134 0,134 c 0,0 9.5,0 9.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z;M 119.5,90 c 0,0 30.5,0 30.5,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 29.5,0 29.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z;M 119.5,90 c 0,0 30.5,0 30.5,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 29.5,0 29.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z;M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 67.06,-67.06 67.06,-67.06 c 0,0 2.94,-2.94 2.94,-2.94 Z" keyTimes="0; 0.12; 0.14; 0.34; 0.64; 1" keySplines="0.536 0 0.8333 0.73855; 0 0 0.6666 1; 0.2854 0.4477 0.0099875 1; 0 0 0.16846 1; 0.06557 0 0 1" fill="freeze" />
-                        </path>
-                      </g>
-                    </g>
-                    <animateMotion id="downloading_check_arrow_path_motion_animation" begin="indefinite" calcMode="spline" path="M 0,0 c 4.02083,10.83333 20.66667,12.16667 26.0,11" keyPoints="0;1" keyTimes="0;1" keySplines="0.15324408203 0 0 1;" fill="freeze" />
+                    <path id="downloading_arrow_fill_clip_debug" d="M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z" fill="#F44336" fill-opacity="0.3" style="visibility: hidden;">
+                      <animate id="downloading_arrow_fill_clip_animation_debug" fill="freeze" attributeName="d" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M 0,0 L 240,0 L 240,0 L 0,0 L 0,0 Z;M 0,0 L 240,0 L 240,240 L 0,240 L 0,0 Z" repeatCount="indefinite" />
+                    </path>
                   </g>
                 </g>
               </g>
+              <g id="downloading_check_arrow_group_translate" transform="translate(94,153)">
+                <g id="downloading_check_arrow_group_rotate" transform="rotate(45)">
+                  <g transform="translate(-120,-164)">
+                    <path id="downloading_check_arrow_path" fill="#000" fill-opacity="0" d="M 129.12,164 c 0,0 0.88,0 0.88,0 c 0,0 0,-134 0,-134 c 0,0 -20,0 -20,0 c 0,0 -0.1,114.38 -0.1,114.38 c 0,0 -51.8,-0.13 -51.8,-0.13 c 0,0 0.01,19.87 0.01,19.87 c 0,0 68.02,-0.11 68.02,-0.11 c 0,0 2.98,0 2.98,0 Z">
+                      <animate id="downloading_check_arrow_path_animation" begin="indefinite" attributeName="d" calcMode="spline" values="M 129.12,164 c 0,0 0.88,0 0.88,0 c 0,0 0,-134 0,-134 c 0,0 -20,0 -20,0 c 0,0 -0.1,114.38 -0.1,114.38 c 0,0 -51.8,-0.13 -51.8,-0.13 c 0,0 0.01,19.87 0.01,19.87 c 0,0 68.02,-0.11 68.02,-0.11 c 0,0 2.98,0 2.98,0 Z;M 129.12,164 c 0,0 0.88,0 0.88,0 c 0,0 0,-134 0,-134 c 0,0 -20,0 -20,0 c 0,0 -0.1,114.38 -0.1,114.38 c 0,0 0,-0.02 0,-0.02 c 0,0 0.01,19.87 0.01,19.87 c 0,0 18.4,-0.21 18.4,-0.21 c 0,0 0.81,-0.01 0.81,-0.01 Z;M 119.5,164 c 0,0 10.5,0 10.5,0 c 0,0 0,-134 0,-134 c 0,0 -20,0 -20,0 c 0,0 0,134 0,134 c 0,0 9.5,0 9.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z;M 119.5,90 c 0,0 30.5,0 30.5,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 29.5,0 29.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z;M 119.5,90 c 0,0 30.5,0 30.5,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 29.5,0 29.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z;M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 67.06,-67.06 67.06,-67.06 c 0,0 2.94,-2.94 2.94,-2.94 Z" keyTimes="0; 0.12; 0.14; 0.34; 0.64; 1" keySplines="0.536 0 0.8333 0.73855; 0 0 0.6666 1; 0.2854 0.4477 0.0099875 1; 0 0 0.16846 1; 0.06557 0 0 1" fill="freeze" />
+                    </path>
+                  </g>
+                </g>
+                <animateMotion id="downloading_check_arrow_path_motion_animation" begin="indefinite" calcMode="spline" path="M 0,0 c 4.02083,10.83333 20.66667,12.16667 26.0,11" keyPoints="0;1" keyTimes="0;1" keySplines="0.15324408203 0 0 1;" fill="freeze" />
+              </g>
             </g>
           </g>
-        </svg>
-      </li>
-    </ul>
+        </g>
+      </g>
+    </svg>
     <div class="svgDemoCheckboxContainer">
       <label for="showTrimPathsCheckbox" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
         <input type="checkbox" id="showTrimPathsCheckbox" class="mdl-checkbox__input">
