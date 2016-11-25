@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Introduction to Animated Icons'
+title: 'Understanding Icon Animation Techniques'
 date: 2016-10-22
 permalink: /2016/10/icon-morphing.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
@@ -29,7 +29,6 @@ In this blog post we will discuss five groups of techniques:
 3. Trimming stroked `path`s
 4. Morphing `path`s
 5. Clipping `path`s
-6. Putting it all together.
 
 ### Drawing `path`s
 
@@ -170,7 +169,7 @@ One last cool animation that makes use of group transformations is the _horizont
 
 ### Trimming stroked `path`s
 
-A lesser known property of stroked paths paths is that they can be trimmed. `VectorDrawable`s provide three additional attributes that can be animated to achieve some pretty cool effects:
+A lesser known property of stroked paths is that they can be _trimmed_. That is, given a stroked path, we can choose to hide or show portions of the path before drawing it to the dispaly. In Android, this is done using the three `<path>` attributes below, each of which can be animated to create some pretty awesome effects:
 
 | Property name            | Element type | Value type | Min value | Max value|
 |--------------------------|--------------|------------|-----------|-----------|
@@ -178,19 +177,17 @@ A lesser known property of stroked paths paths is that they can be trimmed. `Vec
 | `android:trimPathEnd`    | `<path>`     | `float`    | `0`       | `1`       |
 | `android:trimPathOffset` | `<path>`     | `float`    | `0`       | `1`       |
 
-Perhaps the best way to understand how this works is through an example. Consider the simple, straight line path below. Update the sliders below to see how altering each attribute affects what portions of the path will be drawn to the display. Note that setting the start value to be greater than the end value is perfectly valid, and results in a trimmed path that begins at the start value and wraps around the end of the path back to the lesser end value.
+The value assigned to `trimPathStart` determines where the visible portion of the path will begin, while the value assigned to `trimPathEnd` determines where the visible portion of the path will end. The `trimPathOffset` value may also be specified to add an extra offset to the start and end values if necessary. Consider the simple stroked path in **Figure 5** as an example, and update the sliders to see how the different values affect what is drawn to the display. Note that it is perfectly fine for `trimPathStart` to be greater than `trimPathEnd`; if this occurs, the visible portion of the path simply wraps around the end of the segment back to the beginning.
 
 {% include posts/2016/10/22/includes5_trimming_stroked_paths_demo.html %}
 
-Below are four examples of animated icons that are composed of stroked paths and make use of this effect. (**TODO(alockwood): an alternative to talking about each icon one by one is to talk about the different types of effects that can be created using these attributes and citing the icons as examples**).
+The ability to animate these three properties opens us up to a world of possibilities, especially for icons that make heavy use of stroked paths. **Figure 6** below shows four examples in which these attributes are animated in order to achieve some pretty cool efects:
 
-* The fingerprint icon is made up of 5 stroked paths. The paths begin with their trim path start and end values set to 0 and 1 respectively, and their end values are quickly animated to 0 when hidden and back to 1 when shown.
+* The _fingerprint icon_ is made up of 5 stroked paths, each with their trim path start and end values initially set to `0` and `1` respectively. When hidden, each path's trim path end value is quickly animated to `0` until the icon is no longer visible, and then back again to `1` when the icon is later shown. The _cursive handwriting icon_ works similarly, except instead of animating the individual paths all at once, they are animated sequentially as if the word was being written out by hand.
 
-* The Android handwriting icon works similarly. The paths begin with their start and end values set to 0, making it completely hidden. Then each path is sequentially animated into view, creating the illusion that the icon is being written out by hand.
+* The _search to back icon_ uses a clever trim path transition in order to animate the stem of the search icon into the stem of a back arrow. Notice how the start and end trims are animated at different speeds in order to create the effect that the stem is being stretched over time as it slides into its new position.
 
-* The search to back icon uses a clever trim path transition in order to animate the stem of the search icon into the stem of a back arrow. Notice how the start and end trims are animated at different speeds in order to create the effect that the stem is being stretched over time as it slides into its new position.
-
-* Unlike the others, the Google IO 2016 icon animates the trim path offset attribute, making use of the fact that trimmed paths wrap around the end of the path.
+* Unlike the others, the _Google IO 2016 icon_ animates the trim path offset attribute, making use of the fact that trimmed paths wrap around the end of the path.
 
 {% include posts/2016/10/22/includes6_trimming_stroked_paths_animated_svgs.html %}
 
@@ -293,6 +290,7 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * Footnote idea: You also cannot morph a `L` command with three coordinates, into an `L` command with four coordinates like a square.
 * Add color to icons?
 * Link to SVG source code somewhere? Somehow make the blog post useful to web developers as well? Mention that trim path start/end doesn't exist in SVG and must be animated using stroke dash array/offset?
+* Internally, trimmed paths are implemented using the [`PathMeasure#getSegment()`](https://developer.android.com/reference/android/graphics/PathMeasure.html#getSegment(float,%20float,%20android.graphics.Path,%20boolean)) method.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
