@@ -283,7 +283,7 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * Mention path morphing tools like [vectalign](https://github.com/bonnyfone/vectalign)?
 * Add a "special thanks" section for Roman and Nick.
 * Add "click the icons to play" to the captions?
-* Good example of path morphing (between an Android and an Applie) can be found [here](https://lewismcgeary.github.io/posts/animated-vector-drawable-pathMorphing/).
+* Good example of path morphing (between an Android and an Apple) can be found [here](https://lewismcgeary.github.io/posts/animated-vector-drawable-pathMorphing/).
 * Add a section about choosing interpolators?
 * It also might be useful to give a listing of useful tools/resources for further reading.
 * At some point will need to rewrite SMIL animations and/or use some sort of polyfill.
