@@ -144,7 +144,7 @@ In each scenario, the following will be displayed to the screen. Make sure you u
 
 {% include posts/2016/10/22/includes2_transforming_paths_demo.html %}
 
-Transformations are widely used to animate icons. Below are three more examples of icons that depend on group transformations in order to be animated.
+Transformations are widely used to animate icons. **Figure 3** shows three examples of icons that depend on group transformations in order to be animated.
 
 * The _expand/collapse icon_ is drawn using two paths. When clicked, the two straight lines are simultaneously rotated 90° and a `<group>` containing the two paths is vertically translated in order to create the effect.
 
@@ -181,23 +181,23 @@ The value assigned to `trimPathStart` determines where the visible portion of th
 
 {% include posts/2016/10/22/includes5_trimming_stroked_paths_demo.html %}
 
-The ability to animate these three properties opens us up to a world of possibilities, especially for icons that make heavy use of stroked paths. **Figure 6** below shows four examples in which these attributes are animated in order to achieve some pretty cool efects:
+The ability to animate these three properties opens us up to a world of possibilities, especially for icons that make heavy use of stroked paths. **Figure 6** below shows four examples that animate these attributes in order to achieve some pretty cool efects:
 
 * The _fingerprint icon_ is made up of 5 stroked paths, each with their trim path start and end values initially set to `0` and `1` respectively. When hidden, each path's trim path end value is quickly animated to `0` until the icon is no longer visible, and then back again to `1` when the icon is later shown. The _cursive handwriting icon_ works similarly, except instead of animating the individual paths all at once, they are animated sequentially as if the word was being written out by hand.
 
-* The _search to back icon_ uses a clever trim path transition in order to animate the stem of the search icon into the stem of a back arrow. Notice how the start and end trims are animated at different speeds in order to create the effect that the stem is being stretched over time as it slides into its new position.
+* The _search to back icon_ uses a clever trim path transition in order to animate the stem of the search icon into the stem of a back arrow. Enable the "show trim paths" checkbox and you'll see how the changing `trimPathStart` and `trimPathEnd` values affect the relative location of the stem as it animates towards its new state. Enable the "slow animation" checkbox and you'll also notice that the stem's size does not remain constant over the course of the animation: it expands at the beginning and shrinks at the end, creating a subtle "stretching" effect that feels more natural. In order to achieve this effect, we begin animating either the start or end value with a slight start delay. Simple!
 
-* Unlike the others, the _Google IO 2016 icon_ animates the trim path offset attribute, making use of the fact that trimmed paths wrap around the end of the path.
+* Each animating digit in the _Google IO 2016 icon_ consists of 4 paths, each with a different stroke color and each with trim path start/end values covering a quarter of the path's total length. The `trimPathOffset` is then animated from `0` to `1` in a loop in order to create the effect.
 
 {% include posts/2016/10/22/includes6_trimming_stroked_paths_animated_svgs.html %}
 
-Lastly, a material circular indeterminate progress bar consists of a single circular stroked path, and can be animated by modifying the following three properties in parallel at various speeds:
+The most familiar example we'll cover, however, is the circular indeterminate progress bar, which consists of a single stroked path and is animated by modifying the following three properties:
 
-1. The entire progress bar is rotated from 0° to 720° over the course of 4444ms.
+1. The progress bar is rotated from 0° to 720° over the course of 4444ms.
 
-2. The progress bar's trimPathOffset is animated from `0` to `0.25` over the course of 1333ms. This has the same effect as applying an additional rotation from 0° to 90°.
+2. The progress bar's trim path offset is animated from `0` to `0.25` over the course of 1333ms.
 
-3. Portions of the progress bar's circular path are trimmed using the trim path start/end properties over the course of 1333ms. Specifically, over the course of the animation they are animated between the following values:
+3. Portions of the progress bar's circular path are trimmed over the course of 1333ms. Specifically, over the course of the animation they take on the following values:
 
     | Time | `trimPathStart` | `trimPathEnd` | `trimPathOffset` |
     |------|-----------------|---------------|------------------|
@@ -205,7 +205,7 @@ Lastly, a material circular indeterminate progress bar consists of a single circ
     | 0.5  | 0               | 0.75          | 0.125            |
     | 1    | 0.75            | 0.78          | 0.25             |
 
-    At time `t = 0.0` and `t = 1.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). Similar to the search to back icon, the path's start and end trims are animated at different speeds to achieve the stretching effect that is characteristic of loading indicators.
+    At time `t = 0.0` and `t = 1.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). And at time `t = 1.0`, the progress bar has shrunk back to its smallest size and restarts the animation.
 
 {% include posts/2016/10/22/includes7_trimming_stroked_paths_indeterminate_progress.html %}
 
@@ -291,6 +291,7 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * Add color to icons?
 * Link to SVG source code somewhere? Somehow make the blog post useful to web developers as well? Mention that trim path start/end doesn't exist in SVG and must be animated using stroke dash array/offset?
 * Internally, trimmed paths are implemented using the [`PathMeasure#getSegment()`](https://developer.android.com/reference/android/graphics/PathMeasure.html#getSegment(float,%20float,%20android.graphics.Path,%20boolean)) method.
+* Add table of contents and/or anchor links to each header?
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
