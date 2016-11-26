@@ -15,23 +15,28 @@ related: ['/2015/01/activity-fragment-shared-element-transitions-in-depth-part3a
 
 <!--morestart-->
 
-In this blog post I will describe different techniques to animate icons using `VectorDrawable`s and `AnimatedVectorDrawable`s.
+Have you ever noticed a subtle icon animation in your favorite app and wondered how it worked? I know I have. [Creative customization][creative-customization] is a tenet of material design, and incorporating meaningful motion and subtle transitions between states can help inch your way towards a pixel-perfect user experience. It gives you an opportunity to add personality to your app, adding an element of wonder to user interactions and making it feel more natural and alive.
+
+Unfortunately, **being creative is hard**. Building an icon animation from scratch requires not only a fair amount of engineering effort but also a vision of how the final product should look and feel. You could be the best programmer the world has ever seen, and yet if you don't have the design tools that make it possible to seamlessly animate icons from one state to another, you're going to have a bad time.
 
 <!--more-->
 
-* TODO(alockwood): Figure out what to write here. Maybe start with an explanation that this blog post is about explaining animation techniques and won't be super technical as a result (most of the technical details can be learned by reading the sample app source code).
+In this blog post, I'll discuss several techniques and strategies that are used to create beautiful icon animations. The best way to learn is by analyzing existing examples, so each section is accompanied with several interactive icon animations which highlight how they work. This blog post won't teach you everything you need to know, but I hope it will make you see icon animations for what they are and will hopefully get you started on the right path towards creating your own!
 
-In this blog post we will discuss five groups of techniques:
-
-1. Drawing `path`s
-2. Transforming `group`s of `path`s
-3. Trimming stroked `path`s
-4. Morphing `path`s
-5. Animating `clip-path`s
+All of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. 
 
 ### Drawing `path`s
 
-Before we can begin to create animated icons we need to understand how they are drawn. The most important elements of a `VectorDrawable` are the paths because they are what ultimately end up getting drawn to the screen. Paths are defined using the `<path>` tag and are drawn in the top-down order in which they appear in the `VectorDrawable`'s XML file. If the path is filled, the interiors of all shapes will be painted. Paths can either be filled or stroked. If the path is stroked, the paint will be applied along the outline of the path. Paths have the following 5 animatable properties, each of which affect the path's appearance during the course of an animation:
+Before we can begin to create animated icons, we must first understand how they are drawn. In this blog post, we'll make heavy use of a relatively new class in Android called [`VectorDrawable`][VectorDrawable]s. `VectorDrawable`s are similar in concept to SVGs on the web: they allow us to create density independent assets by representing each icon as a series of lines and shapes called `path`s. Each path's shape is determined by a sequence of _drawing commands_, represented as a space/comma-separated string that uses a subset of the [SVG path data spec][svg-path-reference] to draw lines and curves. The spec defines many different types of commands; however, the ones you'll likely encounter the most are summarized in the table below: 
+
+| Command             | Description |
+|---------------------|-------------|
+| `M x,y`             | Begin a new subpath by moving to coordinate `(x,y)`.
+| `L x,y`             | Draw a line to `(x,y)`.
+| `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
+| `Z`                 | Close the path by drawing a line back to the beginning of the current subpath.
+
+Paths can either be filled or stroked. If the path is filled, the interiors of its shape will be painted. If the path is stroked, the paint will be applied along the outline of the path. A path's color and overall appearance can be further modified using the following 5 animatable properties:
 
 | Property name         | Element type | Value type | Min value | Max value |
 |-----------------------|--------------|------------|-----------|-----------|
@@ -41,16 +46,7 @@ Before we can begin to create animated icons we need to understand how they are 
 | `android:strokeColor` | `<path>`     | `integer`  | - - -     | - - -     |
 | `android:strokeWidth` | `<path>`     | `float`    | `0`       | - - -     |
 
-The properties above can be used to modify the path's appearance, but a path's shape is determined by path commands. Paths are drawn using a series of space and comma separated drawing commands, using a subset of the [SVG path data spec][svg-path-reference] in order to draw lines, curves, and so on. This sequence of commands is specified as a string in the `android:pathData` attribute. Although there are many different commands, the ones you'll encounter the most frequently are listed in the table below:
-
-| Command             | Description |
-|---------------------|-------------|
-| `M x,y`             | Begin a new subpath by moving to coordinate `(x,y)`.
-| `L x,y`             | Draw a line to `(x,y)`.
-| `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
-| `Z`                 | Close the path by drawing a line back to the beginning of the current subpath.
-
-We can see how these commands and attributes work in action in the diagrams below:
+Let's see how this all works with an example. Say we wanted to create a play, pause, and record icon for a music application. We can do so by defining three separate `path`s:
 
 ```xml
 <vector
@@ -74,14 +70,18 @@ We can see how these commands and attributes work in action in the diagrams belo
   <!-- This path draws a red circle. -->
   <path
     android:fillColor="#DB4437"
-    android:pathData="M 2,6 C 2,3.79 3.79,2 6,2 C 8.21,2 10,3.79 10,6 C 10,8.21 8.21,10 6,10 C 3.79,10 2,8.21 2,6"/>
+    android:pathData="M 2,6 C 2,3.8 3.8,2 6,2 C 8.2,2 10,3.8 10,6 C 10,8.2 8.2,10 6,10 C 3.8,10 2,8.2 2,6"/>
 
 </vector>
 ```
 
- The triangular play and circular record icons are both filled paths with orange and red fill colors respectively. The pause icon is a stroked path with a green stroke color and a stroke width of 2. Each icon is drawn in a 12x12 grid using the following drawing commands:
+The triangular play and circular record icons are both filled paths with orange and red fill colors respectively. The pause icon, on the other hand, is a stroked path with a green stroke color and a stroke width of 2. Each path's drawing commands are executed with respect to a `12x12` grid:
 
 {% include posts/2016/10/22/includes1_drawing_paths_path_commands.html %}
+
+As we mentioned above, one of the benefits of `VectorDrawable`s is that they provide _density independence_, meaning that they can be scaled arbitrarily on any screen without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. However, the main reason for using `VectorDrawable`s in our case is that they'll enable us to animate the individual `path`s that make up each icon using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class. `AnimatedVectorDrawable`s can be thought of as the glue that connects a `VectorDrawable` and one or more `ObjectAnimator`s: the `VectorDrawable` defines a series of uniquely named paths (or groups of paths), and the `AnimatedVectorDrawable` maps the parts of the icon that should be animated to their corresponding `ObjectAnimator`s. As we'll see, the ability to target individual elements to be animated within a `VectorDrawable` is quite powerful.
+
+In the remainder of this blog post, we'll go over four techniques that are used to create icon animations: _transforming `group`s of `path`s_, _trimming stroked `path`s_, _morphing `path`s_, and _clipping `path`s_. We'll end the post with one last epic icon animation that combines all of the techniques into one.
 
 ### Transforming `group`s of `path`s
 
@@ -260,19 +260,25 @@ Now that we've covered all of the basic icon animation techniques, let's try com
 
 Here is the link to the [sample app source code][adp-delightful-details].
 
+### Further reading
+
+**TODO(alockwood): add list of helpful resources**
+
 ### Special thanks
 
-Special thanks to [Nick Butcher][NickButcherGooglePlus] and [Roman Nurik][RomanNurikGooglePlus].
+I'd like to give a **huge** shout out to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without him. Several of the animations in this blog post were copied from his amazing open source project [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already! I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in the final example in this blog post.
+
+### Reporting bugs & feedback
+
+If you notice a glitch in one of the animated demos on this page, please report them [here][alexjlockwood.github.io-new-bug]. I only began learning Javascript a few weeks ago so I wouldn't be surprised if I made a mistake somewhere along the line. I want this blog post to be perfect, so I'd really appreciate it! Thanks! :)
 
 ### Potential footnotes/ideas/todos
 
 * Mention that the `<vector>` tag's `android:alpha` property can also be animated.
-* Should we explain the concept of "scalable vector graphic" or can that be assumed?
 * Mention a few other path command information (i.e. `H`, `V`, `A`, difference between upper/lower case, space/commas don't matter, etc.).
 * Add check box to 'color individual paths' so the reader can see what is being animated?
 * Add warning that attempting to trim a filled path will cause unexpected behavior.
 * Test polyfills and animations on different browsers.
-* Add pictures of sample app to GitHub `README.md` file.
 * Minify resources?
 * Set up `module.exports`.
 * Fix CSS issues created after the addition of material design lite.
@@ -284,24 +290,30 @@ Special thanks to [Nick Butcher][NickButcherGooglePlus] and [Roman Nurik][RomanN
 * Add a "special thanks" section for Roman and Nick.
 * Add "click the icons to play" to the captions?
 * Good example of path morphing (between an Android and an Apple) can be found [here](https://lewismcgeary.github.io/posts/animated-vector-drawable-pathMorphing/).
-* Add a section about choosing interpolators?
 * It also might be useful to give a listing of useful tools/resources for further reading.
 * At some point will need to rewrite SMIL animations and/or use some sort of polyfill.
 * Fix instances of `begin="infinite"` vs `begin="indefinite"`.
 * Confirm that markdown is rendered properly when paginating through posts on ADP home screen.
-* Sliders in trim path start/end/offset demo look crappy on mobile viewports.
 * Footnote idea: You also cannot morph a `L` command with three coordinates, into an `L` command with four coordinates like a square.
 * Add color to icons?
 * Link to SVG source code somewhere? Somehow make the blog post useful to web developers as well? Mention that trim path start/end doesn't exist in SVG and must be animated using stroke dash array/offset?
-* Internally, trimmed paths are implemented using the [`PathMeasure#getSegment()`](https://developer.android.com/reference/android/graphics/PathMeasure.html#getSegment(float,%20float,%20android.graphics.Path,%20boolean)) method.
 * Add table of contents and/or anchor links to each header?
-* Fix hourglass animation glitch
 * Reset rotation values for path morph animations after rotation checkbox is clicked.
 * Fix radiobutton glitch in firefox.
 * Note that clip paths only affect the paths contained in the current group (paths belonging to other sibling groups will not be affected).
+* Add thumbnail to the blog post to help drive traffic.
+* Mention Sriram Ramnani anywhere (to give credit for timely text view thingy?)
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
   [cubic-bezier-curve]: https://en.wikipedia.org/wiki/B%C3%A9zier_curve
   [RomanNurikGooglePlus]: https://plus.google.com/+RomanNurik
   [NickButcherGooglePlus]: https://plus.google.com/+NickButcher
+  [VectorDrawable]: https://developer.android.com/reference/android/graphics/drawable/VectorDrawable.html
+  [AnimatedVectorDrawable]: https://developer.android.com/reference/android/graphics/drawable/AnimatedVectorDrawable.html
+  [creative-customization]: https://material.google.com/motion/creative-customization.html
+  [alexjlockwood.github.io-new-bug]: https://github.com/alexjlockwood/alexjlockwood.github.io/issues/new
+  [adp-delightful-details-new-bug]: https://github.com/alexjlockwood/adp-delightful-details/issues/new
+  [plaid-source-code]: https://github.com/nickbutcher/plaid
+  [AndroidIconAnimator]: https://romannurik.github.io/AndroidIconAnimator/
+  [NumberTweeningBlogPost]: https://sriramramani.wordpress.com/2013/10/14/number-tweening/

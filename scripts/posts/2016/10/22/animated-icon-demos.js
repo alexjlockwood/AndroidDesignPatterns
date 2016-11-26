@@ -416,7 +416,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 
 document.addEventListener("DOMContentLoaded", function () {
-  var root = document.getElementById("includes6_root");
+  var root = document.getElementById("includes6");
   var fastOutSlowIn = common.fastOutSlowIn;
   var fastOutLinearIn = common.fastOutLinearIn;
   var linearOutSlowIn = common.linearOutSlowIn;
@@ -449,8 +449,8 @@ document.addEventListener("DOMContentLoaded", function () {
     ], { duration: common.getDuration(root, durationMillis), fill: "forwards", delay: common.getDuration(root, startDelayMillis) });
   }
 
-  document.querySelector(root.nodeName + "#" + root.id + " input[id=showTrimPathsCheckbox]").addEventListener("change", function () {
-    var visibility = document.querySelector(root.nodeName + "#" + root.id + " input[id=showTrimPathsCheckbox]").checked ? "visible" : "hidden";
+  document.querySelector(root.nodeName + "#" + root.id + " input[id=includes6_showTrimPathsCheckbox]").addEventListener("change", function () {
+    var visibility = document.querySelector(root.nodeName + "#" + root.id + " input[id=includes6_showTrimPathsCheckbox]").checked ? "visible" : "hidden";
     var fingerprintDebugPaths = document.getElementsByClassName("delightIconFingerPrintStrokePathDebug");
     var i = 0;
     for (i = 0; i < fingerprintDebugPaths.length; i += 1) {
@@ -726,7 +726,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  document.querySelector(root.nodeName + "#" + root.id + " input[id=slowAnimationCheckbox]").addEventListener("change", function () {
+  document.querySelector(root.nodeName + "#" + root.id + " input[id=includes6_slowAnimationCheckbox]").addEventListener("change", function () {
     for (var i = 0; i < currentIo16Animations.length; i += 1) {
       currentIo16Animations[i].cancel();
     }
@@ -1509,20 +1509,28 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // =============== Hourglass icon.
-  var numRotations = 0;
+  var isHourglassRotated = false;
+  var startHourglassClipPath = "M 24,13.4 c 0,0 -24,0 -24,0 c 0,0 0,10.6 0,10.6 c 0,0 24,0 24,0 c 0,0 0,-10.6 0,-10.6 Z";
+  var endHourglassClipPath = "M 24,0 c 0,0 -24,0 -24,0 c 0,0 0,10.7 0,10.7 c 0,0 24,0 24,0 c 0,0 0,-10.7 0,-10.7 Z";
   document.getElementById("ic_timer").addEventListener("click", function () {
-    animateTimer();
-    numRotations += 1;
+    animateHourglass();
+    isHourglassRotated = !isHourglassRotated;
   });
 
-  function animateTimer() {
+  function animateHourglass() {
+    var startClip = isHourglassRotated ? endHourglassClipPath : startHourglassClipPath;
+    var endClip = isHourglassRotated ? startHourglassClipPath : endHourglassClipPath;
+    var startRotate = isHourglassRotated ? "rotate(180deg)" : "rotate(0deg)";
+    var endRotate = isHourglassRotated ? "rotate(360deg)" : "rotate(180deg)";
+    var clipPathValues = startClip + ";" + endClip;
+
     document.getElementById("hourglass_fill_rotation").animate([
-      { transform: "rotate(0deg)", offset: 0, easing: fastOutSlowIn },
-      { transform: "rotate(180deg)", offset: 1 }
+      { transform: startRotate, offset: 0, easing: fastOutSlowIn },
+      { transform: endRotate, offset: 1 }
     ], { duration: getScaledAnimationDuration(333), fill: "forwards" });
     document.getElementById("hourglass_frame_rotation").animate([
-      { transform: "rotate(0deg)", offset: 0, easing: fastOutSlowIn },
-      { transform: "rotate(180deg)", offset: 1 }
+      { transform: startRotate, offset: 0, easing: fastOutSlowIn },
+      { transform: endRotate, offset: 1 }
     ], { duration: getScaledAnimationDuration(333), fill: "forwards" });
 
     var startDelay = getScaledAnimationDuration(333);
@@ -1530,10 +1538,12 @@ document.addEventListener("DOMContentLoaded", function () {
     var hourglassClipAnimation = document.getElementById("hourglass_clip_mask_animation");
     hourglassClipAnimation.setAttributeNS(null, "begin", startDelay + "ms");
     hourglassClipAnimation.setAttributeNS(null, "dur", duration + "ms");
+    hourglassClipAnimation.setAttributeNS(null, "values", clipPathValues);
     hourglassClipAnimation.beginElement();
     var hourglassClipDebugAnimation = document.getElementById("hourglass_clip_mask_debug_animation");
     hourglassClipDebugAnimation.setAttributeNS(null, "begin", startDelay + "ms");
     hourglassClipDebugAnimation.setAttributeNS(null, "dur", duration + "ms");
+    hourglassClipDebugAnimation.setAttributeNS(null, "values", clipPathValues);
     hourglassClipDebugAnimation.beginElement();
   }
 
@@ -1688,7 +1698,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 
 document.addEventListener("DOMContentLoaded", function () {
-  var root = document.getElementById("includes10_root");
+  var root = document.getElementById("includes10");
   var fastOutSlowIn = common.fastOutSlowIn;
   var linearOutSlowIn = common.linearOutSlowIn;
   var downloadingAnimations = [];
@@ -1698,16 +1708,16 @@ document.addEventListener("DOMContentLoaded", function () {
   var downloadingClipMaskDebug = document.getElementById("downloading_arrow_fill_clip_debug");
   var downloadingClipMaskAnimationDebug = document.getElementById("downloading_arrow_fill_clip_animation_debug");
 
-  document.querySelector(root.nodeName + "#" + root.id + " input[id=showTrimPathsCheckbox]").addEventListener("change", function () {
-    var visibility = document.querySelector(root.nodeName + "#" + root.id + " input[id=showTrimPathsCheckbox]").checked ? "visible" : "hidden";
+  document.querySelector(root.nodeName + "#" + root.id + " input[id=includes10_showTrimPathsCheckbox]").addEventListener("change", function () {
+    var visibility = document.querySelector(root.nodeName + "#" + root.id + " input[id=includes10_showTrimPathsCheckbox]").checked ? "visible" : "hidden";
     document.getElementById("downloading_progress_bar_check_debug").style.visibility = visibility;
   });
 
   function shouldShowDebugClipMasks() {
-    return document.querySelector(root.nodeName + "#" + root.id + " input[id=showClipMaskCheckbox]").checked;
+    return document.querySelector(root.nodeName + "#" + root.id + " input[id=includes10_showClipMaskCheckbox]").checked;
   }
 
-  document.querySelector(root.nodeName + "#" + root.id + " input[id=showClipMaskCheckbox]").addEventListener("change", function () {
+  document.querySelector(root.nodeName + "#" + root.id + " input[id=includes10_showClipMaskCheckbox]").addEventListener("change", function () {
     var visibility = (isDownloading && shouldShowDebugClipMasks()) ? "visible" : "hidden";
     downloadingClipMaskDebug.style.visibility = visibility;
   });
@@ -1963,7 +1973,7 @@ var common = (function () {
   }
 
   function getScaledDuration(root, durationMillis, scaleFactor) {
-    var selector = document.querySelector(root.nodeName + "#" + root.id + " input[id=slowAnimationCheckbox]");
+    var selector = document.querySelector(root.nodeName + "#" + root.id + " input[id=" + root.id + "_slowAnimationCheckbox]");
     return durationMillis * (selector.checked ? scaleFactor : 1);
   }
   return {
