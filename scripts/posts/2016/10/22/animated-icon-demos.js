@@ -233,50 +233,23 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 
 document.addEventListener("DOMContentLoaded", function () {
-  var currentAnimationDuration = 2000;
 
   function createOuterRect1Animation() {
-    return document.getElementById('progressBarOuterRect1').animate([{
-      transform: 'translateX(-522.59998px)',
-      offset: 0,
-      easing: 'linear'
-    }, {
-      transform: 'translateX(-522.59998px)',
-      offset: 0.2,
-      easing: 'cubic-bezier(0.5, 0, 0.701732, 0.495818703)'
-    }, {
-      transform: 'translateX(-185.382686832px)',
-      offset: 0.5915,
-      easing: 'cubic-bezier(0.302435, 0.38135197, 0.55, 0.956352125)'
-    }, {
-      transform: 'translateX(235.600006104px)',
-      offset: 1
-    }], {
-      duration: currentAnimationDuration,
-      iterations: Infinity
-    });
+    return document.getElementById('progressBarOuterRect1').animate([
+      { transform: 'translateX(-522.59998px)', offset: 0, easing: 'linear' },
+      { transform: 'translateX(-522.59998px)', offset: 0.2, easing: 'cubic-bezier(0.5, 0, 0.701732, 0.495818703)' },
+      { transform: 'translateX(-185.382686832px)', offset: 0.5915, easing: 'cubic-bezier(0.302435, 0.38135197, 0.55, 0.956352125)' },
+      { transform: 'translateX(235.600006104px)', offset: 1 }
+    ], { duration: 2000, iterations: Infinity });
   }
 
   function createInnerRect1Animation() {
-    return document.getElementById('progressBarInnerRect1').animate([{
-      transform: 'scaleX(0.1)',
-      offset: 0,
-      easing: 'linear'
-    }, {
-      transform: 'scaleX(0.1)',
-      offset: 0.3665,
-      easing: 'cubic-bezier(0.334731432, 0.124819821, 0.785843996, 1)'
-    }, {
-      transform: 'scaleX(0.826849212646)',
-      offset: 0.6915,
-      easing: 'cubic-bezier(0.225732004, 0, 0.233648906, 1.3709798)'
-    }, {
-      transform: 'scaleX(0.1)',
-      offset: 1
-    }], {
-      duration: currentAnimationDuration,
-      iterations: Infinity
-    });
+    return document.getElementById('progressBarInnerRect1').animate([
+      { transform: 'scaleX(0.1)', offset: 0, easing: 'linear' },
+      { transform: 'scaleX(0.1)', offset: 0.3665, easing: 'cubic-bezier(0.334731432, 0.124819821, 0.785843996, 1)' },
+      { transform: 'scaleX(0.826849212646)', offset: 0.6915, easing: 'cubic-bezier(0.225732004, 0, 0.233648906, 1.3709798)' },
+      { transform: 'scaleX(0.1)', offset: 1 }
+    ], { duration: 2000, iterations: Infinity });
   }
 
   function createOuterRect2Animation() {
@@ -296,31 +269,18 @@ document.addEventListener("DOMContentLoaded", function () {
       transform: 'translateX(458.600006104px)',
       offset: 1
     }], {
-      duration: currentAnimationDuration,
+      duration: 2000,
       iterations: Infinity
     });
   }
 
   function createInnerRect2Animation() {
-    return document.getElementById('progressBarInnerRect2').animate([{
-      transform: 'scaleX(0.1)',
-      offset: 0,
-      easing: 'cubic-bezier(0.205028172, 0.057050836, 0.57660995, 0.453970841)'
-    }, {
-      transform: 'scaleX(0.571379510698)',
-      offset: 0.1915,
-      easing: 'cubic-bezier(0.152312994, 0.196431957, 0.648373778, 1.00431535)'
-    }, {
-      transform: 'scaleX(0.909950256348)',
-      offset: 0.4415,
-      easing: 'cubic-bezier(0.25775882, -0.003163357, 0.211761916, 1.38178961)'
-    }, {
-      transform: 'scaleX(0.1)',
-      offset: 1
-    }], {
-      duration: currentAnimationDuration,
-      iterations: Infinity
-    });
+    return document.getElementById('progressBarInnerRect2').animate([
+      { transform: 'scaleX(0.1)', offset: 0, easing: 'cubic-bezier(0.205028172, 0.057050836, 0.57660995, 0.453970841)' },
+      { transform: 'scaleX(0.571379510698)', offset: 0.1915, easing: 'cubic-bezier(0.152312994, 0.196431957, 0.648373778, 1.00431535)' },
+      { transform: 'scaleX(0.909950256348)', offset: 0.4415, easing: 'cubic-bezier(0.25775882, -0.003163357, 0.211761916, 1.38178961)' },
+      { transform: 'scaleX(0.1)', offset: 1 }
+    ], { duration: 2000, iterations: Infinity });
   }
 
   var outerRect1Animation = createOuterRect1Animation();
@@ -330,7 +290,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var scaleSelector = document.querySelector("input[id=linearProgressScaleCheckbox]");
   var translateSelector = document.querySelector("input[id=linearProgressTranslateCheckbox]");
-  var slowAnimationSelector = document.querySelector("input[id=linearProgressSlowAnimationCheckbox]");
 
   function restartAnimations() {
     outerRect1Animation.cancel();
@@ -355,14 +314,6 @@ document.addEventListener("DOMContentLoaded", function () {
     restartAnimations();
   });
   translateSelector.addEventListener("change", function () {
-    restartAnimations();
-  });
-  slowAnimationSelector.addEventListener("change", function () {
-    if (slowAnimationSelector.checked) {
-      currentAnimationDuration *= 5;
-    } else {
-      currentAnimationDuration /= 5;
-    }
     restartAnimations();
   });
 });
@@ -465,15 +416,10 @@ document.addEventListener("DOMContentLoaded", function () {
 // =======================================================================================
 
 document.addEventListener("DOMContentLoaded", function () {
-  var fastOutSlowIn = "cubic-bezier(0.4, 0, 0.2, 1)";
-  var fastOutLinearIn = "cubic-bezier(0.4, 0, 1, 1)";
-  var linearOutSlowIn = "cubic-bezier(0, 0, 0.2, 1)";
-
-  function getScaledAnimationDuration(durationMillis) {
-    var slowAnimationSelector = document.querySelector("input[id=trimPathSlowAnimationCheckbox]");
-    var currentAnimationDurationFactor = slowAnimationSelector.checked ? 5 : 1;
-    return durationMillis * currentAnimationDurationFactor;
-  }
+  var root = document.getElementById("includes6_root");
+  var fastOutSlowIn = common.fastOutSlowIn;
+  var fastOutLinearIn = common.fastOutLinearIn;
+  var linearOutSlowIn = common.linearOutSlowIn;
 
   function animateTrimPathStartWithDelay(strokePathId, durationMillis, startDelayMillis, easingFunction, isAnimatingIn) {
     var strokePath = document.getElementById(strokePathId);
@@ -486,7 +432,7 @@ document.addEventListener("DOMContentLoaded", function () {
     strokePath.animate([
       { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? -pathLength : 0), easing: easingFunction, offset: 0 },
       { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? 0 : -pathLength), offset: 1 }
-    ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards", delay: getScaledAnimationDuration(startDelayMillis) });
+    ], { duration: common.getDuration(root, durationMillis), fill: "forwards", delay: common.getDuration(root, startDelayMillis) });
   }
 
   function animateTrimPathEndWithDelay(strokePathId, durationMillis, startDelayMillis, easingFunction, isAnimatingIn) {
@@ -500,11 +446,11 @@ document.addEventListener("DOMContentLoaded", function () {
     strokePath.animate([
       { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? pathLength : 0), easing: easingFunction, offset: 0 },
       { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? 0 : pathLength), offset: 1 }
-    ], { duration: getScaledAnimationDuration(durationMillis), fill: "forwards", delay: getScaledAnimationDuration(startDelayMillis) });
+    ], { duration: common.getDuration(root, durationMillis), fill: "forwards", delay: common.getDuration(root, startDelayMillis) });
   }
 
-  document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").addEventListener("change", function () {
-    var visibility = document.querySelector("input[id=trimPathShowTrimPathsCheckbox]").checked ? "visible" : "hidden";
+  document.querySelector(root.nodeName + "#" + root.id + " input[id=showTrimPathsCheckbox]").addEventListener("change", function () {
+    var visibility = document.querySelector(root.nodeName + "#" + root.id + " input[id=showTrimPathsCheckbox]").checked ? "visible" : "hidden";
     var fingerprintDebugPaths = document.getElementsByClassName("delightIconFingerPrintStrokePathDebug");
     var i = 0;
     for (i = 0; i < fingerprintDebugPaths.length; i += 1) {
@@ -556,7 +502,7 @@ document.addEventListener("DOMContentLoaded", function () {
         offset: 1
       });
       return stemPath.animate(keyFrames, {
-        duration: getScaledAnimationDuration(600),
+        duration: common.getDuration(root, 600),
         fill: "forwards"
       });
     } else {
@@ -577,7 +523,7 @@ document.addEventListener("DOMContentLoaded", function () {
         offset: 1
       });
       return stemPath.animate(keyFrames, {
-        duration: getScaledAnimationDuration(600),
+        duration: common.getDuration(root, 600),
         fill: "forwards"
       });
     }
@@ -596,9 +542,9 @@ document.addEventListener("DOMContentLoaded", function () {
       strokeDashoffset: (isAnimatingIn ? 0 : pathLength),
       offset: 1
     }], {
-      duration: getScaledAnimationDuration(250),
+      duration: common.getDuration(root, 250),
       fill: "forwards",
-      delay: getScaledAnimationDuration(isAnimatingIn ? 300 : 0)
+      delay: common.getDuration(root, isAnimatingIn ? 300 : 0)
     });
   }
 
@@ -616,9 +562,9 @@ document.addEventListener("DOMContentLoaded", function () {
       transform: (isAnimatingIn ? "translate(0px,0px)" : "translate(24px,0px)"),
       offset: 1
     }], {
-      duration: getScaledAnimationDuration(250),
+      duration: common.getDuration(root, 250),
       fill: "forwards",
-      delay: getScaledAnimationDuration((isAnimatingIn ? 350 : 0))
+      delay: common.getDuration(root, isAnimatingIn ? 350 : 0)
     });
     arrowHeadTop.animate([{
       strokeDasharray: arrowHeadTopPathLength,
@@ -630,9 +576,9 @@ document.addEventListener("DOMContentLoaded", function () {
       strokeDashoffset: (isAnimatingIn ? 0 : arrowHeadTopPathLength),
       offset: 1
     }], {
-      duration: getScaledAnimationDuration(250),
+      duration: common.getDuration(root, 250),
       fill: "forwards",
-      delay: getScaledAnimationDuration((isAnimatingIn ? 350 : 0))
+      delay: common.getDuration(root, isAnimatingIn ? 350 : 0)
     });
     arrowHeadBottom.animate([{
       strokeDasharray: arrowHeadBottomPathLength,
@@ -644,9 +590,9 @@ document.addEventListener("DOMContentLoaded", function () {
       strokeDashoffset: (isAnimatingIn ? 0 : arrowHeadBottomPathLength),
       offset: 1
     }], {
-      duration: getScaledAnimationDuration(250),
+      duration: common.getDuration(root, 250),
       fill: "forwards",
-      delay: getScaledAnimationDuration((isAnimatingIn ? 350 : 0))
+      delay: common.getDuration(root, isAnimatingIn ? 350 : 0)
     });
   }
 
@@ -677,7 +623,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function animateHandwritingStroke(pathId, duration, startDelay, easingCurve) {
+  function animateHandwritingStroke(pathId, durationMillis, startDelayMillis, easingCurve) {
     var path = document.getElementById(pathId);
     var pathLength = path.getTotalLength();
     path.animate([{
@@ -690,9 +636,9 @@ document.addEventListener("DOMContentLoaded", function () {
       strokeDashoffset: 0,
       offset: 1
     }], {
-      duration: getScaledAnimationDuration(duration),
+      duration: common.getDuration(root, durationMillis),
       fill: "forwards",
-      delay: getScaledAnimationDuration(startDelay)
+      delay: common.getDuration(root, startDelayMillis)
     });
   }
 
@@ -719,7 +665,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Google IO 2016 animation.
+  // =============== Google IO 2016 animation.
   var currentIo16Animations = [];
   var ioOne1 = document.getElementById("io16_one_1");
   var ioOne2 = document.getElementById("io16_one_2");
@@ -752,8 +698,8 @@ document.addEventListener("DOMContentLoaded", function () {
   beginIo16Animation();
 
   function beginIo16Animation() {
-    var oneDurationMillis = getScaledAnimationDuration(4000);
-    var sixDurationMillis = getScaledAnimationDuration(5000);
+    var oneDurationMillis = common.getDuration(root, 4000);
+    var sixDurationMillis = common.getDuration(root, 5000);
     currentIo16Animations.push(animateIo16Stroke(ioOne1, oneDurationMillis, 0));
     currentIo16Animations.push(animateIo16Stroke(ioOne2, oneDurationMillis, onePathLength / 4));
     currentIo16Animations.push(animateIo16Stroke(ioOne3, oneDurationMillis, onePathLength / 2));
@@ -774,13 +720,13 @@ document.addEventListener("DOMContentLoaded", function () {
       easing: "linear",
       offset: 1
     }], {
-      duration: getScaledAnimationDuration(durationMillis),
+      duration: common.getScaledDuration(root, durationMillis, 2),
       fill: "forwards",
       iterations: "Infinity"
     });
   }
 
-  document.querySelector("input[id=trimPathSlowAnimationCheckbox]").addEventListener("change", function () {
+  document.querySelector(root.nodeName + "#" + root.id + " input[id=slowAnimationCheckbox]").addEventListener("change", function () {
     for (var i = 0; i < currentIo16Animations.length; i += 1) {
       currentIo16Animations[i].cancel();
     }
@@ -1749,8 +1695,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var isDownloading = false;
   var lastKnownTimeMillis = 0;
   var isCompleteAnimationPending = false;
-  var downloadingClipMask = document.getElementById("downloading_arrow_fill_clip");
-  var downloadingClipMaskAnimation = document.getElementById("downloading_arrow_fill_clip_animation");
   var downloadingClipMaskDebug = document.getElementById("downloading_arrow_fill_clip_debug");
   var downloadingClipMaskAnimationDebug = document.getElementById("downloading_arrow_fill_clip_animation_debug");
 

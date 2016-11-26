@@ -1,10 +1,10 @@
 ---
 layout: post
-title: 'Understanding Icon Animation Techniques'
+title: 'Introduction to Icon Animations'
 date: 2016-10-22
 permalink: /2016/10/icon-morphing.html
-related: ['/2013/08/fragment-transaction-commit-state-loss.html',
-    '/2013/04/retaining-objects-across-config-changes.html',
+related: ['/2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html',
+    '/2016/08/coloring-buttons-with-themeoverlays-background-tints.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
 ---
 
@@ -19,8 +19,7 @@ In this blog post I will describe different techniques to animate icons using `V
 
 <!--more-->
 
-* TODO(alockwood): figure out what to write here
-* Maybe start with an explanation that this blog post is about explaining animation techniques and won't be super technical as a result (most of the technical details can be learned by reading the sample app source code).
+* TODO(alockwood): Figure out what to write here. Maybe start with an explanation that this blog post is about explaining animation techniques and won't be super technical as a result (most of the technical details can be learned by reading the sample app source code).
 
 In this blog post we will discuss five groups of techniques:
 
@@ -28,7 +27,7 @@ In this blog post we will discuss five groups of techniques:
 2. Transforming `group`s of `path`s
 3. Trimming stroked `path`s
 4. Morphing `path`s
-5. Clipping `path`s
+5. Animating `clip-path`s
 
 ### Drawing `path`s
 
@@ -181,7 +180,7 @@ The value assigned to `trimPathStart` determines where the visible portion of th
 
 {% include posts/2016/10/22/includes5_trimming_stroked_paths_demo.html %}
 
-The ability to animate these three properties opens us up to a world of possibilities, especially for icons that make heavy use of stroked paths. **Figure 6** below shows four examples that animate these attributes in order to achieve some pretty cool efects:
+The ability to animate these three properties opens us up to a world of possibilities, especially for icons that make heavy use of stroked paths. **Figure 6** below shows four examples that animate these attributes in order to achieve some pretty cool effects:
 
 * The _fingerprint icon_ is made up of 5 stroked paths, each with their trim path start and end values initially set to `0` and `1` respectively. When hidden, each path's trim path end value is quickly animated to `0` until the icon is no longer visible, and then back again to `1` when the icon is later shown. The _cursive handwriting icon_ works similarly, except instead of animating the individual paths all at once, they are animated sequentially as if the word was being written out by hand.
 
@@ -233,35 +232,39 @@ Implementing path morphing animations can be tedious. So here are some tips to g
 * Make sure your UX team is aware of these rules. Many UXers don't have to think about this and simply depend on UX software like Sketch or Adobe Illustrator to export the result as an SVG. However, automated export tools like this often don't take into consideration these types of rules.
 * Elliptical arcs can be approximated as one or more cubic bezier curves. This can be useful, as it animating elliptical arcs is not very common.
 
-### Clipping `path`s
+### Animating `clip-path`s
 
-Finally, paths can be clipped using the `<clip-path>` tag. A clip path specifies the portion of the display that should be shown. Anything that lies outside the bounds of the clip path will not be drawn to the display. Note that clip paths only affect the paths contained in the current group (paths belonging to other sibling groups will not be affected).
+The last technique we'll discuss has to do with animating `<clip-path>`s. A clip path specifies a region of the display that should be drawn to the screen---anything that lies outside the bounds of a clip path will simply be ignored. By animating the bounds of these regions, we can create some cool effects, as we'll see below.
 
 | Property name      | Element type  | Value type |
 |--------------------|---------------|------------|
 | `android:pathData` | `<clip-path>` | `string`   |
 
-Clip paths can be animated via path morphing using the `android:pathData` property. They are commonly used to create fill animations. For example, in the hourglass animation and the heart break animation. However, they can also be used to create other effects, such as animating the effect of crossing out an icon, as in the second animation below.
+Just as we saw in the section above, a clip path's region can be transformed by animating the differences in drawing commands specified in the `android:pathData` attribute. We can get a better idea of how these animations work by enabling the "show clip paths" checkbox below. In each example, the red overlay mask represents the current position of a `<clip-path>`, dictating the portions of the display that should be drawn in each display frame. As a result, clip paths are great for animating "fill effects", like in the hourglass and heart examples below.
 
 {% include posts/2016/10/22/includes9_clipping_paths_animated_svgs.html %}
 
-### Putting it all together
+### Conclusion: putting it all together
 
-This example combines all of the combination techniques discussed above:
+Now that we've covered all of the basic icon animation techniques, let's try combining them all in one last epic example! In **Figure 10**, we'll animate the following properties:
 
 * Animate stroke width (progress indicator to check mark).
+* Animate translation and rotation (arrow bounce animation and checkmark to arrow animation).
 * Animate trim path (progress indicator and progress indicator to check mark).
 * Animate path morph (bottom line bounce animation and checkmark to arrow animation).
 * Animate clip path (download arrow fill animation).
-* Animate translation and rotation (arrow bounce animation and checkmark to arrow animation).
 
 {% include posts/2016/10/22/includes10_downloading_animated_svgs.html %}
 
-## Sample app
+### Sample app
 
-Here is the link to the [sample app source code][adp-delightful-details] (mention that the `README.md` file has a bunch of useful information).
+Here is the link to the [sample app source code][adp-delightful-details].
 
-## Potential footnotes/ideas/todos
+### Special thanks
+
+Special thanks to [Nick Butcher][NickButcherGooglePlus] and [Roman Nurik][RomanNurikGooglePlus].
+
+### Potential footnotes/ideas/todos
 
 * Mention that the `<vector>` tag's `android:alpha` property can also be animated.
 * Should we explain the concept of "scalable vector graphic" or can that be assumed?
@@ -292,7 +295,13 @@ Here is the link to the [sample app source code][adp-delightful-details] (mentio
 * Link to SVG source code somewhere? Somehow make the blog post useful to web developers as well? Mention that trim path start/end doesn't exist in SVG and must be animated using stroke dash array/offset?
 * Internally, trimmed paths are implemented using the [`PathMeasure#getSegment()`](https://developer.android.com/reference/android/graphics/PathMeasure.html#getSegment(float,%20float,%20android.graphics.Path,%20boolean)) method.
 * Add table of contents and/or anchor links to each header?
+* Fix hourglass animation glitch
+* Reset rotation values for path morph animations after rotation checkbox is clicked.
+* Fix radiobutton glitch in firefox.
+* Note that clip paths only affect the paths contained in the current group (paths belonging to other sibling groups will not be affected).
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
   [cubic-bezier-curve]: https://en.wikipedia.org/wiki/B%C3%A9zier_curve
+  [RomanNurikGooglePlus]: https://plus.google.com/+RomanNurik
+  [NickButcherGooglePlus]: https://plus.google.com/+NickButcher
