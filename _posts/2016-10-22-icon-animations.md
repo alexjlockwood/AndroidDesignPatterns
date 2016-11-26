@@ -15,7 +15,7 @@ related: ['/2015/01/activity-fragment-shared-element-transitions-in-depth-part3a
 
 <!--morestart-->
 
-Have you ever noticed a subtle icon animation in your favorite app and wondered how it worked? I know I have. [Creative customization][creative-customization] is a tenet of material design, and incorporating meaningful motion and subtle transitions between states can help inch your way towards a pixel-perfect user experience. It gives you an opportunity to add personality to your app, adding an element of wonder to user interactions and making it feel more natural and alive.
+Have you ever noticed an icon animation in your favorite app and wondered how it worked? I know I have. [Creative customization][creative-customization] is a tenet of material design, and incorporating meaningful motion and subtle transitions between states can help inch your way towards a pixel-perfect user experience. It gives you an opportunity to add personality to your app, adding an element of wonder to user interactions and making it feel more natural and alive.
 
 Unfortunately, **being creative is hard**. Building an icon animation from scratch requires not only a fair amount of engineering effort but also a vision of how the final product should look and feel. You could be the best programmer the world has ever seen, and yet if you don't have the design tools that make it possible to seamlessly animate icons from one state to another, you're going to have a bad time.
 
@@ -256,17 +256,15 @@ Now that we've covered all of the basic icon animation techniques, let's try com
 
 {% include posts/2016/10/22/includes10_downloading_animated_svgs.html %}
 
-### Sample app
+### Sample app & further reading
 
-Here is the link to the [sample app source code][adp-delightful-details].
-
-### Further reading
+All of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. 
 
 **TODO(alockwood): add list of helpful resources**
 
 ### Special thanks
 
-I'd like to give a **huge** shout out to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without him. Several of the animations in this blog post were copied from his amazing open source project [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already! I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in the final example in this blog post.
+I'd like to give a **huge** thanks to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without his help and advice! Several of the animations in this blog post were taken from his amazing open source application [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already. I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in the final example in this blog post. Thanks again!
 
 ### Reporting bugs & feedback
 
@@ -292,7 +290,6 @@ If you notice a glitch in one of the animated demos on this page, please report 
 * Good example of path morphing (between an Android and an Apple) can be found [here](https://lewismcgeary.github.io/posts/animated-vector-drawable-pathMorphing/).
 * It also might be useful to give a listing of useful tools/resources for further reading.
 * At some point will need to rewrite SMIL animations and/or use some sort of polyfill.
-* Fix instances of `begin="infinite"` vs `begin="indefinite"`.
 * Confirm that markdown is rendered properly when paginating through posts on ADP home screen.
 * Footnote idea: You also cannot morph a `L` command with three coordinates, into an `L` command with four coordinates like a square.
 * Add color to icons?
