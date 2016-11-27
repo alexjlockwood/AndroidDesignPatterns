@@ -234,25 +234,25 @@ Implementing path morphing animations can be tedious. So here are some tips to g
 
 ### Animating `clip-path`s
 
-The last technique we'll discuss has to do with animating `<clip-path>`s. A clip path specifies a region of the display that should be drawn to the screen---anything that lies outside the bounds of a clip path will simply be ignored. By animating the bounds of these regions, we can create some cool effects, as we'll see below.
+The last technique we'll cover involves animating the bounds of a `<clip-path>`. A clip path restricts the region to which paint can be applied---anything that lies outside of the region bounded by the clip path will not be drawn. By animating the bounds of these regions, we can create some cool effects, as we'll see below.
 
 | Property name      | Element type  | Value type |
 |--------------------|---------------|------------|
 | `android:pathData` | `<clip-path>` | `string`   |
 
-Just as we saw in the section above, a clip path's region can be transformed by animating the differences in drawing commands specified in the `android:pathData` attribute. We can get a better idea of how these animations work by enabling the "show clip paths" checkbox below. In each example, the red overlay mask represents the current position of a `<clip-path>`, dictating the portions of the display that should be drawn in each display frame. As a result, clip paths are great for animating "fill effects", like in the hourglass and heart examples below.
+Similar to above, a clip path's region can be morphed by animating the differences in drawing commands specified by the `android:pathData` attribute. You'll get a better idea of how these animations work by enabling the "show clip paths" checkbox below. In each example, the red overlay mask represents the bounds of the currently active `<clip-path>`, dictating the portions of a sibling `<path>` that is allowed to be drawn. This technique makes clip paths great for animating "fill-in effects", as seen in the hourglass and heart-break animations below.
 
 {% include posts/2016/10/22/includes9_clipping_paths_animated_svgs.html %}
 
 ### Conclusion: putting it all together
 
-Now that we've covered all of the basic icon animation techniques, let's try combining them all in one last epic example! In **Figure 10**, we'll animate the following properties:
+If you've made it this far in the blog post, that means you now have all of the fundamental building blocks you need in order to design your own icon animations from scratch! To celebrate, let's combine all of the techniques discussed in this post into one last kickass example! The progress icon in **Figure 10** animates the following five properties:
 
-* Animate stroke width (progress indicator to check mark).
-* Animate translation and rotation (arrow bounce animation and checkmark to arrow animation).
-* Animate trim path (progress indicator and progress indicator to check mark).
-* Animate path morph (bottom line bounce animation and checkmark to arrow animation).
-* Animate clip path (download arrow fill animation).
+1. Stroke width (during the progress indicator to check mark animation).
+2. Translation and rotation (at the very beginning to create the 'bouncing arrow' effect).
+3. Trim path start/end (during the progress indicator to check mark animation).
+4. Path morphing (at the very end while transitioning the check mark back into an arrow).
+5. Clip path (vertically filling the contents of the downloading arrow to indicate indeterminate progress).
 
 {% include posts/2016/10/22/includes10_downloading_animated_svgs.html %}
 
