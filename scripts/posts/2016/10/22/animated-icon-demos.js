@@ -1026,34 +1026,6 @@ document.addEventListener("DOMContentLoaded", function () {
     animation.beginElement();
   }
 
-  function addDotToList(pathDataDots, x, y, r) {
-    pathDataDots.push({ type: "M", values: [x, y] });
-    pathDataDots.push({ type: "m", values: [-r, 0] });
-    pathDataDots.push({ type: "a", values: [r, r, 0, 1, 0, r * 2, 0] });
-    pathDataDots.push({ type: "a", values: [r, r, 0, 1, 0, -r * 2, 0] });
-    pathDataDots.push({ type: "z" });
-  }
-
-  function createPathDotString(pathString, dotRadius) {
-    var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    path.setAttribute('d', pathString);
-    var pathData = path.getPathData({ normalize: true });
-    var pathDataDots = [];
-    var r = dotRadius;
-    for (var i = 0; i < pathData.length; i += 1) {
-      var seg = pathData[i];
-      if (seg.type === "M" || seg.type === "L") {
-        addDotToList(pathDataDots, seg.values[0], seg.values[1], r);
-      } else if (seg.type === "C") {
-        addDotToList(pathDataDots, seg.values[0], seg.values[1], r);
-        addDotToList(pathDataDots, seg.values[2], seg.values[3], r);
-        addDotToList(pathDataDots, seg.values[4], seg.values[5], r);
-      }
-    }
-    path.setPathData(pathDataDots);
-    return path.getAttribute('d');
-  }
-
   function animatePoints(animationElementId, durationMillis, fromPathString, toPathString, dotRadius) {
     var listOfPathStrings = [fromPathString, toPathString];
     animatePointsWithList(animationElementId, durationMillis, listOfPathStrings, dotRadius);
@@ -1062,7 +1034,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function animatePointsWithList(animationElementId, durationMillis, listOfPathStrings, dotRadius) {
     var valuesString = "";
     for (var i = 0; i < listOfPathStrings.length; i += 1) {
-      valuesString = valuesString + createPathDotString(listOfPathStrings[i], dotRadius);
+      valuesString = valuesString + common.createPathDotString(listOfPathStrings[i], dotRadius);
       if (i + 1 !== listOfPathStrings.length) {
         valuesString = valuesString + ";";
       }
@@ -1091,7 +1063,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var endPointsPath = document.getElementById("plus_minus_end_points_path");
     endPointsPath.style.visibility = visibility;
     if (shouldShowPathPoints) {
-      var dotPathString = createPathDotString(plusMinusPaths[isIconMinus ? 1 : 0], 0.4);
+      var dotPathString = common.createPathDotString(plusMinusPaths[isIconMinus ? 1 : 0], 0.4);
       endPointsPath.setAttribute('d', dotPathString);
     }
   });
@@ -1126,7 +1098,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var endPointsPath = document.getElementById("cross_tick_end_points_path");
     endPointsPath.style.visibility = visibility;
     if (shouldShowPathPoints) {
-      var dotPathString = createPathDotString(crossTickPaths[isIconTick ? 1 : 0], 0.4);
+      var dotPathString = common.createPathDotString(crossTickPaths[isIconTick ? 1 : 0], 0.4);
       endPointsPath.setAttribute('d', dotPathString);
     }
   });
@@ -1161,7 +1133,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var endPointsPath = document.getElementById("arrow_drawer_end_points_path");
     endPointsPath.style.visibility = visibility;
     if (shouldShowPathPoints) {
-      var dotPathString = createPathDotString(drawerArrowPaths[isIconDrawer ? 0 : 1], 0.4);
+      var dotPathString = common.createPathDotString(drawerArrowPaths[isIconDrawer ? 0 : 1], 0.4);
       endPointsPath.setAttribute('d', dotPathString);
     }
   });
@@ -1200,9 +1172,9 @@ document.addEventListener("DOMContentLoaded", function () {
     endPointsPath2.style.visibility = visibility;
     endPointsPath3.style.visibility = visibility;
     if (shouldShowPathPoints) {
-      var dotPathString1 = createPathDotString(isIconOverflow ? overflowToArrowPaths[0][0] : arrowToOverflowPaths[0][0], overflowArrowDotRadius);
-      var dotPathString2 = createPathDotString(isIconOverflow ? overflowToArrowPaths[1][0] : arrowToOverflowPaths[1][0], overflowArrowDotRadius);
-      var dotPathString3 = createPathDotString(isIconOverflow ? overflowToArrowPaths[2][0] : arrowToOverflowPaths[2][0], overflowArrowDotRadius);
+      var dotPathString1 = common.createPathDotString(isIconOverflow ? overflowToArrowPaths[0][0] : arrowToOverflowPaths[0][0], overflowArrowDotRadius);
+      var dotPathString2 = common.createPathDotString(isIconOverflow ? overflowToArrowPaths[1][0] : arrowToOverflowPaths[1][0], overflowArrowDotRadius);
+      var dotPathString3 = common.createPathDotString(isIconOverflow ? overflowToArrowPaths[2][0] : arrowToOverflowPaths[2][0], overflowArrowDotRadius);
       endPointsPath1.setAttribute('d', dotPathString1);
       endPointsPath2.setAttribute('d', dotPathString2);
       endPointsPath3.setAttribute('d', dotPathString3);
@@ -1353,7 +1325,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var endPointsPath = document.getElementById("play_pause_stop_end_points_path");
     endPointsPath.style.visibility = visibility;
     if (shouldShowPathPoints) {
-      var dotPathString = createPathDotString(playPauseStopPaths[currentPlayPauseStopIconIndex], 0.4);
+      var dotPathString = common.createPathDotString(playPauseStopPaths[currentPlayPauseStopIconIndex], 0.4);
       endPointsPath.setAttribute('d', dotPathString);
     }
   });
@@ -1707,6 +1679,48 @@ document.addEventListener("DOMContentLoaded", function () {
   var isCompleteAnimationPending = false;
   var downloadingClipMaskDebug = document.getElementById("downloading_arrow_fill_clip_debug");
   var downloadingClipMaskAnimationDebug = document.getElementById("downloading_arrow_fill_clip_animation_debug");
+  var downloadingLinePointsPath = document.getElementById("downloading_line_points_path");
+  var downloadingLinePointsPathAnimation = document.getElementById("downloading_line_points_path_animation");
+  var downloadingCheckArrowPointsPath = document.getElementById("downloading_check_arrow_points_path");
+  var downloadingCheckArrowPointsPathAnimation = document.getElementById("downloading_check_arrow_points_path_animation");
+
+  // Setup path morph point paths.
+  (function () {
+    var i;
+    var downloadingLinePaths = [
+      "M 50,190 c 0,0 47.66,0 70,0 c 22.34,0 70,0 70,0",
+      "M 50,190 c 0,0 47.66,0 70,0 c 22.34,0 70,0 70,0",
+      "M 50,190 c 0,0 32.34,19.79 70,19.79 c 37.66,0 70,-19.79 70,-19.79",
+      "M 50,190 c 0,0 26.45,-7.98 69.67,-7.98 c 43.21,0 70.33,7.98 70.33,7.98",
+      "M 50,190 c 0,0 47.66,0 70,0 c 22.34,0 70,0 70,0"
+    ];
+    downloadingLinePointsPath.setAttribute("d", common.createPathDotString(downloadingLinePaths[0], 4));
+    var downloadingLinePointsValues = [];
+    for (i = 0; i < downloadingLinePaths.length; i += 1) {
+      downloadingLinePointsValues.push(common.createPathDotString(downloadingLinePaths[i], 4));
+    }
+    downloadingLinePointsPathAnimation.setAttributeNS(null, "values", downloadingLinePointsValues.join(";"));
+    var downloadingCheckArrowPaths = [
+      "M 129.12,164 c 0,0 0.88,0 0.88,0 c 0,0 0,-134 0,-134 c 0,0 -20,0 -20,0 c 0,0 -0.1,114.38 -0.1,114.38 c 0,0 -51.8,-0.13 -51.8,-0.13 c 0,0 0.01,19.87 0.01,19.87 c 0,0 68.02,-0.11 68.02,-0.11 c 0,0 2.98,0 2.98,0 Z",
+      "M 129.12,164 c 0,0 0.88,0 0.88,0 c 0,0 0,-134 0,-134 c 0,0 -20,0 -20,0 c 0,0 -0.1,114.38 -0.1,114.38 c 0,0 0,-0.02 0,-0.02 c 0,0 0.01,19.87 0.01,19.87 c 0,0 18.4,-0.21 18.4,-0.21 c 0,0 0.81,-0.01 0.81,-0.01 Z",
+      "M 119.5,164 c 0,0 10.5,0 10.5,0 c 0,0 0,-134 0,-134 c 0,0 -20,0 -20,0 c 0,0 0,134 0,134 c 0,0 9.5,0 9.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z",
+      "M 119.5,90 c 0,0 30.5,0 30.5,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 29.5,0 29.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z",
+      "M 119.5,90 c 0,0 30.5,0 30.5,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 29.5,0 29.5,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 c 0,0 0,0 0,0 Z",
+      "M 190,90 c 0,0 -40,0 -40,0 c 0,0 0,-60 0,-60 c 0,0 -60,0 -60,0 c 0,0 0,60 0,60 c 0,0 -40,0 -40,0 c 0,0 70,70 70,70 c 0,0 70,-70 70,-70 c 0,0 0,0 0,0 Z"
+    ];
+    downloadingCheckArrowPointsPath.setAttribute("d", common.createPathDotString(downloadingCheckArrowPaths[0], 4));
+    var downloadingCheckArrowPointsValues = [];
+    for (i = 0; i < downloadingCheckArrowPaths.length; i += 1) {
+      downloadingCheckArrowPointsValues.push(common.createPathDotString(downloadingCheckArrowPaths[i], 4));
+    }
+    downloadingCheckArrowPointsPathAnimation.setAttributeNS(null, "values", downloadingCheckArrowPointsValues.join(";"));
+  })();
+
+  document.querySelector(root.nodeName + "#" + root.id + " input[id=includes10_showPathPointsCheckbox]").addEventListener("change", function () {
+    var visibility = document.querySelector(root.nodeName + "#" + root.id + " input[id=includes10_showPathPointsCheckbox]").checked ? "visible" : "hidden";
+    downloadingLinePointsPath.style.visibility = visibility;
+    downloadingCheckArrowPointsPath.style.visibility = visibility;
+  });
 
   document.querySelector(root.nodeName + "#" + root.id + " input[id=includes10_showTrimPathsCheckbox]").addEventListener("change", function () {
     var visibility = document.querySelector(root.nodeName + "#" + root.id + " input[id=includes10_showTrimPathsCheckbox]").checked ? "visible" : "hidden";
@@ -1778,6 +1792,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var animation = document.getElementById("downloading_line_path_animation");
     animation.setAttributeNS(null, "dur", common.getDuration(root, 714) + "ms");
     animation.beginElement();
+    downloadingLinePointsPathAnimation.setAttributeNS(null, "dur", common.getDuration(root, 714) + "ms");
+    downloadingLinePointsPathAnimation.beginElement();
     return animation;
   }
 
@@ -1785,6 +1801,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var animation = document.getElementById("downloading_check_arrow_path_animation");
     animation.setAttributeNS(null, "dur", common.getDuration(root, 833) + "ms");
     animation.beginElement();
+    downloadingCheckArrowPointsPathAnimation.setAttributeNS(null, "dur", common.getDuration(root, 833) + "ms");
+    downloadingCheckArrowPointsPathAnimation.beginElement();
     return animation;
   }
 
@@ -1898,6 +1916,7 @@ document.addEventListener("DOMContentLoaded", function () {
     createFadeFillAnimation(arrowPathDark, 0, 0, 1, 1);
     var checkArrowPath = document.getElementById("downloading_check_arrow_path");
     createFadeFillAnimation(checkArrowPath, 0, 0, 0, 0);
+    createFadeFillAnimation(downloadingCheckArrowPointsPath, 0, 0, 0, 0);
     var progressBarPath = document.getElementById("downloading_progress_bar");
     createFadeStrokeAnimation(progressBarPath, 0, 1, 1);
     var progressBarCheckPath = document.getElementById("downloading_progress_bar_check");
@@ -1935,6 +1954,7 @@ document.addEventListener("DOMContentLoaded", function () {
       isCompleteAnimationPending = false;
       var checkArrowPath = document.getElementById("downloading_check_arrow_path");
       createFadeFillAnimation(checkArrowPath, 0, 0, 1, 1);
+      createFadeFillAnimation(downloadingCheckArrowPointsPath, 0, 0, 1, 1);
       createFadeStrokeAnimation(progressBarCheckPath, 0, 0, 0);
       createCheckToArrowPathMorphAnimation();
       createCheckToArrowPathMotionAnimation();
@@ -1976,12 +1996,41 @@ var common = (function () {
     var selector = document.querySelector(root.nodeName + "#" + root.id + " input[id=" + root.id + "_slowAnimationCheckbox]");
     return durationMillis * (selector.checked ? scaleFactor : 1);
   }
+
+  function addDotToList(pathDataDots, x, y, r) {
+    pathDataDots.push({ type: "M", values: [x, y] });
+    pathDataDots.push({ type: "m", values: [-r, 0] });
+    pathDataDots.push({ type: "a", values: [r, r, 0, 1, 0, r * 2, 0] });
+    pathDataDots.push({ type: "a", values: [r, r, 0, 1, 0, -r * 2, 0] });
+    pathDataDots.push({ type: "z" });
+  }
+
+  function createPathDotString(pathString, dotRadius) {
+    var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute('d', pathString);
+    var pathData = path.getPathData({ normalize: true });
+    var pathDataDots = [];
+    var r = dotRadius;
+    for (var i = 0; i < pathData.length; i += 1) {
+      var seg = pathData[i];
+      if (seg.type === "M" || seg.type === "L") {
+        addDotToList(pathDataDots, seg.values[0], seg.values[1], r);
+      } else if (seg.type === "C") {
+        addDotToList(pathDataDots, seg.values[0], seg.values[1], r);
+        addDotToList(pathDataDots, seg.values[2], seg.values[3], r);
+        addDotToList(pathDataDots, seg.values[4], seg.values[5], r);
+      }
+    }
+    path.setPathData(pathDataDots);
+    return path.getAttribute('d');
+  }
   return {
     fastOutSlowIn: "cubic-bezier(0.4, 0, 0.2, 1)",
     fastOutLinearIn: "cubic-bezier(0.4, 0, 1, 1)",
     linearOutSlowIn: "cubic-bezier(0, 0, 0.2, 1)",
     getDuration: getDuration,
-    getScaledDuration: getScaledDuration
+    getScaledDuration: getScaledDuration,
+    createPathDotString: createPathDotString
   };
 })();
 
