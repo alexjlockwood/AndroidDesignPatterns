@@ -45,33 +45,35 @@
       </li>
       <li class="flex-item">
         <svg id="ic_heart" class="svgDemoGraphic" viewBox="0 0 56 56">
-          <path id="heart_stroke_left" fill="none" stroke="#000" stroke-width="2" d="M28.72 38.296l-3.05-2.744c-4.05-3.76-7.654-6.66-7.654-10.707 0-3.257 2.615-4.88 5.618-4.88 1.365 0 3.165 1.216 5.01 3.165" />
-          <path id="heart_stroke_right" fill="none" stroke="#000" stroke-width="2" d="M27.23 38.294l3.535-3.094c4.07-3.965 6.987-6.082 7.24-10.116.163-2.625-2.232-5.05-4.626-5.05-2.948 0-3.708 1.013-6.15 3.1" />
-          <clipPath id="clip">
-            <path id="clip_path" d="M18 37h20-20z">
-              <animate id="heart_fill_animation" fill="freeze" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M18 37 L38 37 L38 37 L18 37 Z;M14 14 L42 14 L42 42 L14 42 Z" />
+          <g transform="translate(28,28) scale(1.5,1.5) translate(-28,-28)">
+            <path id="heart_stroke_left" fill="none" stroke="#000" stroke-width="2" d="M28.72 38.296l-3.05-2.744c-4.05-3.76-7.654-6.66-7.654-10.707 0-3.257 2.615-4.88 5.618-4.88 1.365 0 3.165 1.216 5.01 3.165" />
+            <path id="heart_stroke_right" fill="none" stroke="#000" stroke-width="2" d="M27.23 38.294l3.535-3.094c4.07-3.965 6.987-6.082 7.24-10.116.163-2.625-2.232-5.05-4.626-5.05-2.948 0-3.708 1.013-6.15 3.1" />
+            <clipPath id="heart_clip">
+              <path id="heart_clip_path" d="M14 42 L42 42 L42 42 L14 42 Z">
+                <animate id="heart_fill_animation" fill="freeze" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M14 42 L42 42 L42 42 L14 42 Z;M14 14 L42 14 L42 42 L14 42 Z" />
+              </path>
+            </clipPath>
+            <g id="clip_path_group" clip-path="url(#heart_clip)">
+              <path id="heart_full_path" fill="#000" style="visibility: hidden;" d="M28 39l-1.595-1.433C20.74 32.47 17 29.11 17 24.995 17 21.632 19.657 19 23.05 19c1.914 0 3.75.883 4.95 2.272C29.2 19.882 31.036 19 32.95 19c3.393 0 6.05 2.632 6.05 5.995 0 4.114-3.74 7.476-9.405 12.572L28 39z" />
+            </g>
+            <g id="broken_heart_left_group" transform="translate(28,37.3)">
+              <g id="broken_heart_rotate_left_group">
+                <g id="broken_heart_translate_left_group" transform="translate(-28,-37.3)">
+                  <path id="broken_heart_left_path" fill-opacity="0" d="M28.03 21.054l-.03.036C26.91 19.81 25.24 19 23.5 19c-3.08 0-5.5 2.42-5.5 5.5 0 3.78 3.4 6.86 8.55 11.53L28 37.35l.002-.002-.22-.36.707-.915-.984-1.31 1.276-1.736-1.838-2.02 2.205-2.282-2.033-1.582 2.032-2.125-2.662-2.04 1.543-1.924z" />
+                </g>
+              </g>
+            </g>
+            <g id="broken_heart_right_group" transform="translate(28,37.3)">
+              <g id="broken_heart_rotate_right_group">
+                <g id="broken_heart_translate_right_group" transform="translate(-28,-37.3)">
+                  <path id="broken_heart_right_path" fill-opacity="0" d="M28.03 21.054c.14-.16.286-.31.44-.455l.445-.374C29.925 19.456 31.193 19 32.5 19c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.448 1.308-.22-.36.707-.915-.984-1.31 1.276-1.736-1.838-2.02 2.205-2.282-2.033-1.582 2.032-2.125-2.662-2.04 1.543-1.924z" />
+                </g>
+              </g>
+            </g>
+            <path id="heart_clip_path_debug" style="visibility: hidden;" d="M14 42 L42 42 L42 42 L14 42 Z" fill="#F44336" fill-opacity="0.3">
+              <animate id="heart_fill_debug_animation" fill="freeze" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M14 42 L42 42 L42 42 L14 42 Z;M14 14 L42 14 L42 42 L14 42 Z" />
             </path>
-          </clipPath>
-          <g id="clip_path_group" clip-path="url(#clip)">
-            <path id="heart_full_path" fill="#000" style="visibility: hidden;" d="M28 39l-1.595-1.433C20.74 32.47 17 29.11 17 24.995 17 21.632 19.657 19 23.05 19c1.914 0 3.75.883 4.95 2.272C29.2 19.882 31.036 19 32.95 19c3.393 0 6.05 2.632 6.05 5.995 0 4.114-3.74 7.476-9.405 12.572L28 39z" />
           </g>
-          <g id="broken_heart_left_group" transform="translate(28,37.3)">
-            <g id="broken_heart_rotate_left_group">
-              <g id="broken_heart_translate_left_group" transform="translate(-28,-37.3)">
-                <path id="broken_heart_left_path" fill-opacity="0" d="M28.03 21.054l-.03.036C26.91 19.81 25.24 19 23.5 19c-3.08 0-5.5 2.42-5.5 5.5 0 3.78 3.4 6.86 8.55 11.53L28 37.35l.002-.002-.22-.36.707-.915-.984-1.31 1.276-1.736-1.838-2.02 2.205-2.282-2.033-1.582 2.032-2.125-2.662-2.04 1.543-1.924z" />
-              </g>
-            </g>
-          </g>
-          <g id="broken_heart_right_group" transform="translate(28,37.3)">
-            <g id="broken_heart_rotate_right_group">
-              <g id="broken_heart_translate_right_group" transform="translate(-28,-37.3)">
-                <path id="broken_heart_right_path" fill-opacity="0" d="M28.03 21.054c.14-.16.286-.31.44-.455l.445-.374C29.925 19.456 31.193 19 32.5 19c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54l-1.448 1.308-.22-.36.707-.915-.984-1.31 1.276-1.736-1.838-2.02 2.205-2.282-2.033-1.582 2.032-2.125-2.662-2.04 1.543-1.924z" />
-              </g>
-            </g>
-          </g>
-          <path id="clip_path_debug" style="visibility: hidden;" d="M18 37h20-20z" fill="#F44336" fill-opacity="0.3">
-            <animate id="heart_fill_debug_animation" fill="freeze" attributeName="d" begin="indefinite" dur="300ms" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1" values="M18 37 L38 37 L38 37 L18 37 Z;M14 14 L42 14 L42 42 L14 42 Z" />
-          </path>
         </svg>
       </li>
     </ul>

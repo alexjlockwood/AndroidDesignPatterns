@@ -1499,11 +1499,11 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelector("input[id=clipPathShowClipMaskCheckbox]").addEventListener("change", function () {
     if (shouldShowDebugClipMasks()) {
       document.getElementById("eye_mask_clip_path_debug").style.visibility = "visible";
-      document.getElementById("clip_path_debug").style.visibility = "visible";
+      document.getElementById("heart_clip_path_debug").style.visibility = "visible";
       document.getElementById("hourglass_clip_mask_debug").style.visibility = "visible";
     } else {
       document.getElementById("eye_mask_clip_path_debug").style.visibility = "hidden";
-      document.getElementById("clip_path_debug").style.visibility = "hidden";
+      document.getElementById("heart_clip_path_debug").style.visibility = "hidden";
       document.getElementById("hourglass_clip_mask_debug").style.visibility = "hidden";
     }
   });
@@ -1623,7 +1623,7 @@ document.addEventListener("DOMContentLoaded", function () {
     heartFillAnimation.beginElement();
 
     if (shouldShowDebugClipMasks()) {
-      document.getElementById("clip_path_debug").style.visibility = "visible";
+      document.getElementById("heart_clip_path_debug").style.visibility = "visible";
       var heartFillDebugAnimation = document.getElementById("heart_fill_debug_animation");
       heartFillDebugAnimation.setAttributeNS(null, "dur", duration + "ms");
       heartFillDebugAnimation.beginElement();
@@ -1631,7 +1631,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function animateHeartBreak() {
-    document.getElementById("clip_path_debug").style.visibility = "hidden";
+    document.getElementById("heart_clip_path_debug").style.visibility = "hidden";
 
     document.getElementById("broken_heart_rotate_left_group").animate([
       { transform: "rotate(0deg)", offset: 0, easing: linearOutSlowIn },

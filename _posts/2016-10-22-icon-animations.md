@@ -81,11 +81,11 @@ The triangular play and circular record icons are both filled paths with orange 
 
 As we mentioned above, one of the benefits of `VectorDrawable`s is that they provide _density independence_, meaning that they can be scaled arbitrarily on any screen without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. However, the main reason for using `VectorDrawable`s in our case is that they'll enable us to animate the individual `path`s that make up each icon using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class. `AnimatedVectorDrawable`s can be thought of as the glue that connects a `VectorDrawable` and one or more `ObjectAnimator`s: the `VectorDrawable` defines a series of uniquely named paths (or groups of paths), and the `AnimatedVectorDrawable` maps the parts of the icon that should be animated to their corresponding `ObjectAnimator`s. As we'll see, the ability to target individual elements to be animated within a `VectorDrawable` is quite powerful.
 
-In the remainder of this blog post, we'll go over four techniques that are used to create icon animations: _transforming `group`s of `path`s_, _trimming stroked `path`s_, _morphing `path`s_, and _clipping `path`s_. We'll end the post with one last epic icon animation that combines all of the techniques into one.
+The remainder of this blog post will cover four techniques that are used to create icon animations: _transforming `group`s of `path`s_, _trimming stroked `path`s_, _morphing `path`s_, and _clipping `path`s_. We'll end the post with one last epic icon animation that combines all of the techniques into one.
 
 ### Transforming `group`s of `path`s
 
-Paths can also be transformed using the `<group>` tag. Multiple paths can belong to a group. Groups support the following transformation types, all of which are animatable. Note that the pivot determines the center point with which to perform a scale and/or rotation.
+In the previous section we saw that a path's appearance could be altered by modifying properties such as its opacity and color. The `<group>` tag takes things a step further, allowing us to apply transformations on one or more paths simultaneously. Specifically, the `<group>` tag supports the following animatable transformation types:
 
 | Property name        | Element type | Value type |
 |----------------------|--------------|------------|
@@ -97,7 +97,7 @@ Paths can also be transformed using the `<group>` tag. Multiple paths can belong
 | `android:translateX` | `<group>`    | `float`    |
 | `android:translateY` | `<group>`    | `float`    |
 
-It is particularly important to understand the order in which transformations are applied because it can seem a little backwards at first. The two rules to remember are (1) children groups are transformed before their parent groups, and (2) transformations that are made on the same group are applied in order of scale, rotation, and then translation. As an example, consider the group transformations applied to the play, pause, and record icons discussed above:
+It is particularly important to understand the order in which transformations are applied. The two rules to remember are (1) children `group`s inherit the transformations applied to their parent groups, and (2) transformations made to the same `group` are applied in order of scale, rotation, and then translation. As an example, consider the following `group` transformations applied to the play, pause, and record icons discussed above:
 
 ```xml
 <vector
@@ -139,17 +139,17 @@ It is particularly important to understand the order in which transformations ar
 </vector>
 ```
 
-In each scenario, the following will be displayed to the screen. Make sure you understand how the different orderings of the groups affect how each icon ends up being displayed.
+In each scenario, the following will be displayed to the screen. Toggle the checkboxes below to see how enabling and disabling certain transformations affects the final result!
 
 {% include posts/2016/10/22/includes2_transforming_paths_demo.html %}
 
-Transformations are widely used to animate icons. **Figure 3** shows three examples of icons that depend on group transformations in order to be animated.
+The ability to chain together `group` transformations makes them an extremely powerful technique, enabling us to achieve a variety of cool effects. **Figure 3** below gives three such examples:
 
 * The _expand/collapse icon_ is drawn using two paths. When clicked, the two straight lines are simultaneously rotated 90° and a `<group>` containing the two paths is vertically translated in order to create the effect.
 
-* The _alarm clock icon_ draws its bells using two rectangular paths. When clicked, a `<group>` containing the two paths is repeatedly rotated about the center in order to create the alarm clock ringing effect.
+* The _alarm clock icon_ draws its bells using two rectangular paths. When clicked, a `<group>` containing these two paths is repeatedly rotated about the center, making it look as if the alarm clock is ringing.
 
-* The _radio button icon_ animation is one of my favorites because of its clever simplity. The radio button is drawn using two paths: a filled inner dot and a stroked outer ring. Perhaps surprisingly, only two properties need to be animated. For example, in order to animate from an unchecked to checked state:
+* The _radio button icon_ animation is one of my favorites because of its clever simplity. The radio button is drawn using two paths: a filled inner dot and a stroked outer ring. Surprisingly, only three elements need to be animated. For example, when animating from an unchecked to checked state, the following attributes are animated:
 
     | Time  | Outer ring `strokeWidth` | Outer ring `scale{X,Y}` | Inner dot `scale{X,Y}` |
     |-------|--------------------------|-------------------------|------------------------|
@@ -158,17 +158,17 @@ Transformations are widely used to animate icons. **Figure 3** shows three examp
     | 0.334 | 2                        | 0.9                     | 1.5                    |
     | 1     | 2                        | 1                       | 1                      |
 
-    The part I like the best is during `0 <= t <= 0.333`, where the outer ring's stroke width and scale are simultaneously increased and decreased respectively, making it look as if the outer ring is collapsing inwards toward the center. A pretty awesome effect!
+    The part I specifically want to point out is the first third of the animation, when the outer ring's stroke width and scale are simultaneously increased and decreased respectively, making it look as if the outer ring is collapsing inwards toward the center. A pretty awesome effect!
 
 {% include posts/2016/10/22/includes3_transforming_paths_animated_svgs.html %}
 
-One last cool animation that makes use of group transformations is the _horizontal indeterminate progress bar_. A material horizontal indeterminate progress bar consists of three paths: a translucent background and two inner rectangular paths. The two inner rectangles are simultaneously translated from left to right and scaled, altering their positions and sizes at varying degrees. Try toggling the scale and translation animations on the demo below to see the effect!
+One last example that makes use of group transformations is the _horizontal indeterminate progress bar_. A horizontal indeterminate progress bar consists of three paths: a translucent background and two inner rectangular paths. The two inner rectangles are simultaneously translated from left to right and scaled, altering their positions and sizes at varying degrees. Toggle the scale and translation checkboxes below to see how each contributes to the final result!
 
 {% include posts/2016/10/22/includes4_transforming_paths_indeterminate_progress.html %}
 
 ### Trimming stroked `path`s
 
-A lesser known property of stroked paths is that they can be _trimmed_. That is, given a stroked path, we can choose to hide or show portions of the path before drawing it to the dispaly. In Android, this is done using the three `<path>` attributes below, each of which can be animated to create some pretty awesome effects:
+A lesser known property of stroked paths is that they can be _trimmed_. Given a stroked path, we can choose to hide or show portions of the path before drawing it to the dispaly. In Android, this is done using the attributes below, each of which can be animated to create some pretty slick effects:
 
 | Property name            | Element type | Value type | Min value | Max value|
 |--------------------------|--------------|------------|-----------|-----------|
@@ -176,27 +176,27 @@ A lesser known property of stroked paths is that they can be _trimmed_. That is,
 | `android:trimPathEnd`    | `<path>`     | `float`    | `0`       | `1`       |
 | `android:trimPathOffset` | `<path>`     | `float`    | `0`       | `1`       |
 
-The value assigned to `trimPathStart` determines where the visible portion of the path will begin, while the value assigned to `trimPathEnd` determines where the visible portion of the path will end. The `trimPathOffset` value may also be specified to add an extra offset to the start and end values if necessary. Consider the simple stroked path in **Figure 5** as an example, and update the sliders to see how the different values affect what is drawn to the display. Note that it is perfectly fine for `trimPathStart` to be greater than `trimPathEnd`; if this occurs, the visible portion of the path simply wraps around the end of the segment back to the beginning.
+The value assigned to `trimPathStart` determines where the visible portion of the path will begin, while the value assigned to `trimPathEnd` determines where the visible portion of the path will end. The `trimPathOffset` value may also be specified to add an extra offset to the start and end values if necessary. **Figure 5** demonstrates how this all works. Update the sliders to see how different values affect what is drawn to the display! Note that it is perfectly fine for `trimPathStart` to be assigned a value greater than `trimPathEnd`. If this occurs, the visible portion of the path simply wraps around the end of the segment back to the beginning.
 
 {% include posts/2016/10/22/includes5_trimming_stroked_paths_demo.html %}
 
 The ability to animate these three properties opens us up to a world of possibilities, especially for icons that make heavy use of stroked paths. **Figure 6** below shows four examples that animate these attributes in order to achieve some pretty cool effects:
 
-* The _fingerprint icon_ is made up of 5 stroked paths, each with their trim path start and end values initially set to `0` and `1` respectively. When hidden, each path's trim path end value is quickly animated to `0` until the icon is no longer visible, and then back again to `1` when the icon is later shown. The _cursive handwriting icon_ works similarly, except instead of animating the individual paths all at once, they are animated sequentially as if the word was being written out by hand.
+* The _fingerprint icon_ is made up of 5 stroked paths, each with their trim path start and end values initially set to `0` and `1` respectively. When hidden, the difference is quickly animated to `0` until the icon is no longer visible, and then back to `1` when the icon is shown once again. The _cursive handwriting icon_ behaves similarly, except instead of animating the individual paths all at once, they are animated sequentially as if the word was being written out by hand.
 
-* The _search to back icon_ uses a clever trim path transition in order to animate the stem of the search icon into the stem of a back arrow. Enable the "show trim paths" checkbox and you'll see how the changing `trimPathStart` and `trimPathEnd` values affect the relative location of the stem as it animates towards its new state. Enable the "slow animation" checkbox and you'll also notice that the stem's size does not remain constant over the course of the animation: it expands at the beginning and shrinks at the end, creating a subtle "stretching" effect that feels more natural. In order to achieve this effect, we begin animating either the start or end value with a slight start delay. Simple!
+* The _search to back icon_ uses a clever combination of trim path animations in order to seamlessly transition between the stem of the search icon and the stem of a back arrow. Enable the "show trim paths" checkbox and you'll see how the changing `trimPathStart` and `trimPathEnd` values affect the relative location of the stem as it animates to its new state. Enable the "slow animation" checkbox and you'll also notice that the visible length of the stem changes over time: it expands at the beginning and shrinks at the end, creating a subtle "stretching" effect that feels more natural. Creating this effect is actually quite easy: we simply animate the trim path start and end values with non-equal start delays, so that one of the two appears to animate faster than the other.
 
-* Each animating digit in the _Google IO 2016 icon_ consists of 4 paths, each with a different stroke color and each with trim path start/end values covering a quarter of the path's total length. The `trimPathOffset` is then animated from `0` to `1` in a loop in order to create the effect.
+* Each animating digit in the _Google IO 2016 icon_ consists of 4 paths, each with a different stroke color and each with trim path start/end values covering a quarter of the digit's total length. The `trimPathOffset` is then animated from `0` to `1` in a loop in order to create the effect.
 
 {% include posts/2016/10/22/includes6_trimming_stroked_paths_animated_svgs.html %}
 
-The most familiar example we'll cover, however, is the circular indeterminate progress bar, which consists of a single stroked path and is animated by modifying the following three properties:
+The last example we'll cover is the circular indeterminate progress bar, which consists of a single, circular path and is animated by modifying the following three properties:
 
 1. The progress bar is rotated from 0° to 720° over the course of 4444ms.
 
 2. The progress bar's trim path offset is animated from `0` to `0.25` over the course of 1333ms.
 
-3. Portions of the progress bar's circular path are trimmed over the course of 1333ms. Specifically, over the course of the animation they take on the following values:
+3. Portions of the progress bar's circular path are trimmed over the course of 1333ms. Specifically, over the course of the animation they animate through the following values:
 
     | Time | `trimPathStart` | `trimPathEnd` | `trimPathOffset` |
     |------|-----------------|---------------|------------------|
@@ -260,7 +260,28 @@ Now that we've covered all of the basic icon animation techniques, let's try com
 
 All of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. 
 
-**TODO(alockwood): add list of helpful resources**
+* Nick/Roman's Udacity course:
+    - https://www.youtube.com/watch?v=ew_0tc9JT4E (delightful details)
+    - https://www.youtube.com/watch?v=ecCSzKi-ZxM (intro to avds)
+    - https://www.youtube.com/watch?v=G0Qx9LCSeYw (implementing avds)
+    - https://www.youtube.com/watch?v=WlnaZ_rBCZM (vectors vs. bitmaps)
+* Colt McAnlis Medium posts:
+    - https://medium.com/@duhroach/how-vectordrawable-works-fed96e110e35#.q9x4z8j1m
+    - https://medium.com/@duhroach/smaller-vectordrawable-files-dd70e2874773#.nf12ri1y6
+* Mark Allison's blog posts
+    - https://blog.stylingandroid.com/vectordrawables-part-1/
+* Tenghui YouTube video
+    - https://www.youtube.com/watch?v=wlFVIIstKmA
+* Chris Banes' post on VectorDrawableCompat
+    - https://medium.com/@chrisbanes/appcompat-v23-2-age-of-the-vectors-91cbafa87c88#.lh14s7mji
+* Nick Butcher's talks and slides
+    - http://j.mp/animatable-slides
+    - https://www.youtube.com/watch?v=86p1GPEv_fY
+* Useful tools
+    - http://inloop.github.io/svg2android/
+    - https://developer.android.com/studio/write/vector-asset-studio.html
+    - https://jakearchibald.github.io/svgomg/
+    - https://romannurik.github.io/AndroidIconAnimator/
 
 ### Special thanks
 
@@ -300,6 +321,7 @@ If you notice a glitch in one of the animated demos on this page, please report 
 * Note that clip paths only affect the paths contained in the current group (paths belonging to other sibling groups will not be affected).
 * Add thumbnail to the blog post to help drive traffic.
 * Mention Sriram Ramnani anywhere (to give credit for timely text view thingy?)
+* Mention that transformations are significantly more efficient than other animation techniques.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
