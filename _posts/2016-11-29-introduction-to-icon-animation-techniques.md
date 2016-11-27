@@ -1,17 +1,17 @@
 ---
 layout: post
-title: 'Introduction to Icon Animations'
-date: 2016-10-22
-permalink: /2016/10/icon-morphing.html
+title: 'An Introduction to Icon Animation Techniques'
+date: 2016-11-29
+permalink: /2016/11/introduction-to-icon-animation-techniques.html
 related: ['/2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html',
     '/2016/08/coloring-buttons-with-themeoverlays-background-tints.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
 ---
 
-<link rel="stylesheet" type="text/css" href="/css/posts/2016/10/22/style.css" />
-<script defer src="/scripts/posts/2016/10/22/web-animations.min.js"></script>
-<script defer src="/scripts/posts/2016/10/22/path-data-polyfill.js"></script>
-<script defer src="/scripts/posts/2016/10/22/animated-icon-demos.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/posts/2016/11/29/style.css" />
+<script defer src="/scripts/posts/2016/11/29/web-animations.min.js"></script>
+<script defer src="/scripts/posts/2016/11/29/path-data-polyfill.js"></script>
+<script defer src="/scripts/posts/2016/11/29/animated-icon-demos.js"></script>
 
 <!--morestart-->
 
@@ -77,7 +77,7 @@ Let's see how this all works with an example. Say we wanted to create a play, pa
 
 The triangular play and circular record icons are both filled `path`s with orange and red fill colors respectively. The pause icon, on the other hand, is a stroked `path` with a green stroke color and a stroke width of 2. Each `path`'s drawing commands are executed with respect to a `12x12` grid:
 
-{% include posts/2016/10/22/includes1_drawing_paths_path_commands.html %}
+{% include posts/2016/11/29/includes1_drawing_paths_path_commands.html %}
 
 As we mentioned earlier, one of the benefits of `VectorDrawable`s is that they provide _density independence_, meaning that they can be scaled arbitrarily on any device without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. However, in our case the main reason for using  `VectorDrawable`s is that they'll allow us to animate the individual `path`s that make up each icon using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class. `AnimatedVectorDrawable`s can be thought of as the glue that connects `VectorDrawable`s with `ObjectAnimator`s: the `VectorDrawable` assigns each animated `path` (or `group` of `path`s) a unique name, and the `AnimatedVectorDrawable` maps each of these names to their corresponding `ObjectAnimator`s. As we'll see, the ability to target individual elements within a `VectorDrawable` to be animated is quite powerful.
 
@@ -97,7 +97,7 @@ In the previous section we learned how to alter a single `path`'s appearance by 
 | `android:translateX` | `<group>`    | `float`    |
 | `android:translateY` | `<group>`    | `float`    |
 
-It is particularly important to understand the order in which transformations are applied. The two rules to remember are (1) children `group`s inherit the transformations applied by their parent groups, and (2) transformations made to the same `group` are applied in order of scale, rotation, and then translation. As an example, consider the following `group` transformations applied to the play, pause, and record icons discussed above:
+It is important to understand the order in which a sequence of `group` transformations will be applied. The two rules to remember are (1) children `group`s inherit the transformations applied by their parent groups, and (2) transformations made to the same `group` are applied in order of scale, rotation, and then translation. As an example, consider the following `group` transformations applied to the play, pause, and record icons discussed above:
 
 ```xml
 <vector
@@ -139,9 +139,9 @@ It is particularly important to understand the order in which transformations ar
 </vector>
 ```
 
-In each scenario, the following will be displayed to the screen. Toggle the checkboxes below to see how enabling and disabling certain transformations affects the final result!
+The results are shown in **Figure 2** below. Toggle the checkboxes below to see how enabling and disabling certain transformations affects the final result!
 
-{% include posts/2016/10/22/includes2_transforming_paths_demo.html %}
+{% include posts/2016/11/29/includes2_transforming_paths_demo.html %}
 
 The ability to chain together `group` transformations makes them an extremely powerful technique, enabling us to achieve a variety of cool effects. **Figure 3** below gives three such examples:
 
@@ -160,11 +160,11 @@ The ability to chain together `group` transformations makes them an extremely po
 
     The part I specifically want to point out is the first third of the animation, when the outer ring's stroke width and scale are simultaneously increased and decreased respectively, making it look as if the outer ring is collapsing inwards toward the center. A pretty awesome effect!
 
-{% include posts/2016/10/22/includes3_transforming_paths_animated_svgs.html %}
+{% include posts/2016/11/29/includes3_transforming_paths_animated_svgs.html %}
 
 One last example that makes use of group transformations is the _horizontal indeterminate progress bar_. A horizontal indeterminate progress bar consists of three paths: a translucent background and two inner rectangular paths. The two inner rectangles are simultaneously translated from left to right and scaled, altering their positions and sizes at varying degrees. Toggle the scale and translation checkboxes below to see how each contributes to the final result!
 
-{% include posts/2016/10/22/includes4_transforming_paths_indeterminate_progress.html %}
+{% include posts/2016/11/29/includes4_transforming_paths_indeterminate_progress.html %}
 
 ### Trimming stroked `path`s
 
@@ -178,7 +178,7 @@ A lesser known property of stroked paths is that they can be _trimmed_. Given a 
 
 The value assigned to `trimPathStart` determines where the visible portion of the path will begin, while the value assigned to `trimPathEnd` determines where the visible portion of the path will end. The `trimPathOffset` value may also be specified to add an extra offset to the start and end values if necessary. **Figure 5** demonstrates how this all works. Update the sliders to see how different values affect what is drawn to the display! Note that it is perfectly fine for `trimPathStart` to be assigned a value greater than `trimPathEnd`. If this occurs, the visible portion of the path simply wraps around the end of the segment back to the beginning.
 
-{% include posts/2016/10/22/includes5_trimming_stroked_paths_demo.html %}
+{% include posts/2016/11/29/includes5_trimming_stroked_paths_demo.html %}
 
 The ability to animate these three properties opens us up to a world of possibilities, especially for icons that make heavy use of stroked paths. **Figure 6** below shows four examples that animate these attributes in order to achieve some pretty cool effects:
 
@@ -188,7 +188,7 @@ The ability to animate these three properties opens us up to a world of possibil
 
 * Each animating digit in the _Google IO 2016 icon_ consists of 4 paths, each with a different stroke color and each with trim path start/end values covering a quarter of the digit's total length. The `trimPathOffset` is then animated from `0` to `1` in a loop in order to create the effect.
 
-{% include posts/2016/10/22/includes6_trimming_stroked_paths_animated_svgs.html %}
+{% include posts/2016/11/29/includes6_trimming_stroked_paths_animated_svgs.html %}
 
 The last example we'll cover is the circular indeterminate progress bar, which consists of a single, circular path and is animated by modifying the following three properties:
 
@@ -206,7 +206,7 @@ The last example we'll cover is the circular indeterminate progress bar, which c
 
     At time `t = 0.0` and `t = 1.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). And at time `t = 1.0`, the progress bar has shrunk back to its smallest size and restarts the animation.
 
-{% include posts/2016/10/22/includes7_trimming_stroked_paths_indeterminate_progress.html %}
+{% include posts/2016/11/29/includes7_trimming_stroked_paths_indeterminate_progress.html %}
 
 ### Morphing `path`s
 
@@ -220,7 +220,7 @@ You're probably wondering what magical algorithm could possibly be used behind t
 
 You might be wondering why this requirement must be enforced. Well, the key to understanding how path morphing animations work is by thinking of them as being powered by animating the position of path coordinates. We can see what this means in the examples below. First disable the "animate rotation" checkbox and enable the "show path control/end points" and "slow animation" checkboxes. The red dots that appear correspond to coordinates in each path's command string. Notice how during the course of the animation, the dots follow a straight line beginning from their starting position to their ending position. This is essentially how path morphing animations work. At each animation frame, we recalculate the position of each path's coordinates and redraw the path command.
 
-{% include posts/2016/10/22/includes8_morphing_paths_animated_svgs.html %}
+{% include posts/2016/11/29/includes8_morphing_paths_animated_svgs.html %}
 
 Implementing path morphing animations can be tedious. So here are some tips to get started:
 
@@ -242,7 +242,7 @@ The last technique we'll cover involves animating the bounds of a `<clip-path>`.
 
 Similar to above, a clip path's region can be morphed by animating the differences in drawing commands specified by the `android:pathData` attribute. You'll get a better idea of how these animations work by enabling the "show clip paths" checkbox below. In each example, the red overlay mask represents the bounds of the currently active `<clip-path>`, dictating the portions of a sibling `<path>` that is allowed to be drawn. This technique makes clip paths great for animating "fill-in effects", as seen in the hourglass and heart-break animations below.
 
-{% include posts/2016/10/22/includes9_clipping_paths_animated_svgs.html %}
+{% include posts/2016/11/29/includes9_clipping_paths_animated_svgs.html %}
 
 ### Conclusion: putting it all together
 
@@ -254,7 +254,7 @@ If you've made it this far in the blog post, that means you now have all of the 
 4. Path morphing (at the very end while transitioning the check mark back into an arrow).
 5. Clip path (vertically filling the contents of the downloading arrow to indicate indeterminate progress).
 
-{% include posts/2016/10/22/includes10_downloading_animated_svgs.html %}
+{% include posts/2016/11/29/includes10_downloading_animated_svgs.html %}
 
 ### Sample app & further reading
 
