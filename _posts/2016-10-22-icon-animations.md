@@ -27,7 +27,7 @@ All of the icon animations in this blog post (and more) are available in `Animat
 
 ### Drawing `path`s
 
-Before we can begin to create animated icons, we must first understand how they are drawn. In this blog post, we'll make heavy use of a relatively new class in Android called [`VectorDrawable`][VectorDrawable]s. `VectorDrawable`s are similar in concept to SVGs on the web: they allow us to create density independent assets by representing each icon as a series of lines and shapes called `path`s. Each path's shape is determined by a sequence of _drawing commands_, represented as a space/comma-separated string that uses a subset of the [SVG path data spec][svg-path-reference] to draw lines and curves. The spec defines many different types of commands; however, the ones you'll likely encounter the most are summarized in the table below: 
+Before we can begin creating animated icons, we first need to understand how they are drawn. In Android, we'll represent each icon using the relatively new [`VectorDrawable`][VectorDrawable] class. `VectorDrawable`s are similar in concept to SVGs on the web: they allow us to create scalable, density-independent assets by representing each icon as a series of lines and shapes called `path`s. Each path's shape is determined by a sequence of _drawing commands_, represented by a space/comma-separated string using a subset of the [SVG path data spec][svg-path-reference] to draw lines and curves. The spec defines many different types of commands, a few of which are summarized in the table below:
 
 | Command             | Description |
 |---------------------|-------------|
@@ -36,7 +36,7 @@ Before we can begin to create animated icons, we must first understand how they 
 | `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
 | `Z`                 | Close the path by drawing a line back to the beginning of the current subpath.
 
-Paths can either be filled or stroked. If the path is filled, the interiors of its shape will be painted. If the path is stroked, the paint will be applied along the outline of the path. A path's color and overall appearance can be further modified using the following 5 animatable properties:
+At runtime, `path`s can either be drawn _filled_ or _stroked_. If the path is filled, the interiors of its entire shape will be painted. If the path is stroked, the paint will be applied along the outline of the path. Each type of `path` has its own animatable attributes that they can use to further modify their appearance:
 
 | Property name         | Element type | Value type | Min value | Max value |
 |-----------------------|--------------|------------|-----------|-----------|
@@ -46,7 +46,7 @@ Paths can either be filled or stroked. If the path is filled, the interiors of i
 | `android:strokeColor` | `<path>`     | `integer`  | - - -     | - - -     |
 | `android:strokeWidth` | `<path>`     | `float`    | `0`       | - - -     |
 
-Let's see how this all works with an example. Say we wanted to create a play, pause, and record icon for a music application. We can do so by defining three separate `path`s:
+Let's see how this all works with an example. Say we wanted to create a play, pause, and record icon for a music application. We can represent each icon using a single `path`:
 
 ```xml
 <vector
@@ -75,17 +75,17 @@ Let's see how this all works with an example. Say we wanted to create a play, pa
 </vector>
 ```
 
-The triangular play and circular record icons are both filled paths with orange and red fill colors respectively. The pause icon, on the other hand, is a stroked path with a green stroke color and a stroke width of 2. Each path's drawing commands are executed with respect to a `12x12` grid:
+The triangular play and circular record icons are both filled `path`s with orange and red fill colors respectively. The pause icon, on the other hand, is a stroked `path` with a green stroke color and a stroke width of 2. Each `path`'s drawing commands are executed with respect to a `12x12` grid:
 
 {% include posts/2016/10/22/includes1_drawing_paths_path_commands.html %}
 
-As we mentioned above, one of the benefits of `VectorDrawable`s is that they provide _density independence_, meaning that they can be scaled arbitrarily on any screen without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. However, the main reason for using `VectorDrawable`s in our case is that they'll enable us to animate the individual `path`s that make up each icon using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class. `AnimatedVectorDrawable`s can be thought of as the glue that connects a `VectorDrawable` and one or more `ObjectAnimator`s: the `VectorDrawable` defines a series of uniquely named paths (or groups of paths), and the `AnimatedVectorDrawable` maps the parts of the icon that should be animated to their corresponding `ObjectAnimator`s. As we'll see, the ability to target individual elements to be animated within a `VectorDrawable` is quite powerful.
+As we mentioned earlier, one of the benefits of `VectorDrawable`s is that they provide _density independence_, meaning that they can be scaled arbitrarily on any device without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. However, in our case the main reason for using  `VectorDrawable`s is that they'll allow us to animate the individual `path`s that make up each icon using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class. `AnimatedVectorDrawable`s can be thought of as the glue that connects `VectorDrawable`s with `ObjectAnimator`s: the `VectorDrawable` assigns each animated `path` (or `group` of `path`s) a unique name, and the `AnimatedVectorDrawable` maps each of these names to their corresponding `ObjectAnimator`s. As we'll see, the ability to target individual elements within a `VectorDrawable` to be animated is quite powerful.
 
-The remainder of this blog post will cover four techniques that are used to create icon animations: _transforming `group`s of `path`s_, _trimming stroked `path`s_, _morphing `path`s_, and _clipping `path`s_. We'll end the post with one last epic icon animation that combines all of the techniques into one.
+The remainder of this blog post will cover four general techniques for creating `AnimatedVectorDrawable` icons: _transforming `group`s of `path`s_, _trimming stroked `path`s_, _morphing `path`s_, and _clipping `path`s_. We'll end the post with an example that combines all of these techniques into one last icon animation.
 
 ### Transforming `group`s of `path`s
 
-In the previous section we saw that a path's appearance could be altered by modifying properties such as its opacity and color. The `<group>` tag takes things a step further, allowing us to apply transformations on one or more paths simultaneously. Specifically, the `<group>` tag supports the following animatable transformation types:
+In the previous section we learned how to alter a single `path`'s appearance by directly modifying its properties, such as its opacity and color. In addition to this, `VectorDrawable`s also support _group transformation_s using the `<group>` tag. Specifically, the `<group>` tag enables us to chain together transformations on one or more `path`s using the following animatable attributes:
 
 | Property name        | Element type | Value type |
 |----------------------|--------------|------------|
@@ -97,7 +97,7 @@ In the previous section we saw that a path's appearance could be altered by modi
 | `android:translateX` | `<group>`    | `float`    |
 | `android:translateY` | `<group>`    | `float`    |
 
-It is particularly important to understand the order in which transformations are applied. The two rules to remember are (1) children `group`s inherit the transformations applied to their parent groups, and (2) transformations made to the same `group` are applied in order of scale, rotation, and then translation. As an example, consider the following `group` transformations applied to the play, pause, and record icons discussed above:
+It is particularly important to understand the order in which transformations are applied. The two rules to remember are (1) children `group`s inherit the transformations applied by their parent groups, and (2) transformations made to the same `group` are applied in order of scale, rotation, and then translation. As an example, consider the following `group` transformations applied to the play, pause, and record icons discussed above:
 
 ```xml
 <vector
@@ -108,7 +108,7 @@ It is particularly important to understand the order in which transformations ar
   android:viewportWidth="12">
 
   <!-- Translate the canvas, then rotate, then scale, then draw the play icon. -->
-  <group android:scaleX="1.5" android:pivotX="6" android:pivotY="6" >
+  <group android:scaleX="1.5" android:pivotX="6" android:pivotY="6">
     <group android:rotation="90" android:pivotX="6" android:pivotY="6">
       <group android:translateX="2">
         <path android:name="play_path"/>
@@ -232,7 +232,7 @@ Implementing path morphing animations can be tedious. So here are some tips to g
 * Make sure your UX team is aware of these rules. Many UXers don't have to think about this and simply depend on UX software like Sketch or Adobe Illustrator to export the result as an SVG. However, automated export tools like this often don't take into consideration these types of rules.
 * Elliptical arcs can be approximated as one or more cubic bezier curves. This can be useful, as it animating elliptical arcs is not very common.
 
-### Animating `clip-path`s
+### Clipping `path`s
 
 The last technique we'll cover involves animating the bounds of a `<clip-path>`. A clip path restricts the region to which paint can be applied---anything that lies outside of the region bounded by the clip path will not be drawn. By animating the bounds of these regions, we can create some cool effects, as we'll see below.
 
