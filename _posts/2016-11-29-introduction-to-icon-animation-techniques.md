@@ -38,13 +38,13 @@ Before we can begin creating animated icons, we first need to understand how the
 
 At runtime, `path`s can either be drawn _filled_ or _stroked_. If the path is filled, the interiors of its entire shape will be painted. If the path is stroked, the paint will be applied along the outline of the path. Each type of `path` has its own animatable attributes that they can use to further modify their appearance:
 
-| Property name         | Element type | Value type | Min value | Max value |
-|-----------------------|--------------|------------|-----------|-----------|
-| `android:fillAlpha`   | `<path>`     | `float`    | `0`       | `1`       |
-| `android:fillColor`   | `<path>`     | `integer`  | - - -     | - - -     |
-| `android:strokeAlpha` | `<path>`     | `float`    | `0`       | `1`       |
-| `android:strokeColor` | `<path>`     | `integer`  | - - -     | - - -     |
-| `android:strokeWidth` | `<path>`     | `float`    | `0`       | - - -     |
+| Property name         | Element type | Value type | Min   | Max   |
+|-----------------------|--------------|------------|-------|-------|
+| `android:fillAlpha`   | `<path>`     | `float`    | `0`   | `1`   |
+| `android:fillColor`   | `<path>`     | `integer`  | - - - | - - - |
+| `android:strokeAlpha` | `<path>`     | `float`    | `0`   | `1`   |
+| `android:strokeColor` | `<path>`     | `integer`  | - - - | - - - |
+| `android:strokeWidth` | `<path>`     | `float`    | `0`   | - - - |
 
 Let's see how this all works with an example. Say we wanted to create a play, pause, and record icon for a music application. We can represent each icon using a single `path`:
 
@@ -75,7 +75,7 @@ Let's see how this all works with an example. Say we wanted to create a play, pa
 </vector>
 ```
 
-The triangular play and circular record icons are both filled `path`s with orange and red fill colors respectively. The pause icon, on the other hand, is a stroked `path` with a green stroke color and a stroke width of 2. Each `path`'s drawing commands are executed with respect to a `12x12` grid:
+The triangular play and circular record icons are both filled `path`s with orange and red fill colors respectively. The pause icon, on the other hand, is a stroked `path` with a green stroke color and a stroke width of 2. **Figure 1** illustrates each `path`'s drawing commands executed inside to a `12x12` grid:
 
 {% include posts/2016/11/29/includes1_drawing_paths_path_commands.html %}
 
@@ -139,17 +139,17 @@ It is important to understand the order in which a sequence of `group` transform
 </vector>
 ```
 
-The results are shown in **Figure 2** below. Toggle the checkboxes below to see how enabling and disabling certain transformations affects the final result!
+The results are shown in **Figure 2** below; toggle the checkboxes to see how the different combinations of transformations affect the final result!
 
 {% include posts/2016/11/29/includes2_transforming_paths_demo.html %}
 
-The ability to chain together `group` transformations makes them an extremely powerful technique, enabling us to achieve a variety of cool effects. **Figure 3** below gives three such examples:
+The ability to chain together `group` transformations makes them extremely powerful, making it possible to achieve a variety of cool effects. **Figure 3** below gives three such examples:
 
-* The _expand/collapse icon_ is drawn using two paths. When clicked, the two straight lines are simultaneously rotated 90° and a `<group>` containing the two paths is vertically translated in order to create the effect.
+* The _expand/collapse icon_ is drawn using two rectangular paths. When clicked, the two paths are simultaneously rotated 90° and vertically translated to create the effect.
 
-* The _alarm clock icon_ draws its bells using two rectangular paths. When clicked, a `<group>` containing these two paths is repeatedly rotated about the center, making it look as if the alarm clock is ringing.
+* The _alarm clock icon_ also draws its bells using two rectangular paths. When clicked, a `<group>` containing the two paths is rotated back and forth about the center to create a 'ringing' effect.
 
-* The _radio button icon_ animation is one of my favorites because of its clever simplity. The radio button is drawn using two paths: a filled inner dot and a stroked outer ring. Surprisingly, only three elements need to be animated. For example, when animating from an unchecked to checked state, the following attributes are animated:
+* The _radio button icon_ animation is one of my favorites due to its clever simplicity. The radio button is also drawn using only two paths: a filled inner dot and a stroked outer ring. When the radio button transitions between an unchecked to checked, only three attributes are animated:
 
     | Time  | Outer ring `strokeWidth` | Outer ring `scale{X,Y}` | Inner dot `scale{X,Y}` |
     |-------|--------------------------|-------------------------|------------------------|
@@ -158,39 +158,39 @@ The ability to chain together `group` transformations makes them an extremely po
     | 0.334 | 2                        | 0.9                     | 1.5                    |
     | 1     | 2                        | 1                       | 1                      |
 
-    The part I specifically want to point out is the first third of the animation, when the outer ring's stroke width and scale are simultaneously increased and decreased respectively, making it look as if the outer ring is collapsing inwards toward the center. A pretty awesome effect!
+    During the first third of the animation, the the outer ring's stroke width and scale are simultaneously increased and decreased respectively, making it look as if the outer ring is collapsing inwards towards the center---a pretty awesome effect!
 
 {% include posts/2016/11/29/includes3_transforming_paths_animated_svgs.html %}
 
-One last example that makes use of group transformations is the _horizontal indeterminate progress bar_. A horizontal indeterminate progress bar consists of three paths: a translucent background and two inner rectangular paths. The two inner rectangles are simultaneously translated from left to right and scaled, altering their positions and sizes at varying degrees. Toggle the scale and translation checkboxes below to see how each contributes to the final result!
+One last example that makes use of group transformations is the _horizontal indeterminate progress bar_. A horizontal indeterminate progress bar consists of three paths: a translucent background and two inner rectangular paths. Over the course of the animation the two inner rectangles are horizontally translated and scaled at varying degrees. Toggle the checkboxes in **Figure 4** below to see how each transformation individually contributes to the final result!
 
 {% include posts/2016/11/29/includes4_transforming_paths_indeterminate_progress.html %}
 
 ### Trimming stroked `path`s
 
-A lesser known property of stroked paths is that they can be _trimmed_. Given a stroked path, we can choose to hide or show portions of the path before drawing it to the dispaly. In Android, this is done using the attributes below, each of which can be animated to create some pretty slick effects:
+A lesser known property of stroked paths is that they can be _trimmed_. Given a stroked path, we can choose to show only a portion of the path before having it drawn to the display. In Android, this is done using the following animatable attributes:
 
-| Property name            | Element type | Value type | Min value | Max value|
-|--------------------------|--------------|------------|-----------|-----------|
-| `android:trimPathStart`  | `<path>`     | `float`    | `0`       | `1`       |
-| `android:trimPathEnd`    | `<path>`     | `float`    | `0`       | `1`       |
-| `android:trimPathOffset` | `<path>`     | `float`    | `0`       | `1`       |
+| Property name            | Element type | Value type | Min | Max |
+|--------------------------|--------------|------------|-----|-----|
+| `android:trimPathStart`  | `<path>`     | `float`    | `0` | `1` |
+| `android:trimPathEnd`    | `<path>`     | `float`    | `0` | `1` |
+| `android:trimPathOffset` | `<path>`     | `float`    | `0` | `1` |
 
-The value assigned to `trimPathStart` determines where the visible portion of the path will begin, while the value assigned to `trimPathEnd` determines where the visible portion of the path will end. The `trimPathOffset` value may also be specified to add an extra offset to the start and end values if necessary. **Figure 5** demonstrates how this all works. Update the sliders to see how different values affect what is drawn to the display! Note that it is perfectly fine for `trimPathStart` to be assigned a value greater than `trimPathEnd`. If this occurs, the visible portion of the path simply wraps around the end of the segment back to the beginning.
+`trimPathStart` determines where the visible portion of the path will begin, while `trimPathEnd` determines where the visible portion of the path will end. An additional `trimPathOffset` may also be added to the start and end values if needed. **Figure 5** demonstrates how this all works. Update the sliders to see how different values affect what is drawn to the display! Note that it is perfectly fine for `trimPathStart` to greater than `trimPathEnd`; if this occurs, the visible portion of the path simply wraps around the end of the segment back to the beginning.
 
 {% include posts/2016/11/29/includes5_trimming_stroked_paths_demo.html %}
 
-The ability to animate these three properties opens us up to a world of possibilities, especially for icons that make heavy use of stroked paths. **Figure 6** below shows four examples that animate these attributes in order to achieve some pretty cool effects:
+The ability to animate these three properties opens up a world of possibilities. **Figure 6** below shows four examples that animates these attributes in order to achieve some pretty cool effects:
 
-* The _fingerprint icon_ is made up of 5 stroked paths, each with their trim path start and end values initially set to `0` and `1` respectively. When hidden, the difference is quickly animated to `0` until the icon is no longer visible, and then back to `1` when the icon is shown once again. The _cursive handwriting icon_ behaves similarly, except instead of animating the individual paths all at once, they are animated sequentially as if the word was being written out by hand.
+* The _fingerprint icon_ consists of 5 stroked paths, each with their trim path start and end values initially set to `0` and `1` respectively. When hidden, the difference is quickly animated to `0` until the icon is no longer visible, and then back to `1` when the icon is shown once again. The _cursive handwriting icon_ behaves similarly, except instead of animating the individual paths all at once, they are animated sequentially as if the word was being written out by hand.
 
-* The _search to back icon_ uses a clever combination of trim path animations in order to seamlessly transition between the stem of the search icon and the stem of a back arrow. Enable the "show trim paths" checkbox and you'll see how the changing `trimPathStart` and `trimPathEnd` values affect the relative location of the stem as it animates to its new state. Enable the "slow animation" checkbox and you'll also notice that the visible length of the stem changes over time: it expands at the beginning and shrinks at the end, creating a subtle "stretching" effect that feels more natural. Creating this effect is actually quite easy: we simply animate the trim path start and end values with non-equal start delays, so that one of the two appears to animate faster than the other.
+* The _search to back icon_ uses a clever combination of trim path animations in order to seamlessly transition between the stem of the search icon and the stem of a back arrow. Enable the 'show trim paths' checkbox and you'll see how the changing `trimPathStart` and `trimPathEnd` values affect the relative location of the stem as it animates to its new state. Enable the 'slow animation' checkbox and you'll also notice that the visible length of the stem changes over time: it expands slightly at the beginning and shrinks towards the end, creating a subtle 'stretching' effect that feels more natural. Creating this effect is actually quite easy: we simply begin animating one of the trims with a short start delay to make it look like one end of the path is animating faster than the other.
 
 * Each animating digit in the _Google IO 2016 icon_ consists of 4 paths, each with a different stroke color and each with trim path start/end values covering a quarter of the digit's total length. The `trimPathOffset` is then animated from `0` to `1` in a loop in order to create the effect.
 
 {% include posts/2016/11/29/includes6_trimming_stroked_paths_animated_svgs.html %}
 
-The last example we'll cover is the circular indeterminate progress bar, which consists of a single, circular path and is animated by modifying the following three properties:
+Finally, **Figure 7** shows how a stroked trim path is used to animate the familiar circular indeterminate progress bar. The icon consists of a single, circular stroked path and animates the following three properties:
 
 1. The progress bar is rotated from 0° to 720° over the course of 4444ms.
 
@@ -210,15 +210,15 @@ The last example we'll cover is the circular indeterminate progress bar, which c
 
 ### Morphing `path`s
 
-Perhaps the most powerful animation technique we'll discuss is path morphing: the ability to transform one arbitrary path into another. On Android 5.0 and above, this can be done by animating the path commands themselves using the `android:pathData` attribute.
+The most advanced icon animation technique we'll cover in this post is path morphing. Currently only supported on Android 5.0 and above, path morphing makes it possible to seamlessly transform the *shapes* of two paths by animating the differences in their drawing commands, specified by their `android:pathData` attributes. With path morphing, we can transform a plus sign into a minus sign, a play icon into a pause icon, or even an overflow icon into a back arrow, as seen in **Figure 8** below.
 
 | Property name      | Element type | Value type |
 |--------------------|--------------|------------|
 | `android:pathData` | `<path>`     | `string`   |
 
-You're probably wondering what magical algorithm could possibly be used behind the scenes in order to animate the differences in two arbitrary paths' drawing command strings. Well, before we get into that I should clarify that there are a couple of rules that determine whether or not two paths can be morphed. Specifically, in order for two paths to be compatible, *they must have the same commands, in the same order, and must have the same number of parameters for each command.* You can't morph an `L` command into a `C` command---you can’t even morph a `C` into a `c`---each successive pair of commands has to have the same letter and the same case.
+You're probably wondering what magical algorithm could possibly be used behind the scenes in order to animate the differences in two arbitrary paths' drawing command strings. Well, before we get into that I should clarify that there are a couple of rules that determine whether or not two paths can be morphed. Specifically, in order for two paths to be compatible, *they must have the same commands, in the same order, and must have the same number of parameters for each command.* You can't morph an `L` command into a `C` command---you can't even morph a `C` into a `c`---each successive pair of commands has to have the same letter and the same case.
 
-You might be wondering why this requirement must be enforced. Well, the key to understanding how path morphing animations work is by thinking of them as being powered by animating the position of path coordinates. We can see what this means in the examples below. First disable the "animate rotation" checkbox and enable the "show path control/end points" and "slow animation" checkboxes. The red dots that appear correspond to coordinates in each path's command string. Notice how during the course of the animation, the dots follow a straight line beginning from their starting position to their ending position. This is essentially how path morphing animations work. At each animation frame, we recalculate the position of each path's coordinates and redraw the path command.
+You might be wondering why this requirement must be enforced. Well, the key to understanding how path morphing animations work is by thinking of them as being powered by animating the position of path coordinates. We can see what this means in the examples below. First disable the 'animate rotation' checkbox and enable the 'show path control/end points' and slow animation' checkboxes. The red dots that appear correspond to coordinates in each path's command string. Notice how during the course of the animation, the dots follow a straight line beginning from their starting position to their ending position. This is essentially how path morphing animations work. At each animation frame, we recalculate the position of each path's coordinates and redraw the path command.
 
 {% include posts/2016/11/29/includes8_morphing_paths_animated_svgs.html %}
 
@@ -240,7 +240,7 @@ The last technique we'll cover involves animating the bounds of a `<clip-path>`.
 |--------------------|---------------|------------|
 | `android:pathData` | `<clip-path>` | `string`   |
 
-Similar to above, a clip path's region can be morphed by animating the differences in drawing commands specified by the `android:pathData` attribute. You'll get a better idea of how these animations work by enabling the "show clip paths" checkbox below. In each example, the red overlay mask represents the bounds of the currently active `<clip-path>`, dictating the portions of a sibling `<path>` that is allowed to be drawn. This technique makes clip paths great for animating "fill-in effects", as seen in the hourglass and heart-break animations below.
+Similar to above, a clip path's region can be morphed by animating the differences in drawing commands specified by the `android:pathData` attribute. You'll get a better idea of how these animations work by enabling the 'show clip paths' checkbox below. In each example, the red overlay mask represents the bounds of the currently active `<clip-path>`, dictating the portions of a sibling `<path>` that is allowed to be drawn. This technique makes clip paths great for animating "fill-in effects", as seen in the hourglass and heart-break animations below.
 
 {% include posts/2016/11/29/includes9_clipping_paths_animated_svgs.html %}
 
@@ -285,7 +285,7 @@ All of the icon animations in this blog post (and more) are available in `Animat
 
 ### Special thanks
 
-I'd like to give a **huge** thanks to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without his help and advice! Several of the animations in this blog post were taken from his amazing open source application [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already. I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in the final example in this blog post. Thanks again!
+I'd like to give a **huge** thanks to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without his help and advice! Several of the animations in this blog post were borrowed from his amazing open source application [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already. I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in the final example in this blog post. Thanks again!
 
 ### Reporting bugs & feedback
 

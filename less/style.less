@@ -1,5 +1,4 @@
-// Compile from root directory using: `lessc -x less/style.less > _includes/style.css`
-
+// Compile from root directory using: `lessc --clean-css less/style.less > _includes/style.css`
 @dark-green: #669900;
 @light-green: #99cc00;
 
@@ -9,6 +8,7 @@ body {
   font-family: 'Asap', sans-serif !important;
   line-height: 1.5em;
 }
+
 #content {
   width: ~"calc(100% - 360px)";
   margin-right: 40px;
@@ -70,6 +70,7 @@ body {
     }
   }
 }
+
 #info {
   float: right;
   width: 320px;
@@ -108,12 +109,14 @@ body {
     text-align: center;
   }
 }
+
 #blog-header {
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 1.3em;
   margin: 0 0 1em;
 }
+
 #header {
   margin: 0 auto;
   padding: 10px 0;
@@ -167,6 +170,7 @@ body {
     }
   }
 }
+
 .post-title a {
   color: #222;
   -webkit-transition: color 0.3s;
@@ -179,6 +183,7 @@ body {
     text-decoration: underline;
   }
 }
+
 a {
   color: @dark-green;
   text-decoration: none;
@@ -194,33 +199,45 @@ a {
     text-decoration: underline;
   }
 }
-.no-border a, a.no-border {
+
+.no-border a,
+a.no-border {
   text-decoration: none;
 }
+
 li {
   margin: 0.75em 0;
 }
-ul, ol {
+
+ul,
+ol {
   padding-left: 2.5em;
 }
-td, th {
+
+td,
+th {
   padding: .5em;
   border: 1px #ccc solid;
 }
+
 thead {
   background: #f5f5f5;
   border-bottom: 5px #ccc solid;
 }
-.highlighttable td, .gist td {
+
+.highlighttable td,
+.gist td {
   padding: 0;
   background: none;
   border: 0;
 }
+
 .container {
   width: 90%;
   margin: 0 auto;
   max-width: 1400px;
 }
+
 #social {
   background: url('/assets/images/android1x.png') no-repeat left bottom;
   padding-top: .5em;
@@ -274,9 +291,11 @@ thead {
     }
   }
 }
+
 .blog-index {
   padding: 20px 0;
 }
+
 .snippet {
   border-bottom: 1px #eee solid;
   padding-bottom: 50px;
@@ -304,6 +323,7 @@ thead {
     }
   }
 }
+
 .mod-pagination {
   text-align: center;
   .prev {
@@ -313,11 +333,13 @@ thead {
     float: right;
   }
 }
+
 #post-last-updated {
   font-style: italic;
   color: #777;
   margin: 1em 0;
 }
+
 .post-pagination {
   text-align: center;
   .prev {
@@ -332,9 +354,11 @@ thead {
     clear: both;
   }
 }
+
 .post-comments {
   padding-top: 20px;
 }
+
 .side {
   float: left;
   width: 180px;
@@ -343,9 +367,11 @@ thead {
     margin-top: 0;
   }
 }
+
 .share-buttons {
   padding-top: 1em;
 }
+
 .snippet {
   .side {
     margin-top: 0;
@@ -359,6 +385,7 @@ thead {
     width: ~"calc(100% - 160px)";
   }
 }
+
 .date-block {
   width: 100%;
   text-align: center;
@@ -369,6 +396,7 @@ thead {
   border-radius: 1px;
   margin-top: -2px;
 }
+
 .related {
   padding: 0;
   li {
@@ -397,10 +425,12 @@ thead {
     }
   }
 }
+
 .body {
   float: right;
   width: ~"calc(100% - 220px)";
 }
+
 #copyright {
   padding: 20px 0;
   clear: both;
@@ -411,12 +441,15 @@ thead {
 #responsive-home-page-first-ad {
   padding-bottom: 40px;
 }
+
 #responsive-home-page-bottom-ad {
   padding-top: 20px;
 }
+
 #responsive-post-bottom-ad {
   padding-top: 20px;
 }
+
 #responsive-post-header-ad {
   overflow: hidden;
 }
@@ -427,6 +460,7 @@ thead {
     width: 50px;
     margin-right: 10px;
     margin-top: 8px;
+    line-height: normal;
   }
   ul {
     width: ~"calc(100% - 60px)";
@@ -456,12 +490,14 @@ thead {
     color: #666;
   }
 }
+
 code {
   font-size: 0.95em;
   color: #cc0000;
   font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace;
   line-height: 1.3em;
 }
+
 pre {
   padding: 10px 10px;
   overflow-x: auto;
@@ -478,6 +514,7 @@ pre {
     padding: 0;
   }
 }
+
 .linenos {
   width: 10px;
   pre {
@@ -485,13 +522,16 @@ pre {
     border-bottom-right-radius: 0;
   }
 }
+
 .scrollable {
   overflow-x: auto;
   overflow-y: hidden;
 }
+
 .highlight {
   background: #f5f5f5;
 }
+
 .highlighttable {
   width: 100%;
   overflow: auto;
@@ -499,31 +539,39 @@ pre {
     border-left: 0;
   }
 }
+
 .hidden-big {
   display: none;
 }
+
 .pull-right {
   float: right;
 }
+
 .clearfix {
   clear: both;
 }
+
 .cf:before,
 .cf:after {
   content: " ";
   display: table;
 }
+
 .cf:after {
   clear: both;
 }
+
 .container:before,
 .container:after {
   content: " ";
   display: table;
 }
+
 .container:after {
   clear: both;
 }
+
 @media (max-width: 1250px) {
   .main.container {
     width: 100%;
@@ -557,8 +605,13 @@ pre {
     }
   }
 }
+
 @media (max-width: 960px) {
-  .side, .body, header h1, .snippet .side, .snippet .body {
+  .side,
+  .body,
+  header h1,
+  .snippet .side,
+  .snippet .body {
     width: 100%;
     float: none;
   }
@@ -570,7 +623,8 @@ pre {
     display: inline;
   }
   .related {
-    li, li:last-child  {
+    li,
+    li:last-child {
       float: left;
       margin: 0 10px 10px 0;
       border: 1px #ccc solid;
@@ -596,8 +650,10 @@ pre {
     padding-top: 40px;
   }
 }
+
 @media (max-width: 600px) {
-  ul, ol {
+  ul,
+  ol {
     padding-left: 1em;
   }
   li {
@@ -626,7 +682,7 @@ pre {
       display: block;
       margin-top: 2em;
     }
-   .box {
+    .box {
       border-top: 1px #eaeaea solid;
     }
     .gbadge {
@@ -639,7 +695,8 @@ pre {
       display: block;
     }
   }
-  .related li, .related li:last-child {
+  .related li,
+  .related li:last-child {
     float: none;
     border: 0;
     border-bottom: 1px #ccc solid;
@@ -673,13 +730,15 @@ pre {
       }
     }
   }
-  #header nav a:hover, #header #blog-header a:hover {
+  #header nav a:hover,
+  #header #blog-header a:hover {
     background: transparent;
   }
   #blog-archives {
     h3.year {
       display: block;
       float: none;
+      line-height: 0px;
     }
     ul {
       width: 100%;
@@ -708,6 +767,7 @@ pre {
     height: auto;
   }
 }
+
 img#profile-picture {
   border-radius: 50%;
   width: 200px;
@@ -716,17 +776,31 @@ img#profile-picture {
   margin-bottom: 5px;
   float: right;
 }
-@media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+
+@media only screen and (-moz-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (min-devicepixel-ratio: 1.5),
+only screen and (min-resolution: 1.5dppx) {
   #social {
     background: url('/assets/images/android2x.png') no-repeat left bottom;
     background-size: contain;
   }
 }
+
 @media print {
   body {
     font-size: 0.75em;
   }
-  #header, #social, .share-buttons, #info, #responsive-home-page-bottom-ad, #responsive-post-bottom-ad, #responsive-post-header-ad, .side, #copyright {
+  #header,
+  #social,
+  .share-buttons,
+  #info,
+  #responsive-home-page-bottom-ad,
+  #responsive-post-bottom-ad,
+  #responsive-post-header-ad,
+  .side,
+  #copyright {
     display: none;
   }
   .post-pagination {
@@ -737,14 +811,16 @@ img#profile-picture {
     content: none !important;
   }
 }
+
 html {
   -webkit-text-size-adjust: none;
 }
+
 .body {
   max-height: 999999px; // Arbitrarily large number.
 }
 
 // Force Facebook like button to align properly.
-.fb-like.fb_iframe_widget span{
+.fb-like.fb_iframe_widget span {
   vertical-align: top !important;
 }

@@ -24,3 +24,4 @@ kramdown:
   syntax_highlighter: rouge
 
 host: 0.0.0.0
+future: true
