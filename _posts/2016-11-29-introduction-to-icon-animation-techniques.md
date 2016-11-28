@@ -276,34 +276,26 @@ If you notice a glitch in one of the animated demos on this page, please report 
 
 * Mention that the `<vector>` tag's `android:alpha` property can also be animated.
 * Mention a few other path command information (i.e. `H`, `V`, `A`, difference between upper/lower case, space/commas don't matter, etc.).
-* Add check box to 'color individual paths' so the reader can see what is being animated?
 * Add warning that attempting to trim a filled path will cause unexpected behavior.
-* Test polyfills and animations on different browsers.
-* Minify resources?
-* Set up `module.exports`.
 * Fix CSS issues created after the addition of material design lite.
 * Make sure all polyfills/libraries/etc. are up to date.
-* Move javascript/css stuff into default layout `<head>` so we can benefit from caching.
-* Finish implementing Roman's downloading icon animation for Android.
-* Mention the importance of understanding how path morphing animations work from a UX perspective?
 * Mention path morphing tools like [vectalign](https://github.com/bonnyfone/vectalign)?
-* Add a "special thanks" section for Roman and Nick.
 * Add "click the icons to play" to the captions?
 * Good example of path morphing (between an Android and an Apple) can be found [here](https://lewismcgeary.github.io/posts/animated-vector-drawable-pathMorphing/).
 * It also might be useful to give a listing of useful tools/resources for further reading.
-* At some point will need to rewrite SMIL animations and/or use some sort of polyfill.
-* Confirm that markdown is rendered properly when paginating through posts on ADP home screen.
 * Footnote idea: You also cannot morph a `L` command with three coordinates, into an `L` command with four coordinates like a square.
 * Add color to icons?
 * Link to SVG source code somewhere? Somehow make the blog post useful to web developers as well? Mention that trim path start/end doesn't exist in SVG and must be animated using stroke dash array/offset?
 * Add table of contents and/or anchor links to each header?
-* Reset rotation values for path morph animations after rotation checkbox is clicked.
-* Fix radiobutton glitch in firefox.
-* Note that clip paths only affect the paths contained in the current group (paths belonging to other sibling groups will not be affected).
 * Add thumbnail to the blog post to help drive traffic.
 * Mention Sriram Ramnani anywhere (to give credit for timely text view thingy?)
-* Mention that transformations are significantly more efficient than other animation techniques.
-* **Fix weirdly formatted blog post line breaks! Why did this start happening?**
+* Test polyfills and animations on different browsers.
+* Move javascript/css stuff into default layout `<head>` so we can benefit from caching.
+* Fix radiobutton glitch in firefox.
+* Minify resources?
+* At some point will need to rewrite SMIL animations and/or use some sort of polyfill.
+* Set up `module.exports`.
+* Reset rotation values for path morph animations after rotation checkbox is clicked.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
