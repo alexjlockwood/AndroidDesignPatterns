@@ -63,8 +63,14 @@ gulp.task('watch', function() {
 */
 
 // Start Everything with the default task
-gulp.task('default', ['compile-sass', 'build-jekyll', 'server', 'watch']);
+gulp.task('default', ['build-js', 'serve']);
 
-gulp.task('js', function() {
-	return gulp.src('./scripts/posts/2016/11/29/animated-icon-demos.js').pipe(webpack(require('./webpack.config.js'))).pipe(gulp.dest('./scripts'));
+gulp.task('build-js', function() {
+  return gulp.src('./scripts/posts/2016/11/29/animated-icon-demos.js')
+      .pipe(webpack(require('./webpack.config.js')))
+      .pipe(gulp.dest('./scripts'));
+});
+
+gulp.task('serve', function(done) {
+	return cp.spawn('bundle', ['exec', 'jekyll', 'serve', '--baseurl='], {stdio: 'inherit'}).on('close', done);
 });
