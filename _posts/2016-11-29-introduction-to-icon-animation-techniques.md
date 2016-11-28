@@ -79,13 +79,13 @@ The triangular play and circular record icons are both filled `path`s with orang
 
 {% include posts/2016/11/29/includes1_drawing_paths_path_commands.html %}
 
-As we mentioned earlier, one of the benefits of `VectorDrawable`s is that they provide _density independence_, meaning that they can be scaled arbitrarily on any device without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. However, in our case the main reason for using  `VectorDrawable`s is that they'll allow us to animate the individual `path`s that make up each icon using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class. `AnimatedVectorDrawable`s can be thought of as the glue that connects `VectorDrawable`s with `ObjectAnimator`s: the `VectorDrawable` assigns each animated `path` (or `group` of `path`s) a unique name, and the `AnimatedVectorDrawable` maps each of these names to their corresponding `ObjectAnimator`s. As we'll see, the ability to target individual elements within a `VectorDrawable` to be animated is quite powerful.
+As we mentioned earlier, one of the benefits of `VectorDrawable`s is that they provide _density independence_, meaning that they can be scaled arbitrarily on any device without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. *However, in our case the reason we want to use `VectorDrawable`s is so we can animate the individual `path`s in each icon using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class.* `AnimatedVectorDrawable`s can be thought of as the glue that connects `VectorDrawable`s with `ObjectAnimator`s: the `VectorDrawable` assigns each animated `path` (or `group` of `path`s) a unique name, and the `AnimatedVectorDrawable` maps each of these names to their corresponding `ObjectAnimator`s. As we'll see, the ability to target individual elements within a `VectorDrawable` to be animated is quite powerful.
 
 The remainder of this blog post will cover four general techniques for creating `AnimatedVectorDrawable` icons: _transforming `group`s of `path`s_, _trimming stroked `path`s_, _morphing `path`s_, and _clipping `path`s_. We'll end the post with an example that combines all of these techniques into one last final animation.
 
 ### Transforming `group`s of `path`s
 
-In the previous section we learned how to alter a single `path`'s appearance by directly modifying its properties, such as its opacity and color. In addition to this, `VectorDrawable`s also support _group transformation_s using the `<group>` tag. Specifically, the `<group>` tag enables us to chain together transformations on one or more `path`s using the following animatable attributes:
+In the previous section we learned how to alter a single `path`'s appearance by directly modifying its properties, such as its opacity and color. In addition to this, `VectorDrawable`s also support _group transformations_ using the `<group>` tag. Specifically, the `<group>` tag enables us to chain together transformations on one or more `path`s using the following animatable attributes:
 
 | Property name        | Element type | Value type |
 |----------------------|--------------|------------|
@@ -210,31 +210,33 @@ Finally, **Figure 7** shows how a stroked trim path is used to animate the famil
 
 ### Morphing `path`s
 
-The most advanced icon animation technique we'll cover in this post is path morphing. Currently only supported on Android 5.0 and above, path morphing makes it possible to seamlessly transform the *shapes* of two paths by animating the differences in their drawing commands, specified by their `android:pathData` attributes. With path morphing, we can transform a plus sign into a minus sign, a play icon into a pause icon, or even an overflow icon into a back arrow, as seen in **Figure 8** below.
+The most advanced icon animation technique we'll cover in this post is path morphing. Currently only supported on Android 5.0 and above, path morphing allows us to seamlessly transform the *shapes* of two paths by animating the differences in their drawing commands, specified by their `android:pathData` attributes. With path morphing, we can transform a plus sign into a minus sign, a play icon into a pause icon, or even an overflow icon into a back arrow, as seen in **Figure 8** below.
 
 | Property name      | Element type | Value type |
 |--------------------|--------------|------------|
 | `android:pathData` | `<path>`     | `string`   |
 
-The first thing to consider when implementing a path morphing animation is whether or not the paths you want to morph are *compatible*. More specifically, in order to morph path `A` into path `B` the following conditions must be met:
+The first thing to consider when implementing a path morphing animation is whether or not the paths you want to morph are *compatible*. In order to morph path `A` into path `B` the following conditions must be met:
 
 1. `A` and `B` have the same number of drawing commands.
-2. The `i`-th drawing command in `A` must have the same type as the `i`-th drawing command in `B`, for all `i`.
+2. The `i`-th drawing command in `A` must be the same type as the `i`-th drawing command in `B`, for all `i`.
 3. The `i`-th drawing command in `A` must have the same number of parameters as the `i`-th drawing command in `B`, for all `i`.
 
-If any of these conditions aren't met (i.e. attempting to morph a `L` command into a `C` command, or a `C` into a `c`, etc.), the animation will throw an exception. The reason these rules are required is due to the way path morphing animations are implemented under-the-hood. Before the animation begins, the framework extracts the command types and coordinates from each path's `android:pathData` attribute. If the conditions above are met, then the framework can assume that the only difference between the two paths are the values of the coordinates embedded in their drawing command strings. As a result, when the animation begins the framework can execute the same sequence of drawing commands on each new display frame, altering the positions of the coordinates based on the current progress of the animation. **Figure 8** illustrates this concept nicely. First disable 'animate rotation', then enable 'show path control/end points', and when you begin each animation you'll see the coordinates animating between their start and end values in real time. It's really that simple!
+If any of these conditions aren't met (i.e. attempting to morph an `L` command into a `C` command, or a `C` into a `c`, etc.), the application will crash with an exception. The reason these rules must be enforced is due to the way path morphing animations are implemented under-the-hood. Before the animation begins, the framework extracts the command types and coordinates from each path's `android:pathData` attribute. If the conditions above are met, then the framework can assume that the only difference between the two paths are the values of the coordinates embedded in their drawing command strings. As a result, on each new display frame the framework can execute the same sequence of drawing commands on each new display frame, re-calculating the values of the coordinates to use based on the current progress of the animation. **Figure 8** illustrates this concept nicely. First disable 'animate rotation', then enable the 'show path control/end points' and 'slow animation' checkboxes below. Notice how the red coordinates change during the course of the animation: they travel a straight line from their starting positions in path `A` to their ending positions in path `B`. It's really that simple!
 
 {% include posts/2016/11/29/includes8_morphing_paths_animated_svgs.html %}
 
-Although they are conceptually pretty simple, implementing path morphing animations can at times be a very tedious and time-consuming process, depending on the complexity of the paths. Often times you'll need to tweak the start and end paths by hand in order to make them compatible to be morphed, which---at least in my experience---is where most of the work will be spent. That said, here are several tips and tricks that will help get you started:
+Path morphing animations are known for often being tedious and time-consuming to implement. Often times you'll need to tweak the start and end paths by hand in order to make them compatible to be morphed, which, depending on the complexity of the paths, is where most of the work will be spent. To help facilitate the process, here are several tips and tricks that I've found helpful in getting started:
 
-* Adding dummy points to paths in order to make them compatible. (i.e. plus/minus animation)
-* Drawing straight lines using bezier curves makes it possible to animate a straight line into a curve (i.e. animated digits animation).
+* Adding *dummy coordinates* is often necessary in order to make a simple path compatible with a more complex path. Dummy coordinates were added to nearly all of the examples above. Consider the plus-to-minus animation, for example. We could draw a rectangular minus path using only drawing commands. However, drawing the more complex plus path requires at least 12 drawing commands, so in order to make the two paths compatible we must add 8 additional noop drawing commands to the simpler minus path. Compare the two paths' [drawing command strings][PlusMinusPathCommands] and see if you can identify the added dummy coordinates yourself!
+
+* A cubic bezier curve command will draw a straight line if its two control points lie on the straight line connecting its start and end points. This can be useful to know if you ever need to morph an `L` command into a `C` command (which was the case in the overflow-to-arrow and animating digit examples above). It is also possible to estimate an [elliptical arc command][EllipticalArcCommand] using one or more cubic bezier curves, as I previously discussed [here][ConvertEllipticalArcToBezierCurve]. This can also be useful to know if you ever find yourself in a situation where you need to morph a `C` command into an `A` command.
+
+* Sometimes morphing one path into another looks awkward no matter how you do it. In my experience, I've found that adding an 180° or 360° degree rotation to the animation often makes things look significantly better: it distracts the eye from the morphing paths and adds a layer of motion that makes the animation seem more responsive to user touch.
+
 * Sometimes you will need to get creative in how two paths can be animated by splitting them up into two and animating them separately (i.e. play/pause/stop icons).
-* Choose the order of your path commands with care. Remember that it is the coordinates of each path that are animated, so the start/end locations of each path point will ultimately determine whether or not the animation looks seamless. This is also why automated tools may not generate perfect results.
-* Adding rotation can be extremely helpful as it usually distracts the eye from a path morph animation that might otherwise look somewhat weird.
-* Make sure your UX team is aware of these rules. Many UXers don't have to think about this and simply depend on UX software like Sketch or Adobe Illustrator to export the result as an SVG. However, automated export tools like this often don't take into consideration these types of rules.
-* Elliptical arcs can be approximated as one or more cubic bezier curves. This can be useful, as it animating elliptical arcs is not very common.
+
+* Remember that path morphing animations are ultimately determined by the relative positioning of the two paths' drawing command coordinates. For best results, try to minimize the distance each coordinate has to travel over the course of the animation. The longer the distance each coordinate has to travel, the more distracting the path morphing animation will usually become.
 
 ### Clipping `path`s
 
@@ -244,7 +246,7 @@ The last technique we'll cover involves animating the bounds of a `<clip-path>`.
 |--------------------|---------------|------------|
 | `android:pathData` | `<clip-path>` | `string`   |
 
-A `<clip-path>`'s bounds can be animated via path morphing by animating the `android:pathData` attribute. Take a look at the examples in **Figure 9** below to get a better idea of how these animations work. Enabling the 'show clip paths' checkbox will show the bounds of the currently active `<clip-path>` as a red overlay mask, which in turn dictates the portions of its sibling `<path>`s that will be drawn. Clip path are especially useful for animating fill effects, as you can see in the hourglass and heart fill/break examples below.
+A `<clip-path>`'s bounds can be animated via path morphing by animating the differences in its path commands specified in the `android:pathData` attribute. Take a look at the examples in **Figure 9** below to get a better idea of how these animations work. Enabling the 'show clip paths' checkbox will show the bounds of the currently active `<clip-path>` as a red overlay mask, which in turn dictates the portions of its sibling `<path>`s that will be drawn. Clip path are especially useful for animating fill effects, as you can see in the hourglass and heart fill/break examples below.
 
 {% include posts/2016/11/29/includes9_clipping_paths_animated_svgs.html %}
 
@@ -260,32 +262,7 @@ If you've made it this far in the blog post, that means you now have all of the 
 
 {% include posts/2016/11/29/includes10_downloading_animated_svgs.html %}
 
-### Sample app & further reading
-
-All of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. 
-
-* Nick/Roman's Udacity course:
-    - https://www.youtube.com/watch?v=ew_0tc9JT4E (delightful details)
-    - https://www.youtube.com/watch?v=ecCSzKi-ZxM (intro to avds)
-    - https://www.youtube.com/watch?v=G0Qx9LCSeYw (implementing avds)
-    - https://www.youtube.com/watch?v=WlnaZ_rBCZM (vectors vs. bitmaps)
-* Colt McAnlis Medium posts:
-    - https://medium.com/@duhroach/how-vectordrawable-works-fed96e110e35#.q9x4z8j1m
-    - https://medium.com/@duhroach/smaller-vectordrawable-files-dd70e2874773#.nf12ri1y6
-* Mark Allison's blog posts
-    - https://blog.stylingandroid.com/vectordrawables-part-1/
-* Tenghui YouTube video
-    - https://www.youtube.com/watch?v=wlFVIIstKmA
-* Chris Banes' post on VectorDrawableCompat
-    - https://medium.com/@chrisbanes/appcompat-v23-2-age-of-the-vectors-91cbafa87c88#.lh14s7mji
-* Nick Butcher's talks and slides
-    - http://j.mp/animatable-slides
-    - https://www.youtube.com/watch?v=86p1GPEv_fY
-* Useful tools
-    - http://inloop.github.io/svg2android/
-    - https://developer.android.com/studio/write/vector-asset-studio.html
-    - https://jakearchibald.github.io/svgomg/
-    - https://romannurik.github.io/AndroidIconAnimator/
+Thanks for reading! Remember to +1 this blog post or leave a comment below if you have any questions. And remember that all of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. Feel free to steal them for your own application if you want! :)
 
 ### Special thanks
 
@@ -340,3 +317,10 @@ If you notice a glitch in one of the animated demos on this page, please report 
   [plaid-source-code]: https://github.com/nickbutcher/plaid
   [AndroidIconAnimator]: https://romannurik.github.io/AndroidIconAnimator/
   [NumberTweeningBlogPost]: https://sriramramani.wordpress.com/2013/10/14/number-tweening/
+  [PlusMinusPathCommands]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/values/pathmorph_plusminus.xml
+  [ConvertEllipticalArcToBezierCurve]: https://plus.google.com/+AlexLockwood/posts/1q26J7qqkTZ
+  [EllipticalArcCommand]: https://www.w3.org/TR/SVG/paths.html#PathDataEllipticalArcCommands
+  [IconAnimationYouTubePlaylist]: https://www.youtube.com/playlist?list=PLG_QNSp9ZgJKGC_Nh0fikKyJDJj4-2XI1
+  [AnimatableTalkVideo]: https://www.youtube.com/watch?v=86p1GPEv_fY
+  [AnimatableTalkSlides]: http://j.mp/animatable-slides
+  [svg2android]: http://inloop.github.io/svg2android/
