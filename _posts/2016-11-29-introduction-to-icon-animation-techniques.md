@@ -6,7 +6,6 @@ permalink: /2016/11/introduction-to-icon-animation-techniques.html
 related: ['/2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html',
     '/2016/08/coloring-buttons-with-themeoverlays-background-tints.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
-unpublished: true
 ---
 
 <link rel="stylesheet" type="text/css" href="/css/posts/2016/11/29/style.css" />
