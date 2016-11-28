@@ -1,12 +1,13 @@
 // Require all the things
 const gulp = require('gulp'),
-  sass = require('gulp-sass'),
-  gutil = require('gulp-util'),
-  plumber = require('gulp-plumber'),
-  rename = require('gulp-rename'),
-  minifyCSS = require('gulp-clean-css'),
-  prefixer = require('gulp-autoprefixer'),
-  connect = require('gulp-connect');
+    sass = require('gulp-sass'),
+    gutil = require('gulp-util'),
+    plumber = require('gulp-plumber'),
+    rename = require('gulp-rename'),
+    minifyCSS = require('gulp-clean-css'),
+    prefixer = require('gulp-autoprefixer'),
+    connect = require('gulp-connect'),
+    webpack = require('webpack-stream');
 cp = require('child_process');
 
 // Set the path variables
@@ -60,3 +61,7 @@ gulp.task('watch', function() {
 
 // Start Everything with the default task
 gulp.task('default', ['compile-sass', 'build-jekyll', 'server', 'watch']);
+
+gulp.task('js', function() {
+	return gulp.src('./scripts/posts/2016/11/29/animated-icon-demos.js').pipe(webpack(require('./webpack.config.js'))).pipe(gulp.dest('./scripts'));
+});

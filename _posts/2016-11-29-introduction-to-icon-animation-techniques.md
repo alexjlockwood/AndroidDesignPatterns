@@ -11,7 +11,7 @@ related: ['/2015/01/activity-fragment-shared-element-transitions-in-depth-part3a
 <link rel="stylesheet" type="text/css" href="/css/posts/2016/11/29/style.css" />
 <script defer src="/scripts/posts/2016/11/29/web-animations.min.js"></script>
 <script defer src="/scripts/posts/2016/11/29/path-data-polyfill.js"></script>
-<script defer src="/scripts/posts/2016/11/29/animated-icon-demos.js"></script>
+<script defer src="/scripts/bundle.js"></script>
 
 <!--morestart-->
 
