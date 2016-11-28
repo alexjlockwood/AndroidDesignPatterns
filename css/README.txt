@@ -9,3 +9,5 @@ The following modifications were made to Material Design Lite's default CSS:
    $color-primary: "96,144,0" !default;
    $color-primary-dark: "96,144,0" !default;
    $color-accent: "96,144,0" !default;
+
+3. Commented out blockquote typography rule.

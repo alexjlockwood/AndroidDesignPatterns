@@ -216,9 +216,17 @@ The most advanced icon animation technique we'll cover in this post is path morp
 |--------------------|--------------|------------|
 | `android:pathData` | `<path>`     | `string`   |
 
-You're probably wondering what magical algorithm could possibly be used behind the scenes in order to animate the differences in two arbitrary paths' drawing command strings. Well, before we get into that I should clarify that there are a couple of rules that determine whether or not two paths can be morphed. Specifically, in order for two paths to be compatible, *they must have the same commands, in the same order, and must have the same number of parameters for each command.* You can't morph an `L` command into a `C` command---you can't even morph a `C` into a `c`---each successive pair of commands has to have the same letter and the same case.
+The first thing to consider when implementing a path morphing animation from path `A` to path `B` is whether or not the two paths are *compatible*. More specifically,
 
-You might be wondering why this requirement must be enforced. Well, the key to understanding how path morphing animations work is by thinking of them as being powered by animating the position of path coordinates. We can see what this means in the examples below. First disable the 'animate rotation' checkbox and enable the 'show path control/end points' and slow animation' checkboxes. The red dots that appear correspond to coordinates in each path's command string. Notice how during the course of the animation, the dots follow a straight line beginning from their starting position to their ending position. This is essentially how path morphing animations work. At each animation frame, we recalculate the position of each path's coordinates and redraw the path command.
+> Let <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> represent the `i`th drawing commands in paths `A` and `B` respectively. `A` and `B` are *compatible* to be morphed if and only if the following conditions are met:
+> 
+>  1. `A` and `B` have the same number of drawing commands.
+>  2. <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> have the same command types.
+>  3. <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> have the same number of parameters.
+
+In other words, if you want to morph path `A` into path `B`, then each command type in one path must match the command type in the other. You can't morph an `L` into a `C`---you can't even morph an `L` into an `l`---each successive pair of command types has to be identical. You also can't morph an `L` command with two coordinates (i.e. to create a line) into an `L` command with three coordinates (i.e. to create a triangle).
+
+To understand why these rules are required, it helps to think of the start and end paths in terms of their drawing command coordinates rather than by their physical appearance/shape. **TODO(alockwood): finish this paragraph nicely...** The key to understanding how path morphing animations work is by thinking of them as being powered by animating the position of path coordinates. We can see what this means in the examples below. First disable the 'animate rotation' checkbox and enable the 'show path control/end points' and slow animation' checkboxes. The red dots that appear correspond to coordinates in each path's command string. Notice how during the course of the animation, the dots follow a straight line beginning from their starting position to their ending position. This is essentially how path morphing animations work. At each animation frame, we recalculate the position of each path's coordinates and redraw the path command.
 
 {% include posts/2016/11/29/includes8_morphing_paths_animated_svgs.html %}
 
@@ -234,13 +242,13 @@ Implementing path morphing animations can be tedious. So here are some tips to g
 
 ### Clipping `path`s
 
-The last technique we'll cover involves animating the bounds of a `<clip-path>`. A clip path restricts the region to which paint can be applied---anything that lies outside of the region bounded by the clip path will not be drawn. By animating the bounds of these regions, we can create some cool effects, as we'll see below.
+The last technique we'll cover involves animating the bounds of a `<clip-path>`. A clip path restricts the region to which paint can be applied to the canvas---anything that lies outside of the region bounded by a clip path will not be drawn. By animating the bounds of these regions, we can create some cool effects, as we'll see below.
 
 | Property name      | Element type  | Value type |
 |--------------------|---------------|------------|
 | `android:pathData` | `<clip-path>` | `string`   |
 
-Similar to above, a clip path's region can be morphed by animating the differences in drawing commands specified by the `android:pathData` attribute. You'll get a better idea of how these animations work by enabling the 'show clip paths' checkbox below. In each example, the red overlay mask represents the bounds of the currently active `<clip-path>`, dictating the portions of a sibling `<path>` that is allowed to be drawn. This technique makes clip paths great for animating "fill-in effects", as seen in the hourglass and heart-break animations below.
+Similar to above, a clip path's region can be animated by morphing the differences in drawing commands specified by the `android:pathData` attribute. Take a look at the examples in **Figure 9** below to get a better idea of how these animations work. Enabling the 'show clip paths' checkbox will show the bounds of the currently active `<clip-path>` as a red overlay mask, dictating which portions of its sibling `<path>`s are allowed to be drawn. This technique makes clip paths great for animating "fill-in effects", as seen in the hourglass and heart-break animations below.
 
 {% include posts/2016/11/29/includes9_clipping_paths_animated_svgs.html %}
 
