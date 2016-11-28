@@ -15,7 +15,15 @@ paginate: 5
 
 permalink: /:year/:month/:title.html
 
-exclude: ['README.md', 'LICENSE.txt', "_dev", "gulpfile.js", "node_modules", "package.json"]
+exclude: [
+  'README.md', 
+  'LICENSE.txt', 
+  'gulpfile.js', 
+  'node_modules', 
+  'package.json',
+  'Gemfile',
+  'Gemfile.lock'
+]
 gems: [jekyll-paginate]
 
 markdown: kramdown

@@ -25,6 +25,7 @@ const base_path = './',
 
 
 // Compile sass to css
+/*
 gulp.task('compile-sass', function() {
   return gulp.src(paths.scss)
     .pipe(plumber(function(error) {
@@ -53,11 +54,13 @@ gulp.task('server', function() {
   });
 })
 
+
 // Watch files
 gulp.task('watch', function() {
   gulp.watch(paths.scss, ['compile-sass']);
   gulp.watch(paths.jekyll, ['build-jekyll']);
 });
+*/
 
 // Start Everything with the default task
 gulp.task('default', ['compile-sass', 'build-jekyll', 'server', 'watch']);

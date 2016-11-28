@@ -81,7 +81,7 @@ The triangular play and circular record icons are both filled `path`s with orang
 
 As we mentioned earlier, one of the benefits of `VectorDrawable`s is that they provide _density independence_, meaning that they can be scaled arbitrarily on any device without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. However, in our case the main reason for using  `VectorDrawable`s is that they'll allow us to animate the individual `path`s that make up each icon using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class. `AnimatedVectorDrawable`s can be thought of as the glue that connects `VectorDrawable`s with `ObjectAnimator`s: the `VectorDrawable` assigns each animated `path` (or `group` of `path`s) a unique name, and the `AnimatedVectorDrawable` maps each of these names to their corresponding `ObjectAnimator`s. As we'll see, the ability to target individual elements within a `VectorDrawable` to be animated is quite powerful.
 
-The remainder of this blog post will cover four general techniques for creating `AnimatedVectorDrawable` icons: _transforming `group`s of `path`s_, _trimming stroked `path`s_, _morphing `path`s_, and _clipping `path`s_. We'll end the post with an example that combines all of these techniques into one last icon animation.
+The remainder of this blog post will cover four general techniques for creating `AnimatedVectorDrawable` icons: _transforming `group`s of `path`s_, _trimming stroked `path`s_, _morphing `path`s_, and _clipping `path`s_. We'll end the post with an example that combines all of these techniques into one last final animation.
 
 ### Transforming `group`s of `path`s
 
@@ -216,21 +216,17 @@ The most advanced icon animation technique we'll cover in this post is path morp
 |--------------------|--------------|------------|
 | `android:pathData` | `<path>`     | `string`   |
 
-The first thing to consider when implementing a path morphing animation from path `A` to path `B` is whether or not the two paths are *compatible*. More specifically,
+The first thing to consider when implementing a path morphing animation is whether or not the paths you want to morph are *compatible*. More specifically, in order to morph path `A` into path `B` the following conditions must be met:
 
-> Let <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> represent the `i`th drawing commands in paths `A` and `B` respectively. `A` and `B` are *compatible* to be morphed if and only if the following conditions are met:
-> 
->  1. `A` and `B` have the same number of drawing commands.
->  2. <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> have the same command types.
->  3. <code>a<sub>i</sub></code> and <code>b<sub>i</sub></code> have the same number of parameters.
+1. `A` and `B` have the same number of drawing commands.
+2. The `i`-th drawing command in `A` must have the same type as the `i`-th drawing command in `B`, for all `i`.
+3. The `i`-th drawing command in `A` must have the same number of parameters as the `i`-th drawing command in `B`, for all `i`.
 
-In other words, if you want to morph path `A` into path `B`, then each command type in one path must match the command type in the other. You can't morph an `L` into a `C`---you can't even morph an `L` into an `l`---each successive pair of command types has to be identical. You also can't morph an `L` command with two coordinates (i.e. to create a line) into an `L` command with three coordinates (i.e. to create a triangle).
-
-To understand why these rules are required, it helps to think of the start and end paths in terms of their drawing command coordinates rather than by their physical appearance/shape. **TODO(alockwood): finish this paragraph nicely...** The key to understanding how path morphing animations work is by thinking of them as being powered by animating the position of path coordinates. We can see what this means in the examples below. First disable the 'animate rotation' checkbox and enable the 'show path control/end points' and slow animation' checkboxes. The red dots that appear correspond to coordinates in each path's command string. Notice how during the course of the animation, the dots follow a straight line beginning from their starting position to their ending position. This is essentially how path morphing animations work. At each animation frame, we recalculate the position of each path's coordinates and redraw the path command.
+If any of these conditions aren't met (i.e. attempting to morph a `L` command into a `C` command, or a `C` into a `c`, etc.), the animation will throw an exception. The reason these rules are required is due to the way path morphing animations are implemented under-the-hood. Before the animation begins, the framework extracts the command types and coordinates from each path's `android:pathData` attribute. If the conditions above are met, then the framework can assume that the only difference between the two paths are the values of the coordinates embedded in their drawing command strings. As a result, when the animation begins the framework can execute the same sequence of drawing commands on each new display frame, altering the positions of the coordinates based on the current progress of the animation. **Figure 8** illustrates this concept nicely. First disable 'animate rotation', then enable 'show path control/end points', and when you begin each animation you'll see the coordinates animating between their start and end values in real time. It's really that simple!
 
 {% include posts/2016/11/29/includes8_morphing_paths_animated_svgs.html %}
 
-Implementing path morphing animations can be tedious. So here are some tips to get started:
+Although they are conceptually pretty simple, implementing path morphing animations can at times be a very tedious and time-consuming process, depending on the complexity of the paths. Often times you'll need to tweak the start and end paths by hand in order to make them compatible to be morphed, which---at least in my experience---is where most of the work will be spent. That said, here are several tips and tricks that will help get you started:
 
 * Adding dummy points to paths in order to make them compatible. (i.e. plus/minus animation)
 * Drawing straight lines using bezier curves makes it possible to animate a straight line into a curve (i.e. animated digits animation).
@@ -248,7 +244,7 @@ The last technique we'll cover involves animating the bounds of a `<clip-path>`.
 |--------------------|---------------|------------|
 | `android:pathData` | `<clip-path>` | `string`   |
 
-Similar to above, a clip path's region can be animated by morphing the differences in drawing commands specified by the `android:pathData` attribute. Take a look at the examples in **Figure 9** below to get a better idea of how these animations work. Enabling the 'show clip paths' checkbox will show the bounds of the currently active `<clip-path>` as a red overlay mask, dictating which portions of its sibling `<path>`s are allowed to be drawn. This technique makes clip paths great for animating "fill-in effects", as seen in the hourglass and heart-break animations below.
+A `<clip-path>`'s bounds can be animated via path morphing by animating the `android:pathData` attribute. Take a look at the examples in **Figure 9** below to get a better idea of how these animations work. Enabling the 'show clip paths' checkbox will show the bounds of the currently active `<clip-path>` as a red overlay mask, which in turn dictates the portions of its sibling `<path>`s that will be drawn. Clip path are especially useful for animating fill effects, as you can see in the hourglass and heart fill/break examples below.
 
 {% include posts/2016/11/29/includes9_clipping_paths_animated_svgs.html %}
 
