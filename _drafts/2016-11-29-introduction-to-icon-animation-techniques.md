@@ -6,6 +6,7 @@ permalink: /2016/11/introduction-to-icon-animation-techniques.html
 related: ['/2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html',
     '/2016/08/coloring-buttons-with-themeoverlays-background-tints.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
+unpublished: true
 ---
 
 <link rel="stylesheet" type="text/css" href="/css/posts/2016/11/29/style.css" />
@@ -264,38 +265,13 @@ If you've made it this far in the blog post, that means you now have all of the 
 
 Thanks for reading! Remember to +1 this blog post or leave a comment below if you have any questions. And remember that all of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. Feel free to steal them for your own application if you want! :)
 
+### Reporting bugs & feedback
+
+If you notice a glitch in one of the animated demos on this page, please report them [here][alexjlockwood.github.io-new-bug]. I only began learning Javascript a few weeks ago so I wouldn't be surprised if I made a mistake somewhere along the line. I want this blog post to be perfect, so I'd really appreciate it! :)
+
 ### Special thanks
 
 I'd like to give a **huge** thanks to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without his help and advice! Several of the animations in this blog post were borrowed from his amazing open source application [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already. I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in the final example in this blog post. Thanks again!
-
-### Reporting bugs & feedback
-
-If you notice a glitch in one of the animated demos on this page, please report them [here][alexjlockwood.github.io-new-bug]. I only began learning Javascript a few weeks ago so I wouldn't be surprised if I made a mistake somewhere along the line. I want this blog post to be perfect, so I'd really appreciate it! Thanks! :)
-
-### Potential footnotes/ideas/todos
-
-* Mention that the `<vector>` tag's `android:alpha` property can also be animated.
-* Mention a few other path command information (i.e. `H`, `V`, `A`, difference between upper/lower case, space/commas don't matter, etc.).
-* Add warning that attempting to trim a filled path will cause unexpected behavior.
-* Fix CSS issues created after the addition of material design lite.
-* Make sure all polyfills/libraries/etc. are up to date.
-* Mention path morphing tools like [vectalign](https://github.com/bonnyfone/vectalign)?
-* Add "click the icons to play" to the captions?
-* Good example of path morphing (between an Android and an Apple) can be found [here](https://lewismcgeary.github.io/posts/animated-vector-drawable-pathMorphing/).
-* It also might be useful to give a listing of useful tools/resources for further reading.
-* Footnote idea: You also cannot morph a `L` command with three coordinates, into an `L` command with four coordinates like a square.
-* Add color to icons?
-* Link to SVG source code somewhere? Somehow make the blog post useful to web developers as well? Mention that trim path start/end doesn't exist in SVG and must be animated using stroke dash array/offset?
-* Add table of contents and/or anchor links to each header?
-* Add thumbnail to the blog post to help drive traffic.
-* Mention Sriram Ramnani anywhere (to give credit for timely text view thingy?)
-* Test polyfills and animations on different browsers.
-* Move javascript/css stuff into default layout `<head>` so we can benefit from caching.
-* Fix radiobutton glitch in firefox.
-* Minify resources?
-* At some point will need to rewrite SMIL animations and/or use some sort of polyfill.
-* Set up `module.exports`.
-* Reset rotation values for path morph animations after rotation checkbox is clicked.
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
