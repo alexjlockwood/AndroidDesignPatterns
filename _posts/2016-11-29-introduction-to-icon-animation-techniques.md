@@ -303,6 +303,7 @@ If you notice a glitch in one of the animated demos on this page, please report 
 * Add thumbnail to the blog post to help drive traffic.
 * Mention Sriram Ramnani anywhere (to give credit for timely text view thingy?)
 * Mention that transformations are significantly more efficient than other animation techniques.
+* **Fix weirdly formatted blog post line breaks! Why did this start happening?**
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
