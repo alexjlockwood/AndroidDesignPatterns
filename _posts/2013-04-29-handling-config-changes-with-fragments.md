@@ -5,7 +5,7 @@ date: 2013-04-29
 permalink: /2013/04/retaining-objects-across-config-changes.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
           '/2014/12/activity-fragment-transitions-in-android-lollipop-part1.html',
-          '/2013/04/activitys-threads-memory-leaks.html']
+          '/2016/11/introduction-to-icon-animation-techniques.html']
 thumbnails: ['/assets/images/posts/2013/04/29/worker-fragments-screenshot.png']
 updated: '2014-01-14'
 ---
