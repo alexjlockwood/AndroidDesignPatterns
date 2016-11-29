@@ -6,22 +6,33 @@ permalink: /2016/11/introduction-to-icon-animation-techniques.html
 related: ['/2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html',
     '/2016/08/coloring-buttons-with-themeoverlays-background-tints.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
+style: |
+    ol.icon_anim_table-of-contents li {
+      margin: 0.25em 0;
+    }
 ---
 
 <link rel="stylesheet" type="text/css" href="/css/posts/2016/11/29/style.css" />
-<script defer src="/scripts/posts/2016/11/29/web-animations.min.js"></script>
-<script defer src="/scripts/posts/2016/11/29/path-data-polyfill.js"></script>
 <script defer src="/scripts/bundle.js"></script>
 
 <!--morestart-->
 
-Have you ever noticed an icon animation in your favorite app and wondered how it worked? I know I have. [Creative customization][creative-customization] is a tenet of material design, and incorporating meaningful motion and subtle transitions between states can help inch your way towards a pixel-perfect user experience. It gives you an opportunity to add personality to your app, adding an element of wonder to user interactions and making it feel more natural and alive.
-
-Unfortunately, **being creative is hard**. Building an icon animation from scratch requires not only a fair amount of engineering effort but also a vision of how the final product should look and feel. You could be the best programmer the world has ever seen, and yet if you don't have the design tools that make it possible to seamlessly animate icons from one state to another, you're going to have a bad time.
+[Creative customization][creative-customization] is one of the most important tenets of material design. The subtle addition of a delightful icon animation can add an element of wonder to the user experience, making the app feel more natural and alive. Unfortunately, building icon animations from scratch can be challenging. Not only can it take a fair amount of work to implement, but it also requires a vision of how the final result should look and feel. If you aren't famliar with the different techniques that are most often used to create them, you're going to have a bad time designing your own.
 
 <!--more-->
 
-In this blog post, I'll discuss several techniques and strategies that are used to create beautiful icon animations. The best way to learn is by analyzing existing examples, so each section is accompanied with several interactive icon animations which highlight how they work. This blog post won't teach you everything you need to know, but I hope it will make you see icon animations for what they are and will hopefully get you started on the right path towards creating your own!
+This blog post will discuss several different techniques that can be used to create beautiful icon animations. The best way to learn is by example, so as you read through the post you'll encounter interactive demos highlighting how each technique works. In doing so, I hope this blog post can at the very least open your eyes to how icon animations behave under-the-hood, because understanding they work is the first step towards creating your own.
+
+This blog post is split into the following six sections:
+
+<ol class="icon_anim_table-of-contents">
+  <li><a href="#drawing-paths">Drawing <code>path</code>s</a></li>
+  <li><a href="#transforming-groups-of-paths">Transforming <code>group</code>s of <code>path</code>s</a></li>
+  <li><a href="#trimming-stroked-paths">Trimming stroked <code>path</code>s</a></li>
+  <li><a href="#morphing-paths">Morphing <code>path</code>s</a></li>
+  <li><a href="#clipping-paths">Clipping <code>path</code>s</a></li>
+  <li><a href="#conclusion-putting-it-all-together">Conclusion: putting it all together</a></li>
+</ol>
 
 All of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. 
 
@@ -234,8 +245,6 @@ Path morphing animations are known for often being tedious and time-consuming to
 
 * Sometimes morphing one path into another looks awkward no matter how you do it. In my experience, I've found that adding an 180° or 360° degree rotation to the animation often makes things look significantly better: it distracts the eye from the morphing paths and adds a layer of motion that makes the animation seem more responsive to user touch.
 
-* Sometimes you will need to get creative in how two paths can be animated by splitting them up into two and animating them separately (i.e. play/pause/stop icons).
-
 * Remember that path morphing animations are ultimately determined by the relative positioning of the two paths' drawing command coordinates. For best results, try to minimize the distance each coordinate has to travel over the course of the animation. The longer the distance each coordinate has to travel, the more distracting the path morphing animation will usually become.
 
 ### Clipping `path`s
@@ -255,14 +264,14 @@ A `<clip-path>`'s bounds can be animated via path morphing by animating the diff
 If you've made it this far in the blog post, that means you now have all of the fundamental building blocks you need in order to design your own icon animations from scratch! To celebrate, let's combine all of the techniques discussed in this post into one last kickass example! The progress icon in **Figure 10** animates the following five properties:
 
 1. Stroke width (during the progress indicator to check mark animation).
-2. Translation and rotation (at the very beginning to create the 'bouncing arrow' effect).
-3. Trim path start/end (during the progress indicator to check mark animation).
-4. Path morphing (at the very end while transitioning the check mark back into an arrow).
+2. Translation and rotation (at the beginning to create the 'bouncing arrow' effect).
+3. Trim path start/end (at the beginning to create the 'bouncing line' effect, and at the end when transitioning from the progress bar to the check mark).
+4. Path morphing (at the end while transitioning the check mark back into an arrow).
 5. Clip path (vertically filling the contents of the downloading arrow to indicate indeterminate progress).
 
 {% include posts/2016/11/29/includes10_downloading_animated_svgs.html %}
 
-Thanks for reading! Remember to +1 this blog post or leave a comment below if you have any questions. And remember that all of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. Feel free to steal them for your own application if you want! :)
+Thanks for reading! Remember to +1 this blog or leave a comment below if you have any questions. And remember that all of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. Feel free to steal them for your own application if you want! :)
 
 ### Reporting bugs & feedback
 
@@ -270,7 +279,7 @@ If you notice a glitch in one of the animated demos on this page, please report 
 
 ### Special thanks
 
-I'd like to give a **huge** thanks to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without his help and advice! Several of the animations in this blog post were borrowed from his amazing open source application [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already. I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in the final example in this blog post. Thanks again!
+I'd like to give a **huge** thanks to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without his help and advice! Several of the animations in this blog post were borrowed from his amazing open source application [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already. I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in the final example in this blog post. Finally, I'd like to thank [Sriram Ramani][SriramRamani] for his [blog post on number tweening][NumberTweeningBlogPost], which inspired the animated digits demo in **Figure 8**. Thanks again!
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
@@ -284,11 +293,8 @@ I'd like to give a **huge** thanks to [Nick Butcher][NickButcherGooglePlus], bec
   [adp-delightful-details-new-bug]: https://github.com/alexjlockwood/adp-delightful-details/issues/new
   [plaid-source-code]: https://github.com/nickbutcher/plaid
   [AndroidIconAnimator]: https://romannurik.github.io/AndroidIconAnimator/
+  [SriramRamani]: https://sriramramani.wordpress.com/
   [NumberTweeningBlogPost]: https://sriramramani.wordpress.com/2013/10/14/number-tweening/
   [PlusMinusPathCommands]: https://github.com/alexjlockwood/adp-delightful-details/blob/master/app/src/main/res/values/pathmorph_plusminus.xml
   [ConvertEllipticalArcToBezierCurve]: https://plus.google.com/+AlexLockwood/posts/1q26J7qqkTZ
   [EllipticalArcCommand]: https://www.w3.org/TR/SVG/paths.html#PathDataEllipticalArcCommands
-  [IconAnimationYouTubePlaylist]: https://www.youtube.com/playlist?list=PLG_QNSp9ZgJKGC_Nh0fikKyJDJj4-2XI1
-  [AnimatableTalkVideo]: https://www.youtube.com/watch?v=86p1GPEv_fY
-  [AnimatableTalkSlides]: http://j.mp/animatable-slides
-  [svg2android]: http://inloop.github.io/svg2android/

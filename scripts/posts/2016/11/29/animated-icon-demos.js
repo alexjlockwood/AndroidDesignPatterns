@@ -1,6 +1,8 @@
 'use strict';
 
 var bezierEasing = require('bezier-easing');
+var webAnimationsJs = require('web-animations-js');
+var pathDataPolyfill = require('path-data-polyfill');
 
 // =======================================================================================
 // =======================================================================================
