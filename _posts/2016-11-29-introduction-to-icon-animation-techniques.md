@@ -38,7 +38,7 @@ All of the icon animations in this blog post (and more) are available in `Animat
 
 ### Drawing `path`s
 
-Before we can begin creating animated icons, we first need to understand how they are drawn. In Android, we'll represent each icon using the relatively new [`VectorDrawable`][VectorDrawable] class. `VectorDrawable`s are similar in concept to SVGs on the web: they allow us to create scalable, density-independent assets by representing each icon as a series of lines and shapes called `path`s. Each path's shape is determined by a sequence of _drawing commands_, represented by a space/comma-separated string using a subset of the [SVG path data spec][svg-path-reference] to draw lines and curves. The spec defines many different types of commands, a few of which are summarized in the table below:
+Before we can begin creating animated icons, we first need to understand how they are drawn. In Android, we'll create each icon using the relatively new [`VectorDrawable`][VectorDrawable] class. `VectorDrawable`s are similar in concept to SVGs on the web: they allow us to create scalable, density-independent assets by representing each icon as a series of lines and shapes called `path`s. Each path's shape is determined by a sequence of _drawing commands_, represented by a space/comma-separated string using a subset of the [SVG path data spec][svg-path-reference] to draw lines and curves. The spec defines many different types of commands, several of which are summarized in the table below:
 
 | Command             | Description |
 |---------------------|-------------|
@@ -47,7 +47,7 @@ Before we can begin creating animated icons, we first need to understand how the
 | `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
 | `Z`                 | Close the path by drawing a line back to the beginning of the current subpath.
 
-At runtime, `path`s can either be drawn _filled_ or _stroked_. If the path is filled, the interiors of its entire shape will be painted. If the path is stroked, the paint will be applied along the outline of the path. Each type of `path` has its own animatable attributes that they can use to further modify their appearance:
+At runtime, `path`s can be drawn either _filled_ or _stroked_. If the path is filled, the interiors of its entire shape will be painted. If the path is stroked, the paint will be applied along the outline of the path. Each type of `path` has its own animatable attributes that can be used to further modify their appearance:
 
 | Property name         | Element type | Value type | Min   | Max   |
 |-----------------------|--------------|------------|-------|-------|
@@ -150,7 +150,7 @@ It is important to understand the order in which a sequence of `group` transform
 </vector>
 ```
 
-The results are shown in **Figure 2** below; toggle the checkboxes to see how the different combinations of transformations affect the final result!
+The results are shown in **Figure 2** below. Toggle the checkboxes to see how the different combinations of transformations affect the final result!
 
 {% include posts/2016/11/29/includes2_transforming_paths_demo.html %}
 
@@ -203,11 +203,11 @@ The ability to animate these three properties opens up a world of possibilities.
 
 Finally, **Figure 7** shows how a stroked trim path is used to animate the familiar circular indeterminate progress bar. The icon consists of a single, circular stroked path and animates the following three properties:
 
-1. The progress bar is rotated from 0° to 720° over the course of 4444ms.
+1. The progress bar is rotated from 0° to 720° over the course of 4,444ms.
 
-2. The progress bar's trim path offset is animated from `0` to `0.25` over the course of 1333ms.
+2. The progress bar's trim path offset is animated from `0` to `0.25` over the course of 1,333ms.
 
-3. Portions of the progress bar's circular path are trimmed over the course of 1333ms. Specifically, over the course of the animation they animate through the following values:
+3. Portions of the progress bar's circular path are trimmed over the course of 1,333ms. Specifically, over the course of the animation they animate through the following values:
 
     | Time | `trimPathStart` | `trimPathEnd` | `trimPathOffset` |
     |------|-----------------|---------------|------------------|
@@ -230,8 +230,8 @@ The most advanced icon animation technique we'll cover in this post is path morp
 The first thing to consider when implementing a path morphing animation is whether or not the paths you want to morph are *compatible*. In order to morph path `A` into path `B` the following conditions must be met:
 
 1. `A` and `B` have the same number of drawing commands.
-2. The `i`-th drawing command in `A` must be the same type as the `i`-th drawing command in `B`, for all `i`.
-3. The `i`-th drawing command in `A` must have the same number of parameters as the `i`-th drawing command in `B`, for all `i`.
+2. The `i`th drawing command in `A` must have the same type as the `i`th drawing command in `B`, for all `i`.
+3. The `i`th drawing command in `A` must have the same number of parameters as the `i`th drawing command in `B`, for all `i`.
 
 If any of these conditions aren't met (i.e. attempting to morph an `L` command into a `C` command, or a `C` into a `c`, etc.), the application will crash with an exception. The reason these rules must be enforced is due to the way path morphing animations are implemented under-the-hood. Before the animation begins, the framework extracts the command types and coordinates from each path's `android:pathData` attribute. If the conditions above are met, then the framework can assume that the only difference between the two paths are the values of the coordinates embedded in their drawing command strings. As a result, on each new display frame the framework can execute the same sequence of drawing commands on each new display frame, re-calculating the values of the coordinates to use based on the current progress of the animation. **Figure 8** illustrates this concept nicely. First disable 'animate rotation', then enable the 'show path control/end points' and 'slow animation' checkboxes below. Notice how the red coordinates change during the course of the animation: they travel a straight line from their starting positions in path `A` to their ending positions in path `B`. It's really that simple!
 
@@ -279,7 +279,7 @@ If you notice a glitch in one of the animated demos on this page, please report 
 
 ### Special thanks
 
-I'd like to give a **huge** thanks to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without his help and advice! Several of the animations in this blog post were borrowed from his amazing open source application [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already. I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in the final example in this blog post. Finally, I'd like to thank [Sriram Ramani][SriramRamani] for his [blog post on number tweening][NumberTweeningBlogPost], which inspired the animated digits demo in **Figure 8**. Thanks again!
+I'd like to give a **huge** thanks to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without his help and advice! Several of the animations in this blog post were borrowed from his amazing open source application [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already. I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in **Figure 10**. Finally, I'd like to thank [Sriram Ramani][SriramRamani] for his [blog post on number tweening][NumberTweeningBlogPost], which inspired the animated digits demo in **Figure 8**. Thanks again!
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
