@@ -5,7 +5,7 @@ date: 2014-12-04
 permalink: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
-    '/2012/07/loaders-and-loadermanager-background.html']
+    '/2016/11/introduction-to-icon-animation-techniques.html']
 updated: '2014-03-11'
 ---
 
