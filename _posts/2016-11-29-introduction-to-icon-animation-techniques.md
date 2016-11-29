@@ -90,11 +90,11 @@ The triangular play and circular record icons are both filled `path`s with orang
 
 {% include posts/2016/11/29/includes1_drawing_paths_path_commands.html %}
 
-As we previously mentioned, one of the benefits of `VectorDrawable`s is that they provide density independence, meaning that they can be scaled arbitrarily on any device without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. In our case, however, **the reason we'll be using `VectorDrawable`s is so we can animate their individual `path`s using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class.** `AnimatedVectorDrawable`s are the glue that connects `VectorDrawable`s with `ObjectAnimator`s: the `VectorDrawable` assigns each animated `path` (or `group` of `path`s) a unique name, and the `AnimatedVectorDrawable` maps each of these names to their corresponding `ObjectAnimator`s. As we'll see in the next several sections of this post, the ability to animate the individual elements within a `VectorDrawable` will be quite powerful.
+As we previously mentioned, one of the benefits of `VectorDrawable`s is that they provide density independence, meaning that they can be scaled arbitrarily on any device without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. In our case, however, **the reason we'll be using `VectorDrawable`s is so we can animate their individual `path`s using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class.** `AnimatedVectorDrawable`s are the glue that connects `VectorDrawable`s with `ObjectAnimator`s: the `VectorDrawable` assigns each animated `path` (or `group` of `path`s) a unique name, and the `AnimatedVectorDrawable` maps each of these names to their corresponding `ObjectAnimator`s. As we'll see below, the ability to animate the individual elements within a `VectorDrawable` can be quite powerful.
 
 ### Transforming `group`s of `path`s
 
-In the previous section we learned how to alter a `path`'s appearance by directly modifying its properties, such as its opacity and color. In addition to this, `VectorDrawable`s also support _group transformations_ using the `<group>` tag. Specifically, the `<group>` tag enables us to chain together transformations on one or more `path`s using the following animatable attributes:
+In the previous section we learned how to alter a `path`'s appearance by directly modifying its properties, such as its opacity and color. In addition to this, `VectorDrawable`s also support _group transformations_ using the `<group>` tag, which allows us to apply transformations on multiple `path`s at a time using the following animatable attributes:
 
 | Property name        | Element type | Value type |
 |----------------------|--------------|------------|
@@ -106,7 +106,7 @@ In the previous section we learned how to alter a `path`'s appearance by directl
 | `android:translateX` | `<group>`    | `float`    |
 | `android:translateY` | `<group>`    | `float`    |
 
-It is important to understand the order in which a sequence of `group` transformations will be applied. The two rules to remember are (1) children `group`s inherit the transformations applied by their parent groups, and (2) transformations made to the same `group` are applied in order of scale, rotation, and then translation. As an example, consider the following `group` transformations applied to the play, pause, and record icons discussed above:
+It's important to understand the order in which nested `group` transformations are applied. The two rules to remember are (1) children `group`s inherit the transformations applied by their parent groups, and (2) transformations made to the same `group` are applied in order of scale, rotation, and then translation. As an example, consider the following `group` transformations applied to the play, pause, and record icons discussed above:
 
 ```xml
 <vector
@@ -148,17 +148,17 @@ It is important to understand the order in which a sequence of `group` transform
 </vector>
 ```
 
-The results are shown in **Figure 2** below. Toggle the checkboxes to see how the different combinations of transformations affect the final result!
+The transformed icons are shown in **Figure 2** below. Toggle the checkboxes to see how the different combinations of transformations affect the results!
 
 {% include posts/2016/11/29/includes2_transforming_paths_demo.html %}
 
-The ability to chain together `group` transformations makes them extremely powerful, making it possible to achieve a variety of cool effects. **Figure 3** below gives three such examples:
+The ability to chain together `group` transformations makes it possible to achieve a variety of cool effects. **Figure 3** shows three such examples:
 
-* The _expand/collapse icon_ is drawn using two rectangular paths. When clicked, the two paths are simultaneously rotated 90° and vertically translated to create the effect.
+* The _expand/collapse icon_ is drawn using two rectangular paths. When clicked, the two paths are simultaneously rotated 90° and vertically translated to create the transition.
 
-* The _alarm clock icon_ also draws its bells using two rectangular paths. When clicked, a `<group>` containing the two paths is rotated back and forth about the center to create a 'ringing' effect.
+* The _alarm clock icon_ draws its bells using two rectangular paths. When clicked, a `<group>` containing the two paths is rotated back and forth about the center to create a 'ringing' effect.
 
-* The _radio button icon_ animation is one of my favorites due to its clever simplicity. The radio button is also drawn using only two paths: a filled inner dot and a stroked outer ring. When the radio button transitions between an unchecked to checked, only three attributes are animated:
+* The _radio button icon_ animation is one of my favorites due to its clever simplicity. The icon is drawn using only two paths: a filled inner dot and a stroked outer ring. When the radio button transitions between an unchecked to checked, three properties are animated:
 
     | Time  | Outer ring `strokeWidth` | Outer ring `scale{X,Y}` | Inner dot `scale{X,Y}` |
     |-------|--------------------------|-------------------------|------------------------|
@@ -167,17 +167,17 @@ The ability to chain together `group` transformations makes them extremely power
     | 0.334 | 2                        | 0.9                     | 1.5                    |
     | 1     | 2                        | 1                       | 1                      |
 
-    During the first third of the animation, the the outer ring's stroke width and scale are simultaneously increased and decreased respectively, making it look as if the outer ring is collapsing inwards towards the center---a pretty awesome effect!
+    Pay particular attention to the first third of the animation, when the outer ring's stroke width and scale are simultaneously increased and decreased respectively to make it look as if the outer ring is collapsing inwards towards the center---a pretty awesome effect!
 
 {% include posts/2016/11/29/includes3_transforming_paths_animated_svgs.html %}
 
-One last example that makes use of group transformations is the _horizontal indeterminate progress bar_. A horizontal indeterminate progress bar consists of three paths: a translucent background and two inner rectangular paths. Over the course of the animation the two inner rectangles are horizontally translated and scaled at varying degrees. Toggle the checkboxes in **Figure 4** below to see how each transformation individually contributes to the final result!
+One last animation that makes use of group transformations is the _horizontal indeterminate progress bar_. A horizontal indeterminate progress bar consists of three paths: a translucent background and two inner rectangular paths. During the animation the two inner rectangles are horizontally translated and scaled at varying degrees. Toggle the checkboxes in **Figure 4** below to see how each transformation individually contributes to the animation!
 
 {% include posts/2016/11/29/includes4_transforming_paths_indeterminate_progress.html %}
 
 ### Trimming stroked `path`s
 
-A lesser known property of stroked paths is that they can be _trimmed_. Given a stroked path, we can choose to show only a portion of the path before having it drawn to the display. In Android, this is done using the following animatable attributes:
+A lesser known property of stroked paths is that they can be _trimmed_. That is, given a stroked path we can choose to show only a portion of it before it is drawn to the display. In Android, this is done using the following animatable attributes:
 
 | Property name            | Element type | Value type | Min | Max |
 |--------------------------|--------------|------------|-----|-----|
@@ -185,27 +185,27 @@ A lesser known property of stroked paths is that they can be _trimmed_. Given a 
 | `android:trimPathEnd`    | `<path>`     | `float`    | `0` | `1` |
 | `android:trimPathOffset` | `<path>`     | `float`    | `0` | `1` |
 
-`trimPathStart` determines where the visible portion of the path will begin, while `trimPathEnd` determines where the visible portion of the path will end. An additional `trimPathOffset` may also be added to the start and end values if needed. **Figure 5** demonstrates how this all works. Update the sliders to see how different values affect what is drawn to the display! Note that it is perfectly fine for `trimPathStart` to greater than `trimPathEnd`; if this occurs, the visible portion of the path simply wraps around the end of the segment back to the beginning.
+`trimPathStart` determines where the visible portion of the path will begin, while `trimPathEnd` determines where the visible portion of the path will end. An additional `trimPathOffset` may also be appended to the start and end values if desired. **Figure 5** demonstrates how this all works---update the sliders to see how different values affect what is drawn to the display! Note that it is perfectly fine for `trimPathStart` to be greater than `trimPathEnd`; if this occurs, the visible portion of the path simply wraps around the end of the segment back to the beginning.
 
 {% include posts/2016/11/29/includes5_trimming_stroked_paths_demo.html %}
 
-The ability to animate these three properties opens up a world of possibilities. **Figure 6** below shows four examples that animates these attributes in order to achieve some pretty cool effects:
+The ability to animate these three properties opens up a world of possibilities. **Figure 6** shows four such examples:
 
-* The _fingerprint icon_ consists of 5 stroked paths, each with their trim path start and end values initially set to `0` and `1` respectively. When hidden, the difference is quickly animated to `0` until the icon is no longer visible, and then back to `1` when the icon is shown once again. The _cursive handwriting icon_ behaves similarly, except instead of animating the individual paths all at once, they are animated sequentially as if the word was being written out by hand.
+* The _fingerprint icon_ consists of 5 stroked paths, each with their trim path start and end values initially set to `0` and `1` respectively. When hidden, the difference is quickly animated to `0` until the icon is no longer visible, and then quickly back to `1` when the icon is later shown. The _cursive handwriting icon_ behaves similarly, except instead of animating the individual paths all at once, they are animated sequentially as if the word was being written out by hand.
 
-* The _search to back icon_ uses a clever combination of trim path animations in order to seamlessly transition between the stem of the search icon and the stem of a back arrow. Enable the 'show trim paths' checkbox and you'll see how the changing `trimPathStart` and `trimPathEnd` values affect the relative location of the stem as it animates to its new state. Enable the 'slow animation' checkbox and you'll also notice that the visible length of the stem changes over time: it expands slightly at the beginning and shrinks towards the end, creating a subtle 'stretching' effect that feels more natural. Creating this effect is actually quite easy: we simply begin animating one of the trims with a short start delay to make it look like one end of the path is animating faster than the other.
+* The _search to back icon_ uses a clever combination of trim path animations in order to seamlessly transition between the stem of the search icon and the stem of a back arrow. Enable the 'show trim paths' checkbox and you'll see how the changing `trimPathStart` and `trimPathEnd` values affect the relative location of the stem as it animates to its new state. Enable the 'slow animation' checkbox and you'll also notice that the visible length of the stem changes over time: it expands slightly at the beginning and shrinks towards the end, creating a subtle 'stretching' effect that feels more natural. Creating this effect is actually quite easy: just begin animating one of the trims with a small start delay to make it look like one end of the path is animating faster than the other.
 
-* Each animating digit in the _Google IO 2016 icon_ consists of 4 paths, each with a different stroke color and each with trim path start/end values covering a quarter of the digit's total length. The `trimPathOffset` is then animated from `0` to `1` in a loop in order to create the effect.
+* Each animating digit in the _Google IO 2016 icon_ consists of 4 paths, each with a different stroke color and each with trim path start and end values covering a quarter of the digit's total length. Each path's `trimPathOffset` is then animated from `0` to `1` in order to create the effect.
 
 {% include posts/2016/11/29/includes6_trimming_stroked_paths_animated_svgs.html %}
 
-Finally, **Figure 7** shows how a stroked trim path is used to animate the familiar circular indeterminate progress bar. The icon consists of a single, circular stroked path and animates the following three properties:
+Lastly, **Figure 7** shows how a stroked trim path is used to animate the familiar circular indeterminate progress bar. The icon consists of a single, circular stroked path that is animated as follows:
 
-1. The progress bar is rotated from 0° to 720° over the course of 4,444ms.
+1. A `<group>` containing the progress bar path is rotated from 0° to 720° over the course of 4,444ms.
 
-2. The progress bar's trim path offset is animated from `0` to `0.25` over the course of 1,333ms.
+2. The progress bar path's trim path offset is animated from `0` to `0.25` over the course of 1,333ms.
 
-3. Portions of the progress bar's circular path are trimmed over the course of 1,333ms. Specifically, over the course of the animation they animate through the following values:
+3. Portions of the progress bar path are trimmed over the course of 1,333ms. Specifically, it animates through the following values:
 
     | Time | `trimPathStart` | `trimPathEnd` | `trimPathOffset` |
     |------|-----------------|---------------|------------------|
@@ -213,13 +213,13 @@ Finally, **Figure 7** shows how a stroked trim path is used to animate the famil
     | 0.5  | 0               | 0.75          | 0.125            |
     | 1    | 0.75            | 0.78          | 0.25             |
 
-    At time `t = 0.0` and `t = 1.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). And at time `t = 1.0`, the progress bar has shrunk back to its smallest size and restarts the animation.
+    At time `t = 0.0` and `t = 1.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). And at time `t = 1.0`, the progress bar has shrunk back to its smallest size, just as the animation is about to restart.
 
 {% include posts/2016/11/29/includes7_trimming_stroked_paths_indeterminate_progress.html %}
 
 ### Morphing `path`s
 
-The most advanced icon animation technique we'll cover in this post is path morphing. Currently only supported on Android 5.0 and above, path morphing allows us to seamlessly transform the *shapes* of two paths by animating the differences in their drawing commands, specified by their `android:pathData` attributes. With path morphing, we can transform a plus sign into a minus sign, a play icon into a pause icon, or even an overflow icon into a back arrow, as seen in **Figure 8** below.
+The most advanced icon animation technique we'll cover in this post is path morphing. Currently only supported on Android 5.0 and above, path morphing allows us to seamlessly transform the shapes of two paths by animating the differences in their drawing commands, as specified in their `android:pathData` attributes. With path morphing, we can transform a plus sign into a minus sign, a play icon into a pause icon, or even an overflow icon into a back arrow, as seen in **Figure 8** below.
 
 | Property name      | Element type | Value type |
 |--------------------|--------------|------------|
@@ -231,19 +231,19 @@ The first thing to consider when implementing a path morphing animation is wheth
 2. The `i`th drawing command in `A` must have the same type as the `i`th drawing command in `B`, for all `i`.
 3. The `i`th drawing command in `A` must have the same number of parameters as the `i`th drawing command in `B`, for all `i`.
 
-If any of these conditions aren't met (i.e. attempting to morph an `L` command into a `C` command, or a `C` into a `c`, etc.), the application will crash with an exception. The reason these rules must be enforced is due to the way path morphing animations are implemented under-the-hood. Before the animation begins, the framework extracts the command types and coordinates from each path's `android:pathData` attribute. If the conditions above are met, then the framework can assume that the only difference between the two paths are the values of the coordinates embedded in their drawing command strings. As a result, on each new display frame the framework can execute the same sequence of drawing commands on each new display frame, re-calculating the values of the coordinates to use based on the current progress of the animation. **Figure 8** illustrates this concept nicely. First disable 'animate rotation', then enable the 'show path control/end points' and 'slow animation' checkboxes below. Notice how the red coordinates change during the course of the animation: they travel a straight line from their starting positions in path `A` to their ending positions in path `B`. It's really that simple!
+If any of these conditions aren't met (i.e. attempting to morph an `L` command into a `C` command, or an `l` command with 2 coordinates into an `l` command with 4 coordinates, etc.), the application will crash with an exception. The reason these rules must be enforced is due to the way path morphing animations are implemented under-the-hood. Before the animation begins, the framework extracts the command types and their coordinates from each path's `android:pathData` attribute. If the conditions above are met, then the framework can assume that the only difference between the two paths are the values of the coordinates embedded in their drawing command strings. As a result, the framework can execute the same sequence of drawing commands on each new display frame, re-calculating the values of the coordinates to use based on the current progress of the animation. **Figure 8** illustrates this concept nicely. First disable 'animate rotation', then enable the 'show path control/end points' and 'slow animation' checkboxes below. Notice how each path's red coordinates change during the course of the animation: they travel a straight line from their starting positions in path `A` to their ending positions in path `B`. It's really that simple!
 
 {% include posts/2016/11/29/includes8_morphing_paths_animated_svgs.html %}
 
-Path morphing animations are known for often being tedious and time-consuming to implement. Often times you'll need to tweak the start and end paths by hand in order to make them compatible to be morphed, which, depending on the complexity of the paths, is where most of the work will be spent. To help facilitate the process, here are several tips and tricks that I've found helpful in getting started:
+Although conceptually simple, path morphing animations are known at times for being tedious and time-consuming to implement. For example, you'll often need to tweak the start and end paths by hand in order to make the two paths compatible to be morphed, which, depending on the complexity of the paths, is where most of the work will probably be spent. Listed below are several tips and tricks that I've found useful in getting started:
 
-* Adding *dummy coordinates* is often necessary in order to make a simple path compatible with a more complex path. Dummy coordinates were added to nearly all of the examples above. Consider the plus-to-minus animation, for example. We could draw a rectangular minus path using only drawing commands. However, drawing the more complex plus path requires at least 12 drawing commands, so in order to make the two paths compatible we must add 8 additional noop drawing commands to the simpler minus path. Compare the two paths' [drawing command strings][PlusMinusPathCommands] and see if you can identify the added dummy coordinates yourself!
+* Adding *dummy coordinates* is often necessary in order to make a simple path compatible with a more complex path. Dummy coordinates were added to nearly all of the examples shown **Figure 8**. For example, consider the plus-to-minus animation. We could draw a rectangular minus path using only 4 drawing commands. However, drawing the more complex plus path requires at least 12 drawing commands, so in order to make the two paths compatible we must add 8 additional noop drawing commands to the simpler minus path. Compare the two paths' [drawing command strings][PlusMinusPathCommands] and see if you can identify these dummy coordinates for yourself!
 
-* A cubic bezier curve command will draw a straight line if its two control points lie on the straight line connecting its start and end points. This can be useful to know if you ever need to morph an `L` command into a `C` command (which was the case in the overflow-to-arrow and animating digit examples above). It is also possible to estimate an [elliptical arc command][EllipticalArcCommand] using one or more cubic bezier curves, as I previously discussed [here][ConvertEllipticalArcToBezierCurve]. This can also be useful to know if you ever find yourself in a situation where you need to morph a `C` command into an `A` command.
+* A cubic bezier curve command can be used to draw a straight line if its control points lie on the straight line that connects its start and end coordinates. This can be useful to know if you ever need to morph an `L` command into a `C` command (such as in the overflow-to-arrow and animating digit examples above). It is also possible to estimate an [elliptical arc command][EllipticalArcCommand] using one or more cubic bezier curves, as I previously discussed [here][ConvertEllipticalArcToBezierCurve]. This can also be useful to know if you ever find yourself in a situation where you need to morph a `C` command into an `A` command.
 
-* Sometimes morphing one path into another looks awkward no matter how you do it. In my experience, I've found that adding an 180° or 360° degree rotation to the animation often makes things look significantly better: it distracts the eye from the morphing paths and adds a layer of motion that makes the animation seem more responsive to user touch.
+* Sometimes morphing one path into another looks awkward no matter how you do it. In my experience, I've found that adding an 180° or 360° degree rotation to the animation can make them look surprisingly better: the additional rotation distracts the eye from the morphing paths and adds a layer of motion that makes the animation seem more responsive to the user's touch.
 
-* Remember that path morphing animations are ultimately determined by the relative positioning of the two paths' drawing command coordinates. For best results, try to minimize the distance each coordinate has to travel over the course of the animation. The longer the distance each coordinate has to travel, the more distracting the path morphing animation will usually become.
+* Remember that path morphing animations are ultimately determined by the relative positioning of the two paths' drawing command coordinates. For best results, try to minimize the distance each coordinate has to travel over the course of the animation: the smaller the distance each coordinate has to animate, the more seamless the path morphing animation will usually appear.
 
 ### Clipping `path`s
 
@@ -253,13 +253,13 @@ The last technique we'll cover involves animating the bounds of a `<clip-path>`.
 |--------------------|---------------|------------|
 | `android:pathData` | `<clip-path>` | `string`   |
 
-A `<clip-path>`'s bounds can be animated via path morphing by animating the differences in its path commands specified in the `android:pathData` attribute. Take a look at the examples in **Figure 9** below to get a better idea of how these animations work. Enabling the 'show clip paths' checkbox will show the bounds of the currently active `<clip-path>` as a red overlay mask, which in turn dictates the portions of its sibling `<path>`s that will be drawn. Clip path are especially useful for animating fill effects, as you can see in the hourglass and heart fill/break examples below.
+A `<clip-path>`'s bounds can be animated via path morphing by animating the differences in its path commands, as specified by its `android:pathData` attribute. Take a look at the examples in **Figure 9** below to get a better idea of how these animations work. Enabling the 'show clip paths' checkbox will show a red overlay mask representing the bounds of the currently active `<clip-path>`, which in turn dictates the portions of its sibling `<path>`s that will be drawn. Clip path are especially useful for animating 'fill' effects, as demonstrated in the hourglass and heart fill/break examples below.
 
 {% include posts/2016/11/29/includes9_clipping_paths_animated_svgs.html %}
 
 ### Conclusion: putting it all together
 
-If you've made it this far in the blog post, that means you now have all of the fundamental building blocks you need in order to design your own icon animations from scratch! To celebrate, let's combine all of the techniques discussed in this post into one last kickass example! The progress icon in **Figure 10** animates the following five properties:
+If you've made it this far in the blog post, that means you now have all of the fundamental building blocks you need in order to design your own icon animations from scratch! To celebrate, let's finish off this ridiculously enormous blog post once and for all with one last kickass example! Consider the progress icon in **Figure 10**, which animates the following five properties:
 
 1. Stroke width (during the progress indicator to check mark animation).
 2. Translation and rotation (at the beginning to create the 'bouncing arrow' effect).
@@ -269,11 +269,11 @@ If you've made it this far in the blog post, that means you now have all of the 
 
 {% include posts/2016/11/29/includes10_downloading_animated_svgs.html %}
 
-Thanks for reading! Remember to +1 this blog or leave a comment below if you have any questions. And remember that all of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. Feel free to steal them for your own application if you want!
+That's all I've got for now... thanks for reading! Remember to +1 this blog or leave a comment below if you have any questions. And remember that all of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. Feel free to steal them for your own application if you want!
 
 ### Reporting bugs & feedback
 
-If you notice a glitch in one of the animated demos on this page, please report them [here][alexjlockwood.github.io-new-bug]. All of the animations work fine for me using the latest version of Chrome. That said, I only began learning JavaScript a few weeks ago so I wouldn't be surprised if I made a mistake somewhere along the line. Anyway, I want this blog post to be perfect, so I'd really appreciate the bug report! :)
+If you notice a glitch in one of the animated demos on this page, please report them [here][alexjlockwood.github.io-new-bug]. All of the animations work fine for me using the latest version of Chrome. That said, I only began learning JavaScript a few weeks ago so I wouldn't be surprised if I made a mistake somewhere along the line. I want this blog post to be perfect, so I'd really appreciate it! :)
 
 ### Special thanks
 
