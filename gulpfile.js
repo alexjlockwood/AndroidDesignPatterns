@@ -28,8 +28,8 @@ gulp.task('js', function() {
 
 gulp.task('serve', function(done) {
   return gp_childProcess.spawn(
-    'bundle', 
-    ['exec', 'jekyll', 'serve', '--baseurl=', '--incremental', '--port=4002'], 
+    'bundle',
+    ['exec', 'jekyll', 'serve', '--baseurl=', '--incremental'],
     { stdio: 'inherit' })
   .on('close', done);
 });
