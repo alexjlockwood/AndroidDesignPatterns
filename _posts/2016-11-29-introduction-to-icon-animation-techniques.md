@@ -277,7 +277,7 @@ If you notice a glitch in one of the animated demos on this page, please report 
 
 ### Special thanks
 
-I'd like to give a **huge** thanks to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without his help and advice! Several of the animations in this blog post were borrowed from his amazing open source application [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already. I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in **Figure 10**. Finally, I'd like to thank [Sriram Ramani][SriramRamani] for his [blog post on number tweening][NumberTweeningBlogPost], which inspired the animated digits demo in **Figure 8**. Thanks again!
+I'd like to give a **huge** thanks to [Nick Butcher][NickButcherGooglePlus], because I probably would never have written this blog post without his help and advice! Several of the animations in this blog post were borrowed from his amazing open source application [Plaid][plaid-source-code], which I highly recommend you check out if you haven't already. I'd also like to thank [Roman Nurik][RomanNurikGooglePlus] for his [Android Icon Animator][AndroidIconAnimator] tool and for inspiring the path morphing animations in Figure 10. Finally, I'd like to thank [Sriram Ramani][SriramRamani] for his [blog post on number tweening][NumberTweeningBlogPost], which inspired the animated digits demo in Figure 8. Thanks again!
 
   [adp-delightful-details]: https://github.com/alexjlockwood/adp-delightful-details
   [svg-path-reference]: http://www.w3.org/TR/SVG11/paths.html#PathData
