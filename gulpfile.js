@@ -72,5 +72,5 @@ gulp.task('build-js', function() {
 });
 
 gulp.task('serve', function(done) {
-	return cp.spawn('bundle', ['exec', 'jekyll', 'serve', '--baseurl=', '--incremental', '--port=4001'], {stdio: 'inherit'}).on('close', done);
+	return cp.spawn('bundle', ['exec', 'jekyll', 'serve', '--baseurl=', '--incremental'], {stdio: 'inherit'}).on('close', done);
 });
