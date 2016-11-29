@@ -7,25 +7,25 @@ related: ['/2015/01/activity-fragment-shared-element-transitions-in-depth-part3a
     '/2016/08/coloring-buttons-with-themeoverlays-background-tints.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
 style: |
-    ol.icon_anim_table-of-contents li {
+    ol.icon0anim-table-of-contents li {
       margin: 0.25em 0;
     }
 ---
 
 <link rel="stylesheet" type="text/css" href="/css/posts/2016/11/29/style.css" />
-<script defer src="/scripts/bundle.js"></script>
+<script defer src="/scripts/bundle.min.js"></script>
 
 <!--morestart-->
 
-[Creative customization][creative-customization] is one of the most important tenets of material design. The subtle addition of a delightful icon animation can add an element of wonder to the user experience, making the app feel more natural and alive. Unfortunately, building icon animations from scratch can be challenging. Not only can it take a fair amount of work to implement, but it also requires a vision of how the final result should look and feel. If you aren't famliar with the different techniques that are most often used to create them, you're going to have a bad time designing your own.
+[Creative customization][creative-customization] is one of the tenets of material design; the subtle addition of an icon animation can add an element of wonder to the user experience, making your app feel more natural and alive. Unfortunately, building icon animations from scratch can be challenging. Not only does it take a fair amount of work to implement, but it also requires a vision of how the final result should look and feel. If you aren't familiar with the different techniques that are most often used to create icon animations, you're going to have a hard time designing your own.
+
+This blog post will cover several different techniques that you can use to create beautiful icon animations. The best way to learn is by example, so as you read through the post you'll encounter interactive demos highlighting how each technique works. I hope this blog post can at the very least open your eyes to how icon animations behave under-the-hood, because I genuinely believe that understanding how they work is the first step towards creating your own.
 
 <!--more-->
 
-This blog post will discuss several different techniques that can be used to create beautiful icon animations. The best way to learn is by example, so as you read through the post you'll encounter interactive demos highlighting how each technique works. In doing so, I hope this blog post can at the very least open your eyes to how icon animations behave under-the-hood, because understanding they work is the first step towards creating your own.
+This post is split into the following sections:
 
-This blog post is split into the following six sections:
-
-<ol class="icon_anim_table-of-contents">
+<ol class="icon-anim-table-of-contents">
   <li><a href="#drawing-paths">Drawing <code>path</code>s</a></li>
   <li><a href="#transforming-groups-of-paths">Transforming <code>group</code>s of <code>path</code>s</a></li>
   <li><a href="#trimming-stroked-paths">Trimming stroked <code>path</code>s</a></li>
@@ -34,20 +34,20 @@ This blog post is split into the following six sections:
   <li><a href="#conclusion-putting-it-all-together">Conclusion: putting it all together</a></li>
 </ol>
 
-All of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. 
+All of the icon animations in this blog post are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. 
 
 ### Drawing `path`s
 
-Before we can begin creating animated icons, we first need to understand how they are drawn. In Android, we'll create each icon using the relatively new [`VectorDrawable`][VectorDrawable] class. `VectorDrawable`s are similar in concept to SVGs on the web: they allow us to create scalable, density-independent assets by representing each icon as a series of lines and shapes called `path`s. Each path's shape is determined by a sequence of _drawing commands_, represented by a space/comma-separated string using a subset of the [SVG path data spec][svg-path-reference] to draw lines and curves. The spec defines many different types of commands, several of which are summarized in the table below:
+Before we can begin creating animated icons, we first need to understand how they are drawn. In Android, we'll create each icon using the relatively new [`VectorDrawable`][VectorDrawable] class. `VectorDrawable`s are similar in concept to SVGs on the web: they allow us to create scalable, density-independent assets by representing each icon as a series of lines and shapes called `path`s. Each path's shape is determined by a sequence of _drawing commands_, represented by a space/comma-separated string using a subset of the [SVG path data spec][svg-path-reference]. The spec defines many different types of commands, some of which are summarized in the table below:
 
 | Command             | Description |
 |---------------------|-------------|
 | `M x,y`             | Begin a new subpath by moving to coordinate `(x,y)`.
 | `L x,y`             | Draw a line to `(x,y)`.
-| `C x1,y1 x2,y2 x,y` | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points `(x1,y1)` and `(x2,y2)`.
+| <code>C x<sub>1</sub>,y<sub>1</sub> x<sub>2</sub>,y<sub>2</sub> x,y</code> | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points <code>(x<sub>1</sub>,y<sub>1</sub>)</code> and <code>(x<sub>2</sub>,y<sub>2</sub>)</code>.
 | `Z`                 | Close the path by drawing a line back to the beginning of the current subpath.
 
-At runtime, `path`s can be drawn either _filled_ or _stroked_. If the path is filled, the interiors of its entire shape will be painted. If the path is stroked, the paint will be applied along the outline of the path. Each type of `path` has its own animatable attributes that can be used to further modify their appearance:
+All `path`s come in one of two forms: _filled_ or _stroked_. If the path is filled, the interiors of its entire shape will be painted. If the path is stroked, the paint will be applied along the outline of its shape. Both types of `path`s have their own set of animatable attributes that further modify their appearance:
 
 | Property name         | Element type | Value type | Min   | Max   |
 |-----------------------|--------------|------------|-------|-------|
@@ -90,13 +90,11 @@ The triangular play and circular record icons are both filled `path`s with orang
 
 {% include posts/2016/11/29/includes1_drawing_paths_path_commands.html %}
 
-As we mentioned earlier, one of the benefits of `VectorDrawable`s is that they provide _density independence_, meaning that they can be scaled arbitrarily on any device without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. *However, in our case the reason we want to use `VectorDrawable`s is so we can animate the individual `path`s in each icon using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class.* `AnimatedVectorDrawable`s can be thought of as the glue that connects `VectorDrawable`s with `ObjectAnimator`s: the `VectorDrawable` assigns each animated `path` (or `group` of `path`s) a unique name, and the `AnimatedVectorDrawable` maps each of these names to their corresponding `ObjectAnimator`s. As we'll see, the ability to target individual elements within a `VectorDrawable` to be animated is quite powerful.
-
-The remainder of this blog post will cover four general techniques for creating `AnimatedVectorDrawable` icons: _transforming `group`s of `path`s_, _trimming stroked `path`s_, _morphing `path`s_, and _clipping `path`s_. We'll end the post with an example that combines all of these techniques into one last final animation.
+As we previously mentioned, one of the benefits of `VectorDrawable`s is that they provide density independence, meaning that they can be scaled arbitrarily on any device without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. In our case, however, **the reason we'll be using `VectorDrawable`s is so we can animate their individual `path`s using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class.** `AnimatedVectorDrawable`s are the glue that connects `VectorDrawable`s with `ObjectAnimator`s: the `VectorDrawable` assigns each animated `path` (or `group` of `path`s) a unique name, and the `AnimatedVectorDrawable` maps each of these names to their corresponding `ObjectAnimator`s. As we'll see in the next several sections of this post, the ability to animate the individual elements within a `VectorDrawable` will be quite powerful.
 
 ### Transforming `group`s of `path`s
 
-In the previous section we learned how to alter a single `path`'s appearance by directly modifying its properties, such as its opacity and color. In addition to this, `VectorDrawable`s also support _group transformations_ using the `<group>` tag. Specifically, the `<group>` tag enables us to chain together transformations on one or more `path`s using the following animatable attributes:
+In the previous section we learned how to alter a `path`'s appearance by directly modifying its properties, such as its opacity and color. In addition to this, `VectorDrawable`s also support _group transformations_ using the `<group>` tag. Specifically, the `<group>` tag enables us to chain together transformations on one or more `path`s using the following animatable attributes:
 
 | Property name        | Element type | Value type |
 |----------------------|--------------|------------|
@@ -271,11 +269,11 @@ If you've made it this far in the blog post, that means you now have all of the 
 
 {% include posts/2016/11/29/includes10_downloading_animated_svgs.html %}
 
-Thanks for reading! Remember to +1 this blog or leave a comment below if you have any questions. And remember that all of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. Feel free to steal them for your own application if you want! :)
+Thanks for reading! Remember to +1 this blog or leave a comment below if you have any questions. And remember that all of the icon animations in this blog post (and more) are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. Feel free to steal them for your own application if you want!
 
 ### Reporting bugs & feedback
 
-If you notice a glitch in one of the animated demos on this page, please report them [here][alexjlockwood.github.io-new-bug]. I only began learning Javascript a few weeks ago so I wouldn't be surprised if I made a mistake somewhere along the line. I want this blog post to be perfect, so I'd really appreciate it! :)
+If you notice a glitch in one of the animated demos on this page, please report them [here][alexjlockwood.github.io-new-bug]. All of the animations work fine for me using the latest version of Chrome. That said, I only began learning JavaScript a few weeks ago so I wouldn't be surprised if I made a mistake somewhere along the line. Anyway, I want this blog post to be perfect, so I'd really appreciate the bug report! :)
 
 ### Special thanks
 

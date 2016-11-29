@@ -1,4 +1,3 @@
-// Require all the things
 const gulp = require('gulp'),
     sass = require('gulp-sass'),
     gutil = require('gulp-util'),
@@ -7,10 +6,11 @@ const gulp = require('gulp'),
     minifyCSS = require('gulp-clean-css'),
     prefixer = require('gulp-autoprefixer'),
     connect = require('gulp-connect'),
-    webpack = require('webpack-stream');
-cp = require('child_process');
+    webpack = require('webpack-stream'),
+    uglify = require('gulp-uglify'),
+    pump = require('pump'),
+    cp = require('child_process');
 
-// Set the path variables
 const base_path = './',
   src = base_path + '_dev/src',
   dist = base_path + 'assets',
@@ -63,11 +63,14 @@ gulp.task('watch', function() {
 */
 
 // Start Everything with the default task
-gulp.task('default', ['build-js', 'serve']);
+gulp.task('default', ['js', 'serve']);
 
-gulp.task('build-js', function() {
+gulp.task('js', function() {
   return gulp.src('./scripts/posts/2016/11/29/animated-icon-demos.js')
       .pipe(webpack(require('./webpack.config.js')))
+      .pipe(gulp.dest('./scripts'))
+      .pipe(uglify())
+      .pipe(rename({extname: '.min.js'}))
       .pipe(gulp.dest('./scripts'));
 });
 
