@@ -3,7 +3,7 @@ layout: post
 title: 'Fragment Transactions & Activity State Loss'
 permalink: /2013/08/fragment-transaction-commit-state-loss.html
 related: ['/2013/04/retaining-objects-across-config-changes.html',
-          '/2012/08/implementing-loaders.html',
+          '/2016/11/introduction-to-icon-animation-techniques.html',
           '/2014/12/activity-fragment-transitions-in-android-lollipop-part1.html']
 updated: '2014-01-08'
 ---
