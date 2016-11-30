@@ -42,7 +42,7 @@ Before we can begin creating animated icons, we first need to understand how the
 
 | Command             | Description |
 |---------------------|-------------|
-| `M x,y`             | Begin a new subpath by moving to coordinate `(x,y)`.
+| `M x,y`             | Begin a new subpath by moving `(x,y)`.
 | `L x,y`             | Draw a line to `(x,y)`.
 | <code>C x<sub>1</sub>,y<sub>1</sub> x<sub>2</sub>,y<sub>2</sub> x,y</code> | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points <code>(x<sub>1</sub>,y<sub>1</sub>)</code> and <code>(x<sub>2</sub>,y<sub>2</sub>)</code>.
 | `Z`                 | Close the path by drawing a line back to the beginning of the current subpath.
@@ -199,7 +199,7 @@ The ability to animate these three properties opens up a world of possibilities.
 
 {% include posts/2016/11/29/includes6_trimming_stroked_paths_animated_svgs.html %}
 
-Lastly, **Figure 7** shows how a stroked trim path is used to animate the familiar circular indeterminate progress bar. The icon consists of a single, circular stroked path that is animated as follows:
+Lastly, **Figure 7** shows how a stroked trim path is used to animate the familiar _circular indeterminate progress bar_. The icon consists of a single, circular stroked path that is animated as follows:
 
 1. A `<group>` containing the progress bar path is rotated from 0° to 720° over the course of 4,444ms.
 
@@ -213,7 +213,7 @@ Lastly, **Figure 7** shows how a stroked trim path is used to animate the famili
     | 0.5  | 0               | 0.75          | 0.125            |
     | 1    | 0.75            | 0.78          | 0.25             |
 
-    At time `t = 0.0` and `t = 1.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). And at time `t = 1.0`, the progress bar has shrunk back to its smallest size, just as the animation is about to restart.
+    At time `t = 0.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). And at time `t = 1.0`, the progress bar has shrunk back to its smallest size, just as the animation is about to restart.
 
 {% include posts/2016/11/29/includes7_trimming_stroked_paths_indeterminate_progress.html %}
 
