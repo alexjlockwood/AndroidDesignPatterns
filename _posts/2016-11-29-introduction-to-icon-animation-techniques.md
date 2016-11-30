@@ -13,7 +13,6 @@ style: |
 ---
 
 <link rel="stylesheet" type="text/css" href="/css/posts/2016/11/29/style.css" />
-<script defer src="/scripts/bundle.min.js"></script>
 
 <!--morestart-->
 
