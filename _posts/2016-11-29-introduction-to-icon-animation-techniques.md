@@ -16,9 +16,9 @@ style: |
 
 <!--morestart-->
 
-[Creative customization][creative-customization] is one of the tenets of material design; the subtle addition of an icon animation can add an element of wonder to the user experience, making your app feel more natural and alive. Unfortunately, building icon animations from scratch can be challenging. Not only does it take a fair amount of work to implement, but it also requires a vision of how the final result should look and feel. If you aren't familiar with the different techniques that are most often used to create icon animations, you're going to have a hard time designing your own.
+[Creative customization][creative-customization] is one of the tenets of material design; the subtle addition of an icon animation can add an element of wonder to the user experience, making your app feel more natural and alive. Unfortunately, building an icon animation from scratch can be challenging. Not only does it take a fair amount of work to implement, but it also requires a vision of how the final result should look and feel. If you aren't familiar with the different techniques that are most often used to create icon animations, you're going to have a hard time designing your own.
 
-This blog post will cover several different techniques that you can use to create beautiful icon animations. The best way to learn is by example, so as you read through the post you'll encounter interactive demos highlighting how each technique works. I hope this blog post can at the very least open your eyes to how icon animations behave under-the-hood, because I genuinely believe that understanding how they work is the first step towards creating your own.
+This blog post covers several different techniques that you can use to create beautiful icon animations. The best way to learn is by example, so as you read through the post you'll encounter interactive demos highlighting how each technique works. I hope this blog post can at the very least open your eyes to how icon animations behave under-the-hood, because I genuinely believe that understanding how they work is the first step towards creating your own.
 
 <!--more-->
 
@@ -41,12 +41,12 @@ Before we can begin creating animated icons, we first need to understand how the
 
 | Command             | Description |
 |---------------------|-------------|
-| `M x,y`             | Begin a new subpath by moving `(x,y)`.
+| `M x,y`             | Begin a new subpath by moving to `(x,y)`.
 | `L x,y`             | Draw a line to `(x,y)`.
 | <code>C x<sub>1</sub>,y<sub>1</sub> x<sub>2</sub>,y<sub>2</sub> x,y</code> | Draw a [cubic bezier curve][cubic-bezier-curve] to `(x,y)` using control points <code>(x<sub>1</sub>,y<sub>1</sub>)</code> and <code>(x<sub>2</sub>,y<sub>2</sub>)</code>.
 | `Z`                 | Close the path by drawing a line back to the beginning of the current subpath.
 
-All `path`s come in one of two forms: _filled_ or _stroked_. If the path is filled, the interiors of its entire shape will be painted. If the path is stroked, the paint will be applied along the outline of its shape. Both types of `path`s have their own set of animatable attributes that further modify their appearance:
+All `path`s come in one of two forms: _filled_ or _stroked_. If the path is filled, the interiors of its shape will be painted. If the path is stroked, the paint will be applied along the outline of its shape. Both types of `path`s have their own set of animatable attributes that further modify their appearance:
 
 | Property name         | Element type | Value type | Min   | Max   |
 |-----------------------|--------------|------------|-------|-------|
@@ -85,11 +85,11 @@ Let's see how this all works with an example. Say we wanted to create a play, pa
 </vector>
 ```
 
-The triangular play and circular record icons are both filled `path`s with orange and red fill colors respectively. The pause icon, on the other hand, is a stroked `path` with a green stroke color and a stroke width of 2. **Figure 1** illustrates each `path`'s drawing commands executed inside to a `12x12` grid:
+The triangular play and circular record icons are both filled `path`s with orange and red fill colors respectively. The pause icon, on the other hand, is a stroked `path` with a green stroke color and a stroke width of 2. **Figure 1** illustrates each `path`'s drawing commands executed inside a `12x12` grid:
 
 {% include posts/2016/11/29/includes1_drawing_paths_path_commands.html %}
 
-As we previously mentioned, one of the benefits of `VectorDrawable`s is that they provide density independence, meaning that they can be scaled arbitrarily on any device without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. In our case, however, **the reason we'll be using `VectorDrawable`s is so we can animate their individual `path`s using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class.** `AnimatedVectorDrawable`s are the glue that connects `VectorDrawable`s with `ObjectAnimator`s: the `VectorDrawable` assigns each animated `path` (or `group` of `path`s) a unique name, and the `AnimatedVectorDrawable` maps each of these names to their corresponding `ObjectAnimator`s. As we'll see below, the ability to animate the individual elements within a `VectorDrawable` can be quite powerful.
+As we previously mentioned, one of the benefits of `VectorDrawable`s is that they provide density independence, meaning that they can be scaled arbitrarily on any device without loss of quality. This ends up being both convenient and efficient: developers no longer need to go through the tedious process of exporting different sized PNGs for each screen density, which in turn also leads to a smaller APK size. In our case, however, **the reason we want to use `VectorDrawable`s is so we can animate their individual `path`s using the [`AnimatedVectorDrawable`][AnimatedVectorDrawable] class.** `AnimatedVectorDrawable`s are the glue that connect `VectorDrawable`s with `ObjectAnimator`s: the `VectorDrawable` assigns each animated `path` (or `group` of `path`s) a unique name, and the `AnimatedVectorDrawable` maps each of these names to their corresponding `ObjectAnimator`s. As we'll see below, the ability to animate the individual elements within a `VectorDrawable` can be quite powerful.
 
 ### Transforming `group`s of `path`s
 
@@ -157,7 +157,7 @@ The ability to chain together `group` transformations makes it possible to achie
 
 * The _alarm clock icon_ draws its bells using two rectangular paths. When clicked, a `<group>` containing the two paths is rotated back and forth about the center to create a 'ringing' effect.
 
-* The _radio button icon_ animation is one of my favorites due to its clever simplicity. The icon is drawn using only two paths: a filled inner dot and a stroked outer ring. When the radio button transitions between an unchecked to checked, three properties are animated:
+* The _radio button icon_ animation is one of my favorites due to its clever simplicity. The icon is drawn using only two paths: a filled inner dot and a stroked outer ring. When the radio button transitions between an unchecked to checked state, three properties are animated:
 
     | Time  | Outer ring `strokeWidth` | Outer ring `scale{X,Y}` | Inner dot `scale{X,Y}` |
     |-------|--------------------------|-------------------------|------------------------|
@@ -192,7 +192,7 @@ The ability to animate these three properties opens up a world of possibilities.
 
 * The _fingerprint icon_ consists of 5 stroked paths, each with their trim path start and end values initially set to `0` and `1` respectively. When hidden, the difference is quickly animated to `0` until the icon is no longer visible, and then quickly back to `1` when the icon is later shown. The _cursive handwriting icon_ behaves similarly, except instead of animating the individual paths all at once, they are animated sequentially as if the word was being written out by hand.
 
-* The _search to back icon_ uses a clever combination of trim path animations in order to seamlessly transition between the stem of the search icon and the stem of a back arrow. Enable the 'show trim paths' checkbox and you'll see how the changing `trimPathStart` and `trimPathEnd` values affect the relative location of the stem as it animates to its new state. Enable the 'slow animation' checkbox and you'll also notice that the visible length of the stem changes over time: it expands slightly at the beginning and shrinks towards the end, creating a subtle 'stretching' effect that feels more natural. Creating this effect is actually quite easy: just begin animating one of the trims with a small start delay to make it look like one end of the path is animating faster than the other.
+* The _search to back icon_ uses a clever combination of trim path animations in order to seamlessly transition between the stem of the search icon and the stem of a back arrow. Enable the 'show trim paths' checkbox and you'll see how the changing `trimPathStart` and `trimPathEnd` values affect the relative location of the stem as it animates to its new state. Enable the 'slow animation' checkbox and you'll also notice that the visible length of the stem changes over time: it expands slightly at the beginning and shrinks towards the end, creating a subtle 'stretching' effect that feels more natural. Creating this effect is actually quite easy: just begin animating one of the trim properties with a small start delay to make it look like one end of the path is animating faster than the other.
 
 * Each animating digit in the _Google IO 2016 icon_ consists of 4 paths, each with a different stroke color and each with trim path start and end values covering a quarter of the digit's total length. Each path's `trimPathOffset` is then animated from `0` to `1` in order to create the effect.
 
@@ -230,17 +230,17 @@ The first thing to consider when implementing a path morphing animation is wheth
 2. The `i`th drawing command in `A` must have the same type as the `i`th drawing command in `B`, for all `i`.
 3. The `i`th drawing command in `A` must have the same number of parameters as the `i`th drawing command in `B`, for all `i`.
 
-If any of these conditions aren't met (i.e. attempting to morph an `L` command into a `C` command, or an `l` command with 2 coordinates into an `l` command with 4 coordinates, etc.), the application will crash with an exception. The reason these rules must be enforced is due to the way path morphing animations are implemented under-the-hood. Before the animation begins, the framework extracts the command types and their coordinates from each path's `android:pathData` attribute. If the conditions above are met, then the framework can assume that the only difference between the two paths are the values of the coordinates embedded in their drawing command strings. As a result, the framework can execute the same sequence of drawing commands on each new display frame, re-calculating the values of the coordinates to use based on the current progress of the animation. **Figure 8** illustrates this concept nicely. First disable 'animate rotation', then enable the 'show path control/end points' and 'slow animation' checkboxes below. Notice how each path's red coordinates change during the course of the animation: they travel a straight line from their starting positions in path `A` to their ending positions in path `B`. It's really that simple!
+If any of these conditions aren't met (i.e. attempting to morph an `L` command into a `C` command, or an `l` command with 2 coordinates into an `l` command with 4 coordinates, etc.), the application will crash with an exception. The reason these rules must be enforced is due to the way path morphing animations are implemented under-the-hood. Before the animation begins, the framework extracts the command types and their coordinates from each path's `android:pathData` attribute. If the conditions above are met, then the framework can assume that the only difference between the two paths are the values of the coordinates embedded in their drawing command strings. Under this assumption, the framework can execute the same sequence of drawing commands on each new display frame, re-calculating the values of the coordinates to use based on the current progress of the animation. **Figure 8** illustrates this concept nicely. First disable 'animate rotation', then enable the 'show path control/end points' and 'slow animation' checkboxes below. Notice how each path's red coordinates change during the course of the animation: they travel a straight line from their starting positions in path `A` to their ending positions in path `B`. Path morphing animations are really that simple!
 
 {% include posts/2016/11/29/includes8_morphing_paths_animated_svgs.html %}
 
 Although conceptually simple, path morphing animations are known at times for being tedious and time-consuming to implement. For example, you'll often need to tweak the start and end paths by hand in order to make the two paths compatible to be morphed, which, depending on the complexity of the paths, is where most of the work will probably be spent. Listed below are several tips and tricks that I've found useful in getting started:
 
-* Adding *dummy coordinates* is often necessary in order to make a simple path compatible with a more complex path. Dummy coordinates were added to nearly all of the examples shown **Figure 8**. For example, consider the plus-to-minus animation. We could draw a rectangular minus path using only 4 drawing commands. However, drawing the more complex plus path requires at least 12 drawing commands, so in order to make the two paths compatible we must add 8 additional noop drawing commands to the simpler minus path. Compare the two paths' [drawing command strings][PlusMinusPathCommands] and see if you can identify these dummy coordinates for yourself!
+* Adding *dummy coordinates* is often necessary in order to make a simple path compatible with a more complex path. Dummy coordinates were added to nearly all of the examples shown **Figure 8**. For example, consider the plus-to-minus animation. We could draw a rectangular minus path using only 4 drawing commands. However, drawing the more complex plus path requires 12 drawing commands, so in order to make the two paths compatible we must add 8 additional noop drawing commands to the simpler minus path. Compare the two paths' [drawing command strings][PlusMinusPathCommands] and see if you can identify these dummy coordinates for yourself!
 
 * A cubic bezier curve command can be used to draw a straight line by setting its pair of control points equal to its start and end points respectively. This can be useful to know if you ever find yourself morphing an `L` command into a `C` command (such as in the overflow-to-arrow and animating digit examples above). It is also possible to estimate an [elliptical arc command][EllipticalArcCommand] using one or more cubic bezier curves, as I previously discussed [here][ConvertEllipticalArcToBezierCurve]. This can also be useful to know if you ever find yourself in a situation where you need to morph a `C` command into an `A` command.
 
-* Sometimes morphing one path into another looks awkward no matter how you do it. In my experience, I've found that adding an 180° or 360° degree rotation to the animation can make them look surprisingly better: the additional rotation distracts the eye from the morphing paths and adds a layer of motion that makes the animation seem more responsive to the user's touch.
+* Sometimes morphing one path into another looks awkward no matter how you do it. In my experience, I've found that adding an 180° or 360° degree rotation to the animation can make them look significantly better: the additional rotation distracts the eye from the morphing paths and adds a layer of motion that makes the animation seem more responsive to the user's touch.
 
 * Remember that path morphing animations are ultimately determined by the relative positioning of each path's drawing command coordinates. For best results, try to minimize the distance each coordinate has to travel over the course of the animation: the smaller the distance each coordinate has to animate, the more seamless the path morphing animation will usually appear.
 
@@ -252,7 +252,7 @@ The last technique we'll cover involves animating the bounds of a `<clip-path>`.
 |--------------------|---------------|------------|
 | `android:pathData` | `<clip-path>` | `string`   |
 
-A `<clip-path>`'s bounds can be animated via path morphing by animating the differences in its path commands, as specified by its `android:pathData` attribute. Take a look at the examples in **Figure 9** below to get a better idea of how these animations work. Enabling the 'show clip paths' checkbox will show a red overlay mask representing the bounds of the currently active `<clip-path>`, which in turn dictates the portions of its sibling `<path>`s that will be drawn. Clip path are especially useful for animating 'fill' effects, as demonstrated in the hourglass and heart fill/break examples below.
+A `<clip-path>`'s bounds can be animated via path morphing by animating the differences in its path commands, as specified by its `android:pathData` attribute. Take a look at the examples in **Figure 9** to get a better idea of how these animations work. Enabling the 'show clip paths' checkbox will show a red overlay mask representing the bounds of the currently active `<clip-path>`, which in turn dictates the portions of its sibling `<path>`s that will be drawn. Clip path are especially useful for animating 'fill' effects, as demonstrated in the hourglass and heart fill/break examples below.
 
 {% include posts/2016/11/29/includes9_clipping_paths_animated_svgs.html %}
 
@@ -262,8 +262,8 @@ If you've made it this far in the blog post, that means you now have all of the 
 
 1. Stroke width (during the progress indicator to check mark animation).
 2. Translation and rotation (at the beginning to create the 'bouncing arrow' effect).
-3. Trim path start/end (at the beginning to create the 'bouncing line' effect, and at the end when transitioning from the progress bar to the check mark).
-4. Path morphing (at the end while transitioning the check mark back into an arrow).
+3. Trim path start/end (at the end when transitioning from the progress bar to the check mark).
+4. Path morphing (at the beginning to create the 'bouncing line' effect, and at the end while transitioning the check mark back into an arrow).
 5. Clip path (vertically filling the contents of the downloading arrow to indicate indeterminate progress).
 
 {% include posts/2016/11/29/includes10_downloading_animated_svgs.html %}
