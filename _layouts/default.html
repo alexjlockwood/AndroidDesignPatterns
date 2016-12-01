@@ -112,6 +112,21 @@
         myVideo.play();
     }
     </script>
+    <script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+  return t;
+}(document, "script", "twitter-wjs"));</script>
   </head>
 
   <body>
@@ -170,7 +185,13 @@
 	      <div style="clear: both"></div>
 	</div>
 	<div class="box gbadge">
-          <div class="g-person" data-href="//plus.google.com/+AlexLockwood" data-rel="author"></div>
+        <div style="padding:8px; text-align: center;">
+    <a class="twitter-follow-button"
+  href="https://twitter.com/alexjlockwood"
+  data-size="large">
+Follow @alexjlockwood</a></div>
+    <div class="g-person" data-href="//plus.google.com/+AlexLockwood" data-rel="author"></div>
+</div>
 	</div>
       </div>
     </div>
