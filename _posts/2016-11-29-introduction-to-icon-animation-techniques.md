@@ -230,7 +230,7 @@ The first thing to consider when implementing a path morphing animation is wheth
 2. The `i`th drawing command in `A` must have the same type as the `i`th drawing command in `B`, for all `i`.
 3. The `i`th drawing command in `A` must have the same number of parameters as the `i`th drawing command in `B`, for all `i`.
 
-If any of these conditions aren't met (i.e. attempting to morph an `L` command into a `C` command, or an `l` command with 2 coordinates into an `l` command with 4 coordinates, etc.), the application will crash with an exception. The reason these rules must be enforced is due to the way path morphing animations are implemented under-the-hood. Before the animation begins, the framework extracts the command types and their coordinates from each path's `android:pathData` attribute. If the conditions above are met, then the framework can assume that the only difference between the two paths are the values of the coordinates embedded in their drawing command strings. Under this assumption, the framework can execute the same sequence of drawing commands on each new display frame, re-calculating the values of the coordinates to use based on the current progress of the animation. **Figure 8** illustrates this concept nicely. First disable 'animate rotation', then enable the 'show path control/end points' and 'slow animation' checkboxes below. Notice how each path's red coordinates change during the course of the animation: they travel a straight line from their starting positions in path `A` to their ending positions in path `B`. Path morphing animations are really that simple!
+If any of these conditions aren't met (i.e. attempting to morph an `L` command into a `C` command, or an `l` command with 2 coordinates into an `l` command with 4 coordinates, etc.), the application will crash with an exception. The reason these rules must be enforced is due to the way path morphing animations are implemented under-the-hood. Before the animation begins, the framework extracts the command types and their coordinates from each path's `android:pathData` attribute. If the conditions above are met, then the framework can assume that the only difference between the two paths are the values of the coordinates embedded in their drawing command strings. Under this assumption, the framework can execute the same sequence of drawing commands on each new display frame, re-calculating the values of the coordinates to use based on the current progress of the animation. **Figure 8** illustrates this concept nicely. First disable 'animate rotation', then enable the 'show path coordinates' and 'slow animation' checkboxes below. Notice how each path's red coordinates change during the course of the animation: they travel a straight line from their starting positions in path `A` to their ending positions in path `B`. Path morphing animations are really that simple!
 
 {% include posts/2016/11/29/includes8_morphing_paths_animated_svgs.html %}
 
@@ -258,13 +258,14 @@ A `<clip-path>`'s bounds can be animated via path morphing by animating the diff
 
 ### Conclusion: putting it all together
 
-If you've made it this far in the blog post, that means you now have all of the fundamental building blocks you need in order to design your own icon animations from scratch! To celebrate, let's finish off this ridiculously enormous blog post once and for all with one last kickass example! Consider the progress icon in **Figure 10**, which animates the following five properties:
+If you've made it this far in the blog post, that means you now have all of the fundamental building blocks you need in order to design your own icon animations from scratch! To celebrate, let's finish off this ridiculously enormous blog post once and for all with one last kickass example! Consider the progress icon in **Figure 10**, which animates the following six properties:
 
-1. Stroke width (during the progress indicator to check mark animation).
-2. Translation and rotation (at the beginning to create the 'bouncing arrow' effect).
-3. Trim path start/end (at the end when transitioning from the progress bar to the check mark).
-4. Path morphing (at the beginning to create the 'bouncing line' effect, and at the end while transitioning the check mark back into an arrow).
-5. Clip path (vertically filling the contents of the downloading arrow to indicate indeterminate progress).
+1. Fill alpha (at the end when fading out the downloading arrow).
+2. Stroke width (during the progress indicator to check mark animation).
+3. Translation and rotation (at the beginning to create the 'bouncing arrow' effect).
+4. Trim path start/end (at the end when transitioning from the progress bar to the check mark).
+5. Path morphing (at the beginning to create the 'bouncing line' effect, and at the end while transitioning the check mark back into an arrow).
+6. Clip path (vertically filling the contents of the downloading arrow to indicate indeterminate progress).
 
 {% include posts/2016/11/29/includes10_downloading_animated_svgs.html %}
 
