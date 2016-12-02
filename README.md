@@ -7,11 +7,21 @@ If you wish to fork this repository to use as the basis of your own blogging tem
 
 ## Building locally
 
-Use the following command:
+Make sure you have at least Ruby 2.0.0 installed on your machine. From the this project's root directory, execute:
 
 ```
-$ jekyll serve --baseurl=
+$ gem install bundler
+$ bundler install
 ```
+
+Then,
+
+```
+npm install
+npm start
+```
+
+Then navigate to `http://localhost:4000` to view the locally built site.
 
 ## Find a typo?
 
