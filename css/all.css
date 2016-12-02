@@ -3,5 +3,5 @@
 {% include normalize.css %}
 {% include syntax.css %}
 {% include social.css %}
-{% include style.css %}
+{% include style.min.css %}
 {% include fonts.css %}

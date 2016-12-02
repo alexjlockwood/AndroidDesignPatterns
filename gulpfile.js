@@ -4,9 +4,23 @@ const gulp = require('gulp'),
   gp_uglify = require('gulp-uglify'),
   gp_concat = require('gulp-concat'),
   gp_pump = require('pump'),
-  gp_childProcess = require('child_process');
+  gp_childProcess = require('child_process'),
+  gp_less = require('gulp-less'),
+  gp_cleanCSS = require('gulp-clean-css'),
+  gp_path = require('path');
 
-gulp.task('default', ['js', 'serve']);
+gulp.task('default', ['less', 'js', 'serve']);
+
+gulp.task('less', function() {
+  return gulp.src('_less/style.less')
+    .pipe(gp_less())
+    .pipe(gulp.dest('_includes'))
+    .pipe(gp_cleanCSS())
+    .pipe(gp_rename({
+      suffix: '.min'
+    }))
+    .pipe(gulp.dest('_includes'));
+});
 
 gulp.task('js', function() {
   return gulp.src('_js/src/**/*.js')
