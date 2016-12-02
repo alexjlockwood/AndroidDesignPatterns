@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO(alockwood): fix this hack...
+if (document.getElementById("playTransformScaleCheckbox") !== null) {
 var bezierEasing = require('bezier-easing');
 var webAnimationsJs = require('web-animations-js');
 var pathDataPolyfill = require('path-data-polyfill');
@@ -2037,3 +2039,4 @@ var common = (function () {
     createPathDotString: createPathDotString
   };
 })();
+}
