@@ -1,22 +1,16 @@
-const gulp = require('gulp'),
-  gp_rename = require('gulp-rename'),
-  gp_webpack = require('webpack-stream'),
-  gp_uglify = require('gulp-uglify'),
-  gp_concat = require('gulp-concat'),
-  gp_pump = require('pump'),
-  gp_childProcess = require('child_process'),
-  gp_less = require('gulp-less'),
-  gp_cleanCSS = require('gulp-clean-css'),
-  gp_path = require('path');
+const gulp = require('gulp');
+const webpack = require('webpack-stream');
+const gp_childProcess = require('child_process');
+const $ = require('gulp-load-plugins')({'camelize': true});
 
 gulp.task('default', ['less', 'js', 'serve']);
 
 gulp.task('less', function() {
   return gulp.src('_less/style.less')
-    .pipe(gp_less())
+    .pipe($.less())
     .pipe(gulp.dest('_includes'))
-    .pipe(gp_cleanCSS())
-    .pipe(gp_rename({
+    .pipe($.cleanCss())
+    .pipe($.rename({
       suffix: '.min'
     }))
     .pipe(gulp.dest('_includes'));
@@ -24,9 +18,9 @@ gulp.task('less', function() {
 
 gulp.task('js', function() {
   return gulp.src('_js/src/**/*.js')
-    .pipe(gp_concat('concat.js'))
+    .pipe($.concat('concat.js'))
     .pipe(gulp.dest('_js/build'))
-    .pipe(gp_webpack({
+    .pipe(webpack({
       output: {
         path: __dirname,
         filename: "all.js"
@@ -35,8 +29,8 @@ gulp.task('js', function() {
         loaders: []
       }
     }))
-    .pipe(gp_uglify())
-    .pipe(gp_rename({ extname: '.min.js' }))
+    .pipe($.uglify())
+    .pipe($.rename({ extname: '.min.js' }))
     .pipe(gulp.dest('scripts'));
 });
 
