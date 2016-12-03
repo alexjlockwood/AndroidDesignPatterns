@@ -2,7 +2,6 @@
   "name": "android-design-patterns",
   "version": "1.0.0",
   "description": "Android Design Patterns blog source code.",
-  "main": "index.js",
   "scripts": {
     "start": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
