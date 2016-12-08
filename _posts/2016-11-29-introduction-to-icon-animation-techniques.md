@@ -7,7 +7,7 @@ related: ['/2015/01/activity-fragment-shared-element-transitions-in-depth-part3a
     '/2016/08/coloring-buttons-with-themeoverlays-background-tints.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
 style: |
-    ol.icon0anim-table-of-contents li {
+    ol.icon-anim-table-of-contents li {
       margin: 0.25em 0;
     }
 ---
@@ -16,7 +16,7 @@ style: |
 
 <!--morestart-->
 
-[Creative customization][creative-customization] is one of the tenets of material design; the subtle addition of an icon animation can add an element of wonder to the user experience, making your app feel more natural and alive. Unfortunately, building an icon animation from scratch can be challenging. Not only does it take a fair amount of work to implement, but it also requires a vision of how the final result should look and feel. If you aren't familiar with the different techniques that are most often used to create icon animations, you're going to have a hard time designing your own.
+[Creative customization][creative-customization] is one of the tenets of material design; the subtle addition of an icon animation can add an element of wonder to the user experience, making your app feel more natural and alive. Unfortunately, building an icon animation from scratch using `VectorDrawable`s can be challenging. Not only does it take a fair amount of work to implement, but it also requires a vision of how the final result should look and feel. If you aren't familiar with the different techniques that are most often used to create icon animations, you're going to have a hard time designing your own.
 
 This blog post covers several different techniques that you can use to create beautiful icon animations. The best way to learn is by example, so as you read through the post you'll encounter interactive demos highlighting how each technique works. I hope this blog post can at the very least open your eyes to how icon animations behave under-the-hood, because I genuinely believe that understanding how they work is the first step towards creating your own.
 
