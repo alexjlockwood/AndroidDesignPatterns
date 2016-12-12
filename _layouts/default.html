@@ -106,7 +106,7 @@
       #adpbutton1 {
         color: #9c0;
       }
-      #adpbutton2 {
+      #header #adpbutton2 {
         color: #9c0;
       }
       #adpbutton3 {
@@ -143,17 +143,13 @@
     <div class="container">
       <h3 id="blog-header"><a href="/">{{ site.name }}</a></h3>
       <nav class="pull-right">
-        <form action="/archives/" style="display: inline;">
-          <button id="adpbutton1" class="mdl-button mdl-js-button mdl-button--primary" type="submit">Archives</button>
-        </form>
-        <form action="/about/" style="display: inline;">
-          <button id="adpbutton2" class="mdl-button mdl-js-button mdl-button--primary" type="submit">About</button>
-        </form>
+        <a href="/archives/" style="display: inline;" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect">Archives</a>
+        <a href="/about/" style="display: inline;" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect">About</a>
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display: inline;">
           <input type="hidden" name="cmd" value="_s-xclick">
           <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
 ">
-          <button id="adpbutton3" class="mdl-button mdl-js-button mdl-button--primary" type="submit">Donate</button>
+          <button id="adpbutton3" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect" type="submit">Donate</button>
         </form>
       </nav>
     </div>

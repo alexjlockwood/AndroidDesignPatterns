@@ -125,13 +125,6 @@ body {
     padding-left: 30px;
     float: left;
   }
-  a {
-    border-radius: 1px;
-    -webkit-transition: background-color 0.4s;
-    -moz-transition: background-color 0.4s;
-    -o-transition: background-color 0.4s;
-    transition: background-color 0.4s;
-  }
   nav {
     font-family: 'Roboto', sans-serif;
     text-transform: uppercase;
@@ -142,15 +135,6 @@ body {
       text-decoration: none;
       padding: 13px;
       border: 0;
-      &:hover {
-        color: #fff;
-        background: #000;
-        border: 0;
-      }
-      &.active {
-        color: #fff;
-        background: #000;
-      }
     }
   }
   #blog-header {
@@ -163,6 +147,11 @@ body {
       color: #fff;
       text-decoration: none;
       padding: 9px;
+      border-radius: 1px;
+      -webkit-transition: background-color 0.4s;
+      -moz-transition: background-color 0.4s;
+      -o-transition: background-color 0.4s;
+      transition: background-color 0.4s;
       &:hover {
         background: #000;
         color: @light-green;

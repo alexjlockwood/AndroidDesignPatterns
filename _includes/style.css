@@ -118,13 +118,6 @@ body {
   padding-left: 30px;
   float: left;
 }
-#header a {
-  border-radius: 1px;
-  -webkit-transition: background-color 0.4s;
-  -moz-transition: background-color 0.4s;
-  -o-transition: background-color 0.4s;
-  transition: background-color 0.4s;
-}
 #header nav {
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
@@ -137,15 +130,6 @@ body {
   padding: 13px;
   border: 0;
 }
-#header nav a:hover {
-  color: #fff;
-  background: #000;
-  border: 0;
-}
-#header nav a.active {
-  color: #fff;
-  background: #000;
-}
 #header #blog-header {
   float: left;
   text-transform: uppercase;
@@ -157,6 +141,11 @@ body {
   color: #fff;
   text-decoration: none;
   padding: 9px;
+  border-radius: 1px;
+  -webkit-transition: background-color 0.4s;
+  -moz-transition: background-color 0.4s;
+  -o-transition: background-color 0.4s;
+  transition: background-color 0.4s;
 }
 #header #blog-header a:hover {
   background: #000;
