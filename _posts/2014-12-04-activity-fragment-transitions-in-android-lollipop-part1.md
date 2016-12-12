@@ -6,6 +6,35 @@ permalink: /2014/12/activity-fragment-transitions-in-android-lollipop-part1.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
     '/2016/11/introduction-to-icon-animation-techniques.html']
+style: |
+    .framed-nexus6-port {
+      background: transparent url(/assets/images/nexus6_frame.png) no-repeat
+      scroll top left;
+      padding-top: 71px;
+      padding-right: 33px;
+      padding-bottom: 50px;
+      padding-left: 48px;
+      overflow: hidden;
+    }
+
+    .framed-nexus6-port,
+    .framed-nexus6-port video,
+    .framed-nexus6-port img {
+      width: 216px;
+      height: 384px;
+    }
+
+    .nexus6-figure {
+      width: 290px;
+      margin-right: 35px;
+      float: right;
+    }
+script: |
+    function playPause(figureName) {
+      var myVideo = document.getElementById(figureName);
+      myVideo.load();
+      myVideo.play();
+    }
 updated: '2014-03-11'
 ---
 

@@ -36,11 +36,9 @@
     <link rel="icon" href="{{ site.baseurl }}/assets/images/favicon128.png" type="image/x-icon">
     <link href="{{ site.baseurl }}/feed.atom" rel="alternate" title="{{ site.name }} - Feed" type="application/atom+xml" />
     <link rel="stylesheet" type="text/css" href="/css/all.css" />
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/css/material.min.css">
     <script defer src="/scripts/all.min.js"></script>
-
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     {% if site.baseurl != "" %}<script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -67,110 +65,63 @@
       }
     </script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-
     {% if page.style %}
     <style type="text/css">
-       {{ page.style }}
+      {{ page.style }}
     </style>
     {% endif %}
-
     {% if page.script %}
     <script>
-       {{ page.script }}
+      {{ page.script }}
     </script>
     {% endif %}
-
-    <style>
-      .framed-nexus6-port {
-        background: transparent url(/assets/images/nexus6_frame.png) no-repeat
-        scroll top left;
-        padding-top: 71px;
-        padding-right: 33px;
-        padding-bottom: 50px;
-        padding-left: 48px;
-        overflow: hidden;
-      }
-
-      .framed-nexus6-port,
-      .framed-nexus6-port video,
-      .framed-nexus6-port img {
-        width: 216px;
-        height: 384px;
-      }
-
-      .nexus6-figure {
-        width: 290px;
-        margin-right: 35px;
-        float: right;
-      }
-      #adpbutton1 {
-        color: #9c0;
-      }
-      #header #adpbutton2 {
-        color: #9c0;
-      }
-      #adpbutton3 {
-        color: #9c0;
-      }
-    </style>
-
-    <script>
-    function playPause(figureName) {
-        var myVideo = document.getElementById(figureName);
-        myVideo.load();
-        myVideo.play();
-    }
-    </script>
     <script>window.twttr = (function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0],
-    t = window.twttr || {};
-  if (d.getElementById(id)) return t;
-  js = d.createElement(s);
-  js.id = id;
-  js.src = "https://platform.twitter.com/widgets.js";
-  fjs.parentNode.insertBefore(js, fjs);
-
-  t._e = [];
-  t.ready = function(f) {
-    t._e.push(f);
-  };
-  return t;
-}(document, "script", "twitter-wjs"));</script>
+      var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+      
+      t._e = [];
+      t.ready = function(f) {
+        t._e.push(f);
+      };
+      return t;
+      }(document, "script", "twitter-wjs"));
+    </script>
   </head>
-
-<body>
-  <div id="header">
-    <div class="container">
-      <h3 id="blog-header"><a href="/">{{ site.name }}</a></h3>
-      <nav class="pull-right">
-        <a href="/archives/" style="display: inline;" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect">Archives</a>
-        <a href="/about/" style="display: inline;" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect">About</a>
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display: inline;">
-          <input type="hidden" name="cmd" value="_s-xclick">
-          <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHNwYJKoZIhvcNAQcEoIIHKDCCByQCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYAhNWGfcJgP1+ECPBUpt/AD4VzcCJgYh9DEhBi6lhLAJgF3gyqZUlJjfyRJYGR/AIhcpcT9KLQB50K2qpFl6p4pdTepbIbdje3J4YCI0UfSZq00tGwFL6zVNFD/lemSYkMGgSsx2BBzZxP9JOQgEeUGbbS7bHfU8zRYRv+r5hrtLTELMAkGBSsOAwIaBQAwgbQGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIO94i6vAFoN6AgZC3U0LAKCI2R5y8EVz9QSspywwQs4awm1Tvdd/UNzoHOAWEAS95ksVvni/Nhhi7e/cGV1Yq61zONFNn8m+Y35b2C3PwRAhPIXgXdpSFj9dnLcOAV3AyTwWeeKVuL9A039XoEg7nMPmfXtOkJMSC/a1/ywjbwteLSc0Qk1MLeRwAWQM2Btx/0pLZn+m9RuqbDeugggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0BAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS+Ndl72T7oKJ4u4uw+6awntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe/hJl66/RGqrj5rFb08sAABNTzDTiqqNpJeBsYs/c2aiGozptX2RlnBktH+SUNpAajW724Nv2Wvhif6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7BgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71+jq6OKidbWFSE+Q4FqROvdgIONth+8kSK//Y/4ihuE4Ymvzn5ceE3S/iBSQQMjyvb+s2TWbQYDwcp129OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa+u4qectsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0xNjEyMTEwOTExMDhaMCMGCSqGSIb3DQEJBDEWBBTVze+0SjAnMxssswlfz696fR30xTANBgkqhkiG9w0BAQEFAASBgIEUonqOLxyZFgSPv8k8pFgcAw60fCStXiI0dSxCshWnEbIHg+bi/HnFl+HuBNZRkxR27W0qDhUE6VH1QdNbdKjjpUlEJ/ibzt46Jz/2OCN/eDPyK4AzeARWzBRZayWV0BSodyj4XbWJKVFz2WIdy/fDU/ooWhfoRNDccXxpCVx/-----END PKCS7-----
-">
-          <button id="adpbutton3" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect" type="submit">Donate</button>
-        </form>
-      </nav>
+  <body>
+    <div id="header">
+      <div class="container">
+        <h3 id="blog-header"><a href="/">{{ site.name }}</a></h3>
+        <nav class="pull-right">
+          <a href="/archives/" style="display: inline;" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect">Archives</a>
+          <a href="/about/" style="display: inline;" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect">About</a>
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" style="display: inline;">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+              ">
+            <button style="color: #9c0" class="mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect" type="submit">Donate</button>
+          </form>
+        </nav>
+      </div>
     </div>
-  </div>
-
     <div id="social" class="container">
       <a href="https://plus.google.com/100751609891157863386?rel=author" class="googleplus"><i class="icon-gplus"></i></a>
       <a href="{{ site.author.twitter }}" class="twitter"><i class="icon-twitter"></i></a>
       <a href="{{ site.author.github }}" class="github"><i class="icon-github-circled"></i></a>
       <a href="{{ site.baseurl }}/feed.atom" class="rss"><i class="icon-rss"></i></a>
     </div>
-
     <div class="main container">
       <div id="content">
-	<div class="blog-index">
+        <div class="blog-index">
           {{ content }}
-	</div>
+        </div>
       </div>
-
       <div id="info" class="cf">
-	<div class="right">
+        <div class="right">
           <div class="box">
             <h3>+1 this blog!</h3>
             <p>{{ site.name }} is a website for developers who wish to better understand the Android application framework. The tutorials here emphasize proper code design and project maintainability.</p>
@@ -182,51 +133,50 @@
             <h3>Find a typo?</h3>
             <p>Submit a pull request! The code powering this site is open-source and available on <a href="https://github.com/alexjlockwood/alexjlockwood.github.io">GitHub</a>. Corrections are appreciated and encouraged! Click <a href="https://github.com/alexjlockwood/alexjlockwood.github.io/blob/master/README.md#find-a-typo">here</a> for instructions.</p>
           </div>
-	</div>
-	<div class="box" id="promotion2048">
+        </div>
+        <div class="box" id="promotion2048">
           <h3>Apps by me</h3>
-	      <!-- TODO: put this stuff in CSS -->
-	      <!-- TODO: adjust the css so that this is displayed in ALL screen layout modes -->
-	      <a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
-                 onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight'); return false;">
-		<img style="float: left; margin-right: 0.5em; margin-bottom: 1em;" src="{{ site.baseurl }}/assets/images/2048_icon_72x72.png"/>
-	      </a>
-	      <span><a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
-                 onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight'); return false;">
-                  2048++</a> is hands down the cleanest, sleekest, most responsive 2048 app for Android!
-                <a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
-                   onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight'); return false;">
-                  Play Store</a></span>
-	      <div style="clear: both"></div>
-	</div>
-	<div class="box gbadge">
-        <div style="padding:8px; text-align: center;">
-    <a class="twitter-follow-button"
-  href="https://twitter.com/alexjlockwood"
-  data-size="large">
-Follow @alexjlockwood</a></div>
-    <div class="g-person" data-href="//plus.google.com/+AlexLockwood" data-rel="author"></div>
-</div>
-	</div>
+          <!-- TODO: put this stuff in CSS -->
+          <!-- TODO: adjust the css so that this is displayed in ALL screen layout modes -->
+          <a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
+            onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight'); return false;">
+          <img style="float: left; margin-right: 0.5em; margin-bottom: 1em;" src="{{ site.baseurl }}/assets/images/2048_icon_72x72.png"/>
+          </a>
+          <span><a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
+            onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight'); return false;">
+          2048++</a> is hands down the cleanest, sleekest, most responsive 2048 app for Android!
+          <a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
+            onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight'); return false;">
+          Play Store</a></span>
+          <div style="clear: both"></div>
+        </div>
+        <div class="box gbadge">
+          <div style="padding:8px; text-align: center;">
+            <a class="twitter-follow-button"
+              href="https://twitter.com/alexjlockwood"
+              data-size="large">
+            Follow @alexjlockwood</a>
+          </div>
+          <div class="g-person" data-href="//plus.google.com/+AlexLockwood" data-rel="author"></div>
+        </div>
       </div>
     </div>
-
+    </div>
     <div id="responsive-home-page-bottom-ad" class="container">
       <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-3588752900040136"
-           data-ad-slot="3555030858"
-           data-ad-format="auto"></ins>
+        style="display:block"
+        data-ad-client="ca-pub-3588752900040136"
+        data-ad-slot="3555030858"
+        data-ad-format="auto"></ins>
       <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
       </script>
     </div>
-
     <div id="copyright" class="container">
       <p>&copy; 2012-{{ site.time | date: "%Y" }} Alex Lockwood |
-	<a href="{{ site.baseurl }}">Android Design Patterns</a> |
-	<a href="http://www.godesignpatterns.com">Go Design Patterns</a> |
-	<a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight">2048++</a>
+        <a href="{{ site.baseurl }}">Android Design Patterns</a> |
+        <a href="http://www.godesignpatterns.com">Go Design Patterns</a> |
+        <a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight">2048++</a>
       </p>
     </div>
   </body>

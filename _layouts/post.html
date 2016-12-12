@@ -2,14 +2,14 @@
 layout: default
 ---
 <div itemscope itemtype="http://schema.org/BlogPosting" class="post">
-  <header><h1 itemprop="name">{{ page.title | escape }}</h1></header>
-
+  <header>
+    <h1 itemprop="name">{{ page.title | escape }}</h1>
+  </header>
   <div class="side">
     <div class="date-posted" >
       Posted <span itemprop="datePublished" content="{{ page.date | date_to_xmlschema }}" class="date">{{ page.date | date: "%b %-d, %Y" }}</span>
       <div class="author">by <a href="{{ site.author.googleplus }}"><span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ site.author.name }}</span></span></a></div>
     </div>
-
     <div class="share-buttons">
       <div class="g-plusone" data-size="medium"></div>
       <div class="tweet"><a href="https://twitter.com/share" class="twitter-share-button" data-via="alexjlockwood" data-lang="en">Tweet</a></div>
@@ -18,21 +18,18 @@ layout: default
       <div class="fb-like" data-href="{{ site.baseurl }}{{ page.url }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
     </div>
   </div>
-
   <div class="body">
-
     <!-- Responsive post header ad. -->
     <div id="responsive-post-header-ad">
       <ins class="adsbygoogle"
-	   style="display:block"
-	   data-ad-client="ca-pub-3588752900040136"
-	   data-ad-slot="6225052451"
-	   data-ad-format="auto" />
+        style="display:block"
+        data-ad-client="ca-pub-3588752900040136"
+        data-ad-slot="6225052451"
+        data-ad-format="auto" />
     </div>
     <script>
       (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-
     <div itemprop="articleBody">
       {{ content }}
     </div>
@@ -47,15 +44,15 @@ layout: default
       <div class="next"><a rel="next" href="{{ page.next.url }}">&#171; Newer</a></div>
       {% endif %}
     </div>
-
     <div id="responsive-post-bottom-ad">
       <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-3588752900040136"
-           data-ad-slot="6089694851"
-           data-ad-format="auto"></ins>
+        style="display:block"
+        data-ad-client="ca-pub-3588752900040136"
+        data-ad-slot="6089694851"
+        data-ad-format="auto"></ins>
       <script>
-	(adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+             
       </script>
     </div>
     {% if page.disable_comments == null %}
@@ -65,17 +62,18 @@ layout: default
     </div>
     {% endif %}
   </div>
-
   {% if page.related %}
   <div class="side suggested">
     <h4>Related Posts</h4>
-    <ul class="related">{% for url in page.related %}{% for post in site.posts %}{% if url == post.url %}
-    <li><a href="{{ url }}">{{ post.title | escape }}</a></li>{% break %}
-    {% endif %}{% endfor %}{% endfor %}
+    <ul class="related">
+      {% for url in page.related %}{% for post in site.posts %}{% if url == post.url %}
+      <li><a href="{{ url }}">{{ post.title | escape }}</a></li>
+      {% break %}
+      {% endif %}{% endfor %}{% endfor %}
     </ul>
   </div>
   {% endif %}
 </div>
-
 <!-- Like button javascript -->
-<div id="fb-root"></div><script>(function(e,a,f){var c,b=e.getElementsByTagName(a)[0];if(e.getElementById(f)){return}c=e.createElement(a);c.id=f;c.src="//connect.facebook.net/en_US/all.js#xfbml=1";b.parentNode.insertBefore(c,b)}(document,"script","facebook-jssdk"));</script>
+<div id="fb-root"></div>
+<script>(function(e,a,f){var c,b=e.getElementsByTagName(a)[0];if(e.getElementById(f)){return}c=e.createElement(a);c.id=f;c.src="//connect.facebook.net/en_US/all.js#xfbml=1";b.parentNode.insertBefore(c,b)}(document,"script","facebook-jssdk"));</script>

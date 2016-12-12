@@ -6,6 +6,35 @@ permalink: /2015/03/activity-postponed-shared-element-transitions-part3b.html
 related: ['/2012/08/implementing-loaders.html',
     '/2013/08/fragment-transaction-commit-state-loss.html',
     '/2012/06/app-force-close-honeycomb-ics.html']
+style: |
+    .framed-nexus6-port {
+      background: transparent url(/assets/images/nexus6_frame.png) no-repeat
+      scroll top left;
+      padding-top: 71px;
+      padding-right: 33px;
+      padding-bottom: 50px;
+      padding-left: 48px;
+      overflow: hidden;
+    }
+
+    .framed-nexus6-port,
+    .framed-nexus6-port video,
+    .framed-nexus6-port img {
+      width: 216px;
+      height: 384px;
+    }
+
+    .nexus6-figure {
+      width: 290px;
+      margin-right: 35px;
+      float: right;
+    }
+script: |
+    function playPause(figureName) {
+      var myVideo = document.getElementById(figureName);
+      myVideo.load();
+      myVideo.play();
+    }
 ---
 
 This post continues our in-depth analysis of _shared element transitions_ by discussing an important feature of the Lollipop Transition API: postponed shared element transitions. It is the fourth of a series of posts I will be writing on the topic:
