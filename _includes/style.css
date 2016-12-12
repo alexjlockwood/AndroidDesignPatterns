@@ -652,10 +652,6 @@ pre code {
     float: none;
     text-align: center;
   }
-  #header nav a {
-    padding: 0 2px;
-    margin: 2px 10px;
-  }
   #header nav a:hover,
   #header #blog-header a:hover {
     background: transparent;
