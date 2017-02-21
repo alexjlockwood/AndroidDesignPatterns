@@ -83,7 +83,7 @@
       js.id = id;
       js.src = "https://platform.twitter.com/widgets.js";
       fjs.parentNode.insertBefore(js, fjs);
-      
+
       t._e = [];
       t.ready = function(f) {
         t._e.push(f);
@@ -136,6 +136,16 @@
         </div>
         <div class="box" id="promotion2048">
           <h3>Apps by me</h3>
+          <!-- TODO: put this stuff in CSS -->
+          <!-- TODO: adjust the css so that this is displayed in ALL screen layout modes -->
+          <a href="https://github.com/alexjlockwood/ShapeShifter"
+            onclick="trackOutboundLink('https://github.com/alexjlockwood/ShapeShifter'); return false;">
+          <img style="float: left; margin-right: 0.5em; margin-bottom: 1em;" src="{{ site.baseurl }}/assets/images/shapeshifter.svg"/>
+          </a>
+          <span><a href="https://github.com/alexjlockwood/ShapeShifter"
+            onclick="trackOutboundLink('https://github.com/alexjlockwood/ShapeShifter'); return false;">
+          Shape Shifter</a> is a web-app that simplifies the creation of <code>AnimatedVectorDrawable</code> path morphing animations.
+          <div style="clear: both; margin-bottom: 16px;"></div>
           <!-- TODO: put this stuff in CSS -->
           <!-- TODO: adjust the css so that this is displayed in ALL screen layout modes -->
           <a href="https://play.google.com/store/apps/details?id=com.alexjlockwood.twentyfortyeight"
