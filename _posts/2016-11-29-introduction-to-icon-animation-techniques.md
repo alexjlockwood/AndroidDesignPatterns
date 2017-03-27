@@ -212,7 +212,7 @@ Lastly, **Figure 7** shows how a stroked trim path is used to animate the famili
     | 0.5  | 0               | 0.75          | 0.125            |
     | 1    | 0.75            | 0.78          | 0.25             |
 
-    At time `t = 0.0`, the progress bar is at it's smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). And at time `t = 1.0`, the progress bar has shrunk back to its smallest size, just as the animation is about to restart.
+    At time `t = 0.0`, the progress bar is at its smallest size (only 3% is visible). At `t = 0.5`, the progress bar has stretched to its maximum size (75% is visible). And at time `t = 1.0`, the progress bar has shrunk back to its smallest size, just as the animation is about to restart.
 
 {% include posts/2016/11/29/includes7_trimming_stroked_paths_indeterminate_progress.html %}
 
