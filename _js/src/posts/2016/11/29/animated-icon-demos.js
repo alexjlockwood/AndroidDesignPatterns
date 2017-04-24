@@ -432,12 +432,12 @@ document.addEventListener("DOMContentLoaded", function () {
     var pathLength = strokePath.getTotalLength();
     // TODO(alockwood): remove this hack...
     strokePath.animate([
-      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? -pathLength : 0), offset: 0 },
-      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? -pathLength : 0), offset: 1 }
+      { strokeDasharray: pathLength + "px", strokeDashoffset: (isAnimatingIn ? -pathLength : 0) + "px", offset: 0 },
+      { strokeDasharray: pathLength + "px", strokeDashoffset: (isAnimatingIn ? -pathLength : 0) + "px", offset: 1 }
     ], { duration: 0, fill: "forwards" });
     strokePath.animate([
-      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? -pathLength : 0), easing: easingFunction, offset: 0 },
-      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? 0 : -pathLength), offset: 1 }
+      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? -pathLength : 0) + "px", easing: easingFunction, offset: 0 },
+      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? 0 : -pathLength) + "px", offset: 1 }
     ], { duration: common.getDuration(root, durationMillis), fill: "forwards", delay: common.getDuration(root, startDelayMillis) });
   }
 
@@ -446,12 +446,12 @@ document.addEventListener("DOMContentLoaded", function () {
     var pathLength = strokePath.getTotalLength();
     // TODO(alockwood): remove this hack...
     strokePath.animate([
-      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? pathLength : 0), offset: 0 },
-      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? pathLength : 0), offset: 1 }
+      { strokeDasharray: pathLength + "px", strokeDashoffset: (isAnimatingIn ? pathLength : 0) + "px", offset: 0 },
+      { strokeDasharray: pathLength + "px", strokeDashoffset: (isAnimatingIn ? pathLength : 0) + "px", offset: 1 }
     ], { duration: 0, fill: "forwards" });
     strokePath.animate([
-      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? pathLength : 0), easing: easingFunction, offset: 0 },
-      { strokeDasharray: pathLength, strokeDashoffset: (isAnimatingIn ? 0 : pathLength), offset: 1 }
+      { strokeDasharray: pathLength + "px", strokeDashoffset: (isAnimatingIn ? pathLength : 0) + "px", easing: easingFunction, offset: 0 },
+      { strokeDasharray: pathLength + "px", strokeDashoffset: (isAnimatingIn ? 0 : pathLength) + "px", offset: 1 }
     ], { duration: common.getDuration(root, durationMillis), fill: "forwards", delay: common.getDuration(root, startDelayMillis) });
   }
 
@@ -496,15 +496,15 @@ document.addEventListener("DOMContentLoaded", function () {
         trimPathEnd = fastOutSlowInFunction(Math.min(i, 450) / 450) * (1 - 0.185) + 0.185;
         trimPathLength = trimPathEnd - trimPathStart;
         keyFrames.push({
-          strokeDasharray: (trimPathLength * pathLength) + "," + pathLength,
-          strokeDashoffset: (-trimPathStart * pathLength),
+          strokeDasharray: (trimPathLength * pathLength) + "px," + pathLength + "px",
+          strokeDashoffset: (-trimPathStart * pathLength) + "px",
           easing: "linear",
           offset: (i / 600)
         });
       }
       keyFrames.push({
-        strokeDasharray: (0.25 * pathLength) + "," + pathLength,
-        strokeDashoffset: (-0.75 * pathLength),
+        strokeDasharray: (0.25 * pathLength) + "px," + pathLength + "px",
+        strokeDashoffset: (-0.75 * pathLength) + "px",
         offset: 1
       });
       return stemPath.animate(keyFrames, {
@@ -517,15 +517,15 @@ document.addEventListener("DOMContentLoaded", function () {
         trimPathEnd = 1 - fastOutSlowInFunction(i / 600) * 0.815;
         trimPathLength = trimPathEnd - trimPathStart;
         keyFrames.push({
-          strokeDasharray: (trimPathLength * pathLength) + "," + pathLength,
-          strokeDashoffset: (-trimPathStart * pathLength),
+          strokeDasharray: (trimPathLength * pathLength) + "px," + pathLength + "px",
+          strokeDashoffset: (-trimPathStart * pathLength) + "px",
           easing: "linear",
           offset: (i / 600)
         });
       }
       keyFrames.push({
-        strokeDasharray: (0.185 * pathLength) + "," + pathLength,
-        strokeDashoffset: 0,
+        strokeDasharray: (0.185 * pathLength) + "px," + pathLength + "px",
+        strokeDashoffset: "0px",
         offset: 1
       });
       return stemPath.animate(keyFrames, {
@@ -539,13 +539,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var searchCirclePath = document.getElementById("search_circle");
     var pathLength = searchCirclePath.getTotalLength();
     searchCirclePath.animate([{
-      strokeDasharray: pathLength,
-      strokeDashoffset: (isAnimatingIn ? pathLength : 0),
+      strokeDasharray: pathLength + "px",
+      strokeDashoffset: (isAnimatingIn ? pathLength : 0) + "px",
       easing: fastOutSlowIn,
       offset: 0
     }, {
-      strokeDasharray: pathLength,
-      strokeDashoffset: (isAnimatingIn ? 0 : pathLength),
+      strokeDasharray: pathLength + "px",
+      strokeDashoffset: (isAnimatingIn ? 0 : pathLength) + "px",
       offset: 1
     }], {
       duration: common.getDuration(root, 250),
@@ -573,13 +573,13 @@ document.addEventListener("DOMContentLoaded", function () {
       delay: common.getDuration(root, isAnimatingIn ? 350 : 0)
     });
     arrowHeadTop.animate([{
-      strokeDasharray: arrowHeadTopPathLength,
-      strokeDashoffset: (isAnimatingIn ? arrowHeadTopPathLength : 0),
+      strokeDasharray: arrowHeadTopPathLength + "px",
+      strokeDashoffset: (isAnimatingIn ? arrowHeadTopPathLength : 0) + "px",
       easing: fastOutSlowIn,
       offset: 0
     }, {
-      strokeDasharray: arrowHeadTopPathLength,
-      strokeDashoffset: (isAnimatingIn ? 0 : arrowHeadTopPathLength),
+      strokeDasharray: arrowHeadTopPathLength + "px",
+      strokeDashoffset: (isAnimatingIn ? 0 : arrowHeadTopPathLength) + "px",
       offset: 1
     }], {
       duration: common.getDuration(root, 250),
@@ -587,13 +587,13 @@ document.addEventListener("DOMContentLoaded", function () {
       delay: common.getDuration(root, isAnimatingIn ? 350 : 0)
     });
     arrowHeadBottom.animate([{
-      strokeDasharray: arrowHeadBottomPathLength,
-      strokeDashoffset: (isAnimatingIn ? arrowHeadBottomPathLength : 0),
+      strokeDasharray: arrowHeadBottomPathLength + "px",
+      strokeDashoffset: (isAnimatingIn ? arrowHeadBottomPathLength : 0) + "px",
       easing: fastOutSlowIn,
       offset: 0
     }, {
-      strokeDasharray: arrowHeadBottomPathLength,
-      strokeDashoffset: (isAnimatingIn ? 0 : arrowHeadBottomPathLength),
+      strokeDasharray: arrowHeadBottomPathLength + "px",
+      strokeDashoffset: (isAnimatingIn ? 0 : arrowHeadBottomPathLength) + "px",
       offset: 1
     }], {
       duration: common.getDuration(root, 250),
@@ -623,8 +623,8 @@ document.addEventListener("DOMContentLoaded", function () {
       var pathLength = path.getTotalLength();
       // TODO(alockwood): fix this hack
       currentHandwritingAnimations.push(path.animate([
-        { strokeDasharray: pathLength, strokeDashoffset: pathLength, offset: 0, },
-        { strokeDasharray: pathLength, strokeDashoffset: pathLength, offset: 1 }
+        { strokeDasharray: pathLength + "px" + "px", strokeDashoffset: pathLength + "px", offset: 0, },
+        { strokeDasharray: pathLength + "px", strokeDashoffset: pathLength + "px", offset: 1 }
       ], { duration: 0, fill: "forwards" }));
     }
   }
@@ -633,13 +633,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var path = document.getElementById(pathId);
     var pathLength = path.getTotalLength();
     path.animate([{
-      strokeDasharray: pathLength,
-      strokeDashoffset: pathLength,
+      strokeDasharray: pathLength + "px",
+      strokeDashoffset: pathLength + "px",
       easing: easingCurve,
       offset: 0,
     }, {
-      strokeDasharray: pathLength,
-      strokeDashoffset: 0,
+      strokeDasharray: pathLength + "px",
+      strokeDashoffset: 0 + "px",
       offset: 1
     }], {
       duration: common.getDuration(root, durationMillis),
@@ -683,24 +683,24 @@ document.addEventListener("DOMContentLoaded", function () {
   var ioSix4 = document.getElementById("io16_six_4");
   var onePathLength = ioOne1.getTotalLength();
   var sixPathLength = ioSix1.getTotalLength();
-  var oneStrokeDashArray = (onePathLength / 4) + "," + (onePathLength * 3 / 4);
-  var sixStrokeDashArray = (sixPathLength / 4) + "," + (sixPathLength * 3 / 4);
-  ioOne1.setAttribute("stroke-dasharray", oneStrokeDashArray);
-  ioOne2.setAttribute("stroke-dasharray", oneStrokeDashArray);
-  ioOne3.setAttribute("stroke-dasharray", oneStrokeDashArray);
-  ioOne4.setAttribute("stroke-dasharray", oneStrokeDashArray);
-  ioSix1.setAttribute("stroke-dasharray", sixStrokeDashArray);
-  ioSix2.setAttribute("stroke-dasharray", sixStrokeDashArray);
-  ioSix3.setAttribute("stroke-dasharray", sixStrokeDashArray);
-  ioSix4.setAttribute("stroke-dasharray", sixStrokeDashArray);
-  ioOne1.setAttribute("stroke-dashoffset", "0");
-  ioOne2.setAttribute("stroke-dashoffset", "" + (onePathLength * 0.25));
-  ioOne3.setAttribute("stroke-dashoffset", "" + (onePathLength * 0.5));
-  ioOne4.setAttribute("stroke-dashoffset", "" + (onePathLength * 0.75));
-  ioSix1.setAttribute("stroke-dashoffset", "0");
-  ioSix2.setAttribute("stroke-dashoffset", "" + (sixPathLength * 0.25));
-  ioSix3.setAttribute("stroke-dashoffset", "" + (sixPathLength * 0.5));
-  ioSix4.setAttribute("stroke-dashoffset", "" + (sixPathLength * 0.75));
+  var oneStrokeDashArray = (onePathLength / 4) + "px," + (onePathLength * 3 / 4) + "px";
+  var sixStrokeDashArray = (sixPathLength / 4) + "px," + (sixPathLength * 3 / 4) + "px";
+  ioOne1.setAttribute("stroke-dasharray", oneStrokeDashArray + "px");
+  ioOne2.setAttribute("stroke-dasharray", oneStrokeDashArray + "px");
+  ioOne3.setAttribute("stroke-dasharray", oneStrokeDashArray + "px");
+  ioOne4.setAttribute("stroke-dasharray", oneStrokeDashArray + "px");
+  ioSix1.setAttribute("stroke-dasharray", sixStrokeDashArray + "px");
+  ioSix2.setAttribute("stroke-dasharray", sixStrokeDashArray + "px");
+  ioSix3.setAttribute("stroke-dasharray", sixStrokeDashArray + "px");
+  ioSix4.setAttribute("stroke-dasharray", sixStrokeDashArray + "px");
+  ioOne1.setAttribute("stroke-dashoffset", "0px");
+  ioOne2.setAttribute("stroke-dashoffset", "" + (onePathLength * 0.25) + "px");
+  ioOne3.setAttribute("stroke-dashoffset", "" + (onePathLength * 0.5) + "px");
+  ioOne4.setAttribute("stroke-dashoffset", "" + (onePathLength * 0.75) + "px");
+  ioSix1.setAttribute("stroke-dashoffset", "0px");
+  ioSix2.setAttribute("stroke-dashoffset", "" + (sixPathLength * 0.25) + "px");
+  ioSix3.setAttribute("stroke-dashoffset", "" + (sixPathLength * 0.5) + "px");
+  ioSix4.setAttribute("stroke-dashoffset", "" + (sixPathLength * 0.75) + "px");
   beginIo16Animation();
 
   function beginIo16Animation() {
@@ -718,11 +718,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function animateIo16Stroke(element, durationMillis, startingStrokeDashOffset) {
     return element.animate([{
-      strokeDashoffset: "" + startingStrokeDashOffset,
+      strokeDashoffset: "" + startingStrokeDashOffset + "px",
       easing: "linear",
       offset: 0
     }, {
-      strokeDashoffset: "" + (startingStrokeDashOffset + element.getTotalLength()),
+      strokeDashoffset: "" + (startingStrokeDashOffset + element.getTotalLength()) + "px",
       easing: "linear",
       offset: 1
     }], {
@@ -799,15 +799,15 @@ document.addEventListener("DOMContentLoaded", function () {
       var trimPathEnd = trimPathEndFunction(i / 1344) * 0.75 + 0.03;
       var trimPathLength = trimPathEnd - trimPathStart;
       keyFrames.push({
-        strokeDasharray: (trimPathLength * pathLength) + "," + (1 - trimPathLength) * pathLength,
-        strokeDashoffset: (-trimPathStart * pathLength),
+        strokeDasharray: (trimPathLength * pathLength) + "px," + (1 - trimPathLength) * pathLength + "px",
+        strokeDashoffset: (-trimPathStart * pathLength) + "px",
         easing: "linear",
         offset: (i / 1344)
       });
     }
     keyFrames.push({
-      strokeDasharray: (0.03 * pathLength) + "," + pathLength,
-      strokeDashoffset: (-0.75 * pathLength),
+      strokeDasharray: (0.03 * pathLength) + "px," + pathLength + "px",
+      strokeDashoffset: (-0.75 * pathLength) + "px",
       offset: 1
     });
     return circle_path.animate(keyFrames, {
@@ -1555,8 +1555,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var crossOutPath = document.getElementById("cross_out_path");
     var pathLength = crossOutPath.getTotalLength();
     crossOutPath.animate([
-      { strokeDasharray: pathLength, strokeDashoffset: pathLength, offset: 0, easing: fastOutSlowIn },
-      { strokeDasharray: pathLength, strokeDashoffset: 0, offset: 1 }
+      { strokeDasharray: pathLength + "px", strokeDashoffset: pathLength + "px", offset: 0, easing: fastOutSlowIn },
+      { strokeDasharray: pathLength + "px", strokeDashoffset: "0px", offset: 1 }
     ], { duration: duration, fill: "forwards" });
   }
 
@@ -1576,8 +1576,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var crossOutPath = document.getElementById("cross_out_path");
     var pathLength = crossOutPath.getTotalLength();
     crossOutPath.animate([
-      { strokeDasharray: pathLength, strokeDashoffset: 0, offset: 0, easing: fastOutSlowIn },
-      { strokeDasharray: pathLength, strokeDashoffset: pathLength, offset: 1 }
+      { strokeDasharray: pathLength + "px", strokeDashoffset: "0px", offset: 0, easing: fastOutSlowIn },
+      { strokeDasharray: pathLength + "px", strokeDashoffset: pathLength + "px", offset: 1 }
     ], { duration: duration, fill: "forwards" });
   }
 
@@ -1648,19 +1648,19 @@ document.addEventListener("DOMContentLoaded", function () {
     var pathLeftLength = heartStrokeLeftPath.getTotalLength();
     var pathRightLength = heartStrokeRightPath.getTotalLength();
     heartStrokeLeftPath.animate([
-      { strokeDasharray: pathLeftLength, strokeDashoffset: pathLeftLength, strokeOpacity: 0, offset: 0 },
-      { strokeDasharray: pathLeftLength, strokeDashoffset: pathLeftLength, strokeOpacity: 0, offset: 1 }
+      { strokeDasharray: pathLeftLength + "px", strokeDashoffset: pathLeftLength + "px", strokeOpacity: 0, offset: 0 },
+      { strokeDasharray: pathLeftLength + "px", strokeDashoffset: pathLeftLength + "px", strokeOpacity: 0, offset: 1 }
     ], { duration: 0, fill: "forwards" });
-    heartStrokeRightPath.animate([{ strokeDasharray: pathRightLength, strokeDashoffset: pathRightLength, strokeOpacity: 0, offset: 0 },
-      { strokeDasharray: pathRightLength, strokeDashoffset: pathRightLength, strokeOpacity: 0, offset: 1 }
+    heartStrokeRightPath.animate([{ strokeDasharray: pathRightLength + "px", strokeDashoffset: pathRightLength + "px", strokeOpacity: 0, offset: 0 },
+      { strokeDasharray: pathRightLength + "px", strokeDashoffset: pathRightLength + "px", strokeOpacity: 0, offset: 1 }
     ], { duration: 0, fill: "forwards" });
     heartStrokeLeftPath.animate([
-      { strokeDasharray: pathLeftLength, strokeDashoffset: pathLeftLength, strokeOpacity: 0.4, offset: 0, easing: fastOutSlowIn },
-      { strokeDasharray: pathLeftLength, strokeDashoffset: 0, strokeOpacity: 1, offset: 1 }
+      { strokeDasharray: pathLeftLength + "px", strokeDashoffset: pathLeftLength + "px", strokeOpacity: 0.4, offset: 0, easing: fastOutSlowIn },
+      { strokeDasharray: pathLeftLength + "px", strokeDashoffset: "0px", strokeOpacity: 1, offset: 1 }
     ], { duration: getScaledAnimationDuration(300), fill: "forwards", delay: getScaledAnimationDuration(400) });
     heartStrokeRightPath.animate([
-      { strokeDasharray: pathRightLength, strokeDashoffset: pathRightLength, strokeOpacity: 0.4, offset: 0, easing: fastOutSlowIn },
-      { strokeDasharray: pathRightLength, strokeDashoffset: 0, strokeOpacity: 1, offset: 1 }
+      { strokeDasharray: pathRightLength + "px", strokeDashoffset: pathRightLength + "px", strokeOpacity: 0.4, offset: 0, easing: fastOutSlowIn },
+      { strokeDasharray: pathRightLength + "px", strokeDashoffset: "0px", strokeOpacity: 1, offset: 1 }
     ], { duration: getScaledAnimationDuration(300), fill: "forwards", delay: getScaledAnimationDuration(400) });
 
     document.getElementById("heart_full_path").style.visibility = "hidden";
@@ -1776,15 +1776,15 @@ document.addEventListener("DOMContentLoaded", function () {
       var trimPathEnd = trimPathEndFunction(i / 1344) * 0.75 + 0.03;
       var trimPathLength = trimPathEnd - trimPathStart;
       keyFrames.push({
-        strokeDasharray: (trimPathLength * pathLength) + "," + (1 - trimPathLength) * pathLength,
-        strokeDashoffset: (-trimPathStart * pathLength),
+        strokeDasharray: (trimPathLength * pathLength) + "px," + ((1 - trimPathLength) * pathLength) + "px",
+        strokeDashoffset: (-trimPathStart * pathLength) + "px",
         easing: "linear",
         offset: (i / 1344)
       });
     }
     keyFrames.push({
-      strokeDasharray: (0.03 * pathLength) + "," + pathLength,
-      strokeDashoffset: (-0.75 * pathLength),
+      strokeDasharray: (0.03 * pathLength) + "px," + pathLength + "px",
+      strokeDashoffset: (-0.75 * pathLength) + "px",
       offset: 1
     });
     return downloadingProgressBar.animate(keyFrames, {
@@ -1903,8 +1903,8 @@ document.addEventListener("DOMContentLoaded", function () {
         trimPathStart = linearOutSlowInFunction((i - 400) / 624) * 0.88047672583;
       }
       keyFrames.push({
-        strokeDasharray: ((trimPathEnd - trimPathStart) * pathLength) + "," + pathLength,
-        strokeDashoffset: (-trimPathStart * pathLength),
+        strokeDasharray: ((trimPathEnd - trimPathStart) * pathLength) + "px," + pathLength + "px",
+        strokeDashoffset: (-trimPathStart * pathLength) + "px",
         easing: "linear",
         offset: (i / 1024)
       });
