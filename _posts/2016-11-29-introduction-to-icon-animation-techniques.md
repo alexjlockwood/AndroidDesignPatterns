@@ -35,7 +35,7 @@ This post is split into the following sections:
 
 All of the icon animations in this blog post are available in `AnimatedVectorDrawable` format on [GitHub][adp-delightful-details]. I
 also encourage you to check out [Shape Shifter](https://shapeshifter.design/), a side project I've been working on
-that simplify the process of creating path morphing animations for Android and the web.
+that helps simplify the process of creating path morphing animations for Android and the web.
 
 ### Drawing `path`s
 
