@@ -220,7 +220,7 @@ Lastly, **Figure 7** shows how a stroked trim path is used to animate the famili
 
 ### Morphing `path`s
 
-The most advanced icon animation technique we'll cover in this post is path morphing. Currently only supported on Android 5.0 and above, path morphing allows us to seamlessly transform the shapes of two paths by animating the differences in their drawing commands, as specified in their `android:pathData` attributes. With path morphing, we can transform a plus sign into a minus sign, a play icon into a pause icon, or even an overflow icon into a back arrow, as seen in **Figure 8** below.
+The most advanced icon animation technique we'll cover in this post is path morphing. Path morphing allows us to seamlessly transform the shapes of two paths by animating the differences in their drawing commands, as specified in their `android:pathData` attributes. With path morphing, we can transform a plus sign into a minus sign, a play icon into a pause icon, or even an overflow icon into a back arrow, as seen in **Figure 8** below.
 
 | Property name      | Element type | Value type |
 |--------------------|--------------|------------|
