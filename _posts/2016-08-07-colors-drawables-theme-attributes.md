@@ -112,7 +112,7 @@ library's [`ResourcesCompat`][ResourcesCompat] and [`ContextCompat`][ContextComp
 
 #### "That stinks! How can I workaround these problems?"
 
-**EDIT:** As of v24.0 of the AppCompat support library, you can now workaround all of these
+As of v24.0 of the AppCompat support library, you can now workaround all of these
 problems using the new [`AppCompatResources`][AppCompatResources]
 class! To extract a themed `ColorStateList` from XML, just use:
 
@@ -126,18 +126,6 @@ theme attributes it encounters along the way. If that isn't enough, it also
 backports the `ColorStateList`'s new
 [`android:alpha`][ColorStateList#attr_android:alpha]
 attribute as well (which was previously only available to devices running API 23 and above)!
-
-~~Apps that support a `minSdkVersion` less than API 23 should prefer to use the
-static `ContextCompat` and `ResourcesCompat` helper methods in the support library, as Android lint
-suggests. However, note that no matter which methods you use, attempting to
-resolve theme attributes in a `ColorStateList` XML file **WILL NEVER WORK on
-pre-Marshmallow devices**!~~
-
-~~But that stinks! What if you really want to use a theme attribute in your `ColorStateList`?
-Well, just because you can't do it in XML, doesn't mean you
-can't do it in Java. :) Try resolving the theme attributes programatically, and
-then use them to construct the `ColorStateList` using a few extra lines of code
-instead. Check out the sample code below for some examples!~~
 
 ### The problem with `Resources#getDrawable(int)`
 
