@@ -6,12 +6,271 @@ permalink: /2017/11/nested-scrolling.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
+style: |
+    video.video-figure {
+        width: 320px;
+    }
+script: |
+    function playPause(figureId) {
+      var myVideo = document.getElementById(figureId);
+      myVideo.load();
+      myVideo.play();
+    }
 ---
 
 <!--morestart-->
 
-asdf asdf asdf
+Introduction.
 
 <!--more-->
 
-asdf asdf asdf
+### Introduction
+
+Expeditions and sample app.
+
+<video class="video-figure" id="expeditions-opt" onclick="playPause('expeditions-opt')" poster="/assets/videos/posts/2017/11/22/poster-expeditions.png" preload="none">
+    <source src="/assets/videos/posts/2017/11/22/expeditions-opt.mp4" type="video/mp4">
+    <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
+</video>
+
+<video class="video-figure" id="sample-app-opt" onclick="playPause('sample-app-opt')" poster="/assets/videos/posts/2017/11/22/poster-sample-app.png" preload="none">
+    <source src="/assets/videos/posts/2017/11/22/sample-app-opt.mp4" type="video/mp4">
+    <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
+</video>
+
+The sample app's layout consists of a `NestedScrollView` and a `RecyclerView`.
+
+![NestedScrollView](/assets/images/posts/2017/11/22/nsv-overlay-small.png "NestedScrollView")
+![RecyclerView](/assets/images/posts/2017/11/22/rv-overlay-small.png "RecyclerView")
+
+### Issue 1: scrolling bug
+
+<video class="video-figure" id="scroll-bug-opt" onclick="playPause('scroll-bug-opt')" poster="/assets/videos/posts/2017/11/22/poster-scroll-fling-bug.png" preload="none">
+    <source src="/assets/videos/posts/2017/11/22/scroll-bug-opt.mp4" type="video/mp4">
+    <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
+</video>
+
+The solution is a custom nested scroll view.
+
+```java
+class CustomNestedScrollView extends NestedScrollView {
+
+  /* ... */
+
+  @Override
+  public void onNestedPreScroll(@NonNull View target, int dx, int dy, int[] consumed) {
+    final RecyclerView rv = (RecyclerView) target;
+    final LinearLayoutManager lm = (LinearLayoutManager) rv.getLayoutManager();
+    final boolean isRvScrolledToTop =
+        lm.findFirstVisibleItemPosition() == 0 && lm.findViewByPosition(0).getTop() == 0;
+    final boolean isNsvScrolledToBottom = !canScrollVertically(1);
+    if ((dy < 0 && isRvScrolledToTop) || (dy > 0 && !isNsvScrolledToBottom)) {
+      // The NestedScrollView should steal the scroll event away from the
+      // RecyclerView in one of two cases: (1) if the user is scrolling their
+      // finger down and the RecyclerView is scrolled to the top, or (2) if
+      // the user is scrolling their finger up and the NestedScrollView is
+      // not scrolled to the bottom.
+      scrollBy(0, dy);
+      consumed[1] = dy;
+      return;
+    }
+    super.onNestedPreScroll(target, dx, dy, consumed);
+  }
+
+  /* ... */
+}
+```
+
+### Issue 2: flinging bug
+
+<video class="video-figure" id="fling-bug-opt" onclick="playPause('fling-bug-opt')" poster="/assets/videos/posts/2017/11/22/poster-scroll-fling-bug.png" preload="none">
+    <source src="/assets/videos/posts/2017/11/22/fling-bug-opt.mp4" type="video/mp4">
+    <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
+</video>
+
+```java
+class CustomNestedScrollView extends NestedScrollView {
+
+  /* ... */
+
+  @Override
+  public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) { /* ... */ }
+
+  @Override
+  public boolean onNestedPreFling(View target, float velX, float velY) {
+    final RecyclerView rv = (RecyclerView) target;
+    final LinearLayoutManager lm = (LinearLayoutManager) rv.getLayoutManager();
+    final boolean isRvScrolledToTop =
+        lm.findFirstVisibleItemPosition() == 0 && lm.findViewByPosition(0).getTop() == 0;
+    final boolean isNsvScrolledToBottom = !canScrollVertically(1);
+    if ((velY < 0 && isRvScrolledToTop) || (velY > 0 && !isNsvScrolledToBottom)) {
+      // The NestedScrollView should steal the fling event away from the
+      // RecyclerView in one of two cases: (1) if the user is flinging their
+      // finger down and the RecyclerView is scrolled to the top, or (2) if
+      // the user is flinging their finger up and the NestedScrollView is
+      // not scrolled to the bottom.
+      fling((int) velY);
+      return true;
+    }
+    return super.onNestedPreFling(target, velX, velY);
+  }
+}
+```
+
+### Issue 3: another flinging bug
+
+Flings still don't work properly.
+
+<video class="video-figure" id="sample-app-fling-actual-opt" onclick="playPause('sample-app-fling-actual-opt')" poster="/assets/videos/posts/2017/11/22/poster-sample-app-fling.png" preload="none">
+    <source src="/assets/videos/posts/2017/11/22/sample-app-fling-actual-opt.mp4" type="video/mp4">
+    <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
+</video>
+
+Chris Banes wrote a [blog post][carry-on-scrolling-blog-post] last June
+explaining the issue.
+
+For some reason `NestedScrollView` was updated to implement the
+`NestedScrollingChild2` interface, but not the `NestedScrollingParent2`
+interface. So I had to create another custom class ([source code][NestedScrollView2]):
+
+```java
+/**
+ * A {@link NestedScrollView} that implements the {@link NestedScrollingParent2} interface.
+ */
+class NestedScrollView2 extends NestedScrollView implements NestedScrollingParent2 {
+  private final NestedScrollingParentHelper parentHelper;
+
+  public NestedScrollView2(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    parentHelper = new NestedScrollingParentHelper(this);
+  }
+
+  // NestedScrollingParent2 methods.
+
+  @Override
+  public boolean onStartNestedScroll(View child, View target, int axes, int type) {
+    return (axes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
+  }
+
+  @Override
+  public void onNestedScrollAccepted(View child, View target, int axes, int type) {
+    parentHelper.onNestedScrollAccepted(child, target, axes);
+    startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL, type);
+  }
+
+  @Override
+  public void onNestedPreScroll(View target, int dx, int dy, int[] consumed, int type) {
+    dispatchNestedPreScroll(dx, dy, consumed, null, type);
+  }
+
+  @Override
+  public void onNestedScroll(
+      View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
+    final int oldScrollY = getScrollY();
+    scrollBy(0, dyUnconsumed);
+    final int myConsumed = getScrollY() - oldScrollY;
+    final int myUnconsumed = dyUnconsumed - myConsumed;
+    dispatchNestedScroll(0, myConsumed, 0, myUnconsumed, null, type);
+  }
+
+  @Override
+  public void onStopNestedScroll(View target, int type) {
+    parentHelper.onStopNestedScroll(target, type);
+    stopNestedScroll(type);
+  }
+
+  // NestedScrollingParent methods. For the most part these methods delegate
+  // to the NestedScrollingParent2 methods above, passing TYPE_TOUCH as the
+  // type to maintain API compatibility.
+
+  @Override
+  public boolean onStartNestedScroll(View child, View target, int axes) {
+    return onStartNestedScroll(child, target, axes, ViewCompat.TYPE_TOUCH);
+  }
+
+  @Override
+  public void onNestedScrollAccepted(View child, View target, int axes) {
+    onNestedScrollAccepted(child, target, axes, ViewCompat.TYPE_TOUCH);
+  }
+
+  @Override
+  public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
+    onNestedPreScroll(target, dx, dy, consumed, ViewCompat.TYPE_TOUCH);
+  }
+
+  @Override
+  public void onNestedScroll(
+      View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+    onNestedScroll(target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, ViewCompat.TYPE_TOUCH);
+  }
+
+  @Override
+  public void onStopNestedScroll(View target) {
+    onStopNestedScroll(target, ViewCompat.TYPE_TOUCH);
+  }
+
+  @Override
+  public int getNestedScrollAxes() {
+    return parentHelper.getNestedScrollAxes();
+  }
+}
+```
+
+Then I could update my custom nested scroll view as follows.
+
+Note that I no longer need to override `onNestedPreFling()`. When the user lifts their
+finger and a fling begins, the `RecyclerView` calls `fling()` on itself, which begins
+a new round of nested scrolling beginning with a call to
+[`startNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#startNestedScroll], then
+[`dispatchNestedPreScroll(TYPE_NON_TOUCH)`][RecyclerView#dispatchNestedPreScroll], then
+[`dispatchNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#dispatchNestedScroll], and finally
+[`stopNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#stopNestedScroll].
+
+```java
+class CustomNestedScrollView2 extends NestedScrollView2 {
+
+  /* ... */
+
+  @Override
+  public void onNestedPreScroll(View target, int dx, int dy, int[] consumed, int type) {
+    final RecyclerView rv = (RecyclerView) target;
+    final LinearLayoutManager lm = (LinearLayoutManager) rv.getLayoutManager();
+    final boolean isRvScrolledToTop =
+        lm.findFirstVisibleItemPosition() == 0 && lm.findViewByPosition(0).getTop() == 0;
+    final boolean isNsvScrolledToBottom = !canScrollVertically(1);
+    if ((dy < 0 && isRvScrolledToTop) || (dy > 0 && !isNsvScrolledToBottom)) {
+      // The NestedScrollView should steal the scroll event away from the
+      // RecyclerView in one of two cases: (1) if the user is scrolling their
+      // finger down and the RecyclerView is scrolled to the top, or (2) if
+      // the user is scrolling their finger up and the NestedScrollView is
+      // not scrolled to the bottom.
+      scrollBy(0, dy);
+      consumed[1] = dy;
+      return;
+    }
+    super.onNestedPreScroll(target, dx, dy, consumed, type);
+  }
+}
+```
+
+And we're done!
+
+<video class="video-figure" id="sample-app-fling-expected-opt" onclick="playPause('sample-app-fling-expected-opt')" poster="/assets/videos/posts/2017/11/22/poster-sample-app-fling.png" preload="none">
+    <source src="/assets/videos/posts/2017/11/22/sample-app-fling-expected-opt.mp4" type="video/mp4">
+    <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
+    <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
+</video>
+
+  [carry-on-scrolling-blog-post]: https://chris.banes.me/2017/06/09/carry-on-scrolling/
+  [adp-nested-scrolling]: https://github.com/alexjlockwood/adp-nested-scrolling
+  [NestedScrollView2]: https://github.com/alexjlockwood/adp-nested-scrolling/blob/master/app/src/main/java/design/shapeshifter/nestedscrolling/NestedScrollView2.java
+  [RecyclerView#startNestedScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L2158
+  [RecyclerView#dispatchNestedPreScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L4849
+  [RecyclerView#dispatchNestedScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L4893
+  [RecyclerView#stopNestedScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L4938
+
