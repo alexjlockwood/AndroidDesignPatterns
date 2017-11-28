@@ -7,8 +7,14 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
 style: |
-    video.video-figure {
-        width: 320px;
+    video.video-figure, img.image-figure {
+        max-width: 800px;
+        border-radius: 4px;
+    }
+    .image-caption {
+      margin-top: 3px;
+      margin-bottom:10px;
+      text-align: center;
     }
 script: |
     function playPause(figureId) {
@@ -24,34 +30,45 @@ Introduction.
 
 <!--more-->
 
-### Introduction
+## Introduction
 
 Expeditions and sample app.
 
-<video class="video-figure" id="expeditions-opt" onclick="playPause('expeditions-opt')" poster="/assets/videos/posts/2017/11/22/poster-expeditions.png" preload="none">
-    <source src="/assets/videos/posts/2017/11/22/expeditions-opt.mp4" type="video/mp4">
+<video class="video-figure" id="expeditions-sample-opt" onclick="playPause('expeditions-sample-opt')" poster="/assets/videos/posts/2017/11/22/expeditions-sample.png" preload="auto">
+    <source src="/assets/videos/posts/2017/11/22/expeditions-sample-opt.mp4" type="video/mp4">
     <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
     <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
 </video>
-
-<video class="video-figure" id="sample-app-opt" onclick="playPause('sample-app-opt')" poster="/assets/videos/posts/2017/11/22/poster-sample-app.png" preload="none">
-    <source src="/assets/videos/posts/2017/11/22/sample-app-opt.mp4" type="video/mp4">
-    <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
-</video>
+<div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
+    <p class="image-caption">
+        <strong>Figure 1</strong> - The video on the left is the Google Expeditions app. The video on the right is my sample app.
+    </p>
+</div>
 
 The sample app's layout consists of a `NestedScrollView` and a `RecyclerView`.
 
-![NestedScrollView](/assets/images/posts/2017/11/22/nsv-overlay-small.png "NestedScrollView")
-![RecyclerView](/assets/images/posts/2017/11/22/rv-overlay-small.png "RecyclerView")
+<img class="image-figure" src="/assets/images/posts/2017/11/22/sample-app-layout.png" alt="Sample app layout" title="Sample app layout">
+<div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
+    <p class="image-caption">
+        <strong>Figure 2</strong> - The sample app is made up of a <code>NestedScrollView</code> and a <code>RecyclerView</code>.
+    </p>
+</div>
 
-### Issue 1: scrolling bug
+## Issues
 
-<video class="video-figure" id="scroll-bug-opt" onclick="playPause('scroll-bug-opt')" poster="/assets/videos/posts/2017/11/22/poster-scroll-fling-bug.png" preload="none">
-    <source src="/assets/videos/posts/2017/11/22/scroll-bug-opt.mp4" type="video/mp4">
+<video class="video-figure" id="nested-scrolling-bugs1-opt" onclick="playPause('nested-scrolling-bugs1-opt')" poster="/assets/videos/posts/2017/11/22/nested-scrolling-bugs1.png" preload="auto">
+    <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs1-opt.mp4" type="video/mp4">
     <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
     <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
 </video>
+<div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
+    <p class="image-caption">
+        <strong>Figure 3</strong> - Both videos are buggy.
+    </p>
+</div>
+
+
+### Scrolling bug
 
 The solution is a custom nested scroll view.
 
@@ -61,7 +78,7 @@ class CustomNestedScrollView extends NestedScrollView {
   /* ... */
 
   @Override
-  public void onNestedPreScroll(@NonNull View target, int dx, int dy, int[] consumed) {
+  public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
     final RecyclerView rv = (RecyclerView) target;
     final LinearLayoutManager lm = (LinearLayoutManager) rv.getLayoutManager();
     final boolean isRvScrolledToTop =
@@ -84,13 +101,7 @@ class CustomNestedScrollView extends NestedScrollView {
 }
 ```
 
-### Issue 2: flinging bug
-
-<video class="video-figure" id="fling-bug-opt" onclick="playPause('fling-bug-opt')" poster="/assets/videos/posts/2017/11/22/poster-scroll-fling-bug.png" preload="none">
-    <source src="/assets/videos/posts/2017/11/22/fling-bug-opt.mp4" type="video/mp4">
-    <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
-</video>
+### Flinging bug
 
 ```java
 class CustomNestedScrollView extends NestedScrollView {
@@ -125,11 +136,16 @@ class CustomNestedScrollView extends NestedScrollView {
 
 Flings still don't work properly.
 
-<video class="video-figure" id="sample-app-fling-actual-opt" onclick="playPause('sample-app-fling-actual-opt')" poster="/assets/videos/posts/2017/11/22/poster-sample-app-fling.png" preload="none">
-    <source src="/assets/videos/posts/2017/11/22/sample-app-fling-actual-opt.mp4" type="video/mp4">
+<video class="video-figure" id="nested-scrolling-bugs2-opt" onclick="playPause('nested-scrolling-bugs2-opt')" poster="/assets/videos/posts/2017/11/22/nested-scrolling-bugs2.png" preload="auto">
+    <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs2-opt.mp4" type="video/mp4">
     <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
     <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
 </video>
+<div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
+    <p class="image-caption">
+        <strong>Figure 4</strong> - The video on the left is buggy. The video on the right is not.
+    </p>
+</div>
 
 Chris Banes wrote a [blog post][carry-on-scrolling-blog-post] last June
 explaining the issue.
@@ -259,12 +275,6 @@ class CustomNestedScrollView2 extends NestedScrollView2 {
 ```
 
 And we're done!
-
-<video class="video-figure" id="sample-app-fling-expected-opt" onclick="playPause('sample-app-fling-expected-opt')" poster="/assets/videos/posts/2017/11/22/poster-sample-app-fling.png" preload="none">
-    <source src="/assets/videos/posts/2017/11/22/sample-app-fling-expected-opt.mp4" type="video/mp4">
-    <!-- <source src="/assets/videos/posts/2015/01/12/music-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2015/01/12/music-opt.ogv" type="video/ogg"> -->
-</video>
 
   [carry-on-scrolling-blog-post]: https://chris.banes.me/2017/06/09/carry-on-scrolling/
   [adp-nested-scrolling]: https://github.com/alexjlockwood/adp-nested-scrolling
