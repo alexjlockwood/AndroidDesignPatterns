@@ -7,25 +7,41 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2013/04/retaining-objects-across-config-changes.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
 style: |
-    video.video-figure, img.image-figure {
-        max-width: 800px;
-        border-radius: 4px;
+    .figure-video {
+      border-radius: 4px;
     }
-    .figure-caption {
+    .figure-image {
+      width: 100%;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .figure-container {
+      position: relative;
+      width: 100%;
+      padding-top: 75%;
+    }
+    .figure-element {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .caption-container {
       font-size: 10pt;
       margin-left: 20px;
       margin-bottom: 30px
     }
-    .image-caption {
+    .caption-element {
       margin-top: 3px;
       margin-bottom:10px;
       text-align: center;
     }
+
 script: |
-    function playPause(figureId) {
-      var myVideo = document.getElementById(figureId);
-      myVideo.load();
-      myVideo.play();
+    function resumeVideo(videoElement) {
+      videoElement.load();
+      videoElement.play();
     }
 ---
 
@@ -40,18 +56,19 @@ Introduction.
 Expeditions and sample app.
 
 <!-- Figure 1 -->
-<video
-    id="expeditions-sample-opt"
-    class="video-figure"
-    poster="/assets/videos/posts/2017/11/22/poster-expeditions-sample.png"
-    preload="auto"
-    onclick="playPause('expeditions-sample-opt')" >
-    <source src="/assets/videos/posts/2017/11/22/expeditions-sample-opt.mp4" type="video/mp4">
-    <source src="/assets/videos/posts/2017/11/22/expeditions-sample-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2017/11/22/expeditions-sample-opt.ogv" type="video/ogg">
-</video>
-<div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
-    <p class="image-caption">
+<div class="figure-container">
+    <video
+        class="figure-video figure-element"
+        poster="/assets/videos/posts/2017/11/22/poster-expeditions-sample.png"
+        preload="auto"
+        onclick="resumeVideo(this)" >
+        <source src="/assets/videos/posts/2017/11/22/expeditions-sample-opt.mp4" type="video/mp4">
+        <source src="/assets/videos/posts/2017/11/22/expeditions-sample-opt.webm" type="video/webm">
+        <source src="/assets/videos/posts/2017/11/22/expeditions-sample-opt.ogv" type="video/ogg">
+    </video>
+</div>
+<div class="caption-container">
+    <p class="caption-element">
         <strong>Figure 1</strong> - The video on the left is the Google Expeditions app. The video on the right is my sample app.
     </p>
 </div>
@@ -60,50 +77,53 @@ The sample app's layout consists of a `NestedScrollView` and a `RecyclerView`.
 
 <!-- Figure 2 -->
 <img
-    class="image-figure"
+    class="figure-image"
     src="/assets/images/posts/2017/11/22/sample-app-layouts.png"
     alt="Sample app layouts"
     title="Sample app layouts">
-<div class="figure-caption">
-    <p class="image-caption">
+<div class="caption-container">
+    <p class="caption-element">
         <strong>Figure 2</strong> - The sample app is made up of a <code>NestedScrollView</code> and a <code>RecyclerView</code>.
     </p>
 </div>
 
-<video
-    id="cheesesquare-opt"
-    class="video-figure"
-    poster="/assets/videos/posts/2017/11/22/poster-cheesesquare.png"
-    preload="auto"
-    onclick="playPause('cheesesquare-opt')">
-    <source src="/assets/videos/posts/2017/11/22/cheesesquare-opt.mp4" type="video/mp4">
-    <source src="/assets/videos/posts/2017/11/22/cheesesquare-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2017/11/22/cheesesquare-opt.ogv" type="video/ogg">
-</video>
-<div class="figure-caption">
-    <p class="image-caption">
+<!-- Figure 3 -->
+<div class="figure-container">
+    <video
+        class="figure-video figure-element"
+        poster="/assets/videos/posts/2017/11/22/poster-cheesesquare.png"
+        preload="auto"
+        onclick="resumeVideo(this)" >
+        <source src="/assets/videos/posts/2017/11/22/cheesesquare-opt.mp4" type="video/mp4">
+        <source src="/assets/videos/posts/2017/11/22/cheesesquare-opt.webm" type="video/webm">
+        <source src="/assets/videos/posts/2017/11/22/cheesesquare-opt.ogv" type="video/ogg">
+    </video>
+</div>
+<div class="caption-container">
+    <p class="caption-element">
         <strong>Figure 3</strong> - Cheesesquare.
     </p>
 </div>
 
 ## Issues
 
-<video
-    id="nested-scrolling-bugs1-opt"
-    class="video-figure"
-    poster="/assets/videos/posts/2017/11/22/poster-nested-scrolling-bugs1.png"
-    preload="auto"
-    onclick="playPause('nested-scrolling-bugs1-opt')">
-    <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs1-opt.mp4" type="video/mp4">
-    <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs1-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs1-opt.ogv" type="video/ogg">
-</video>
-<div class="figure-caption">
-    <p class="image-caption">
+<!-- Figure 4 -->
+<div class="figure-container">
+    <video
+        class="figure-video figure-element"
+        poster="/assets/videos/posts/2017/11/22/poster-nested-scrolling-bugs1.png"
+        preload="auto"
+        onclick="resumeVideo(this)" >
+        <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs1-opt.mp4" type="video/mp4">
+        <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs1-opt.webm" type="video/webm">
+        <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs1-opt.ogv" type="video/ogg">
+    </video>
+</div>
+<div class="caption-container">
+    <p class="caption-element">
         <strong>Figure 4</strong> - Both videos are buggy.
     </p>
 </div>
-
 
 ### Scrolling bug
 
@@ -173,18 +193,20 @@ class CustomNestedScrollView extends NestedScrollView {
 
 Flings still don't work properly.
 
-<video
-    id="nested-scrolling-bugs2-opt"
-    class="video-figure"
-    poster="/assets/videos/posts/2017/11/22/poster-nested-scrolling-bugs2.png"
-    preload="auto"
-    onclick="playPause('nested-scrolling-bugs2-opt')" >
-    <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs2-opt.mp4" type="video/mp4">
-    <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs2-opt.webm" type="video/webm">
-    <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs2-opt.ogv" type="video/ogg">
-</video>
-<div style="font-size:10pt;margin-left:20px;margin-bottom:30px">
-    <p class="image-caption">
+<!-- Figure 5 -->
+<div class="figure-container">
+    <video
+        class="figure-video figure-element"
+        poster="/assets/videos/posts/2017/11/22/poster-nested-scrolling-bugs2.png"
+        preload="auto"
+        onclick="resumeVideo(this)" >
+        <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs2-opt.mp4" type="video/mp4">
+        <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs2-opt.webm" type="video/webm">
+        <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs2-opt.ogv" type="video/ogg">
+    </video>
+</div>
+<div class="caption-container">
+    <p class="caption-element">
         <strong>Figure 5</strong> - The video on the left is buggy. The video on the right is not.
     </p>
 </div>
