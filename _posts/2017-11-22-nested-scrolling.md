@@ -37,7 +37,6 @@ style: |
       margin-bottom:10px;
       text-align: center;
     }
-
 script: |
     function resumeVideo(videoElement) {
       videoElement.load();
@@ -76,18 +75,6 @@ Expeditions and sample app.
 The sample app's layout consists of a `NestedScrollView` and a `RecyclerView`.
 
 <!-- Figure 2 -->
-<img
-    class="figure-image"
-    src="/assets/images/posts/2017/11/22/sample-app-layouts.png"
-    alt="Sample app layouts"
-    title="Sample app layouts">
-<div class="caption-container">
-    <p class="caption-element">
-        <strong>Figure 2</strong> - The sample app is made up of a <code>NestedScrollView</code> and a <code>RecyclerView</code>.
-    </p>
-</div>
-
-<!-- Figure 3 -->
 <div class="figure-container">
     <video
         class="figure-video figure-element"
@@ -101,7 +88,19 @@ The sample app's layout consists of a `NestedScrollView` and a `RecyclerView`.
 </div>
 <div class="caption-container">
     <p class="caption-element">
-        <strong>Figure 3</strong> - Cheesesquare.
+        <strong>Figure 2</strong> - Cheesesquare.
+    </p>
+</div>
+
+<!-- Figure 3 -->
+<img
+    class="figure-image"
+    src="/assets/images/posts/2017/11/22/sample-app-layouts.jpg"
+    alt="Sample app layouts"
+    title="Sample app layouts">
+<div class="caption-container">
+    <p class="caption-element">
+        <strong>Figure 3</strong> - The sample app is made up of a <code>NestedScrollView</code> and a <code>RecyclerView</code>.
     </p>
 </div>
 
@@ -111,7 +110,7 @@ The sample app's layout consists of a `NestedScrollView` and a `RecyclerView`.
 <div class="figure-container">
     <video
         class="figure-video figure-element"
-        poster="/assets/videos/posts/2017/11/22/poster-nested-scrolling-bugs1.png"
+        poster="/assets/videos/posts/2017/11/22/poster-nested-scrolling-bugs1.jpg"
         preload="auto"
         onclick="resumeVideo(this)" >
         <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs1-opt.mp4" type="video/mp4">
