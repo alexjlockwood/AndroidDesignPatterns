@@ -58,7 +58,7 @@ Expeditions and sample app.
 <div class="figure-container">
     <video
         class="figure-video figure-element"
-        poster="/assets/videos/posts/2017/11/22/poster-expeditions-sample.png"
+        poster="/assets/videos/posts/2017/11/22/poster-expeditions-sample.jpg"
         preload="auto"
         onclick="resumeVideo(this)" >
         <source src="/assets/videos/posts/2017/11/22/expeditions-sample-opt.mp4" type="video/mp4">
@@ -78,7 +78,7 @@ The sample app's layout consists of a `NestedScrollView` and a `RecyclerView`.
 <div class="figure-container">
     <video
         class="figure-video figure-element"
-        poster="/assets/videos/posts/2017/11/22/poster-cheesesquare.png"
+        poster="/assets/videos/posts/2017/11/22/poster-cheesesquare.jpg"
         preload="auto"
         onclick="resumeVideo(this)" >
         <source src="/assets/videos/posts/2017/11/22/cheesesquare-opt.mp4" type="video/mp4">
@@ -196,7 +196,7 @@ Flings still don't work properly.
 <div class="figure-container">
     <video
         class="figure-video figure-element"
-        poster="/assets/videos/posts/2017/11/22/poster-nested-scrolling-bugs2.png"
+        poster="/assets/videos/posts/2017/11/22/poster-nested-scrolling-bugs2.jpg"
         preload="auto"
         onclick="resumeVideo(this)" >
         <source src="/assets/videos/posts/2017/11/22/nested-scrolling-bugs2-opt.mp4" type="video/mp4">
