@@ -46,13 +46,11 @@ script: |
 
 <!--morestart-->
 
-Introduction.
+One of my favorite projects that I worked on during my 3 years at Google was Google Expeditions, a virtual reality teaching tool that lets you lead or join immersive virtual field trips all over the world. Our UX team gave us some pretty ambitious mocks, and for a little over half a year I helped rewrite and polish the app’s UI in time for its initial release. I had the most fun writing the app’s field trip selector screen, which rendered a SurfaceView behind a beautifully designed card-based layout that allowed the user to quickly switch between different VR experiences.
 
 <!--more-->
 
-## Introduction
-
-Expeditions and sample app.
+I haven’t written much Android code over the past year (I’ve been spending a lot of time teaching myself how to write web-based Android dev tools, such as [Shape Shifter][shapeshifter-github] and [avdo][avdo-github], which are both written in TypeScript), so the other day I challenged myself to try and write the UI for this screen again. You can see the side-by-side comparison of Google Expeditions vs. the resulting sample app I wrote in Figure 1 below.
 
 <!-- Figure 1 -->
 <div class="figure-container">
@@ -72,8 +70,6 @@ Expeditions and sample app.
     </p>
 </div>
 
-The sample app's layout consists of a `NestedScrollView` and a `RecyclerView`.
-
 <!-- Figure 2 -->
 <div class="figure-container">
     <video
@@ -91,6 +87,8 @@ The sample app's layout consists of a `NestedScrollView` and a `RecyclerView`.
         <strong>Figure 2</strong> - Cheesesquare.
     </p>
 </div>
+
+The sample app's layout consists of a `NestedScrollView` and a `RecyclerView`.
 
 <!-- Figure 3 -->
 <img
@@ -340,10 +338,12 @@ class CustomNestedScrollView2 extends NestedScrollView2 {
 And we're done!
 
   [carry-on-scrolling-blog-post]: https://chris.banes.me/2017/06/09/carry-on-scrolling/
-  [adp-nested-scrolling]: https://github.com/alexjlockwood/adp-nested-scrolling
+  [adp-nested-scrolling-source]: https://github.com/alexjlockwood/adp-nested-scrolling
+  [adp-nested-scrolling-play-store]: https://play.google.com/store/apps/details?id=alexjlockwood.nestedscrolling
   [NestedScrollView2]: https://github.com/alexjlockwood/adp-nested-scrolling/blob/master/app/src/main/java/design/shapeshifter/nestedscrolling/NestedScrollView2.java
   [RecyclerView#startNestedScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L2158
   [RecyclerView#dispatchNestedPreScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L4849
   [RecyclerView#dispatchNestedScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L4893
   [RecyclerView#stopNestedScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L4938
-
+  [shapeshifter-github]: https://github.com/alexjlockwood/ShapeShifter
+  [avdo-github]: https://github.com/alexjlockwood/avdo
