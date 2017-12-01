@@ -58,7 +58,7 @@ reclaimed, and the result will likely be a significant reduction in performance.
 ### How to Leak an Activity
 
 The first memory leak should be immediately obvious if you read my
-<a href="http://www.androiddesignpatterns.com/2013/01/inner-class-handler-memory-leak.html">previous post</a>
+<a href="/2013/01/inner-class-handler-memory-leak.html">previous post</a>
 on Handlers and inner classes. In Java, non-static anonymous classes hold an implicit
 reference to their enclosing class. If you're not careful, storing this reference
 can result in the Activity being retained when it would otherwise be eligible for
@@ -91,12 +91,12 @@ thread as a private static inner class as shown below.
 
 ```java
 /**
- * This example avoids leaking an Activity context by declaring the 
- * thread as a private static inner class, but the threads still 
+ * This example avoids leaking an Activity context by declaring the
+ * thread as a private static inner class, but the threads still
  * continue to run even across configuration changes. The DVM has a
  * reference to all running threads and whether or not these threads
  * are garbage collected has nothing to do with the Activity lifecycle.
- * Active threads will continue to run until the kernel destroys your 
+ * Active threads will continue to run until the kernel destroys your
  * application's process.
  */
 public class MainActivity extends Activity {
@@ -138,8 +138,8 @@ of how this might be done is shown below:
 ```java
 /**
  * Same as example two, except for this time we have implemented a
- * cancellation policy for our thread, ensuring that it is never 
- * leaked! onDestroy() is usually a good place to close your active 
+ * cancellation policy for our thread, ensuring that it is never
+ * leaked! onDestroy() is usually a good place to close your active
  * threads before exiting the Activity.
  */
 public class MainActivity extends Activity {
@@ -185,13 +185,12 @@ public class MainActivity extends Activity {
 }
 ```
 
-
 In the code above, closing the thread in `onDestroy()` ensures that
 you never accidentally leak the thread. If you want to persist the same thread
 across configuration changes (as opposed to closing and re-creating a new thread
 each time), consider using a retained, UI-less worker fragment to perform the
 long-running task. Check out my blog post, titled
-<a href="http://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html">Handling Configuration Changes with Fragments</a>,
+<a href="/2013/04/retaining-objects-across-config-changes.html">Handling Configuration Changes with Fragments</a>,
 for an example explaining how this can be done. There is also a comprehensive
 example available in the
 <a href="https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/FragmentRetainInstance.java">API demos</a>
