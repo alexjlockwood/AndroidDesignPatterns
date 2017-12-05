@@ -49,11 +49,11 @@ script: |
 
 <!--morestart-->
 
-As I reflect on my 3 years at Google, my favorite memories were probably from the time I spent working on Google Expeditions, a virtual reality app that allows teachers to lead their students on immersive virtual field trips all over the world. The team was small and our UX team was ambitious, so for a little over half a year I helped rewrite and polish the app’s UI in time for its first public release. I especially enjoyed writing the app’s field trip selector screen, which rendered a SurfaceView behind a beautifully designed card-based layout that allowed the user to quickly switch between different VR experiences.
+As I reflect on my 3 years at Google, my favorite memories were probably from the time I spent working on Google Expeditions, a virtual reality app that allows teachers to lead their students on immersive virtual field trips all over the world. The team was small and our UX team was ambitious, so for a little over half a year I helped rewrite and polish the app's UI in time for its first public release. I especially enjoyed writing the app's field trip selector screen, which rendered a SurfaceView behind a beautifully designed card-based layout that allowed the user to quickly switch between different VR experiences.
 
 <!--more-->
 
-It’s been awhile since I’ve written hardcore Android code (I've spent a majority of the past year building Android developer tools like [Shape Shifter][shapeshifter-github] and [avdo][avdo-github]), so the other day I attempted to rewrite parts of the screen, mostly as a technical exercise. **Figure 1** shows a side-by-side comparison of Google Expeditions' field trip selector screen and the resulting sample app I wrote (available on [GitHub][adp-nested-scrolling-github] and [Google Play][adp-nested-scrolling-play-store]).
+It's been awhile since I've written hardcore Android code (I've spent a majority of the past year building Android developer tools like [Shape Shifter][shapeshifter-github] and [avdo][avdo-github]), so the other day I attempted to rewrite parts of the screen, mostly as a technical exercise. **Figure 1** shows a side-by-side comparison of Google Expeditions' field trip selector screen and the resulting sample app I wrote (available on [GitHub][adp-nested-scrolling-github] and [Google Play][adp-nested-scrolling-play-store]).
 
 <!-- Figure 1 -->
 <div class="figure-container">
@@ -75,7 +75,7 @@ It’s been awhile since I’ve written hardcore Android code (I've spent a majo
     </p>
 </div>
 
-As I was working through the code, I was reminded me of the initial confusion I had with Android’s nested scrolling APIs when I first wrote the screen a couple of years ago. Android’s nested scrolling APIs make it possible for scrollable views to exist as children inside of other scrollable views, and enable us to create the fancy scrolling gestures that Material Design formalizes on its [scrolling techniques][material-spec-scrolling-techniques] patterns page. **Figure 2** shows a common use case involving a parent `CoordinatorLayout` and a child `NestedScrollView` from Chris Banes' [Cheese Square][cheesesquare-github] app. Without nested scrolling, the `NestedScrollView` scrolls independently of its surroundings. Once enable, however, the nested scrolling APIs allow the parent `CoordinatorLayout` to intercept these same scroll events before they `NestedScrollView` consumes them, making it possible to create a cool "collapsing toolbar" effect that feels more fluid and natural.
+As I was writing the sample app's code, I was reminded of some of the initial confusion I had with Android's nested scrolling APIs when I first wrote the screen a couple of years ago. First introduced in API 21, Android's nested scrolling APIs make it possible for scrollable views to exist as children inside of other scrollable views, allowing us to create the fancy scrolling gestures that Material Design formalizes on its [scrolling techniques][material-spec-scrolling-techniques] patterns page. **Figure 2** shows a common use case involving a parent `CoordinatorLayout` and a child `NestedScrollView` from Chris Banes' [Cheese Square][cheesesquare-github] app. Without nested scrolling, the `NestedScrollView` scrolls independently of its surroundings. When enabled, however, the `CoordinatorLayout` and `NestedScrollView` cooperate with each other throughout the duration of the scroll in order to create a cool "collapsing toolbar" effect that feels more fluid and natural.
 
 <!-- Figure 2 -->
 <div class="figure-container">
@@ -97,7 +97,9 @@ As I was working through the code, I was reminded me of the initial confusion I 
     </p>
 </div>
 
-So how exactly do the nested scrolling APIs work anyway? Well, let's consider my sample app as an example. The layout consists of a parent `NestedScrollView` and a child `RecyclerView`, as shown in **Figure 3** below. The obvious question is what happens if the user begins a scroll gesture on top of the red area below? Should it cause the `NestedScrollView` or `RecyclerView` to be scrolled? How does the app make this decision?
+So how exactly do the nested scrolling APIs work anyway?
+
+Well, for starters, you'll need two views in your hierarchy that implement the [`NestedScrollingParent`][NestedScrollingParent] and [`NestedScrollingChild`][NestedScrollingChild] interfaces. In my case, the parent is a `NestedScrollView` and the child is a `RecyclerView`, as shown in **Figure 3** below. The obvious question is what happens if the user begins a scroll gesture on top of the red area below? Should it cause the `NestedScrollView` or `RecyclerView` to be scrolled? How does the app make this decision?
 
 <!-- Figure 3 -->
 <div class="figure-container">
@@ -116,15 +118,17 @@ So how exactly do the nested scrolling APIs work anyway? Well, let's consider my
 To answer these questions, let's walk through the exact sequence of events that occurs when the user begins a scroll gesture on top of the child `RecyclerView`.
 
 1. The user drags their finger on top of the `RecyclerView`.
-2. The framework calls the `RecyclerView`'s `onTouchEvent(ACTION_MOVE)` method.
+2. The `RecyclerView`'s `onTouchEvent(ACTION_MOVE)` method is called.
 3. The `RecyclerView` notifies the `NestedScrollView` that a scroll event is in progress by calling its own `dispatchNestedPreScroll()` method.
-4. This results in an immediate call to the `NestedScrollView`'s `onNestedPreScroll()` method. This callback method is important because it gives the `NestedScrollView` an opportunity to react to the scroll event before the `RecyclerView` consumes it.
-5. The `RecyclerView` consumes the remainder of the scroll event (or does nothing if the `NestedScrollView` already consumed the entire scroll event).
-6. The `RecyclerView` notifies the `NestedScrollView` that it has consumed a portion of the scroll event by calling its own `dispatchNestedScroll()` method.
-7. This results in an immediate call to the `NestedScrollView`'s `onNestedScroll()` method. This callback method is important because it gives the `NestedScrollView` an opportunity to consume any remaining scroll pixels that have still not been consumed.
+4. As a result, the `NestedScrollView`'s `onNestedPreScroll()` method is called, giving the `NestedScrollView` an opportunity to react to the scroll event before the `RecyclerView` consumes it.
+5. The `RecyclerView` consumes the remainder of the scroll (or does nothing if the `NestedScrollView` consumed the entire event).
+6. The `RecyclerView` notifies the `NestedScrollView` that it has consumed a portion of the scroll by calling its own `dispatchNestedScroll()` method, .
+7. As a result, the `NestedScrollView`'s `onNestedScroll()` method is called, giving the `NestedScrollView` an opportunity to consume any remaining scroll pixels that have still not been consumed.
 8. The `RecyclerView` returns `true` from the current call to `onTouchEvent(ACTION_MOVE)`, consuming the touch event.
 
-## Issues
+Steps 4 and 7 are the most important steps to understand. The `onNestedPreScroll()` and `onNestedScroll()` methods give the parent an opportunity to react to a scroll event before and after the child consumes it respectively. Nested flings are handled similarly. The `RecyclerView` detects a fling in its `onTouchEvent(ACTION_UP)` method, notifies the parent by calling its own `dispatchNestedPreFling()` and `dispatchNestedFling()` methods, which triggers a call to the parent's `onNestedPreFling()` and `onNestedFling()` methods, giving the parent an opportunity to react to the fling before the child consumes it.
+
+I mentioned earlier that I was initially confused by the nested scrolling APIs, mainly because my first attempt at the app didn't work as I expected. There were two main bugs, as shown in **Figure 4**. On the left, the `RecyclerView` should **not** begin scrolling its content until the card has been scrolled all the way to the top of the screen. On the right, flinging the `RecyclerView` downwards should collapse the card in a single smooth motion.
 
 <!-- Figure 4 -->
 <div class="figure-container">
@@ -142,32 +146,27 @@ To answer these questions, let's walk through the exact sequence of events that 
 </div>
 <div class="caption-container">
     <p class="caption-element">
-        <strong>Figure 4</strong> - Both videos are buggy.
+        <strong>Figure 4</strong> -
     </p>
 </div>
 
-### Scrolling bug
-
-The solution is a custom nested scroll view.
+In both cases, the root of the problem is that the `RecyclerView` is consuming the scroll and fling events when it shouldn't be. So to fix the problem, I created a custom `NestedScrollView` class:
 
 ```java
-class CustomNestedScrollView extends NestedScrollView {
+public class CustomNestedScrollView extends NestedScrollView {
 
-  /* ... */
+  // The NestedScrollView should steal the scroll/fling events away from the
+  // RecyclerView if: (1) the user is dragging their finger down and the
+  // RecyclerView is scrolled to the top of its content, or (2) the user
+  // is dragging their finger up and the NestedScrollView is not scrolled
+  // to the bottom of its content.
 
   @Override
   public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
     final RecyclerView rv = (RecyclerView) target;
-    final LinearLayoutManager lm = (LinearLayoutManager) rv.getLayoutManager();
-    final boolean isRvScrolledToTop =
-        lm.findFirstVisibleItemPosition() == 0 && lm.findViewByPosition(0).getTop() == 0;
-    final boolean isNsvScrolledToBottom = !canScrollVertically(1);
-    if ((dy < 0 && isRvScrolledToTop) || (dy > 0 && !isNsvScrolledToBottom)) {
-      // The NestedScrollView should steal the scroll event away from the
-      // RecyclerView in one of two cases: (1) if the user is scrolling their
-      // finger down and the RecyclerView is scrolled to the top, or (2) if
-      // the user is scrolling their finger up and the NestedScrollView is
-      // not scrolled to the bottom.
+    if ((dy < 0 && isRvScrolledToTop(rv)) || (dy > 0 && !isNsvScrolledToBottom(this))) {
+      // Scroll the NestedScrollView's content and record the number of pixels consumed
+      // so that the RecyclerView doesn't perform the scroll as well.
       scrollBy(0, dy);
       consumed[1] = dy;
       return;
@@ -175,44 +174,39 @@ class CustomNestedScrollView extends NestedScrollView {
     super.onNestedPreScroll(target, dx, dy, consumed);
   }
 
-  /* ... */
-}
-```
-
-### Flinging bug
-
-```java
-class CustomNestedScrollView extends NestedScrollView {
-
-  /* ... */
-
-  @Override
-  public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) { /* ... */ }
-
   @Override
   public boolean onNestedPreFling(View target, float velX, float velY) {
     final RecyclerView rv = (RecyclerView) target;
-    final LinearLayoutManager lm = (LinearLayoutManager) rv.getLayoutManager();
-    final boolean isRvScrolledToTop =
-        lm.findFirstVisibleItemPosition() == 0 && lm.findViewByPosition(0).getTop() == 0;
-    final boolean isNsvScrolledToBottom = !canScrollVertically(1);
-    if ((velY < 0 && isRvScrolledToTop) || (velY > 0 && !isNsvScrolledToBottom)) {
-      // The NestedScrollView should steal the fling event away from the
-      // RecyclerView in one of two cases: (1) if the user is flinging their
-      // finger down and the RecyclerView is scrolled to the top, or (2) if
-      // the user is flinging their finger up and the NestedScrollView is
-      // not scrolled to the bottom.
+    if ((velY < 0 && isRvScrolledToTop(rv)) || (velY > 0 && !isNsvScrolledToBottom(this))) {
+      // Fling the NestedScrollView's content and return true so that the RecyclerView
+      // doesn't perform the fling as well.
       fling((int) velY);
       return true;
     }
     return super.onNestedPreFling(target, velX, velY);
   }
+
+  /**
+   * Returns true iff the NestedScrollView is scrolled to the bottom of its
+   * content (i.e. if the card's inner RecyclerView is completely visible).
+   */
+  private static boolean isNsvScrolledToBottom(NestedScrollView nsv) {
+    return !nsv.canScrollVertically(1);
+  }
+
+  /**
+   * Returns true iff the RecyclerView is scrolled to the top of its
+   * content (i.e. if the RecyclerView's first item is completely visible).
+   */
+  private static boolean isRvScrolledToTop(RecyclerView rv) {
+    final LinearLayoutManager lm = (LinearLayoutManager) rv.getLayoutManager();
+    return lm.findFirstVisibleItemPosition() == 0
+        && lm.findViewByPosition(0).getTop() == 0;
+  }
 }
 ```
 
-### Issue 3: another flinging bug
-
-Flings still don't work properly.
+There is still one more bug that we need to fix, shown in **Figure 5**:
 
 <!-- Figure 5 -->
 <div class="figure-container">
@@ -234,132 +228,11 @@ Flings still don't work properly.
     </p>
 </div>
 
-Chris Banes wrote a [blog post][carry-on-scrolling-blog-post] last June
-explaining the issue.
+Chris Banes wrote a [blog post][carry-on-scrolling-blog-post] last June explaining the issue.
 
-For some reason `NestedScrollView` was updated to implement the
-`NestedScrollingChild2` interface, but not the `NestedScrollingParent2`
-interface. So I had to create another custom class ([source code][NestedScrollView2]):
+For some reason `NestedScrollView` was updated to implement the `NestedScrollingChild2` interface, but not the `NestedScrollingParent2` interface. So I had to create another custom class ([source code][NestedScrollView2]). Then I could update my custom nested scroll view to extend the new base class.
 
-```java
-/**
- * A {@link NestedScrollView} that implements the {@link NestedScrollingParent2} interface.
- */
-class NestedScrollView2 extends NestedScrollView implements NestedScrollingParent2 {
-  private final NestedScrollingParentHelper parentHelper;
-
-  public NestedScrollView2(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    parentHelper = new NestedScrollingParentHelper(this);
-  }
-
-  // NestedScrollingParent2 methods.
-
-  @Override
-  public boolean onStartNestedScroll(View child, View target, int axes, int type) {
-    return (axes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
-  }
-
-  @Override
-  public void onNestedScrollAccepted(View child, View target, int axes, int type) {
-    parentHelper.onNestedScrollAccepted(child, target, axes);
-    startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL, type);
-  }
-
-  @Override
-  public void onNestedPreScroll(View target, int dx, int dy, int[] consumed, int type) {
-    dispatchNestedPreScroll(dx, dy, consumed, null, type);
-  }
-
-  @Override
-  public void onNestedScroll(
-      View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
-    final int oldScrollY = getScrollY();
-    scrollBy(0, dyUnconsumed);
-    final int myConsumed = getScrollY() - oldScrollY;
-    final int myUnconsumed = dyUnconsumed - myConsumed;
-    dispatchNestedScroll(0, myConsumed, 0, myUnconsumed, null, type);
-  }
-
-  @Override
-  public void onStopNestedScroll(View target, int type) {
-    parentHelper.onStopNestedScroll(target, type);
-    stopNestedScroll(type);
-  }
-
-  // NestedScrollingParent methods. For the most part these methods delegate
-  // to the NestedScrollingParent2 methods above, passing TYPE_TOUCH as the
-  // type to maintain API compatibility.
-
-  @Override
-  public boolean onStartNestedScroll(View child, View target, int axes) {
-    return onStartNestedScroll(child, target, axes, ViewCompat.TYPE_TOUCH);
-  }
-
-  @Override
-  public void onNestedScrollAccepted(View child, View target, int axes) {
-    onNestedScrollAccepted(child, target, axes, ViewCompat.TYPE_TOUCH);
-  }
-
-  @Override
-  public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
-    onNestedPreScroll(target, dx, dy, consumed, ViewCompat.TYPE_TOUCH);
-  }
-
-  @Override
-  public void onNestedScroll(
-      View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-    onNestedScroll(target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, ViewCompat.TYPE_TOUCH);
-  }
-
-  @Override
-  public void onStopNestedScroll(View target) {
-    onStopNestedScroll(target, ViewCompat.TYPE_TOUCH);
-  }
-
-  @Override
-  public int getNestedScrollAxes() {
-    return parentHelper.getNestedScrollAxes();
-  }
-}
-```
-
-Then I could update my custom nested scroll view as follows.
-
-Note that I no longer need to override `onNestedPreFling()`. When the user lifts their
-finger and a fling begins, the `RecyclerView` calls `fling()` on itself, which begins
-a new round of nested scrolling beginning with a call to
-[`startNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#startNestedScroll], then
-[`dispatchNestedPreScroll(TYPE_NON_TOUCH)`][RecyclerView#dispatchNestedPreScroll], then
-[`dispatchNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#dispatchNestedScroll], and finally
-[`stopNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#stopNestedScroll].
-
-```java
-class CustomNestedScrollView2 extends NestedScrollView2 {
-
-  /* ... */
-
-  @Override
-  public void onNestedPreScroll(View target, int dx, int dy, int[] consumed, int type) {
-    final RecyclerView rv = (RecyclerView) target;
-    final LinearLayoutManager lm = (LinearLayoutManager) rv.getLayoutManager();
-    final boolean isRvScrolledToTop =
-        lm.findFirstVisibleItemPosition() == 0 && lm.findViewByPosition(0).getTop() == 0;
-    final boolean isNsvScrolledToBottom = !canScrollVertically(1);
-    if ((dy < 0 && isRvScrolledToTop) || (dy > 0 && !isNsvScrolledToBottom)) {
-      // The NestedScrollView should steal the scroll event away from the
-      // RecyclerView in one of two cases: (1) if the user is scrolling their
-      // finger down and the RecyclerView is scrolled to the top, or (2) if
-      // the user is scrolling their finger up and the NestedScrollView is
-      // not scrolled to the bottom.
-      scrollBy(0, dy);
-      consumed[1] = dy;
-      return;
-    }
-    super.onNestedPreScroll(target, dx, dy, consumed, type);
-  }
-}
-```
+Note that I no longer need to override `onNestedPreFling()`. When the user lifts their finger and a fling begins, the `RecyclerView` calls `fling()` on itself, which begins a new round of nested scrolling beginning with a call to [`startNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#startNestedScroll], then [`dispatchNestedPreScroll(TYPE_NON_TOUCH)`][RecyclerView#dispatchNestedPreScroll], then [`dispatchNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#dispatchNestedScroll], and finally [`stopNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#stopNestedScroll].
 
 And we're done!
 
@@ -369,3 +242,12 @@ And we're done!
   [adp-nested-scrolling-play-store]: https://play.google.com/store/apps/details?id=alexjlockwood.nestedscrolling
   [material-spec-scrolling-techniques]: https://material.io/guidelines/patterns/scrolling-techniques.html#scrolling-techniques-app-bar-scrollable-regions
   [cheesesquare-github]: https://github.com/chrisbanes/cheesesquare
+  [carry-on-scrolling-blog-post]: https://chris.banes.me/2017/06/09/carry-on-scrolling/
+  [NestedScrollView2]: https://github.com/alexjlockwood/adp-nested-scrolling/blob/master/app/src/main/java/design/shapeshifter/nestedscrolling/NestedScrollView2.java
+  [RecyclerView#startNestedScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L2158
+  [RecyclerView#dispatchNestedPreScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L4849
+  [RecyclerView#dispatchNestedScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L4893
+  [RecyclerView#stopNestedScroll]: https://github.com/aosp-mirror/platform_frameworks_support/blob/034bc505154bbb42c588e2fc06f46596e3a44a1b/v7/recyclerview/src/main/java/android/support/v7/widget/RecyclerView.java#L4938
+  [carry-on-scrolling-blog-post]: https://chris.banes.me/2017/06/09/carry-on-scrolling/
+  [NestedScrollingChild]: https://developer.android.com/reference/android/support/v4/view/NestedScrollingChild.html
+  [NestedScrollingParent]: https://developer.android.com/reference/android/support/v4/view/NestedScrollingParent.html
