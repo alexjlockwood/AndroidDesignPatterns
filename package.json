@@ -33,7 +33,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^3.0.0",
     "path-data-polyfill": "^1.0.0",
-    "pump": "^1.0.3",
+    "pump": "^2.0.0",
     "web-animations-js": "^2.3.1",
     "webpack-stream": "^4.0.0"
   }
