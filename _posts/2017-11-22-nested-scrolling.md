@@ -49,11 +49,11 @@ script: |
 
 <!--morestart-->
 
-As I reflect on my 3 years at Google, my favorite memories were probably from the time I spent working on Google Expeditions, a virtual reality app that allows teachers to lead their students on immersive virtual field trips all over the world. The team was small and our UX team was ambitious, so for a little over half a year I helped rewrite and polish the app's UI in time for its first public release. I especially enjoyed writing the app's field trip selector screen, which rendered a SurfaceView behind a beautifully designed card-based layout that allowed the user to quickly switch between different VR experiences.
+The coolest project I worked on during my 3 years at Google was Google Expeditions, a virtual reality app that allows teachers to lead their students on immersive virtual field trips all over the world. I especially enjoyed working on the app's field trip selector screen, which rendered a `SurfaceView` behind a beautifully designed card-based layout that allowed the user to quickly switch between different VR experiences.
 
 <!--more-->
 
-It's been awhile since I've written hardcore Android code (I've spent a majority of the past year building Android developer tools like [Shape Shifter][shapeshifter-github] and [avdo][avdo-github]), so the other day I attempted to rewrite parts of the screen, mostly as a technical exercise. **Figure 1** shows a side-by-side comparison of Google Expeditions' field trip selector screen and the resulting sample app I wrote (available on [GitHub][adp-nested-scrolling-github] and [Google Play][adp-nested-scrolling-play-store]).
+It's been awhile since I've written Android code (I've spent a majority of the past year building Android developer tools like [Shape Shifter][shapeshifter-github] and [avdo][avdo-github]), so the other day I challenged myself to rewrite parts of the screen as an exercise. **Figure 1** shows a side-by-side comparison of Google Expeditions' field trip selector screen and the resulting sample app I wrote (available on [GitHub][adp-nested-scrolling-github] and [Google Play][adp-nested-scrolling-play-store]).
 
 <!-- Figure 1 -->
 <div class="figure-container">
@@ -75,7 +75,7 @@ It's been awhile since I've written hardcore Android code (I've spent a majority
     </p>
 </div>
 
-As I was writing the sample app's code, I was reminded of some of the initial confusion I had with Android's nested scrolling APIs when I first wrote the screen a couple of years ago. First introduced in API 21, Android's nested scrolling APIs make it possible for scrollable views to exist as children inside of other scrollable views, allowing us to create the fancy scrolling gestures that Material Design formalizes on its [scrolling techniques][material-spec-scrolling-techniques] patterns page. **Figure 2** shows a common use case involving a parent `CoordinatorLayout` and a child `NestedScrollView` from Chris Banes' [Cheese Square][cheesesquare-github] app. Without nested scrolling, the `NestedScrollView` scrolls independently of its surroundings. When enabled, however, the `CoordinatorLayout` and `NestedScrollView` cooperate with each other throughout the duration of the scroll in order to create a cool "collapsing toolbar" effect that feels more fluid and natural.
+As I was working through the code, I was reminded of some of the challenges I faced when I first wrote the screen a couple of years ago, specifically with Android's nested scrolling APIs. Introduced in API 21, nested scrolling makes it possible for a parent scrollable view to contain children scrollable views, allowing us to create the fancy scrolling gestures that Material Design formalizes on its [scrolling techniques][material-spec-scrolling-techniques] patterns page. **Figure 2** shows a common use case of these APIs involving a parent `CoordinatorLayout` and a child `NestedScrollView` . Without nested scrolling, the `NestedScrollView` scrolls independently of its surroundings. Once enabled, however, the `CoordinatorLayout` and `NestedScrollView` communicate with each other throughout the duration of a scroll, creating a cool "collapsing toolbar" effect that feels more natural.
 
 <!-- Figure 2 -->
 <div class="figure-container">
@@ -97,9 +97,9 @@ As I was writing the sample app's code, I was reminded of some of the initial co
     </p>
 </div>
 
-So how exactly do the nested scrolling APIs work anyway?
+Pretty cool, right? But how exactly do these nested scrolling APIs work anyway?
 
-Well, for starters, you'll need two views in your hierarchy that implement the [`NestedScrollingParent`][NestedScrollingParent] and [`NestedScrollingChild`][NestedScrollingChild] interfaces. In my case, the parent is a `NestedScrollView` and the child is a `RecyclerView`, as shown in **Figure 3** below. The obvious question is what happens if the user begins a scroll gesture on top of the red area below? Should it cause the `NestedScrollView` or `RecyclerView` to be scrolled? How does the app make this decision?
+Well, for starters, you'll need a parent view that implements [`NestedScrollingParent`][NestedScrollingParent] and a child view that implements [`NestedScrollingChild`][NestedScrollingChild]. In my sample app, the `NestedScrollView` (`NSV`) is the parent and the `RecyclerView` (`RV`) is the child (see **Figure 3** below).
 
 <!-- Figure 3 -->
 <div class="figure-container">
@@ -115,16 +115,16 @@ Well, for starters, you'll need two views in your hierarchy that implement the [
     </p>
 </div>
 
-To answer these questions, let's walk through the exact sequence of events that occurs when the user begins a scroll gesture on top of the child `RecyclerView`.
+This is where things get a little tricky. What should happen if the user scrolls the `RV`? Without nested scrolling, the `RV` will intercept and consume the scroll immediately, resulting in the undesirable behavior we saw in **Figure 2**. What we *really* want is for the two views to scroll together as a single unit. The exact sequence of events is a bit more involved:
 
-1. The user drags their finger on top of the `RecyclerView`.
-2. The `RecyclerView`'s `onTouchEvent(ACTION_MOVE)` method is called.
-3. The `RecyclerView` notifies the `NestedScrollView` that a scroll event is in progress by calling its own `dispatchNestedPreScroll()` method.
-4. As a result, the `NestedScrollView`'s `onNestedPreScroll()` method is called, giving the `NestedScrollView` an opportunity to react to the scroll event before the `RecyclerView` consumes it.
-5. The `RecyclerView` consumes the remainder of the scroll (or does nothing if the `NestedScrollView` consumed the entire event).
-6. The `RecyclerView` notifies the `NestedScrollView` that it has consumed a portion of the scroll by calling its own `dispatchNestedScroll()` method, .
-7. As a result, the `NestedScrollView`'s `onNestedScroll()` method is called, giving the `NestedScrollView` an opportunity to consume any remaining scroll pixels that have still not been consumed.
-8. The `RecyclerView` returns `true` from the current call to `onTouchEvent(ACTION_MOVE)`, consuming the touch event.
+1. The user drags thseir finger on top of the `RV`.
+2. The `RV`'s `onTouchEvent(ACTION_MOVE)` method is called.
+3. The `RV` notifies the `NSV` that a scroll event is in progress by calling its own `dispatchNestedPreScroll()` method.
+4. The `NSV`'s `onNestedPreScroll()` method is called, giving the `NSV` an opportunity to react to the scroll event before the `RV` consumes it.
+5. The `RV` consumes the remainder of the scroll (or does nothing if the `NSV` consumed the entire event).
+6. The `RV` notifies the `NSV` that it has consumed a portion of the scroll by calling its own `dispatchNestedScroll()` method, .
+7. The `NSV`'s `onNestedScroll()` method is called, giving the `NSV` an opportunity to consume any remaining scroll pixels that have still not been consumed.
+8. The `RV` returns `true` from the current call to `onTouchEvent(ACTION_MOVE)`, consuming the touch event.
 
 Steps 4 and 7 are the most important steps to understand. The `onNestedPreScroll()` and `onNestedScroll()` methods give the parent an opportunity to react to a scroll event before and after the child consumes it respectively. Nested flings are handled similarly. The `RecyclerView` detects a fling in its `onTouchEvent(ACTION_UP)` method, notifies the parent by calling its own `dispatchNestedPreFling()` and `dispatchNestedFling()` methods, which triggers a call to the parent's `onNestedPreFling()` and `onNestedFling()` methods, giving the parent an opportunity to react to the fling before the child consumes it.
 
@@ -235,6 +235,13 @@ For some reason `NestedScrollView` was updated to implement the `NestedScrolling
 Note that I no longer need to override `onNestedPreFling()`. When the user lifts their finger and a fling begins, the `RecyclerView` calls `fling()` on itself, which begins a new round of nested scrolling beginning with a call to [`startNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#startNestedScroll], then [`dispatchNestedPreScroll(TYPE_NON_TOUCH)`][RecyclerView#dispatchNestedPreScroll], then [`dispatchNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#dispatchNestedScroll], and finally [`stopNestedScroll(TYPE_NON_TOUCH)`][RecyclerView#stopNestedScroll].
 
 And we're done!
+
+<!--
+<sup><a href="#footnote1" id="ref1">1</a></sup>
+
+<hr class="footnote-divider"/>
+<sup id="footnote1">1</sup> Of course, most applications can usually workaround this issue by calling [`FragmentManager#executePendingTransactions()`][FragmentManager#executePendingTransactions], which will force any pending `FragmentTransaction`s to execute immediately instead of asynchronously. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
+-->
 
   [shapeshifter-github]: https://github.com/alexjlockwood/ShapeShifter
   [avdo-github]: https://github.com/alexjlockwood/avdo
