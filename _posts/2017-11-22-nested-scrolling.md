@@ -75,7 +75,7 @@ It's been awhile since I've written Android code (I've spent a majority of the p
     </p>
 </div>
 
-As I was working through the code, I was reminded of some of the challenges I faced when I first wrote the screen a couple of years ago, specifically with Android's nested scrolling APIs. Introduced in API 21, nested scrolling makes it possible for a parent scrollable view to contain children scrollable views, allowing us to create the fancy scrolling gestures that Material Design formalizes on its [scrolling techniques][material-spec-scrolling-techniques] patterns page. **Figure 2** shows a common use case of these APIs involving a parent `CoordinatorLayout` and a child `NestedScrollView` . Without nested scrolling, the `NestedScrollView` scrolls independently of its surroundings. Once enabled, however, the `CoordinatorLayout` and `NestedScrollView` communicate with each other throughout the duration of a scroll, creating a cool "collapsing toolbar" effect that feels more natural.
+As I was working through the code, I was reminded of some of the challenges I faced when I first wrote the screen a couple of years ago, specifically with Android's nested scrolling APIs. Introduced in API 21, nested scrolling makes it possible for a parent scrollable view to contain children scrollable views, allowing us to create the fancy scrolling gestures that Material Design formalizes on its [scrolling techniques][material-spec-scrolling-techniques] patterns page. **Figure 2** shows a common use case of these APIs involving a parent `CoordinatorLayout` and a child `NestedScrollView`. Without nested scrolling, the `NestedScrollView` scrolls independently of its surroundings. Once enabled, however, the `CoordinatorLayout` and `NestedScrollView` communicate with each other throughout the duration of a scroll, creating a cool "collapsing toolbar" effect that feels more natural.
 
 <!-- Figure 2 -->
 <div class="figure-container">
@@ -99,7 +99,7 @@ As I was working through the code, I was reminded of some of the challenges I fa
 
 Pretty cool, right? But how exactly do these nested scrolling APIs work anyway?
 
-Well, for starters, you'll need a parent view that implements [`NestedScrollingParent`][NestedScrollingParent] and a child view that implements [`NestedScrollingChild`][NestedScrollingChild]. In my sample app, the `NestedScrollView` (`NSV`) is the parent and the `RecyclerView` (`RV`) is the child (see **Figure 3** below).
+For starters, you'll need a parent view that implements [`NestedScrollingParent`][NestedScrollingParent] and a child view that implements [`NestedScrollingChild`][NestedScrollingChild]. In my sample app, the `NestedScrollView` (`NSV`) is the parent and the `RecyclerView` (`RV`) is the child (see **Figure 3** below).
 
 <!-- Figure 3 -->
 <div class="figure-container">
@@ -115,9 +115,9 @@ Well, for starters, you'll need a parent view that implements [`NestedScrollingP
     </p>
 </div>
 
-This is where things get a little tricky. What should happen if the user scrolls the `RV`? Without nested scrolling, the `RV` will intercept and consume the scroll immediately, resulting in the undesirable behavior we saw in **Figure 2**. What we *really* want is for the two views to scroll together as a single unit. The exact sequence of events is a bit more involved:
+This is where things get a little tricky. What should happen if the user scrolls the `RV`? Without nested scrolling, the `RV` will intercept and consume the scroll immediately, resulting in the undesirable behavior we saw in **Figure 2**. What we *really* want is for the two views to scroll together as a single unit. For example, scrolling the `RV` up should cause the `NSV` to scroll up if the `RV` has reached the top of its content. Similarly, scrolling the `RV` down should cause the `NSV` to scroll down if the `NSV` has not yet reached the bottom of its content.<sup><a href="#footnote1" id="ref1">1</a></sup> In order to achieve this behavior, both views communicate with each other throughout the duration of each scroll event using the nested scrolling APIs:
 
-1. The user drags thseir finger on top of the `RV`.
+1. The user drags their finger on top of the `RV`.
 2. The `RV`'s `onTouchEvent(ACTION_MOVE)` method is called.
 3. The `RV` notifies the `NSV` that a scroll event is in progress by calling its own `dispatchNestedPreScroll()` method.
 4. The `NSV`'s `onNestedPreScroll()` method is called, giving the `NSV` an opportunity to react to the scroll event before the `RV` consumes it.
@@ -126,9 +126,9 @@ This is where things get a little tricky. What should happen if the user scrolls
 7. The `NSV`'s `onNestedScroll()` method is called, giving the `NSV` an opportunity to consume any remaining scroll pixels that have still not been consumed.
 8. The `RV` returns `true` from the current call to `onTouchEvent(ACTION_MOVE)`, consuming the touch event.
 
-Steps 4 and 7 are the most important steps to understand. The `onNestedPreScroll()` and `onNestedScroll()` methods give the parent an opportunity to react to a scroll event before and after the child consumes it respectively. Nested flings are handled similarly. The `RecyclerView` detects a fling in its `onTouchEvent(ACTION_UP)` method, notifies the parent by calling its own `dispatchNestedPreFling()` and `dispatchNestedFling()` methods, which triggers a call to the parent's `onNestedPreFling()` and `onNestedFling()` methods, giving the parent an opportunity to react to the fling before the child consumes it.
+Steps 4 and 7 are the most important steps to understand. The `onNestedPreScroll()` and `onNestedScroll()` methods give the parent an opportunity to react to a scroll event before and after the child consumes it respectively. Nested flings are handled similarly. The `RV` detects a fling in its `onTouchEvent(ACTION_UP)` method, notifies the parent by calling its own `dispatchNestedPreFling()` and `dispatchNestedFling()` methods, which triggers a call to the parent's `onNestedPreFling()` and `onNestedFling()` methods, giving the parent an opportunity to react to the fling before the child consumes it.
 
-I mentioned earlier that I was initially confused by the nested scrolling APIs, mainly because my first attempt at the app didn't work as I expected. There were two main bugs, as shown in **Figure 4**. On the left, the `RecyclerView` should **not** begin scrolling its content until the card has been scrolled all the way to the top of the screen. On the right, flinging the `RecyclerView` downwards should collapse the card in a single smooth motion.
+I mentioned earlier that I was initially confused by the nested scrolling APIs, mainly because my first attempt at the app didn't work as I expected. There were two main bugs, as shown in **Figure 4**. On the left, the `RV` should **not** begin scrolling its content until the card has been scrolled all the way to the top of the screen. On the right, flinging the `RV` downwards should collapse the card in a single smooth motion.
 
 <!-- Figure 4 -->
 <div class="figure-container">
@@ -236,12 +236,8 @@ Note that I no longer need to override `onNestedPreFling()`. When the user lifts
 
 And we're done!
 
-<!--
-<sup><a href="#footnote1" id="ref1">1</a></sup>
-
 <hr class="footnote-divider"/>
-<sup id="footnote1">1</sup> Of course, most applications can usually workaround this issue by calling [`FragmentManager#executePendingTransactions()`][FragmentManager#executePendingTransactions], which will force any pending `FragmentTransaction`s to execute immediately instead of asynchronously. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
--->
+<sup id="footnote1">1</sup> Note that dragging your finger down causes the view to scroll <i>up</i>, and dragging your finger up causes the view to scroll <i>down</i>. <a href="#ref1" title="Jump to footnote 1.">&#8617;</a>
 
   [shapeshifter-github]: https://github.com/alexjlockwood/ShapeShifter
   [avdo-github]: https://github.com/alexjlockwood/avdo
