@@ -49,7 +49,7 @@ script: |
 
 <!--morestart-->
 
-One of the coolest project I worked on during my 3 years at Google was Google Expeditions, a virtual reality app that allows teachers to lead students on immersive virtual field trips around the world. I especially enjoyed working on the app's field trip selector screen, which renders a `SurfaceView` behind a beautifully designed card-based layout that allows the user to quickly switch between different VR experiences.
+One of the coolest projects I worked on during my 3 years at Google was Google Expeditions, a virtual reality app that allows teachers to lead students on immersive virtual field trips around the world. I especially enjoyed working on the app's field trip selector screen, which renders a `SurfaceView` behind a beautifully designed card-based layout that allows the user to quickly switch between different VR experiences.
 
 <!--more-->
 
