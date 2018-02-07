@@ -10,8 +10,8 @@ If you wish to fork this repository to use as the basis of your own blogging tem
 Make sure you have at least Ruby 2.0.0 installed on your machine. From the this project's root directory, execute:
 
 ```
-$ gem install bundler
-$ bundler install
+gem install bundler
+bundler install
 ```
 
 Then,
