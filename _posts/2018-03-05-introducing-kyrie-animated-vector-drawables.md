@@ -49,7 +49,7 @@ script: |
 
 <!--morestart-->
 
-Today I am open sourcing the first alpha release of an animation library I've been working on named [Kyrie][kyrie-github]. Think of it as a superset of the functionality provided by Android's `VectorDrawable` and `AnimatedVectorDrawable` classes: it can do everything they can do and more.
+Today I am open sourcing the first alpha release of an animation library I've been working on named [Kyrie][kyrie-github]. Think of it as a superset of Android's `VectorDrawable` and `AnimatedVectorDrawable` classes: it can do everything they can do and more.
 
 <!--more-->
 
@@ -57,19 +57,19 @@ Today I am open sourcing the first alpha release of an animation library I've be
 
 Let me start by explaining why I wrote this library in the first place.
 
-As I discussed in [my previous blog post on icon animations][introduction-to-icon-animations], `VectorDrawable`s are great because they provide density independence&mdash;they can be scaled arbitrarily on any device without loss of quality. `AnimatedVectorDrawable`s make them even more awesome, allowing us to animate specific properties of a `VectorDrawable` in a variety of ways.
+If you read [my blog post on icon animations][introduction-to-icon-animations], you know that `VectorDrawable`s are great because they provide density independence&mdash;they can be scaled arbitrarily on any device without loss of quality. `AnimatedVectorDrawable`s make them even more awesome, allowing us to animate specific properties of a `VectorDrawable` in a variety of ways.
 
 However, these two classes also have several limitations:
 
-* They can't be dynamically created at runtime (they must be inflated from a drawable resource).
+* They can't be dynamically created at runtime (only inflated from a drawable resource).
 * They can't be paused, resumed, or seeked.
 * They only support a small subset of features that SVGs provide on the web.
 
-[Kyrie][kyrie-github] is an attempt to try and solve some of these problems without having to wait on the Android framework to provide new features.
+[Kyrie][kyrie-github] is an attempt to try and solve these problems without having to wait on the Android framework to provide new features.
 
 ### Examples
 
-Here are a few examples from [the sample app][kyrie-sample-app-github] that accompanies the library. The code below shows how we can use Kyrie to transform an existing `AnimatedVectorDrawable` resource into something that can be scrubbed with a `SeekBar`:
+Here are a few examples from [the sample app][kyrie-sample-app-github] that accompanies the library. The code below shows how we can use Kyrie to transform an existing `AnimatedVectorDrawable` resource into a [`KyrieDrawable`][kyrie-kyriedrawable] that can be scrubbed with a `SeekBar`:
 
 ```java
 KyrieDrawable drawable = KyrieDrawable.create(context, R.drawable.my_existing_avd);
@@ -82,7 +82,7 @@ seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 });
 ```
 
-And the resulting animation:
+**Figure 1** below shows the resulting animation. We can pause/resume the animation by calling [`pause()`][kyrie-kyriedrawable#pause] and [`resume()`][kyrie-kyriedrawable#resume] respectively, and can also listen to animation events using a [`KyrieDrawable.Listener`][kyrie-kyriedrawable-listener]. In the future, I plan to add more features as well, such as the ability to set a custom playback speed and the ability to play the animation in reverse.
 
 <div class="figure-container">
     <div class="figure-parent">
@@ -100,7 +100,7 @@ And the resulting animation:
     <strong>Figure 1</strong> - Creating a seekable animation from an existing <code>AnimatedVectorDrawable</code> resource (<a href="https://github.com/alexjlockwood/kyrie/blob/master/sample/src/main/java/com/example/kyrie/HeartbreakFragment.java">source code</a>).</p>
 </div>
 
-We can also create `KyrieDrawable`s dynamically at runtime using the builder pattern. `KyrieDrawable`s are similar to SVGs and `VectorDrawable`s in that they are tree-like structures built of `Node`s. As we build the tree, we can optionally assign `Animation`s to the properties of each `Node` to create a more elaborate animation. The code below shows how we can create a path morphing animation this way:
+We can also create `KyrieDrawable`s dynamically at runtime using the builder pattern. `KyrieDrawable`s are similar to SVGs and `VectorDrawable`s in that they are tree-like structures built of [`Node`][kyrie-node]s. As we build the tree, we can optionally assign [`Animation`][kyrie-animation]s to the properties of each `Node` to create a more elaborate animation. The code below shows how we can create a path morphing animation this way:
 
 ```java
 // Fill colors.
@@ -115,7 +115,7 @@ PathData buffaloPathData = PathData.parse(getString(R.string.buffalo));
 
 KyrieDrawable drawable =
     KyrieDrawable.builder()
-        .viewport(409, 280)
+        .viewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)
         .child(
             PathNode.builder()
                 .strokeColor(Color.BLACK)
@@ -136,7 +136,7 @@ KyrieDrawable drawable =
             .build();
 ```
 
-And the resulting animation:
+**Figure 2** shows the resulting animation. Note that `Animation`s can also be constructed using [`Keyframe`][kyrie-keyframe]s, similar to how you would use them with a [`PropertyValuesHolder`][propertyvaluesholder#ofkeyframe].
 
 <div class="figure-container">
     <div class="figure-parent">
@@ -154,7 +154,37 @@ And the resulting animation:
     <strong>Figure 2</strong> - Creating a path morphing animation using keyframes (<a href="https://github.com/alexjlockwood/kyrie/blob/master/sample/src/main/java/com/example/kyrie/PathMorphFragment.java">source code</a>).</p>
 </div>
 
-Kyrie also supports animating along a path using the `Animation#ofPathMotion` and `Animation#transform` methods. Check out the [sample app source code][polygon-fragment-github] to see how we can recreate the polygon animations from Nick Butcher's [Playing with Paths][playing-with-paths-blog-post] blog post:
+Kyrie also supports animating along a path using the [`Animation#ofPathMotion`][kyrie-animation#ofpathmotion] and [`Animation#transform`][kyrie-animation#transform] methods. For example, say we want recreate the polygon animations from Nick Butcher's [Playing with Paths][playing-with-paths-blog-post] blog post (view the [full source code][polygon-fragment-github] in the sample app):
+
+```java
+KyrieDrawable.Builder builder = KyrieDrawable.builder().viewport(1080, 1080);
+
+// Create a path for each polygon we want to draw.
+for (Polygon polygon : polygons) {
+  builder.child(
+      PathNode.builder()
+          .pathData(PathData.parse(polygon.pathData))
+          .strokeWidth(4f)
+          .strokeColor(polygon.color));
+}
+
+for (Polygon polygon : polygons) {
+  PathData pathData =
+      PathData.parse(TextUtils.join(" ", Collections.nCopies(polygon.laps, polygon.pathData)));
+  Animation<PointF, PointF> pathMotion =
+      Animation.ofPathMotion(PathData.toPath(pathData))
+          .repeatCount(Animation.INFINITE)
+          .duration(7500);
+  builder.child(
+      CircleNode.builder()
+          .fillColor(Color.BLACK)
+          .radius(8)
+          .centerX(pathMotion.transform(p -> p.x))
+          .centerY(pathMotion.transform(p -> p.y)));
+    }
+```
+
+The left half of **Figure 3** shows the resulting animation. Note that `Animation#ofPathMotion` returns an `Animation` object that computes `PointF` objects, where each `PointF` object represents a location along a path as the animation progresses. In order to animate each black circle's location along its corresponding polygon path, we use the `Animation#transform()` method to assign the x/y coordinates of these points to the `CircleNode`'s `centerX` and `centerY` properties respectively.
 
 <div class="figure-container">
     <div class="figure-parent">
@@ -186,3 +216,17 @@ asdf
 [introduction-to-icon-animations]: /2016/11/introduction-to-icon-animation-techniques.html
 [kyrie-sample-app-github]: https://github.com/alexjlockwood/kyrie/tree/master/sample
 [polygon-fragment-github]: https://github.com/alexjlockwood/kyrie/blob/master/sample/src/main/java/com/example/kyrie/PolygonsFragment.java
+[kyrie-kyriedrawable]: https://alexjlockwood.github.io/kyrie/com/github/alexjlockwood/kyrie/KyrieDrawable.html
+[kyrie-kyriedrawable#pause]: https://alexjlockwood.github.io/kyrie/com/github/alexjlockwood/kyrie/KyrieDrawable.html#pause--
+[kyrie-kyriedrawable#resume]: https://alexjlockwood.github.io/kyrie/com/github/alexjlockwood/kyrie/KyrieDrawable.html#resume--
+[kyrie-kyriedrawable-listener]: https://alexjlockwood.github.io/kyrie/com/github/alexjlockwood/kyrie/KyrieDrawable.Listener.html
+[kyrie-node]: https://alexjlockwood.github.io/kyrie/com/github/alexjlockwood/kyrie/Node.html
+[kyrie-animation]: https://alexjlockwood.github.io/kyrie/com/github/alexjlockwood/kyrie/Animation.html
+[kyrie-animation#ofpathmotion]: https://alexjlockwood.github.io/kyrie/com/github/alexjlockwood/kyrie/Animation.html#ofPathMotion-android.graphics.Path-
+[kyrie-animation#transform]: https://alexjlockwood.github.io/kyrie/com/github/alexjlockwood/kyrie/Animation.html#transform-com.github.alexjlockwood.kyrie.Animation.ValueTransformer-
+[kyrie-keyframe]: https://alexjlockwood.github.io/kyrie/com/github/alexjlockwood/kyrie/Keyframe.html
+[propertyvaluesholder#ofkeyframe]: https://developer.android.com/reference/android/animation/PropertyValuesHolder.html#ofKeyframe(java.lang.String,%20android.animation.Keyframe...)
+
+```
+
+```
