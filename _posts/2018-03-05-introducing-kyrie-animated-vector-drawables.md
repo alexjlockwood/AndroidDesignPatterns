@@ -92,6 +92,19 @@ seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
     <strong>Figure 1</strong> - Creating a seekable animation from an existing <code>AnimatedVectorDrawable</code> resource (<a href="https://github.com/alexjlockwood/kyrie/blob/master/sample/src/main/java/com/example/kyrie/HeartbreakFragment.java">source code</a>).</p>
 </div>
 
+To create new animations dynamically at runtime, we use the static `KyrieDrawable.builder()` method. Similar to SVGs and `VectorDrawable`s, a `KyrieDrawable` is a tree-like structure built with `Node`s. As we are building the tree, we can optionally assign `Animation`s to the properties of each `Node`.
+
+```java
+KyrieDrawable drawable = KyrieDrawable.create(context, R.drawable.my_existing_avd);
+seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+  @Override
+  public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    long totalDuration = drawable.getTotalDuration();
+    drawable.setCurrentPlayTime((long) (progress / 100f * totalDuration));
+  }
+});
+```
+
 <div class="figure-container">
     <div class="figure-parent">
         <video class="figure-video figure-element"
