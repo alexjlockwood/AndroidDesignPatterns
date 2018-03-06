@@ -206,10 +206,16 @@ The left half of **Figure 3** shows the resulting animation. Note that `Animatio
 
 ### Future work
 
-I have a lot of ideas on how to further improve this library, but right now I am interested in what you think. Make sure you file any feature requests you might have [on GitHub][kyrie-kithub-issues]! And like I said, the library is still in alpha, so make sure you report bugs too. :)
+I have a lot of ideas on how to further improve this library, but right now I am interested in what you think. Make sure you file any [feature requests][kyrie-github-issues] you might have on GitHub! And like I said, the library is still in alpha, so make sure you report bugs too. :)
+
+### Links
+
+* [GitHub][kyrie-github]
+* [Documentation][kyrie-documentation]
 
 [kyrie-github]: https://github.com/alexjlockwood/kyrie
 [kyrie-github-issues]: https://github.com/alexjlockwood/kyrie/issues
+[kyrie-documentation]: https://alexjlockwood.github.io/kyrie
 [playing-with-paths-blog-post]: https://medium.com/google-developers/playing-with-paths-3fbc679a6f77
 [introduction-to-icon-animations]: /2016/11/introduction-to-icon-animation-techniques.html
 [kyrie-sample-app-github]: https://github.com/alexjlockwood/kyrie/tree/master/sample/src/main/java/com/example/kyrie
