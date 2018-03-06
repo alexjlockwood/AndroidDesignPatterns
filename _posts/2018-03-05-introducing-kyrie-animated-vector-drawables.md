@@ -86,7 +86,7 @@ seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 });
 ```
 
-**Figure 1** shows the resulting animation. We can pause/resume the animation by calling [`pause()`][kyrie-kyriedrawable#pause] and [`resume()`][kyrie-kyriedrawable#resume] respectively, and can also listen to animation events using a [`KyrieDrawable.Listener`][kyrie-kyriedrawable-listener]. In the future, I plan to add a couple more features as well, such as the ability to customize the playback speed and/or play the animation in reverse.
+The video in **Figure 1** shows the resulting animation. We can pause/resume the animation by calling [`pause()`][kyrie-kyriedrawable#pause] and [`resume()`][kyrie-kyriedrawable#resume] respectively, and can also listen to animation events using a [`KyrieDrawable.Listener`][kyrie-kyriedrawable-listener]. In the future, I plan to add a couple more features as well, such as the ability to customize the playback speed and/or play the animation in reverse.
 
 <div class="figure-container">
     <div class="figure-parent">
@@ -101,7 +101,7 @@ seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 </div>
 <div class="caption-container">
     <p class="caption-element">
-    <strong>Figure 1</strong> - Creating a seekable animation from an existing <code>AnimatedVectorDrawable</code> resource (<a href="https://github.com/alexjlockwood/kyrie/blob/master/sample/src/main/java/com/example/kyrie/HeartbreakFragment.java">source code</a>).</p>
+    <strong>Figure 1</strong> - Creating a seekable animation from an existing <code>AnimatedVectorDrawable</code> resource (<a href="https://github.com/alexjlockwood/kyrie/blob/master/sample/src/main/java/com/example/kyrie/HeartbreakFragment.java">source code</a>). Click to play.</p>
 </div>
 
 We can also create `KyrieDrawable`s dynamically at runtime using the builder pattern. `KyrieDrawable`s are similar to SVGs and `VectorDrawable`s in that they are tree-like structures built of [`Node`][kyrie-node]s. As we build the tree, we can optionally assign [`Animation`][kyrie-animation]s to the properties of each `Node` to create a more elaborate animation. The code below shows how we can create a path morphing animation this way:
@@ -155,7 +155,7 @@ KyrieDrawable drawable =
 </div>
 <div class="caption-container">
     <p class="caption-element">
-    <strong>Figure 2</strong> - Creating a path morphing animation using keyframes (<a href="https://github.com/alexjlockwood/kyrie/blob/master/sample/src/main/java/com/example/kyrie/PathMorphFragment.java">source code</a>).</p>
+    <strong>Figure 2</strong> - Creating a path morphing animation using keyframes (<a href="https://github.com/alexjlockwood/kyrie/blob/master/sample/src/main/java/com/example/kyrie/PathMorphFragment.java">source code</a>). Click to play.</p>
 </div>
 
 Kyrie also supports animating along a path using the [`Animation#ofPathMotion`][kyrie-animation#ofpathmotion] method. Say, for example, we wanted to recreate the polygon animations from Nick Butcher's [Playing with Paths][playing-with-paths-blog-post] blog post (the [full source code][polygon-fragment-github] is available in the sample app):
@@ -202,7 +202,7 @@ The left half of **Figure 3** shows the resulting animation. Note that `Animatio
 </div>
 <div class="caption-container">
     <p class="caption-element">
-    <strong>Figure 3</strong> - Recreating the polygon animations from Nick Butcher's <a href="https://medium.com/google-developers/playing-with-paths-3fbc679a6f77">Playing with Paths</a> blog post (<a href="https://github.com/alexjlockwood/kyrie/blob/master/sample/src/main/java/com/example/kyrie/PolygonsFragment.java">source code</a>).</p>
+    <strong>Figure 3</strong> - Recreating the polygon animations from Nick Butcher's <a href="https://medium.com/google-developers/playing-with-paths-3fbc679a6f77">Playing with Paths</a> blog post (<a href="https://github.com/alexjlockwood/kyrie/blob/master/sample/src/main/java/com/example/kyrie/PolygonsFragment.java">source code</a>). Click to play.</p>
 </div>
 
 ### Future work
