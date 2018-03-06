@@ -140,7 +140,7 @@ KyrieDrawable drawable =
             .build();
 ```
 
-**Figure 2** shows the resulting animation. Note that `Animation`s can also be constructed using [`Keyframe`][kyrie-keyframe]s, similar to how you would do so with a [`PropertyValuesHolder`][propertyvaluesholder#ofkeyframe].
+**Figure 2** shows the resulting animation. Note that `Animation`s can also be constructed using [`Keyframe`][kyrie-keyframe]s, just as we would do so with a [`PropertyValuesHolder`][propertyvaluesholder#ofkeyframe].
 
 <div class="figure-container">
     <div class="figure-parent">
@@ -172,6 +172,7 @@ for (Polygon polygon : polygons) {
           .strokeColor(polygon.color));
 }
 
+// Animate a black dot along each polygon's perimeter.
 for (Polygon polygon : polygons) {
   PathData pathData =
       PathData.parse(TextUtils.join(" ", Collections.nCopies(polygon.laps, polygon.pathData)));
@@ -186,7 +187,7 @@ for (Polygon polygon : polygons) {
 }
 ```
 
-The left half of **Figure 3** shows the resulting animation. Note that `Animation#ofPathMotion` returns an `Animation` that computes `PointF` objects, where each point represents a location along the specified path as the animation progresses. In order to animate each black circle's location along this path, we use the [`Animation#transform`][kyrie-animation#transform] method to transform the points into streams of x/y coordinates that can be consumed by the `CircleNode`'s `centerX` and `centerY` properties respectively.
+The left half of **Figure 3** shows the resulting animation. Note that `Animation#ofPathMotion` returns an `Animation` that computes `PointF` objects, where each point represents a location along the specified path as the animation progresses. In order to animate each black circle's location along this path, we use the [`Animation#transform`][kyrie-animation#transform] method to transform the points into streams of x/y coordinates that can be consumed by the `CircleNode`'s `centerX` and `centerY` properties.
 
 <div class="figure-container">
     <div class="figure-parent">
