@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Introducing Kyrie - An Alternative to Animated Vector Drawables'
-date: 2018-03-05
+date: 2018-03-06
 permalink: /2018/03/introducing-kyrie-animated-vector-drawables.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2016/11/introduction-to-icon-animation-techniques.html',
@@ -91,11 +91,11 @@ seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 <div class="figure-container">
     <div class="figure-parent">
         <video class="figure-video figure-element"
-            poster="/assets/videos/posts/2018/03/05/poster-introducing-kyrie-heartbreak.jpg"
+            poster="/assets/videos/posts/2018/03/06/poster-introducing-kyrie-heartbreak.jpg"
             preload="auto"
             onclick="resumeVideo(this)">
-            <source src="/assets/videos/posts/2018/03/05/introducing-kyrie-heartbreak.mp4" type="video/mp4">
-            <source src="/assets/videos/posts/2018/03/05/introducing-kyrie-heartbreak.webm" type="video/webm">
+            <source src="/assets/videos/posts/2018/03/06/introducing-kyrie-heartbreak.mp4" type="video/mp4">
+            <source src="/assets/videos/posts/2018/03/06/introducing-kyrie-heartbreak.webm" type="video/webm">
         </video>
     </div>
 </div>
@@ -145,11 +145,11 @@ KyrieDrawable drawable =
 <div class="figure-container">
     <div class="figure-parent">
         <video class="figure-video figure-element"
-            poster="/assets/videos/posts/2018/03/05/poster-introducing-kyrie-animals.jpg"
+            poster="/assets/videos/posts/2018/03/06/poster-introducing-kyrie-animals.jpg"
             preload="auto"
             onclick="resumeVideo(this)">
-            <source src="/assets/videos/posts/2018/03/05/introducing-kyrie-animals.mp4" type="video/mp4">
-            <source src="/assets/videos/posts/2018/03/05/introducing-kyrie-animals.webm" type="video/webm">
+            <source src="/assets/videos/posts/2018/03/06/introducing-kyrie-animals.mp4" type="video/mp4">
+            <source src="/assets/videos/posts/2018/03/06/introducing-kyrie-animals.webm" type="video/webm">
         </video>
     </div>
 </div>
@@ -192,11 +192,11 @@ The left half of **Figure 3** shows the resulting animation. Note that `Animatio
 <div class="figure-container">
     <div class="figure-parent">
         <video class="figure-video figure-element"
-            poster="/assets/videos/posts/2018/03/05/poster-introducing-kyrie-polygons.jpg"
+            poster="/assets/videos/posts/2018/03/06/poster-introducing-kyrie-polygons.jpg"
             preload="auto"
             onclick="resumeVideo(this)">
-            <source src="/assets/videos/posts/2018/03/05/introducing-kyrie-polygons.mp4" type="video/mp4">
-            <source src="/assets/videos/posts/2018/03/05/introducing-kyrie-polygons.webm" type="video/webm">
+            <source src="/assets/videos/posts/2018/03/06/introducing-kyrie-polygons.mp4" type="video/mp4">
+            <source src="/assets/videos/posts/2018/03/06/introducing-kyrie-polygons.webm" type="video/webm">
         </video>
     </div>
 </div>
