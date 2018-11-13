@@ -20,7 +20,7 @@ Well, this weekend my good buddy [Nick Butcher](https://twitter.com/crafty) taug
 
 ## Where can I download it?
 
-I anticipate many won't want to go through the trouble of building these binaries from scratch, so I built them myself and hosted them on [Google Drive here](https://drive.google.com/open?id=1ZQguBBKTL8eMA1GnKLb-xYGP2MpjhW7A).
+I anticipate many won't want to go through the trouble of building these binaries from scratch, so I built them myself and hosted them on [Google Drive here](j.mp/svg-to-vector-google-drive).
 
 ## How do I run it?
 
