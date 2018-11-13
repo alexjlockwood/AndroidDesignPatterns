@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Using Android Studio's SVG-to-VectorDrawable converter from the command line"
+title: "How to use Android Studio's SVG-to-VectorDrawable converter from the command line"
 date: 2018-11-13
 permalink: /2018/11/android-studio-svg-to-vector-cli.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
