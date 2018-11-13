@@ -14,9 +14,9 @@ Since the very beginning, one of the most annoying aspects of using `VectorDrawa
 
 However, there has always been one major issue for me: the tool doesn't support batch conversion of SVGs and can't be invoked from the command line. Working at Lyft, it's not uncommon for me to need to convert hundreds of SVGs into `VectorDrawable`s at a time. Having to go through Android Studio's GUI in order to convert each SVG one-by-one is simply not realistic.
 
-Well, this weekend my good buddy [Nick Butcher](https://twitter.com/crafty) taught me how to build the tool as a binary that can be executed from the command line, and I'm so excited about it that I had to share it with the world! :)
-
 <!--more-->
+
+Well, this weekend my good buddy [Nick Butcher](https://twitter.com/crafty) taught me how to build the tool as a binary that can be executed from the command line, and I'm so excited about it that I had to share it with the world! :)
 
 ## Where can I download it?
 
