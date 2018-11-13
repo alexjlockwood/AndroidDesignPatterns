@@ -290,7 +290,7 @@ That's all I've got for now! Thanks for reading, and don't forget to leave a com
 [avocado-github]: https://github.com/alexjlockwood/avocado
 [adp-nested-scrolling-github]: https://github.com/alexjlockwood/adp-nested-scrolling
 [adp-nested-scrolling-play-store]: https://play.google.com/store/apps/details?id=alexjlockwood.nestedscrolling
-[material-spec-scrolling-techniques]: https://material.io/guidelines/patterns/scrolling-techniques.html#scrolling-techniques-app-bar-scrollable-regions
+[material-spec-scrolling-techniques]: https://material.io/design/components/app-bars-top.html#behavior
 [cheesesquare-github]: https://github.com/chrisbanes/cheesesquare
 [carry-on-scrolling-blog-post]: https://chris.banes.me/2017/06/09/carry-on-scrolling/
 [nestedscrollview2]: https://github.com/alexjlockwood/adp-nested-scrolling/blob/master/app/src/main/java/alexjlockwood/nestedscrolling/NestedScrollView2.java
