@@ -37,8 +37,10 @@ In case you want to build these yourself, here's how I did it.
 First, follow the [Downloading the Source](https://source.android.com/source/downloading.html) guide to install and set up the `repo` tool, but instead of running the listed `repo` commands to initialize the repository, run the folowing:
 
 ```
-repo init -u https://android.googlesource.com/platform/manifest -b mirror-goog-studio-master-dev
+repo init -u https://android.googlesource.com/platform/manifest -b <most-recent-android-studio-branch>
 ```
+
+At the time of this writing, the most recent Android Studio branch was `studio-3.2.1`. This will obviously change over time as newer versions of Android Studio are released.
 
 Now that your repository is set to pull only what you need for building and running the tool, download the code using the following command (you might want to grab a coffee or something too, as this command might take a while to complete):
 
