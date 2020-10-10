@@ -1,13 +1,12 @@
 ---
 layout: post
 title: "Contact List Compose"
-date: 2019-09-01
+date: 2020-10-09
 permalink: /2020/10/contact-list-compose.html
 related: ['/2013/08/fragment-transaction-commit-state-loss.html',
     '/2016/11/introduction-to-icon-animation-techniques.html',
     '/2016/08/contextcompat-getcolor-getdrawable.html']
 ---
-
 
 <!--morestart-->
 
@@ -19,7 +18,7 @@ Introduction
 
 ```kotlin
 /**
- * A simple ListItem class that displays text, detail text, a start icon,
+ * A simple ListItem that displays text, detail text, a start icon,
  * and an optional end icon.
  */
 @Composable
@@ -30,9 +29,11 @@ fun ContactListItem(
     startIcon: @Composable (() -> Unit)? = null,
     endIcon: @Composable (() -> Unit)? = null,
 ) {
+    // Render a horizontal row of items with a min height of 64dp.
     Row(modifier = modifier.preferredHeightIn(min = 64.dp)) {
         Spacer(modifier = Modifier.width(16.dp))
 
+        // If specified, center the start icon vertically at the start of the list item.
         if (startIcon != null) {
             Box(modifier = Modifier.align(Alignment.CenterVertically)) {
                 startIcon()
@@ -40,9 +41,12 @@ fun ContactListItem(
             Spacer(modifier = Modifier.width(16.dp))
         }
 
+        // Render the text and potential detail text vertically within the list item.
         Column(modifier = Modifier.align(Alignment.CenterVertically)) {
             ProvideEmphasis(EmphasisAmbient.current.high) {
                 ProvideTextStyle(MaterialTheme.typography.subtitle1) {
+                    // If not explicitly set by the caller, apply a subtitle1 text style
+                    // w/ high emphasis to the text.
                     text()
                 }
             }
@@ -50,12 +54,15 @@ fun ContactListItem(
             if (detailText != null) {
                 ProvideEmphasis(EmphasisAmbient.current.medium) {
                     ProvideTextStyle(MaterialTheme.typography.body2) {
+                        // If not explicitly set by the caller, apply a body2 text style
+                        // w/ medium emphasis to the detail text.
                         detailText()
                     }
                 }
             }
         }
 
+        // If specified, render the end icon at the end of the list item.
         if (endIcon == null) {
             Spacer(modifier = Modifier.width(16.dp))
         } else {
@@ -105,6 +112,7 @@ private fun SingleLineText(text: String, modifier: Modifier = Modifier) {
         overflow = TextOverflow.Ellipsis,
     )
 }
+```
 
 #### Putting it all together
 
@@ -196,4 +204,4 @@ fun ContactListScreen(contacts: List<Contact>, modifier: Modifier = Modifier) {
 
 ### TODO
 
-* Update title, permalink, and related links
+* Update title, permalink, date, and related links
