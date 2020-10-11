@@ -16,6 +16,7 @@ related: ['/2013/08/fragment-transaction-commit-state-loss.html',
 * Any clarification needed with `CoilImage` + `Modifier.aspectRatio` + `Modifier.clip`?
 * Add links to `Scaffold`, `TopAppBar`, etc.? Link to documentation or source code?
 * Watch YouTube talks about compose to see if there is any useful info about state hoisting
+* Link to icon animation post and Oredev talk
 
 <!--morestart-->
 
@@ -409,6 +410,17 @@ private fun lerp(
     }
 }
 ```
+
+### Understanding the code
+
+* Explain `onCommit`
+* Explain `contentFor()`
+* Explain `VectorPainter` being similar to a `VectorDrawable`
+* Explain how the setup is similar to how `AnimatedVectorDrawable` work under-the-hood
+
+## Conclusion
+
+* TODO: write this shit
 
 <hr class="footnote-divider"/>
 
